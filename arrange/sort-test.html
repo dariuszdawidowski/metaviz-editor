@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrange Sort</title>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="arrange();">Arrange</button>
+    <script src="geometry.js"></script>
+    <script src="sort.js"></script>
+    <script>
+        const a = new MetavizArrangeSort();
+        const elements = [];
+
+        for (let j of [0, 1, 2]) {
+            elements[j] = [];
+            
+            for (let i of [0, 1, 2, 3, 4, 5, 6]) {
+                const width = Math.round(Math.random() * 200);
+                const height = Math.round(Math.random() * 200);
+                const top = Math.round(Math.random() * 600);
+                const left = Math.round(Math.random() * 600) + (600 * j);
+                const color = Math.round(Math.random() * 0xffffff);
+
+                const d = document.createElement('div');
+                d.style.width = `${width}px`;
+                d.style.height = `${height}px`;
+                d.style.position = 'absolute';
+                d.style.top = `${top}px`;
+                d.style.left = `${left}px`;
+                d.style.background = `#${color.toString(16).padStart(6, '0')}`;
+                d.transform = {x: left, y: top, width: width, height: height};
+                document.getElementsByTagName('body')[0].appendChild(d);
+
+                elements[j].push(d);
+            }
+        }
+
+        function arrange() {
+            elements.forEach(group => {
+                const positions = a.arrange(group, { margins: 8 });
+                for (let i in group) {
+                    const el = group[i];
+                    el.style.top = `${positions[i].y}px`;
+                    el.style.left = `${positions[i].x}px`;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

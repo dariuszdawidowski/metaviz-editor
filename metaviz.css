@@ -1,0 +1,572 @@
+/* Metaviz Base Style */
+
+/* Fonts: Roboto 400 Regular+Italic, Allura 400 Regular, Mansalva 400 Regular */
+
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Mansalva&family=Roboto:ital@0;1&display=swap');
+
+/* Default theme variables */
+
+:root {
+
+    /* Metaviz Company Colors */
+    --metaviz-color-lime: rgb(242, 229, 0);
+    --metaviz-color-lime-trans: rgba(242, 229, 0, 0.69);
+    --metaviz-color-green: rgb(200, 212, 0);
+    --metaviz-color-green-trans: rgba(200, 212, 0, 0.69);
+    --metaviz-color-sky: rgb(234, 246, 254);
+    --metaviz-color-sky-trans: rgba(234, 246, 254, 0.69);
+    --metaviz-color-cyan: rgb(65, 192, 240);
+    --metaviz-color-cyan-trans: rgba(65, 192, 240, 0.69);
+    --metaviz-color-blue: rgb(0, 152, 218);
+    --metaviz-color-blue-trans: rgba(0, 152, 218, 0.69);
+    --metaviz-color-darkblue: rgb(0, 117, 188);
+    --metaviz-color-darkblue-trans: rgba(0, 117, 188, 0.69);
+    --metaviz-color-navy: rgb(0, 67, 136);
+    --metaviz-color-navy-trans: rgba(0, 67, 136, 0.69);
+
+    /* Z-mapping */
+    --z-popup: 110;
+    --z-menu-on-widget: 102;
+    --z-menu-widget: 101;
+    --z-menu: 100;
+    --z-piemenu: 90;
+    --z-node-drag: 50;
+    --z-toolbar: 20;
+    --z-node-above: 15;
+    --z-node-anim-icon: 12;
+    --z-node-upper: 1;
+    --z-node: 0;
+    --z-node-under: -1;
+    --z-link: -10;
+
+    /*** Theme variables ***/
+
+    /* Logos */
+    --metaviz-logo-save: #004388;
+
+    /* Desktop: Background */
+    --canvas-bg-color: #dddfe1;
+
+    /* Node */
+    --front-color: rgb(60, 75, 60);
+    --node-icon: rgb(60, 75, 60);
+    --node-icon-subtitle: rgb(60, 75, 60);
+    --node-icon-subtitle-weight: bold;
+    --highlight-color: rgb(250, 176, 38);
+    --highlight-color-trans: rgba(250, 176, 38, 0.1);
+
+    /* Link */
+    --link-color: rgb(108, 121, 132);
+
+    /* Menu */
+    --menu-background-color: #eceff4;
+    --menu-key-color: rgb(65, 192, 240);
+    --menu-key-color-head: rgb(65, 192, 240);
+    --menu-key-color-hi: rgb(250, 176, 38);
+    --menu-separator-color: #d4d7dc;
+
+    /* Standard colors */
+    --color-sky: rgb(234, 246, 254);
+    --color-sky-trans: rgba(234, 246, 254, 0.69);
+    --color-grey: rgb(235,236,237);
+    --color-grey-trans: rgba(235,236,237, 0.69);
+    --color-jade: rgb(1, 163, 148);
+    --color-jade-trans: rgba(1, 163, 148, 0.69);
+    --color-jade-light: rgb(1, 203, 183);
+    --color-jade-light-trans: rgba(1, 203, 183, 0.69);
+    --color-jade-dark: rgb(2, 141, 127);
+    --color-jade-dark-trans: rgba(2, 141, 127, 0.69);
+
+    /* Standard node's backgrounds */
+    --paper-1: rgb(235, 236, 237);
+    --paper-1-trans: rgba(235, 236, 237, 0.69);
+    --paper-2: rgb(108, 121, 132);
+    --paper-2-trans: rgba(108, 121, 132, 0.69);
+    --paper-2-light: rgb(126, 139, 149);
+    --paper-2-light-trans: rgba(126, 139, 149, 0.69);
+    --paper-2-dark: rgb(96, 108, 118);
+    --paper-2-dark-trans: rgba(96, 108, 118, 0.69);
+    --paper-3: rgb(255, 255, 255);
+    --paper-3-trans: rgba(255, 255, 255, 0.69);
+    --paper-4: rgb(108, 121, 132);
+    --paper-4-trans: rgba(108, 121, 132, 0.69);
+    --paper-5: rgb(65, 192, 240);
+    --paper-5-trans: rgba(65, 192, 240, 0.69);
+
+    /* Standard carets */
+    --caret-color-1: white;
+    --caret-color-2: black;
+
+    /* Standard node's fonts */
+    --font-color-1: rgb(227, 229, 237);
+    --font-color-2: rgb(12, 12, 12);
+
+}
+
+/* Reset */
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    cursor: normal;
+}
+
+/* Old Safari fix to edit contenteditable */
+
+[contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+/* Metaviz main canvas */
+
+.metaviz-diagram {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    background-color: var(--canvas-bg-color);
+    width: 100%;
+    min-width: 640px;
+    height: 100%;
+    min-height: 480px;
+    left: 0;
+    top: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: none;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Fonts */
+
+input, textarea, label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+/* Node base */
+
+.metaviz-node {
+    display: flex;
+    position: absolute;
+    z-index: var(--z-node);
+}
+
+.metaviz-node .anim-icon {
+    position: absolute;
+    color: #e54328;
+    animation: zoom 0.8s infinite;
+    animation-play-state: paused
+}
+
+@keyframes zoom {
+  from {
+    scale: 1;
+    opacity: 1;
+  }
+  to {
+    scale: 4;
+    opacity: 0;
+  }
+}
+
+/* Node highlight */
+
+.metaviz-node-highlight {
+    position: absolute;
+    left: -12px;
+    top: -12px;
+    border: 2px solid rgba(200, 200, 255, 0.7);
+    border-radius: 4px;
+    background-color: transparent;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+}
+
+/* Node cage */
+
+.metaviz-cage {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: visible;
+}
+
+.metaviz-cage .frame {
+    position: absolute;
+    border-top: 1px dashed var(--highlight-color);
+    border-left: 1px dashed var(--highlight-color);
+    width: 1px;
+    height: 1px;
+}
+
+.metaviz-cage .resize {
+    position: absolute;
+    background-color: var(--highlight-color);
+}
+
+.metaviz-cage .resize.corner {
+    width: 8px;
+    height: 8px;
+}
+
+.metaviz-cage .resize.horizontal {
+    width: 3px;
+    height: 32px;
+}
+
+.metaviz-cage .resize.nw:hover {
+    cursor: nwse-resize;
+}
+
+.metaviz-cage .resize.ne:hover {
+    cursor: nesw-resize;
+}
+
+.metaviz-cage .resize.se:hover {
+    cursor: nwse-resize;
+}
+
+.metaviz-cage .resize.sw:hover {
+    cursor: nesw-resize;
+}
+
+.metaviz-cage .resize.w:hover {
+    cursor: ew-resize;
+}
+
+.metaviz-cage .resize.e:hover {
+    cursor: ew-resize;
+}
+
+/* Selection box */
+
+.metaviz-selection {
+    border: 1px dashed var(--highlight-color);
+    background-color: var(--highlight-color-trans);
+    z-index: var(--z-node-above);
+    position: absolute;
+}
+
+/* Generic node icon style */
+
+.metaviz-node-icon {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.metaviz-node-icon.drag {
+    opacity: 0.69;
+    background-color: rgba(255, 255, 255, 0.69);
+}
+
+.metaviz-node-icon .metaviz-control-icon {
+    font-size: 55px;
+    color: var(--node-icon);
+    margin: 36px 0 20px 0;
+}
+
+.metaviz-node-icon .metaviz-control-input {
+    width: 120px;
+    border: none;
+    color: var(--node-icon-subtitle);
+    background-color: transparent;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-weight: var(--node-icon-subtitle-weight);
+}
+
+/* Generic node panel style */
+
+.metaviz-node-panel {
+    background-color: var(--paper-2);
+    border-radius: 15px;
+}
+
+/* Node miniature */
+
+.miniature {
+    overflow: hidden;
+}
+
+/* Socket */
+
+.metaviz-socket {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--highlight-color);
+    background: white;
+}
+
+.metaviz-socket:hover {
+    cursor: crosshair;
+}
+
+/* Link base */
+
+.metaviz-link {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+    z-index: var(--z-link);
+}
+
+/* Controls */
+
+.metaviz-control-input, .metaviz-control-input:focus {
+    outline: none;
+}
+
+/* Main Metaviz-logo spinner */
+
+#metaviz-spinner {
+    position: absolute;
+    left: calc(50% - 32px);
+    top: calc(50% - 32px);
+    width: 64px;
+    height: 64px;
+    z-index: 200;
+    animation: spin-baby-spin 2.0s linear infinite;
+    transition: fill-opacity 2s;
+    pointer-events: none;
+}
+
+@keyframes spin-baby-spin {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+/* Control spinner for nodes */
+
+.metaviz-control-spinner {
+    position: absolute;
+    display: none;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.metaviz-control-spinner:after {
+    content: " ";
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 4px solid rgb(254, 192, 11);
+    border-color: rgb(254, 192, 11) transparent rgb(254, 192, 11) transparent;
+    animation: spinner-rotate 1.8s linear infinite;
+}
+
+@keyframes spinner-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.metaviz-load-bg {
+    width: 100%;
+    height: 100px;
+    background-color: var(--paper-4);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.metaviz-load-logo {
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translate(-50%, -50%);
+}
+
+.metaviz-load-logo > g {
+    fill: white !important;
+}
+
+.metaviz-load-button {
+    height: 32px;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.metaviz-load-button:hover {
+    cursor: pointer;
+}
+
+/* Fullscreen button */
+
+.metaviz-button-fullscreen {
+    color: white;
+    margin: 8px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 14px;
+}
+
+.metaviz-button-fullscreen:hover {
+    cursor: pointer;
+}
+
+/* Menu */
+
+.libtoolbar-toolbar {
+    background-color: white !important;
+}
+
+.menu-option-spring {
+    flex-grow: 2;
+}
+
+#metaviz-menu-local-settings .menu-group-text {
+    margin-bottom: 4px;
+}
+
+#metaviz-menu-naviagtion .menu-group-text,
+#metaviz-menu-helpers .menu-group-text,
+#metaviz-menu-look-feel .menu-group-text,
+#metaviz-menu-notifications .menu-group-text {
+    font-size: 10px;
+}
+
+/* Popup Window */
+
+.metaviz-window {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    z-index: var(--z-popup);
+}
+
+.metaviz-window .border.resize {
+    transition: background-color 0.5s;
+}
+
+.metaviz-window .border.resize:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.5s;
+}
+
+.metaviz-window .topLeft.resize:hover {
+    cursor: nwse-resize;
+}
+
+.metaviz-window .top.resize:hover {
+    cursor: ns-resize;
+}
+
+.metaviz-window .topRight.resize:hover {
+    cursor: nesw-resize;
+}
+
+.metaviz-window .left.resize:hover {
+    cursor: ew-resize;
+}
+
+.metaviz-window .right.resize:hover {
+    cursor: ew-resize;
+}
+
+.metaviz-window .bottomLeft.resize:hover {
+    cursor: nesw-resize;
+}
+
+.metaviz-window .bottom.resize:hover {
+    cursor: ns-resize;
+}
+
+.metaviz-window .bottomRight.resize:hover {
+    cursor: nwse-resize;
+}
+
+.metaviz-window .button {
+    margin: 0 2px 4px 0;
+    transition: color 0.5s;
+}
+
+.metaviz-window .button:hover {
+    cursor: pointer;
+    color: #999;
+    transition: color 0.5s;
+}
+
+.metaviz-window .content {
+    width: 100%;
+    height: 100%;
+}
+
+/* Popup Window Tabs */
+
+.metaviz-window .tabs .tabbar {
+    background: green;
+}
+
+.metaviz-window .tabs .content {
+    background: white;
+}
+
+.metaviz-window .tabs .tab {
+    background: red;
+    border: 1px solid white;
+}
+
+/* Pie Menu */
+
+.metaviz-pie-menu .icon {
+    border-radius: 50%;
+    font-size: 29px;
+    color: #39392d;
+    background-color: #d7d7d7;
+    border: 4px solid white;
+    box-shadow: 0 0 16px #0000007a;
+    z-index: var(--z-piemenu);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s, box-shadow 0.5s;
+}
+
+.metaviz-pie-menu .icon:hover {
+    cursor: pointer;
+    background-color: var(--highlight-color);
+    box-shadow: 0 0 16px rgba(250, 176, 38, 0.2);
+    transition: background-color 0.5s, box-shadow 0.5s;
+}
+
+.metaviz-pie-menu .icon.disabled,
+.metaviz-pie-menu .icon.disabled:hover {
+    cursor: auto;
+    background-color: #d7d7d75c;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 16px #0000007a;
+}
