@@ -30,12 +30,6 @@ class MetavizNodesManager extends TotalDiagramNodesManager {
         // Optional: decode string to json
         if (typeof(args) == 'string') args = JSON.parse(args)
 
-        // Optional: decode from base64 to text
-        if ('meta' in args && args['meta'] != null && 'base64' in args['meta']) {
-            args['meta']['text'] = decodeURIComponent(escape(atob(args['meta']['base64'])));
-            delete args['meta']['base64'];
-        }
-
         // New node to create
         let newNode = null;
 
@@ -51,25 +45,8 @@ class MetavizNodesManager extends TotalDiagramNodesManager {
             this.list.push(newNode);
         }
 
-        // Add to current layer (if layer exist and node is freshly created in the editor)
-        if (this.layers.current && !this.layers.current.getNode(newNode.id)) {
-            this.layers.current.setNode({
-                id: newNode.id,
-                x: newNode.transform.x,
-                y: newNode.transform.y,
-                scale: newNode.transform.scale,
-                zindex: newNode.transform.zindex
-            });
-        }
-
         // It it visible?
-        if (visible) {
-            // Calculate canvas position
-            this.layers.current.update();
-        }
-        else {
-            newNode.visible(false);
-        }
+        if (!visible) newNode.visible(false);
 
         // Add to DOM
         this.render.board.append(newNode.element);

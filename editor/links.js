@@ -36,16 +36,6 @@ class MetavizLinksManager extends TotalDiagramLinksManager {
         // Store link
         this.list.push(newLink);
 
-        // Add to current layer (if layer exist and link is freshly created in the editor)
-        if (this.layers.current && !this.layers.current.getLink(newLink.id)) {
-            this.layers.current.setLink({
-                id: newLink.id,
-                type: args.type,
-                start: args.start,
-                end: args.end,
-            });
-        }
-
         // Add to DOM
         this.render.board.append(newLink.element);
 
