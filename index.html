@@ -48,7 +48,6 @@
         <script type="text/javascript" src="utils/logging.js?v=0.9.6"></script>
         <script type="text/javascript" src="app/config.js?v=0.9.6"></script>
         <script type="text/javascript" src="app/metaviz.js?v=0.9.6"></script>
-        <script type="text/javascript" src="editor/state.js?v=0.9.6"></script>
         <script type="text/javascript">
             let metaviz = null;
         </script>
@@ -114,15 +113,12 @@
         <script type="text/javascript" src="../total-diagram/links.js"></script>
         <script type="text/javascript" src="../total-diagram/render.js"></script>
 
-        <!-- Links -->
-        <script type="text/javascript" src="../metaviz-links/bezier.js?v=0.9.6"></script>
-        <script type="text/javascript" src="../metaviz-links/symlink.js?v=0.9.6"></script>
-
         <!-- Themes -->
         <script type="text/javascript" src="themes/iron.js?v=0.9.6"></script>
         <script type="text/javascript" src="themes/covellite.js?v=0.9.6"></script>
 
         <!-- Editor -->
+        <script type="text/javascript" src="editor/history.js?v=0.9.6"></script>
         <script type="text/javascript" src="editor/link.js?v=0.9.6"></script>
         <script type="text/javascript" src="editor/links.js?v=0.9.6"></script>
         <script type="text/javascript" src="editor/socket.js?v=0.9.6"></script>
@@ -136,13 +132,13 @@
         <script type="text/javascript" src="editor/selection.js?v=0.9.6"></script>
         <script type="text/javascript" src="editor/editor.js?v=0.9.6"></script>
 
+        <!-- Links -->
+        <script type="text/javascript" src="../metaviz-links/bezier.js?v=0.9.6"></script>
+        <script type="text/javascript" src="../metaviz-links/symlink.js?v=0.9.6"></script>
+
         <!-- Data -->
-        <script type="text/javascript" src="format/json/data-migrate.js?v=0.9.6"></script>
-        <script type="text/javascript" src="format/json/data-in.js?v=0.9.6"></script>
-        <script type="text/javascript" src="format/json/data-out.js?v=0.9.6"></script>
         <script type="text/javascript" src="format/stack/data-in.js?v=0.9.6"></script>
         <script type="text/javascript" src="format/stack/data-out.js?v=0.9.6"></script>
-        <script type="text/javascript" src="format/html/data-out.js?v=0.9.6"></script>
         <script type="text/javascript" src="storage/filesystem/data-in-out.js?v=0.9.6"></script>
 
         <!-- Nodes: Standard -->
@@ -150,6 +146,11 @@
         <script type="text/javascript" src="../metaviz-nodes/default/node-label.js?v=0.9.6"></script>
         <script type="text/javascript" src="../metaviz-nodes/default/node-text.js?v=0.9.6"></script>
         <script type="text/javascript" src="../metaviz-nodes/default/node-clipart.js?v=0.9.6"></script>
+
+        <!-- Third party -->
+
+        <!-- Emoji Picker https://github.com/nolanlawson/emoji-picker-element -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 
         <!-- START -->
         <script type="text/javascript">

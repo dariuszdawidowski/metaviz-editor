@@ -43,7 +43,6 @@
             <%- await minjs('utils/logging.js') %>
             <%- await minjs('app/config.js') %>
             <%- await minjs('app/metaviz.js') %>
-            <%- await minjs('editor/state.js') %>
         </script>
     </head>
     <body>
@@ -62,6 +61,7 @@
                 </g>
             </svg>
         </div>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
         <script type="text/javascript">
             <%- await minjs('utils/jsext.js') %>
             <%- await minjs('utils/events.js') %>
@@ -98,10 +98,9 @@
             <%- await minjs('../total-diagram/nodes.js') %>
             <%- await minjs('../total-diagram/links.js') %>
             <%- await minjs('../total-diagram/render.js') %>
-            <%- await minjs('../metaviz-links/bezier.js') %>
-            <%- await minjs('../metaviz-links/symlink.js') %>
             <%- await minjs('themes/iron.js') %>
             <%- await minjs('themes/covellite.js') %>
+            <%- await minjs('editor/history.js') %>
             <%- await minjs('editor/link.js') %>
             <%- await minjs('editor/links.js') %>
             <%- await minjs('editor/socket.js') %>
@@ -114,10 +113,11 @@
             <%- await minjs('editor/menu.js') %>
             <%- await minjs('editor/selection.js') %>
             <%- await minjs('editor/editor.js') %>
+            <%- await minjs('../metaviz-links/bezier.js') %>
+            <%- await minjs('../metaviz-links/symlink.js') %>
             <%- await minjs('format/stack/data-in.js') %>
             <%- await minjs('format/stack/data-out.js') %>
             <%- await minjs('storage/filesystem/data-in-out.js') %>
-            <%- await minjs('storage/indexeddb/data-in-out.js') %>
             <%- await minjs('../metaviz-nodes/default/node-point.js') %>
             <%- await minjs('../metaviz-nodes/default/node-label.js') %>
             <%- await minjs('../metaviz-nodes/default/node-text.js') %>

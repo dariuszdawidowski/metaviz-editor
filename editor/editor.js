@@ -724,7 +724,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
     }
 
-    /** DIAGRAM PROJECT FILE ******************************************************************************************************/
+    /** BOARD PROJECT FILE ********************************************************************************************************/
 
     /**
      * Board ID
@@ -742,7 +742,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (text) {
             this.name = text;
             document.title = this.name;
-            // metaviz.render.container.dispatchEvent(new CustomEvent('update:projectname', { detail: text }));
             metaviz.events.call('update:projectname', text);
         }
     }
@@ -752,7 +751,30 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     }
 
     /**
-     * Open diagram file
+     * New board
+     */
+
+    new() {
+        // Clear selection
+        this.selection.clear();
+        // Interaction
+        this.interaction.clear();
+        // Loaded file
+        this.file.clear();
+        // History
+        this.history.clear();
+        // Clear links and nodes
+        metaviz.render.clear();
+        // Clear DOM on board
+        metaviz.render.clear();
+        // Centre board
+        metaviz.render.center();
+        // Generate new board ID
+        this.id = uuid();
+    }
+
+    /**
+     * Open board file
      */
 
     async open(boardID = null) {

@@ -176,7 +176,6 @@ class Metaviz {
 
         // Global instances of main components
         this.config = null;
-        this.state = null;
         this.format = {};
         this.storage = {};
         this.render = null;
@@ -245,15 +244,7 @@ class Metaviz {
 
         // Contructors (order matters)
         this.config = new MetavizConfig();
-        this.state = new MetavizViewerState();
         this.format = {
-            json: {
-                in: new MetavizInJSON(),
-                out: new MetavizOutJSON()
-            },
-            html: {
-                out: new MetavizOutHTML()
-            },
             stack: {
                 in: new MetavizInStack(),
                 out: new MetavizOutStack()
@@ -261,11 +252,8 @@ class Metaviz {
         };
         this.storage = {
             filesystem: new MetavizFilesystem(),
-            db: new MetavizIndexedDB(),
-            dbNames: ['files', 'boards', 'localOptions'],
-            dbVersion: 4
         };
-        this.render = new MetavizRender({
+        this.render = new TotalDiagramRenderHTML5({
             container: this.container.element,
             nodes: new MetavizNodesManager(),
             links: new MetavizLinksManager()
@@ -302,8 +290,8 @@ class Metaviz {
             }
 
             // Load config from browser
-            this.storage.db.init(this.storage.dbNames, this.storage.dbVersion)
-                .then(status => {
+            //this.storage.db.init(this.storage.dbNames, this.storage.dbVersion)
+            //    .then(status => {
 
                     // Clear current diagram
                     this.editor.new();
@@ -314,10 +302,10 @@ class Metaviz {
                     // Dispatch final event
                     this.events.call('on:loaded');
 
-                })
-                .catch(error => {
-                    logging.error('IDB: Initialization error (IndexedDB corrupted?)');
-                });
+                // })
+                // .catch(error => {
+                //     logging.error('IDB: Initialization error (IndexedDB corrupted?)');
+                // });
 
         }
 

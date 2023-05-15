@@ -548,7 +548,7 @@ class MetavizContextMenu extends Menu {
     show(event, editor) {
 
         // Not when overlay is visible or locked
-        if (!editor.interaction.locked && !editor.popup.visible) {
+        if (!editor.interaction.locked && !editor.popup?.visible) {
 
             // Prevent default context menu
             event.preventDefault();
@@ -715,7 +715,7 @@ class MetavizContextMenu extends Menu {
                 this.panel.left.find('metaviz-menu-copy')?.enable();
                 this.panel.left.find('metaviz-menu-duplicate')?.enable();
             }
-            else if (editor.clipboard.count() > 0) {
+            else if (editor.clipboard?.count() > 0) {
                 this.panel.left.find('metaviz-menu-paste')?.enable();
             }
 
