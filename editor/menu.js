@@ -31,16 +31,19 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Navigation: Folder Up
             new MenuOption({ icon: '<i class="fa-solid fa-circle-up"></i>', text: 'Folder Up', onChange: () => {
+                this.hide();
                 window.history.back();
             }}),
 
             // Navigation: Folder Down
             new MenuOption({ icon: '<i class="fa-solid fa-circle-down"></i>', text: 'Folder Down', onChange: () => {
+                this.hide();
                 window.history.forward();
             }}),
 
             // Navigation: Centre Board
             new MenuOption({ icon: '<i class="fa-solid fa-arrows-to-dot"></i>', text: 'Centre Board', onChange: () => {
+                this.hide();
                 metaviz.render.center();
             }}),
 
@@ -67,6 +70,7 @@ class MetavizContextMenu extends TotalProMenu {
         // Lock
         subEditSelection.add(new MenuOption({ icon: '<i class="fa-solid fa-lock-open"></i>', text: 'Lock', onChange: () => {
             metaviz.editor.selection.nodes[0].lockToggle();
+            this.hide();
         }}));
 
         // Copy url of node
@@ -214,6 +218,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarSystem(spot);
                         metaviz.config.toolbars.save('system', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Outliner
@@ -223,6 +228,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarOutliner(spot);
                         metaviz.config.toolbars.save('outliner', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Search
@@ -232,6 +238,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarSearch(spot);
                         metaviz.config.toolbars.save('search', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Navigation
@@ -241,6 +248,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarNavi(spot);
                         metaviz.config.toolbars.save('navi', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Video Call
@@ -250,6 +258,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarVideoCall(spot);
                         metaviz.config.toolbars.save('videocall', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Global chat
@@ -259,6 +268,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarChat(spot);
                         metaviz.config.toolbars.save('chat', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Nodes
@@ -268,6 +278,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarNodes(spot);
                         metaviz.config.toolbars.save('nodes', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Templates
@@ -277,6 +288,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarTemplates(spot);
                         metaviz.config.toolbars.save('templates', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Shortcuts
@@ -286,6 +298,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarShortcuts(spot);
                         metaviz.config.toolbars.save('shortcuts', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Clipboard
@@ -295,6 +308,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarClipboard(spot);
                         metaviz.config.toolbars.save('clipboard', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: History
@@ -304,6 +318,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarHistory(spot);
                         metaviz.config.toolbars.save('history', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Media
@@ -313,6 +328,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarMedia(spot);
                         metaviz.config.toolbars.save('media', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
                 // Add a toolbar: Toolbar of toolbars
@@ -322,6 +338,7 @@ class MetavizContextMenu extends TotalProMenu {
                         const toolbar = new MetavizToolbarToolbars(spot);
                         metaviz.config.toolbars.save('toolbars', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
                     }
+                    this.hide();
                 }}),
 
             ] }));
@@ -451,8 +468,8 @@ class MetavizContextMenu extends TotalProMenu {
                     icon: '<i class="fa-solid fa-unlock-keyhole"></i>',
                     text: 'Allow notifications',
                     onChange: () => {
-                        Notification.requestPermission().then((result) => {
-                        });
+                        Notification.requestPermission().then((result) => {});
+                        this.hide();
                     }
                 }),
 

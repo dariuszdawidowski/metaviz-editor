@@ -570,3 +570,9 @@ input, textarea, label {
     border-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 16px #0000007a;
 }
+
+/* Total Pro Menu */
+
+.metaviz-node.drag .menu-select {
+    opacity: 0.2;
+}
