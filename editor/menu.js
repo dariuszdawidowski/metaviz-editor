@@ -3,10 +3,6 @@
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
-/**
- * Main context menu
- */
-
 class MetavizContextMenu extends TotalProMenu {
 
     constructor(args) {
@@ -29,20 +25,8 @@ class MetavizContextMenu extends TotalProMenu {
         this.panel.left.add(subNavigation);
         subNavigation.add(new MenuGroup({ text: 'Navigation', widgets: [
 
-            // Navigation: Folder Up
-            new MenuOption({ icon: '<i class="fa-solid fa-circle-up"></i>', text: 'Folder Up', onChange: () => {
-                this.hide();
-                window.history.back();
-            }}),
-
-            // Navigation: Folder Down
-            new MenuOption({ icon: '<i class="fa-solid fa-circle-down"></i>', text: 'Folder Down', onChange: () => {
-                this.hide();
-                window.history.forward();
-            }}),
-
             // Navigation: Centre Board
-            new MenuOption({ icon: '<i class="fa-solid fa-arrows-to-dot"></i>', text: 'Centre Board', onChange: () => {
+            new MenuOption({ text: 'Centre Board', onChange: () => {
                 this.hide();
                 metaviz.render.center();
             }}),
@@ -62,20 +46,20 @@ class MetavizContextMenu extends TotalProMenu {
         subEditSelection.add(new MenuGroup({ text: 'Node functions', widgets: []}));
 
         // Link / Unlink
-        subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-link"></i>', text: 'Link', shortcut: [17, 76], onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Link', shortcut: [17, 76], onChange: () => {
             metaviz.editor.linkToggleSelected();
             this.hide();
         }}));
 
         // Lock
-        subEditSelection.add(new MenuOption({ icon: '<i class="fa-solid fa-lock-open"></i>', text: 'Lock', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Lock', onChange: () => {
             metaviz.editor.selection.nodes[0].lockToggle();
             this.hide();
         }}));
 
         // Copy url of node
         if (!metaviz.agent.client == 'browser') {
-            subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-bullseye"></i>', text: 'Copy url of node', onChange: () => {
+            subEditSelection.add(new MenuOption({ text: 'Copy url of node', onChange: () => {
                 let params = window.location.search.uriToDict();
                 params['node'] = metaviz.editor.selection.nodes[0].id;
                 metaviz.editor.clipboard.set(location.protocol + '//' + location.host + location.pathname + '?' + dictToUri(params));
@@ -87,27 +71,27 @@ class MetavizContextMenu extends TotalProMenu {
         subEditSelection.add(new MenuSeparator());
 
         // Arrange
-        subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-th-large"></i>', text: 'Sort', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Sort', onChange: () => {
             metaviz.editor.arrangeSort();
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-grip-horizontal"></i>', text: 'Align Horizontal', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Align Horizontal', onChange: () => {
             metaviz.editor.arrangeHorizontal();
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-grip-vertical"></i>', text: 'Align Vertical', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Align Vertical', onChange: () => {
             metaviz.editor.arrangeVertical();
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ icon: '<i class="fa-solid fa-circle-chevron-up"></i>', text: 'Move to Foreground', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Move to Foreground', onChange: () => {
             metaviz.editor.arrangeZ(1);
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ icon: '<i class="fa-solid fa-circle-chevron-down"></i>', text: 'Move to Background', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Move to Background', onChange: () => {
             metaviz.editor.arrangeZ(-1);
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ icon: '<i class="fa-solid fa-arrows-to-dot"></i>', text: 'Reset Translations', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Reset Translations', onChange: () => {
             metaviz.editor.arrangeReset();
             this.hide();
         }}));
@@ -115,24 +99,8 @@ class MetavizContextMenu extends TotalProMenu {
         // ----
         subEditSelection.add(new MenuSeparator());
 
-        // Convert submenu
-        /*
-        subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-exchange-alt"></i>', text: 'Convert', onChange: () => {
-            console.log('convert menu');
-        }}));
-
-        // ----
-        subEditSelection.add(new MenuSeparator());
-        */
-
-        // Unanchor
-        subEditSelection.add(new MenuOption({ icon: '<i class="fa-solid fa-anchor"></i>', text: 'Unanchor', onChange: () => {
-            metaviz.editor.nodeUnanchorSelected();
-            this.hide();
-        }}));
-
         // Delete Node(s)
-        subEditSelection.add(new MenuOption({ icon: '<i class="fas fa-trash-alt"></i>', text: 'Delete Node', onChange: () => {
+        subEditSelection.add(new MenuOption({ text: 'Delete Node', onChange: () => {
             metaviz.editor.nodeDeleteSelected();
             this.hide();
         }}));
@@ -142,7 +110,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
             // New
-            this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-file"></i>', text: 'New', shortcut: [17, 78], onChange: () => {
+            this.panel.left.add(new MenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
                 this.hide();
                 let msg = 'Create new diagram?';
                 if (metaviz.editor.history.dirty) msg += '\nUnsaved changes will be lost.';
@@ -150,32 +118,29 @@ class MetavizContextMenu extends TotalProMenu {
             }}));
 
             // Open File
-            this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-file-upload"></i>', text: 'Open File...', shortcut: [17, 79], onChange: () => {
+            this.panel.left.add(new MenuOption({ text: 'Open File...', shortcut: [17, 79], onChange: () => {
                 this.hide();
                 metaviz.editor.open();
             }}));
 
             // Save
-            this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-save"></i>', text: 'Save', shortcut: [17, 83], onChange: () => {
+            this.panel.left.add(new MenuOption({ text: 'Save', shortcut: [17, 83], onChange: () => {
                 this.hide();
                 metaviz.editor.save();
             }}));
-
-            // Export
-            //this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-file-export"></i>', text: 'Export', shortcut: [17, 69], onChange: () => metaviz.editor.export() }));
 
             // ----
             this.panel.left.add(new MenuSeparator());
         }
 
         // Undo
-        this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-undo"></i>', text: 'Undo', shortcut: [17, 90], onChange: () => {
+        this.panel.left.add(new MenuOption({ text: 'Undo', shortcut: [17, 90], onChange: () => {
             this.hide();
             metaviz.editor.history.undo();
         } }));
 
         // Redo
-        this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-redo"></i>', text: 'Redo', shortcut: [17, 16, 90], onChange: () => {
+        this.panel.left.add(new MenuOption({ text: 'Redo', shortcut: [17, 16, 90], onChange: () => {
             this.hide();
             metaviz.editor.history.redo();
         } }));
@@ -184,196 +149,25 @@ class MetavizContextMenu extends TotalProMenu {
         this.panel.left.add(new MenuSeparator());
 
         // Cut Copy Paste Duplicate
-        this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-cut"></i>', text: 'Cut', shortcut: [17, 88], onChange: () => {
+        this.panel.left.add(new MenuOption({ text: 'Cut', shortcut: [17, 88], onChange: () => {
             metaviz.editor.cut();
             this.hide();
         }}));
-        this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-copy"></i>', text: 'Copy', shortcut: [17, 67], onChange: () => {
+        this.panel.left.add(new MenuOption({ text: 'Copy', shortcut: [17, 67], onChange: () => {
             metaviz.editor.copy();
             this.hide();
         }}));
-        this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-paste"></i>', text: 'Paste', shortcut: [17, 86], onChange: () => {
+        this.panel.left.add(new MenuOption({ text: 'Paste', shortcut: [17, 86], onChange: () => {
             metaviz.editor.paste();
             this.hide();
         }}));
-        this.panel.left.add(new MenuOption({ icon: '<i class="fas fa-clone"></i>', text: 'Duplicate', shortcut: [17, 68], onChange: () => {
+        this.panel.left.add(new MenuOption({ text: 'Duplicate', shortcut: [17, 68], onChange: () => {
             metaviz.editor.duplicate();
             this.hide();
         }}));
 
         // ----
         this.panel.left.add(new MenuSeparator());
-
-        // Toolbars
-        let subToolbars = null;
-        if (metaviz.agent.client != 'app' && metaviz.agent.server != 'wordpress') {
-            subToolbars = new SubMenu({ text: 'Toolbars' });
-            this.panel.left.add(subToolbars);
-            subToolbars.add(new MenuGroup({ text: 'Add a toolbar', widgets: [
-
-                // Add a toolbar: System
-                new MenuOption({ icon: '<i class="fas fa-info-circle"></i>', text: 'System', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('top', 0);
-                    if (spot) {
-                        const toolbar = new MetavizToolbarSystem(spot);
-                        metaviz.config.toolbars.save('system', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Outliner
-                new MenuOption({ icon: '<i class="fas fa-stream"></i>', text: 'Outliner', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('left', 0);
-                    if (spot) {
-                        const toolbar = new MetavizToolbarOutliner(spot);
-                        metaviz.config.toolbars.save('outliner', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Search
-                new MenuOption({ icon: '<i class="fa-solid fa-magnifying-glass"></i>', text: 'Search', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('left', 0);
-                    if (spot) {
-                        const toolbar = new MetavizToolbarSearch(spot);
-                        metaviz.config.toolbars.save('search', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Navigation
-                new MenuOption({ icon: '<i class="far fa-compass"></i>', text: 'Navigation', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('top');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarNavi(spot);
-                        metaviz.config.toolbars.save('navi', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Video Call
-                new MenuOption({ icon: '<i class="fas fa-video"></i>', text: 'Video Call', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('top');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarVideoCall(spot);
-                        metaviz.config.toolbars.save('videocall', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Global chat
-                new MenuOption({ icon: '<i class="fas fa-comment-alt"></i>', text: 'Global chat', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('left');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarChat(spot);
-                        metaviz.config.toolbars.save('chat', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Nodes
-                new MenuOption({ icon: '<i class="fas fa-project-diagram"></i>', text: 'Nodes', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('top');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarNodes(spot);
-                        metaviz.config.toolbars.save('nodes', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Templates
-                new MenuOption({ icon: '<i class="fas fa-heart"></i>', text: 'Templates', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('top');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarTemplates(spot);
-                        metaviz.config.toolbars.save('templates', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Shortcuts
-                new MenuOption({ icon: '<i class="fas fa-external-link-square-alt"></i>', text: 'Shortcuts', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('top');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarShortcuts(spot);
-                        metaviz.config.toolbars.save('shortcuts', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Clipboard
-                new MenuOption({ icon: '<i class="fas fa-clipboard"></i>', text: 'Clipboard', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('right');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarClipboard(spot);
-                        metaviz.config.toolbars.save('clipboard', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: History
-                new MenuOption({ icon: '<i class="fas fa-history"></i>', text: 'History', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('right');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarHistory(spot);
-                        metaviz.config.toolbars.save('history', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Media
-                new MenuOption({ icon: '<i class="fas fa-photo-video"></i>', text: 'Media', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('bottom');
-                    if (spot) {
-                        const toolbar = new MetavizToolbarMedia(spot);
-                        metaviz.config.toolbars.save('media', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-                // Add a toolbar: Toolbar of toolbars
-                new MenuOption({ icon: '<i class="fas fa-crown"></i>', text: 'Toolbar of Toolbars', onChange: () => {
-                    const spot = metaviz.editor.dock.spots.findEmpty('left', 0);
-                    if (spot) {
-                        const toolbar = new MetavizToolbarToolbars(spot);
-                        metaviz.config.toolbars.save('toolbars', spot.dataset.side, spot.dataset.row, spot.dataset.spotIndex);
-                    }
-                    this.hide();
-                }}),
-
-            ] }));
-
-            const spots = metaviz.config.toolbars.load();
-
-            subToolbars.add(new MenuGroup({ text: 'Options', widgets: [
-
-                // Auto hide top
-                new MenuSwitch({ text: 'Auto Hide Top', value: spots.top.autohide, onChange: (value) => {
-                    metaviz.editor.dock.autoHide('top', value);
-                    metaviz.config.toolbars.autoHide('top', value);
-                }}),
-
-                // Auto hide bottom
-                new MenuSwitch({ text: 'Auto Hide Bottom', value: spots.bottom.autohide, onChange: (value) => {
-                    metaviz.editor.dock.autoHide('bottom', value);
-                    metaviz.config.toolbars.autoHide('bottom', value);
-                }}),
-
-                // Auto hide left
-                new MenuSwitch({ text: 'Auto Hide Left', value: spots.left.autohide, onChange: (value) => {
-                    metaviz.editor.dock.autoHide('left', value);
-                    metaviz.config.toolbars.autoHide('left', value);
-                }}),
-
-                // Auto hide right
-                new MenuSwitch({ text: 'Auto Hide Right', value: spots.right.autohide, onChange: (value) => {
-                    metaviz.editor.dock.autoHide('right', value);
-                    metaviz.config.toolbars.autoHide('right', value);
-                }}),
-
-            ] }));
-
-        } // Toolbar
 
         // Project Settings
         let subSettings = null;
@@ -465,7 +259,6 @@ class MetavizContextMenu extends TotalProMenu {
 
                 // Allow system notifications
                 new MenuOption({
-                    icon: '<i class="fa-solid fa-unlock-keyhole"></i>',
                     text: 'Allow notifications',
                     onChange: () => {
                         Notification.requestPermission().then((result) => {});
@@ -497,20 +290,11 @@ class MetavizContextMenu extends TotalProMenu {
         const subHelp = new SubMenu({ text: 'Help' });
         this.panel.left.add(subHelp);
         subHelp.add(new MenuGroup({ text: `Metaviz ${metaviz.version}`, widgets: [
-            // Help: Keyboard shortcuts
-            new MenuOption({ icon: '<i class="fas fa-keyboard"></i>', text: 'Keyboard shortcuts', onChange: () => console.log('Keyboard shortcuts') }),
+            // Help: GitHub Page
+            new MenuOption({ text: 'GitHub page', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor') }),
 
-            // Help: Documentation
-            new MenuOption({ icon: '<i class="fas fa-book"></i>', text: 'Documentation', onChange: () => console.log('Documentation') }),
-
-            // Help: Changelog
-            new MenuOption({ icon: '<i class="fas fa-list"></i>', text: 'Changelog', onChange: () => console.log('Changelog') }),
-
-            // Help: Submit bug
-            new MenuOption({ icon: '<i class="fas fa-bug"></i>', text: 'Submit bug', onChange: () => console.log('Submit bug') }),
-
-            // Help: About
-            new MenuOption({ icon: '<i class="fas fa-question-circle"></i>', text: 'About', onChange: () => console.log('About') })
+            // Help: Submit issue
+            new MenuOption({ text: 'Submit issue', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor/issues') }),
         ] }));
 
         // Simulate scroll event
@@ -518,7 +302,6 @@ class MetavizContextMenu extends TotalProMenu {
             this.subAddNode.panel.scroll(0, this.subAddNode.panel.scrollTop - event.detail);
             subEditSelection.panel.scroll(0, subEditSelection.panel.scrollTop - event.detail);
             subNavigation.panel.scroll(0, subNavigation.panel.scrollTop - event.detail);
-            if (subToolbars) subToolbars.panel.scroll(0, subToolbars.panel.scrollTop - event.detail);
             if (subSettings) subSettings.panel.scroll(0, subSettings.panel.scrollTop - event.detail);
             subHelp.panel.scroll(0, subHelp.panel.scrollTop - event.detail);
         });
@@ -536,7 +319,6 @@ class MetavizContextMenu extends TotalProMenu {
             if (!(menuName in menuAddNode)) menuAddNode[menuName] = [];
             menuAddNode[menuName].push(new MenuOption({
                 id: `total-pro-menu-node-${args.name.slug()}`,
-                icon: args.icon || '<i class="fas fa-atom"></i>',
                 text: args.name,
                 onChange: () => {
                     metaviz.editor.nodeAdd(className, this.position('first click'));
@@ -648,7 +430,7 @@ class MetavizContextMenu extends TotalProMenu {
                     }
                     // No options
                     else {
-                        options.add(new MenuOption({ icon: '<i class="fas fa-window-close"></i>', text: 'No options', disabled: true}));
+                        options.add(new MenuOption({ text: 'No options', disabled: true}));
                     }
                     options.show();
 
@@ -666,10 +448,10 @@ class MetavizContextMenu extends TotalProMenu {
             // Lock
             if (editor.selection.count() > 0) {
                 if (metaviz.editor.selection.getFocused().locked) {
-                    this.panel.left.find('total-pro-menu-lock')?.setIcon('<i class="fa-solid fa-lock"></i>').setName('Locked');
+                    this.panel.left.find('total-pro-menu-lock')?.setName('Locked');
                 }
                 else {
-                    this.panel.left.find('total-pro-menu-lock')?.setIcon('<i class="fa-solid fa-lock-open"></i>').setName('Unlocked');
+                    this.panel.left.find('total-pro-menu-lock')?.setName('Unlocked');
                 }
             }
 
@@ -693,11 +475,11 @@ class MetavizContextMenu extends TotalProMenu {
             if (editor.selection.count() == 2) {
                 // Unlink
                 if (metaviz.render.links.get(editor.selection.nodes[0], editor.selection.nodes[1])) {
-                    this.panel.left.find('total-pro-menu-link')?.enable().setIcon('<i class="fas fa-unlink"></i>').setName('Unlink');
+                    this.panel.left.find('total-pro-menu-link')?.enable().setName('Unlink');
                 }
                 // Link
                 else {
-                    this.panel.left.find('total-pro-menu-link')?.enable().setIcon('<i class="fas fa-link"></i>').setName('Link');
+                    this.panel.left.find('total-pro-menu-link')?.enable().setName('Link');
                 }
             }
             // Inactive
