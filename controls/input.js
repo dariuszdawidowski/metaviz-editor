@@ -74,7 +74,6 @@ class MetavizControlInput extends MetavizControl {
             metaviz.events.enable('editor:paste');
             metaviz.events.enable('editor:keydown');
             metaviz.events.enable('editor:keyup');
-            metaviz.render.layers.current.update();
         });
     }
 

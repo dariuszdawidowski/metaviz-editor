@@ -454,24 +454,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     node.setStyle('pointer-events', 'auto');
                     node.setStyle('z-index', 'var(--z-node)');
                     node.edit(true);
-
-                    // Update/Undo/Sync
-                    if (this.selection.transform.total() != 0) {
-
-                        // Update layer
-                        const vnode = metaviz.render.layers.current.getNode(node.id);
-                        const prev = {x: vnode.x, y: vnode.y};
-                        vnode.x = node.transform.x;
-                        vnode.y = node.transform.y;
-
-                        // Sync to undo and server
-                        this.history.store({
-                            action: 'move',
-                            nodes: [node.id],
-                            position: {x: node.transform.x, y: node.transform.y},
-                            positionPrev: {x: prev.x, y: prev.y}
-                        });
-                    }
                 }
 
                 // Node in slot
@@ -584,10 +566,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Store in renderer
             metaviz.render.links.list.push(this.interaction.link);
 
-            // Add to current layer (if layer exist and link is freshly created in the editor)
-            if (metaviz.render.layers.current && !metaviz.render.layers.current.getLink(this.interaction.link.id)) {
-                metaviz.render.layers.current.setLink(this.interaction.link.serialize());
-            }
         }
 
         // Cancel

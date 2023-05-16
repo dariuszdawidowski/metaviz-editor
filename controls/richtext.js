@@ -231,7 +231,6 @@ class MetavizControlRichText extends TotalText {
             metaviz.events.enable('editor:keydown');
             metaviz.events.enable('editor:keyup');
             if (this.onChange) this.onChange(this.get());
-            metaviz.render.layers.current.update();
         }
     }
 
