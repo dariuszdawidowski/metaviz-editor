@@ -62,9 +62,6 @@ class MetavizNodeClipart extends MetavizNode {
      */
 
     getIconName() {
-        // Default fallback
-        if (this.meta.name == '') return ['emoji', '😀'];
-
         // Emoji
         const regex = /\p{Extended_Pictographic}/ug
         if (regex.test(this.meta.name)) {
@@ -77,8 +74,8 @@ class MetavizNodeClipart extends MetavizNode {
             return ['emoji', this.meta.name];
         }
 
-        // Fail
-        return [null, null];
+        // Fallback
+        return ['emoji', '😀'];
     }
 
     /**
