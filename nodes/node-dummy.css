@@ -1,0 +1,11 @@
+/* Metaviz Node Dummy */
+
+.metaviz-node-dummy {
+    border: 4px solid white;
+    background-color: white;
+}
+
+.metaviz-node-dummy.selected {
+    border: 4px solid var(--highlight-color);
+}
+

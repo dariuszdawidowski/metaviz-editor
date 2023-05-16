@@ -1,0 +1,242 @@
+/* Metaviz Node Label */
+
+/*** Style: Label ***/
+
+/* Color 0 */
+
+.metaviz-node-label.style-label.color-0 {
+    background-color: var(--paper-1);
+}
+
+.metaviz-node-label.style-label.color-0 .metaviz-control-input {
+    color: var(--font-color-2);
+    caret-color: black;
+}
+
+.metaviz-node-label.style-label.color-0.drag {
+    background-color: var(--paper-1-trans);
+}
+
+/* Color 1 */
+
+.metaviz-node-label.style-label.color-1 {
+    background-color: var(--metaviz-color-darkblue);
+}
+
+.metaviz-node-label.style-label.color-1 .metaviz-control-input {
+    color: white;
+    caret-color: white;
+}
+
+.metaviz-node-label.style-label.color-1.drag {
+    background-color: var(--metaviz-color-darkblue-trans);
+}
+
+/* Color 2 */
+
+.metaviz-node-label.style-label.color-2 {
+    background-color: var(--metaviz-color-navy);
+}
+
+.metaviz-node-label.style-label.color-2 .metaviz-control-input {
+    color: white;
+    caret-color: white;
+}
+
+.metaviz-node-label.style-label.color-2.drag {
+    background-color: var(--metaviz-color-navy-trans);
+}
+
+/* Color 3 */
+
+.metaviz-node-label.style-label.color-3 {
+    background-color: var(--color-jade);
+}
+
+.metaviz-node-label.style-label.color-3 .metaviz-control-input {
+    color: white;
+    caret-color: white;
+}
+
+.metaviz-node-label.style-label.color-3.drag {
+    background-color: var(--color-jade-trans);
+}
+
+/* Color 4 */
+
+.metaviz-node-label.style-label.color-4 {
+    background-color: rgb(244, 201, 50);
+}
+
+.metaviz-node-label.style-label.color-4 .metaviz-control-input {
+    color: var(--font-color-2);
+    caret-color: black;
+}
+
+.metaviz-node-label.style-label.color-4.drag {
+    background-color: rgba(244, 201, 50. 0.69);
+}
+
+/* Color 5 */
+
+.metaviz-node-label.style-label.color-5 {
+    background-color: rgb(232, 145, 145);
+}
+
+.metaviz-node-label.style-label.color-5 .metaviz-control-input {
+    color: var(--font-color-2);
+    caret-color: black;
+}
+
+.metaviz-node-label.style-label.color-5.drag {
+    background-color: rgba(232, 145, 145, 0.69);
+}
+
+/*** Style: Text ***/
+
+.metaviz-node-label.style-text {
+    background-color: transparent;
+}
+
+/* Color 0 */
+
+.metaviz-node-label.style-text.color-0 input {
+    color: var(--paper-1);
+}
+
+/* Color 1 */
+
+.metaviz-node-label.style-text.color-1 input {
+    color: var(--metaviz-color-darkblue);
+}
+
+/* Color 2 */
+
+.metaviz-node-label.style-text.color-2 input {
+    color: var(--metaviz-color-navy);
+}
+
+/* Color 3 */
+
+.metaviz-node-label.style-text.color-3 input {
+    color: var(--color-jade);
+}
+
+/* Color 4 */
+
+.metaviz-node-label.style-text.color-4 input {
+    color: rgb(244, 201, 50);
+}
+
+/* Color 5 */
+
+.metaviz-node-label.style-text.color-5 input {
+    color: rgb(232, 145, 145);
+}
+
+/*** Style: Underline ***/
+
+.metaviz-node-label.style-underline {
+    background-color: transparent;
+}
+
+/* Color 0 */
+
+.metaviz-node-label.style-underline.color-0 {
+    border-bottom: 10px solid var(--paper-1);
+}
+
+.metaviz-node-label.style-underline.color-0 input {
+    color: var(--paper-1);
+}
+
+/* Color 1 */
+
+.metaviz-node-label.style-underline.color-1 {
+    border-bottom: 10px solid var(--metaviz-color-darkblue);
+}
+
+.metaviz-node-label.style-underline.color-1 input {
+    color: var(--metaviz-color-darkblue);
+}
+
+/* Color 2 */
+
+.metaviz-node-label.style-underline.color-2 {
+    border-bottom: 10px solid var(--metaviz-color-navy);
+}
+
+.metaviz-node-label.style-underline.color-2 input {
+    color: var(--metaviz-color-navy);
+}
+
+/* Color 3 */
+
+.metaviz-node-label.style-underline.color-3 {
+    border-bottom: 10px solid var(--color-jade);
+}
+
+.metaviz-node-label.style-underline.color-3 input {
+    color: var(--color-jade);
+}
+
+/* Color 4 */
+
+.metaviz-node-label.style-underline.color-4 {
+    border-bottom: 10px solid rgb(244, 201, 50);
+}
+
+.metaviz-node-label.style-underline.color-4 input {
+    color: rgb(244, 201, 50);
+}
+
+/* Color 5 */
+
+.metaviz-node-label.style-underline.color-5 {
+    border-bottom: 10px solid rgb(232, 145, 145);
+}
+
+.metaviz-node-label.style-underline.color-5 input {
+    color: rgb(232, 145, 145);
+}
+
+/*** Main ***/
+
+.metaviz-node-label {
+    border-radius: 5px;
+/*    overflow: hidden;*/
+}
+
+/* Input */
+
+.metaviz-node-label .metaviz-control-input {
+    padding: 0 4px;
+    border: none;
+    width: calc(100% - 8px);
+    height: 100%;
+    background-color: transparent;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* Miniature */
+
+.miniature.metaviz-node-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+/* Menu options */
+
+.menu-select-option[data-value="Allura"] .text {
+    font-family: "Allura";
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.menu-select-option[data-value="Mansalva"] .text {
+    font-family: "Mansalva";
+    font-size: 13px;
+}

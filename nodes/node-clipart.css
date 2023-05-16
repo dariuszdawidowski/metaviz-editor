@@ -1,0 +1,62 @@
+/* Metaviz Node Clipart */
+
+.metaviz-node-clipart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.metaviz-node-clipart.drag {
+    opacity: 0.69;
+}
+
+.metaviz-node-clipart .metaviz-control-icon {
+    font-size: 55px;
+    color: var(--paper-5);
+}
+
+.metaviz-node-clipart .metaviz-control-input {
+    display: none;
+    width: 200px;
+    border: none;
+    color: var(--front-color);
+    background-color: transparent;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.metaviz-node-clipart .metaviz-control-link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Miniature */
+
+.miniature-node-clipart {
+    color: var(--front-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 45px;
+}
+
+/* Emoji picker */
+
+emoji-picker {
+    width: 100%;
+    height: 100%;
+    --num-columns: 6;
+    --background: transparent;
+    --border-color: transparent;
+    --indicator-color: transparent;
+    --category-emoji-size: 10px;
+    --input-font-size: 14px;
+}
+
+emoji-picker .indicator-wrapper {
+    border-bottom: 1px solid black;
+}

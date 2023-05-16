@@ -1,0 +1,362 @@
+/* Metaviz Node Text */
+
+.metaviz-node-text {
+    background-color: var(--paper-3);
+}
+
+.metaviz-node-text.drag {
+    background-color: var(--paper-3-trans);
+}
+
+/* Looks */
+
+.metaviz-node-text.sticky {
+}
+
+.metaviz-node-text.a6 {
+    box-shadow: 8px 8px #000;
+}
+
+.metaviz-node-text.a5 {
+    box-shadow: 8px 8px #000;
+}
+
+.metaviz-node-text.a4 {
+    box-shadow: 8px 8px #000;
+}
+
+.metaviz-node-text.comic {
+    border-radius: 10px;
+    border: 2px solid #555;
+}
+
+/* Fonts */
+
+.metaviz-node-text.sticky .editor {
+    font-size: 12px;
+}
+
+.metaviz-node-text.a6 .editor {
+    font-size: 13px;
+}
+
+.metaviz-node-text.a5 .editor {
+    font-size: 14px;
+}
+
+.metaviz-node-text.a4 .editor {
+    font-size: 15px;
+}
+
+.metaviz-node-text.comic .editor {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 14px;
+    color: #444;
+}
+
+/* Miniature */
+
+.metaviz-node-text.miniature {
+}
+
+/* Rich text editor */
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext {
+    width: 100%;
+    height: 100%;
+}
+
+/* Rich text editor: Toolbar */
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .toolbar {
+    width: 100%;
+    height: 30px;
+    border-top: 1px solid silver;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .toolbar .button {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+.metaviz-node-text.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
+    cursor: pointer;
+    background-color: #eee;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .toolbar .label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+/* Rich text editor: Content */
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor {
+    width: calc(100% - 16px);
+    margin: 8px;
+    outline: none;
+    overflow: hidden;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing {
+    overflow-y: scroll;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.with-toolbar {
+    height: calc(100% - 16px - 31px);
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.without-toolbar {
+    height: calc(100% - 16px);
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor:hover {
+    cursor: text;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor p:first-of-type,
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h1:first-of-type,
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h2:first-of-type,
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h3:first-of-type,
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h4:first-of-type,
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h5:first-of-type {
+    margin-top: 0;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor b {
+    font-weight: bolder;
+    color: #000;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor hr {
+    border: none;
+    height: 1px;
+    background-color: #aaa;
+}
+
+/*** Palette ***/
+
+/* Palette Color 0 Default */
+
+.metaviz-node-text.palette-0 {
+    color: var(--font-color-1);
+    background-color: var(--paper-2);
+}
+
+.metaviz-node-text.palette-0.drag {
+    background-color: var(--paper-2-trans);
+}
+
+.metaviz-node-text.palette-0 .metaviz-control-richtext {
+    color: var(--font-color-1);
+    caret-color: var(--caret-color-1);
+}
+
+/* Palette Color 1 Sky */
+
+.metaviz-node-text.palette-1 {
+    color: var(--font-color-2);
+    background-color: var(--color-sky);
+}
+
+.metaviz-node-text.palette-1.drag {
+    background-color: var(--color-sky-trans);
+}
+
+.metaviz-node-text.palette-1 .metaviz-control-richtext {
+    color: var(--font-color-2);
+    caret-color: var(--caret-color-2);
+}
+
+/* Palette Color 2 Water */
+
+.metaviz-node-text.palette-2 {
+    color: rgb(240, 240, 240);
+    background-color: var(--metaviz-color-darkblue);
+}
+
+.metaviz-node-text.palette-2.drag {
+    background-color: var(--metaviz-color-darkblue-trans);
+}
+
+.metaviz-node-text.palette-2 .metaviz-control-richtext {
+    color: rgb(240, 240, 240);
+    caret-color: white;
+}
+
+.metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .toolbar .button {
+    color: rgb(240, 240, 240);
+}
+
+.metaviz-node-text.palette-2.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
+    background-color: rgb(0, 79, 128);
+}
+
+.metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .editor b {
+    color: rgb(0, 47, 77);
+}
+
+/* Palette Color 3 Navy */
+
+.metaviz-node-text.palette-3 {
+    color: rgb(236, 238, 243);
+    background-color: var(--metaviz-color-navy);
+}
+
+.metaviz-node-text.palette-3.drag {
+    background-color: var(--metaviz-color-navy-trans);
+}
+
+.metaviz-node-text.palette-3 .metaviz-control-richtext {
+    color: rgb(236, 238, 243);
+    caret-color: white;
+}
+
+.metaviz-node-text.palette-3 .metaviz-control.metaviz-control-richtext .toolbar .button {
+    color: rgb(240, 240, 240);
+}
+
+.metaviz-node-text.palette-3.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
+    color: var(--metaviz-color-navy);
+    background-color: rgb(240, 240, 240);
+}
+
+/* Palette Color 4 Jade */
+
+.metaviz-node-text.palette-4 {
+    color: rgb(250, 250, 250);
+    background-color: var(--color-jade);
+}
+
+.metaviz-node-text.palette-4.drag {
+    background-color: rgba(1, 163, 148, 0.69);
+}
+
+.metaviz-node-text.palette-4 .metaviz-control-richtext {
+    color: rgb(250, 250, 250);
+    caret-color: white;
+}
+
+.metaviz-node-text.palette-4 .metaviz-control.metaviz-control-richtext .toolbar .button {
+    color: rgb(240, 240, 240);
+}
+
+.metaviz-node-text.palette-4.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
+    color: var(--color-jade);
+    background-color: rgb(240, 240, 240);
+}
+
+/* Palette Color 5 Sunny */
+
+.metaviz-node-text.palette-5 {
+    color: var(--font-color-2);
+    background-color: rgb(244, 201, 50);
+}
+
+.metaviz-node-text.palette-5.drag {
+    background-color: rgba(244, 201, 50, 0.69);
+}
+
+.metaviz-node-text.palette-5 .metaviz-control-richtext {
+    color: var(--font-color-2);
+    caret-color: black;
+}
+
+.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .toolbar .button {
+    color: rgb(73, 58, 4);
+}
+
+.metaviz-node-text.palette-5.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
+    color: rgb(244, 201, 50);
+    background-color: rgb(73, 58, 4);
+}
+
+/* Menu options */
+
+.metaviz-node-text .metaviz-control-richtext .menu-select-option {
+    height: 25px;
+}
+
+/* Sticky notes corners */
+
+.metaviz-node-text.sticky:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+}
+
+.metaviz-node-text.sticky.palette-0:before {
+    border-bottom: 25px solid var(--paper-2-dark);
+    border-left: 25px solid var(--paper-2-light);
+}
+
+.metaviz-node-text.sticky.palette-0.drag:before {
+    border-bottom: 25px solid var(--paper-2-dark-trans);
+    border-left: 25px solid var(--paper-2-light-trans);
+}
+
+.metaviz-node-text.sticky.palette-1:before {
+    border-bottom: 25px solid rgb(211, 236, 253);
+    border-left: 25px solid rgb(255, 255, 255);
+}
+
+.metaviz-node-text.sticky.palette-1.drag:before {
+    border-bottom: 25px solid rgba(211, 236, 253, 0.69);
+    border-left: 25px solid rgba(255, 255, 255, 0.69);
+}
+
+.metaviz-node-text.sticky.palette-2:before {
+    border-bottom: 25px solid rgb(0, 94, 153);
+    border-left: 25px solid rgb(0, 142, 230);
+}
+
+.metaviz-node-text.sticky.palette-2.drag:before {
+    border-bottom: 25px solid rgba(0, 94, 153, 0.69);
+    border-left: 25px solid rgba(0, 142, 230, 0.69);
+}
+
+.metaviz-node-text.sticky.palette-3:before {
+    border-bottom: 25px solid rgb(0, 56, 112);
+    border-left: 25px solid rgb(0, 92, 184);
+}
+
+.metaviz-node-text.sticky.palette-3.drag:before {
+    border-bottom: 25px solid rgba(0, 56, 112, 0.69);
+    border-left: 25px solid rgba(0, 92, 184, 0.69);
+}
+
+.metaviz-node-text.sticky.palette-4:before {
+    border-bottom: 25px solid var(--color-jade-dark);
+    border-left: 25px solid var(--color-jade-light);
+}
+
+.metaviz-node-text.sticky.palette-4.drag:before {
+    border-bottom: 25px solid var(--color-jade-dark-trans);
+    border-left: 25px solid var(--color-jade-light-trans);
+}
+
+.metaviz-node-text.sticky.palette-5:before {
+    border-bottom: 25px solid rgb(225, 186, 47);
+    border-left: 25px solid rgb(255, 225, 118);
+}
+
+.metaviz-node-text.sticky.palette-5.drag:before {
+    border-bottom: 25px solid rgba(225, 186, 47, 0.69);
+    border-left: 25px solid rgba(255, 225, 118, 0.69);
+}
