@@ -1,5 +1,5 @@
 /**
- * Javascript Language Extensions v 1.23.1
+ * Javascript Language Extensions v 1.24.0
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -7,13 +7,6 @@
 /******************
  * UUID generator *
  ******************/
-
-
-/* UUID4 */
-
-function uuid() {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
-}
 
 
 /* Tiny Unique ID (optional array or dict to test uniqueness). */
@@ -180,21 +173,13 @@ else console.error('String.prototype.ext already exist');
 if (typeof String.prototype.slug != 'function')
 String.prototype.slug = function() {
     return this
-    .replace(/ą/g, 'a').replace(/Ą/g, 'A')
-    .replace(/ć/g, 'c').replace(/Ć/g, 'C')
-    .replace(/ę/g, 'e').replace(/Ę/g, 'E')
-    .replace(/ł/g, 'l').replace(/Ł/g, 'L')
-    .replace(/ń/g, 'n').replace(/Ń/g, 'N')
-    .replace(/ó/g, 'o').replace(/Ó/g, 'O')
-    .replace(/ś/g, 's').replace(/Ś/g, 'S')
-    .replace(/ż/g, 'z').replace(/Ż/g, 'Z')
-    .replace(/ź/g, 'z').replace(/Ź/g, 'Z')
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/--+/g, "-")
+    .trim();
 }
 else console.error('String.prototype.slug already exist');
 

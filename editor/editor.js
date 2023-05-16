@@ -179,7 +179,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     nodeAdd(nodeType, transform) {
         let position = metaviz.render.screen2World(transform);
         if (metaviz.config.snap.grid.enabled) position = this.snapToGrid(position.x, position.y);
-        const newNode = metaviz.render.nodes.add({id: uuid(), parent: metaviz.render.nodes.parent, type: nodeType, ...position});
+        const newNode = metaviz.render.nodes.add({id: crypto.randomUUID(), parent: metaviz.render.nodes.parent, type: nodeType, ...position});
         newNode.render();
         newNode.update();
         newNode.start();
@@ -286,7 +286,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // Create link
             const link = metaviz.render.links.add({
-                id: uuid(),
+                id: crypto.randomUUID(),
                 type: linkType,
                 start: this.selection.nodes[0],
                 end: this.selection.nodes[1]
@@ -748,7 +748,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Centre board
         metaviz.render.center();
         // Generate new board ID
-        this.id = uuid();
+        this.id = crypto.randomUUID();
     }
 
     /**
