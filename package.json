@@ -1,5 +1,5 @@
 {
-  "name": "metaviz",
+  "name": "metaviz-editor",
   "version": "0.9.6",
   "scripts": {
     "build:html": "node build.js",
