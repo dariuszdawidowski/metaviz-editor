@@ -382,7 +382,7 @@ class MetavizContextMenu extends TotalProMenu {
             this.panel.left.add(subSettings);
             subSettings.add(new MenuGroup({ text: 'Project settings', widgets: [
                 // Project name
-                new MenuInput({ id: 'metaviz-menu-project-name', placeholder: 'Project name', value: projectName, onChange: (event) => {
+                new MenuInput({ id: 'total-pro-menu-project-name', placeholder: 'Project name', value: projectName, onChange: (event) => {
                     // Undo/Sync
                     metaviz.editor.history.store({action: 'board', name: event.target.value, namePrev: metaviz.editor.getBoardName()});
                     // Set new name
@@ -392,7 +392,7 @@ class MetavizContextMenu extends TotalProMenu {
 
             // On update project name
             metaviz.events.listen('update:projectname', (event) => {
-                const menuInput = this.panel.left.find('metaviz-menu-project-name');
+                const menuInput = this.panel.left.find('total-pro-menu-project-name');
                 if (menuInput) menuInput.set(event.detail);
             }, false);
 
@@ -535,7 +535,7 @@ class MetavizContextMenu extends TotalProMenu {
             const menuName = (('menu' in args) ? args.menu : 'Default Nodes');
             if (!(menuName in menuAddNode)) menuAddNode[menuName] = [];
             menuAddNode[menuName].push(new MenuOption({
-                id: `metaviz-menu-node-${args.name.slug()}`,
+                id: `total-pro-menu-node-${args.name.slug()}`,
                 icon: args.icon || '<i class="fas fa-atom"></i>',
                 text: args.name,
                 onChange: () => {
@@ -609,26 +609,26 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Enable Add node (only for no selection)
             if (editor.selection.count() == 0) {
-                this.panel.left.find('metaviz-menu-add-node')?.enable().select();
+                this.panel.left.find('total-pro-menu-add-node')?.enable().select();
             }
 
             // Activate Edit Selection (only for 1+ node)
             if (editor.selection.count() > 0) {
 
                 // Enable Edit Selection
-                this.panel.left.find('metaviz-menu-edit-selection')?.enable();
+                this.panel.left.find('total-pro-menu-edit-selection')?.enable();
 
                 // Activate
-                this.panel.left.find('metaviz-menu-edit-selection')?.select();
+                this.panel.left.find('total-pro-menu-edit-selection')?.select();
 
                 // Node Menu Options {options: [MenuOption, ...], localOptions: [MenuOption, ...]}
                 const data = editor.selection.getFocused().menu();
                 // Node options
-                const options = this.panel.left.find('metaviz-menu-node-options');
+                const options = this.panel.left.find('total-pro-menu-node-options');
                 options.del();
                 options.hide();
                 // Node local options
-                const localOptions = this.panel.left.find('metaviz-menu-node-local-options');
+                const localOptions = this.panel.left.find('total-pro-menu-node-local-options');
                 localOptions.del();
                 localOptions.hide();
                 // Show options (only for 1 node)
@@ -666,87 +666,87 @@ class MetavizContextMenu extends TotalProMenu {
             // Lock
             if (editor.selection.count() > 0) {
                 if (metaviz.editor.selection.getFocused().locked) {
-                    this.panel.left.find('metaviz-menu-lock')?.setIcon('<i class="fa-solid fa-lock"></i>').setName('Locked');
+                    this.panel.left.find('total-pro-menu-lock')?.setIcon('<i class="fa-solid fa-lock"></i>').setName('Locked');
                 }
                 else {
-                    this.panel.left.find('metaviz-menu-lock')?.setIcon('<i class="fa-solid fa-lock-open"></i>').setName('Unlocked');
+                    this.panel.left.find('total-pro-menu-lock')?.setIcon('<i class="fa-solid fa-lock-open"></i>').setName('Unlocked');
                 }
             }
 
             // Arrange
             if (editor.selection.count() > 1) {
-                this.panel.left.find('metaviz-menu-sort')?.enable();
-                this.panel.left.find('metaviz-menu-align-horizontal')?.enable();
-                this.panel.left.find('metaviz-menu-align-vertical')?.enable();
+                this.panel.left.find('total-pro-menu-sort')?.enable();
+                this.panel.left.find('total-pro-menu-align-horizontal')?.enable();
+                this.panel.left.find('total-pro-menu-align-vertical')?.enable();
             }
             else {
-                this.panel.left.find('metaviz-menu-sort')?.disable();
-                this.panel.left.find('metaviz-menu-align-horizontal')?.disable();
-                this.panel.left.find('metaviz-menu-align-vertical')?.disable();
+                this.panel.left.find('total-pro-menu-sort')?.disable();
+                this.panel.left.find('total-pro-menu-align-horizontal')?.disable();
+                this.panel.left.find('total-pro-menu-align-vertical')?.disable();
             }
 
             // Unanchor
-            if (editor.selection.count() == 1 && editor.selection.getFocused().parentNode?.element.hasClass('metaviz-anchor')) this.panel.left.find('metaviz-menu-unanchor')?.enable();
-            else this.panel.left.find('metaviz-menu-unanchor')?.disable();
+            if (editor.selection.count() == 1 && editor.selection.getFocused().parentNode?.element.hasClass('metaviz-anchor')) this.panel.left.find('total-pro-menu-unanchor')?.enable();
+            else this.panel.left.find('total-pro-menu-unanchor')?.disable();
 
             // Link / Unlink (only for two)
             if (editor.selection.count() == 2) {
                 // Unlink
                 if (metaviz.render.links.get(editor.selection.nodes[0], editor.selection.nodes[1])) {
-                    this.panel.left.find('metaviz-menu-link')?.enable().setIcon('<i class="fas fa-unlink"></i>').setName('Unlink');
+                    this.panel.left.find('total-pro-menu-link')?.enable().setIcon('<i class="fas fa-unlink"></i>').setName('Unlink');
                 }
                 // Link
                 else {
-                    this.panel.left.find('metaviz-menu-link')?.enable().setIcon('<i class="fas fa-link"></i>').setName('Link');
+                    this.panel.left.find('total-pro-menu-link')?.enable().setIcon('<i class="fas fa-link"></i>').setName('Link');
                 }
             }
             // Inactive
             else if (editor.selection.count() != 2) {
-                this.panel.left.find('metaviz-menu-link')?.disable();
+                this.panel.left.find('total-pro-menu-link')?.disable();
             }
 
             // Delete Node(s)
-            this.panel.left.find('metaviz-menu-delete-node')?.setName(`Delete Node${(editor.selection.count() > 1 ? 's' : '')} (${editor.selection.count()})`);
+            this.panel.left.find('total-pro-menu-delete-node')?.setName(`Delete Node${(editor.selection.count() > 1 ? 's' : '')} (${editor.selection.count()})`);
 
             // File functions
             if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
                 // Enable New
-                this.panel.left.find('metaviz-menu-new')?.enable();
+                this.panel.left.find('total-pro-menu-new')?.enable();
 
                 // Enable Open File...
-                this.panel.left.find('metaviz-menu-open-file')?.enable();
+                this.panel.left.find('total-pro-menu-open-file')?.enable();
 
                 // Enable Save/Export
                 if (editor.history.dirty) {
-                    this.panel.left.find('metaviz-menu-save')?.enable();
+                    this.panel.left.find('total-pro-menu-save')?.enable();
                 }
             }
 
             // Enable Undo/Redo
-            if (editor.history.hasUndo()) this.panel.left.find('metaviz-menu-undo')?.enable();
-            if (editor.history.hasRedo()) this.panel.left.find('metaviz-menu-redo')?.enable();
+            if (editor.history.hasUndo()) this.panel.left.find('total-pro-menu-undo')?.enable();
+            if (editor.history.hasRedo()) this.panel.left.find('total-pro-menu-redo')?.enable();
             
             // Enable Cut/Copy/Paste/Duplicate
             if (editor.selection.count() > 0) {
-                this.panel.left.find('metaviz-menu-cut')?.enable();
-                this.panel.left.find('metaviz-menu-copy')?.enable();
-                this.panel.left.find('metaviz-menu-duplicate')?.enable();
+                this.panel.left.find('total-pro-menu-cut')?.enable();
+                this.panel.left.find('total-pro-menu-copy')?.enable();
+                this.panel.left.find('total-pro-menu-duplicate')?.enable();
             }
             else if (editor.clipboard?.count() > 0) {
-                this.panel.left.find('metaviz-menu-paste')?.enable();
+                this.panel.left.find('total-pro-menu-paste')?.enable();
             }
 
             // Enable Navigation (always)
-            this.panel.left.find('metaviz-menu-navigation')?.enable();
+            this.panel.left.find('total-pro-menu-navigation')?.enable();
 
             // Enable Toolbar (always)
-            this.panel.left.find('metaviz-menu-toolbars')?.enable();
+            this.panel.left.find('total-pro-menu-toolbars')?.enable();
 
             // Enable Project settings (always)
-            this.panel.left.find('metaviz-menu-settings')?.enable();
+            this.panel.left.find('total-pro-menu-settings')?.enable();
 
             // Enable Help (always)
-            this.panel.left.find('metaviz-menu-help')?.enable();
+            this.panel.left.find('total-pro-menu-help')?.enable();
 
             // Show menu at pointer coords
             const container = metaviz.container.getOffset();

@@ -446,14 +446,14 @@ input, textarea, label {
     flex-grow: 2;
 }
 
-#metaviz-menu-local-settings .menu-group-text {
+#total-pro-menu-local-settings .menu-group-text {
     margin-bottom: 4px;
 }
 
-#metaviz-menu-naviagtion .menu-group-text,
-#metaviz-menu-helpers .menu-group-text,
-#metaviz-menu-look-feel .menu-group-text,
-#metaviz-menu-notifications .menu-group-text {
+#total-pro-menu-naviagtion .menu-group-text,
+#total-pro-menu-helpers .menu-group-text,
+#total-pro-menu-look-feel .menu-group-text,
+#total-pro-menu-notifications .menu-group-text {
     font-size: 10px;
 }
 
