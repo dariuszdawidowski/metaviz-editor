@@ -1,0 +1,9 @@
+/* Metaviz Symlink Style */
+
+.metaviz-link-symlink line {
+    pointer-events: none;
+    fill: var(--link-color);
+    stroke: var(--link-color);
+    stroke-width: 2;
+    stroke-dasharray: 6;
+}

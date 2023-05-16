@@ -1,0 +1,22 @@
+/* Metaviz Bezier Link Style */
+
+.metaviz-link-bezier path {
+    pointer-events: none;
+    fill: none;
+    stroke: var(--link-color);
+    stroke-width: 2;
+}
+
+.metaviz-link-bezier polyline {
+    pointer-events: none;
+    fill: var(--link-color);
+    stroke: var(--link-color);
+    stroke-width: 1;
+}
+
+.metaviz-link-bezier circle {
+    pointer-events: none;
+    fill: var(--link-color);
+    stroke: var(--link-color);
+    stroke-width: 1;
+}
