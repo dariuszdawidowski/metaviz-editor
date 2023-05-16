@@ -112,7 +112,7 @@ registry.add({proto: MetavizNodeClipart, name: 'Clipart', icon: '<i class="fas f
 
 /*** Emoji Picker ***/
 
-class MetavizEmojiPicker extends MenuWidget {
+class MetavizEmojiPicker extends TotalProMenuWidget {
 
     /**
      * Constructor

@@ -7,7 +7,7 @@
  * Main context menu
  */
 
-class MetavizContextMenu extends Menu {
+class MetavizContextMenu extends TotalProMenu {
 
     constructor(args) {
         super({ container: metaviz.render.container });
