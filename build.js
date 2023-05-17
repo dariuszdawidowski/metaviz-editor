@@ -1,11 +1,15 @@
 /**
- * Build script
+ * Build script v6
  */
 
+const files = [
+    { src: 'metaviz.html.ejs', dst: 'metaviz.html' }, 
+];
+
 const fs = require('fs');
+const { readFile } = require('fs').promises;
 const ejs = require('ejs');
 const cleancss = require('clean-css');
-const { readFile } = require('fs').promises;
 const { minify } = require('terser');
 
 const mincss = (filePath) => {
@@ -32,5 +36,12 @@ const minjs = async (filePath) => {
     }
 };
 
-ejs.render(fs.readFileSync('metaviz.html.ejs', 'utf8'), { mincss, minjs }, {async: true})
-.then(output => fs.writeFileSync('metaviz.html', output, 'utf8'));
+if (!fs.existsSync('dist')) fs.mkdirSync('dist');
+
+files.forEach((file) => {
+
+    ejs.render(fs.readFileSync(file.src, 'utf8'), { minjs, mincss }, {async: true})
+        .then(output => fs.writeFileSync('dist/' + file.dst, output, 'utf8'));
+
+});
+
