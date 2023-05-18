@@ -54,7 +54,7 @@ class MetavizEditorKeyboard {
             // CTRL/CMD+S: Save
             else if (this.key.ctrl && !this.key.alt && event.keyCode == 83) {
                 event.preventDefault();
-                if (this.editor.history.dirty) this.editor.save();
+                if (this.editor.history.isDirty()) this.editor.save();
             }
 
             // CTRL/CMD+L: Create/Delete Link

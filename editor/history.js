@@ -19,7 +19,6 @@
         action: ...,
         instance: ..., // Generated tabID (better than session ID because user can browse in many tabs)
         board: ..., // Board ID
-        layer: ..., // Layer ID
         ...other params...
     }
 
@@ -28,7 +27,6 @@
         action: 'add' | 'del',
         nodes: [serialized MetavizNode, ...], (optional)
         links: [serialized MetavizLink, ...], (optional)
-        layers: [serialized MetavizLayer, ...], (optional)
     }
 
     History packet move:
@@ -102,6 +100,7 @@ class MetavizHistory {
      */
 
     store(args) {
+
         // Migrate meta -> data, metaPrev -> prev
         if ('meta' in args) {
             args['data'] = args['meta'];
@@ -128,12 +127,10 @@ class MetavizHistory {
             this.last.type = node.type;
         }
 
-        // Or mark dirty
-        else {
-            this.dirty = true;
-        }
+        // Mark dirty
+        this.dirty = true;
 
-        // Push state
+        // Store history packet
         this.history.push(args);
         metaviz.events.call('add:history', args);
 
@@ -167,10 +164,6 @@ class MetavizHistory {
                 }
             }
 
-            // Layers
-            if ('layers' in args) {
-                for (const layer of args.layers) metaviz.render.layers.del(layer.id);
-            }
         }
 
         // Del -> recreate
@@ -195,10 +188,6 @@ class MetavizHistory {
                 for (const link of args.links) metaviz.render.links.add(link);
             }
 
-            // Layers
-            if ('layers' in args) {
-                for (const layer of args.layers) metaviz.render.layers.add(layer);
-            }
         }
 
         // Move -> move back
@@ -213,23 +202,15 @@ class MetavizHistory {
                 }
                 // Update node
                 node.update();
-                // Update vnode
-                const vnode = metaviz.render.layers.current.getNode(node.id);
-                vnode.x = node.transform.x;
-                vnode.y = node.transform.y;
             }
         }
 
         // New size -> old size
         else if (args.action == 'resize') {
             const node = metaviz.render.nodes.get(args.nodes[0]);
-            const vnode = metaviz.render.layers.current.getNode(args.nodes[0]);
             node.transform.w = args.sizePrev.w;
             node.transform.h = args.sizePrev.h;
-            vnode.w = args.sizePrev.w;
-            vnode.h = args.sizePrev.h;
             node.update();
-            metaviz.render.layers.current.update([node]);
         }
 
         // Param new value -> Param old value
@@ -238,7 +219,6 @@ class MetavizHistory {
             for (const [param, value] of Object.entries(args.prev)) {
                 node.meta.set(param, value);
             }
-            metaviz.render.layers.current.update([node]);
         }
 
         // Parent -> Old parent
@@ -248,7 +228,6 @@ class MetavizHistory {
             node.setPosition(args.node.positionPrev);
             node.render();
             node.update();
-            metaviz.render.layers.current.update([node]);
         }
 
         // Board new name -> Board old name
@@ -358,11 +337,6 @@ class MetavizHistory {
                     for (const link of args.links) metaviz.render.links.add(link);
                 }
 
-                // Layers
-                if ('layers' in args) {
-                    for (const layer of args.layers) metaviz.render.layers.add(layer);
-                }
-
             }
 
             // Del
@@ -387,11 +361,6 @@ class MetavizHistory {
                     }
                 }
 
-                // Layers
-                if ('layers' in args) {
-                    for (const layer of args.layers) metaviz.render.layers.del(layer.id);
-                }
-
             }
 
             // Move
@@ -411,11 +380,6 @@ class MetavizHistory {
 
                     // Update node
                     node.update();
-
-                    // Update vnode
-                    const vnode = metaviz.render.layers.current.getNode(node.id);
-                    vnode.x = node.transform.x;
-                    vnode.y = node.transform.y;
                 }
 
             }
@@ -429,7 +393,6 @@ class MetavizHistory {
                 vnode.w = args.size.w;
                 vnode.h = args.size.h;
                 node.update();
-                metaviz.render.layers.current.update([node]);
             }
 
             // Param
@@ -438,7 +401,6 @@ class MetavizHistory {
                 for (const [param, value] of Object.entries(args.data)) {
                     node.meta.set(param, value);
                 }
-                metaviz.render.layers.current.update([node]);
             }
 
             // Parent
@@ -448,7 +410,6 @@ class MetavizHistory {
                 node.setPosition(args.node.position);
                 node.render();
                 node.update();
-                metaviz.render.layers.current.update([node]);
             }
 
             // Board new name -> Board old name

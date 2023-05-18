@@ -128,7 +128,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         metaviz.events.subscribe('window:close', window, 'beforeunload', (event) => {
             this.flush(true);
             const confirmationMessage = '\o/';
-            if (this.history.dirty) {
+            if (this.history.isDirty()) {
                 (event || window.event).returnValue = confirmationMessage;
                 return confirmationMessage;
             }
@@ -788,17 +788,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     //metaviz.storage.db.table['boards'].set({'id': json.id, 'handle': this.file.handle});
 
                     // Set ?board=<id> in URL
-                    window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
+                    //window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
 
                     // Decode
-                    if (json.format == 'MetavizJSON')
-                        metaviz.format.json.in.deserialize(json);
-                    else if (json.format == 'MetavizStack')
+                    //if (json.format == 'MetavizJSON')
+                    //    metaviz.format.json.in.deserialize(json);
+                    if (json.format == 'MetavizStack')
                         metaviz.format.stack.in.deserialize(json);
-
-                    // Create default layer
-                    metaviz.render.layers.set('Base Layer');
-                    metaviz.render.layers.current.update();
 
                     // Launch start
                     for (const node of metaviz.render.nodes.get()) node.start();

@@ -113,7 +113,7 @@ class MetavizContextMenu extends TotalProMenu {
             this.panel.left.add(new MenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
                 this.hide();
                 let msg = 'Create new diagram?';
-                if (metaviz.editor.history.dirty) msg += '\nUnsaved changes will be lost.';
+                if (editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
                 if (confirm(msg)) metaviz.editor.new();
             }}));
 
@@ -499,7 +499,7 @@ class MetavizContextMenu extends TotalProMenu {
                 this.panel.left.find('total-pro-menu-open-file')?.enable();
 
                 // Enable Save/Export
-                if (editor.history.dirty) {
+                if (editor.history.isDirty()) {
                     this.panel.left.find('total-pro-menu-save')?.enable();
                 }
             }
