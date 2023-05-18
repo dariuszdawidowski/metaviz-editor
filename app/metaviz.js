@@ -180,6 +180,7 @@ class Metaviz {
         this.storage = {};
         this.render = null;
         this.events = null;
+        this.exchange = null;
         this.editor = null;
         this.unittest = null;
 
@@ -258,6 +259,7 @@ class Metaviz {
             nodes: new MetavizNodesManager(),
             links: new MetavizLinksManager()
         });
+        this.exchange = new MetavizExchange();
         this.events = new MetavizEventManager();
         this.editor = new MetavizEditorBrowser();
 

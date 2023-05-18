@@ -844,7 +844,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Fallback: download file
         else {
-            metaviz.transfer.download({data: json, name: 'metaviz-diagram.mv'});
+            metaviz.exchange.download({data: json, name: 'metaviz-diagram.mv'});
             this.history.dirty = false;
             this.idle();
         }
