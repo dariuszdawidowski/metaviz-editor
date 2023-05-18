@@ -1,16 +1,11 @@
-/**
- * Metaviz Editor Interface
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
-
-/*                                                      _
-                 .---------.      (\___/)             _( )_
-      |\_/|  .o ( Editooor! ) o. -(o . o)-           (_)@(_)
-     -(o.o)-     `---------'     (       )/\          /(_)
-      _(_)_                      (_______)_/        \\//
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-*/
+/***************************************************************************************************
+ *                                                                                                 *
+ *     (\___/)                Metaviz Editor Interface                                             *
+ *    -(o . o)-               Add, delete, move, copy, paste links and nodes.                      *
+ *    (       )/\             MIT License                                                          *
+ *    (_______)_/             (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *                                                                                                 *
+ **************************************************************************************************/
 
 class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
@@ -372,6 +367,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                 // Add 'drag' class
                 node.element.classList.add('drag');
+
+                // Store position for undo
+                node.transform.prev.store();
             }
             else {
                 node.animateIcon('<i class="fa-solid fa-lock"></i>');
@@ -450,15 +448,20 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 }
 
                 // Regular Node
-                if (!node.slot) {
-                    node.setStyle('pointer-events', 'auto');
-                    node.setStyle('z-index', 'var(--z-node)');
-                    node.edit(true);
-                }
+                node.setStyle('pointer-events', 'auto');
+                node.setStyle('z-index', 'var(--z-node)');
+                node.edit(true);
 
-                // Node in slot
-                else {
-                    node.parentNode.dragSelectionEnd();
+                // Update/Undo/Sync
+                if (this.selection.transform.total() != 0) {
+
+                    // Sync to undo
+                    this.history.store({
+                        action: 'move',
+                        nodes: [node.id],
+                        position: {x: node.transform.x, y: node.transform.y},
+                        positionPrev: {x: node.transform.prev.x, y: node.transform.prev.y}
+                    });
                 }
 
             }

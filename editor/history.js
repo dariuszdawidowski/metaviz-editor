@@ -202,6 +202,7 @@ class MetavizHistory {
                 }
                 // Update node
                 node.update();
+                node.links.get().forEach(link => link.update());
             }
         }
 
@@ -323,6 +324,7 @@ class MetavizHistory {
                     let newNodes = [];
                     for (const node of args.nodes) {
                         const newNode = metaviz.render.nodes.add(node);
+                        newNode.update();
                         newNodes.push(newNode);
                     }
                     // Call start on all recreated nodes
@@ -333,7 +335,6 @@ class MetavizHistory {
 
                 // Links
                 if ('links' in args) {
-                    // TODO: w linkach zmieniłem id nodów na obiekty
                     for (const link of args.links) metaviz.render.links.add(link);
                 }
 
@@ -380,6 +381,7 @@ class MetavizHistory {
 
                     // Update node
                     node.update();
+                    node.links.get().forEach(link => link.update());
                 }
 
             }

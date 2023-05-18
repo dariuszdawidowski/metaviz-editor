@@ -1,7 +1,11 @@
-/**
- * Metaviz Node (Editor)
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
+/***************************************************************************************************
+ *                    _                                                                            *
+ *                  _( )_     Metaviz Node (Editor)                                                *
+ *      |\_/|      (_)@(_)    Extended node functionality.                                         *
+ *     -(o.o)-      /(_)      MIT License                                                          *
+ *      _(_)_    \\//         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *                                                                                                 *
+ **************************************************************************************************/
 
 class MetavizNode extends TotalDiagramNode {
 
@@ -25,14 +29,21 @@ class MetavizNode extends TotalDiagramNode {
         // Slot name (string)
         this.slot = 'meta' in args && 'slot' in args.meta ? args.meta.slot : null;
 
-        // Children list parented to this node
-        //this.children = [];
-
         // Meta data
         this.meta = args.meta ?? {};
         // Setter and getter
         this.meta.set = function(key, value) { this[key] = value; };
         this.meta.get = function(key) { return this[key]; };
+
+        // Extend transform
+        this.transform.prev = {
+            x: 0,
+            y: 0,
+            store: () => {
+                this.transform.prev.x = this.transform.x;
+                this.transform.prev.y = this.transform.y;
+            }
+        };
 
         // Sockets
         this.sockets = {

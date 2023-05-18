@@ -27,11 +27,19 @@ class MetavizLinksManager extends TotalDiagramLinksManager {
         // Optional: decode string to json
         if (typeof(args) == 'string') args = JSON.parse(args)
 
-        // Check if nodes exists
+        // Nodes
         if (!args.start || !args.end) return null;
+        const startNode = metaviz.render.nodes.get(args.start);
+        const endNode = metaviz.render.nodes.get(args.end);
+        if (!startNode || !endNode) return null;
 
         // Create
-        const newLink = new registry.links[args.type].proto(args);
+        const newLink = new registry.links[args.type].proto({
+            id: args.id,
+            type: args.type,
+            start: startNode,
+            end: endNode
+        });
 
         // Store link
         this.list.push(newLink);
