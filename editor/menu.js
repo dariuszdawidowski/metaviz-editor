@@ -112,8 +112,8 @@ class MetavizContextMenu extends TotalProMenu {
             // New
             this.panel.left.add(new MenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
                 this.hide();
-                let msg = 'Create new diagram?';
-                if (editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
+                let msg = 'Create new board?';
+                if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
                 if (confirm(msg)) metaviz.editor.new();
             }}));
 
