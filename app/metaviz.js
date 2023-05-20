@@ -262,15 +262,6 @@ class Metaviz {
         this.exchange = new MetavizExchange();
         this.events = new MetavizEventManager();
         this.editor = new MetavizEditorBrowser();
-
-        // Load custom plugins
-        if (this.agent.name == 'standalone') {
-            const script = document.createElement('script');
-            script.src = 'metaviz-plugins.js';
-            script.onload = (event) => this.editor.menu.regenerateNodesList();
-            document.body.appendChild(script);
-        }
-
     }
 
     /**
