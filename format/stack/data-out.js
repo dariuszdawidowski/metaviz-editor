@@ -61,8 +61,11 @@ class MetavizOutStack {
                     break;
 
                 case 'param':
-                    for (const [key, value] of Object.entries(p.data)) p.data[key] = value.escape();
-                    xml += `    <param timestamp='${p.timestamp}' node='${p.node.id}' data='${JSON.stringify(p.data)}'/>\n`;
+                    let data = {};
+                    for (const [key, value] of Object.entries(p.data)) {
+                        data[key] = value.escape();
+                    }
+                    xml += `    <param timestamp='${p.timestamp}' node='${p.node.id}' data='${JSON.stringify(data)}'/>\n`;
                     break;
 
             }

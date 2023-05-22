@@ -71,16 +71,15 @@ class MetavizInStack {
                     break;
 
                 case 'param':
-                    const s_data = JSON.parse(element.getAttribute('data'));
-                    let p_data = {};
-                    for (const [key, value] of Object.entries(s_data)) {
-                        p_data[key] = value;
+                    let data = {};
+                    for (const [key, value] of Object.entries(JSON.parse(element.getAttribute('data')))) {
+                        data[key] = value.unescape();
                     }
                     packets.push({
                         action: 'param',
                         timestamp: element.getAttribute('timestamp'),
                         node: {id: element.getAttribute('node')},
-                        data: JSON.parse(element.getAttribute('data'))
+                        data: data
                     });
                     break;
 
