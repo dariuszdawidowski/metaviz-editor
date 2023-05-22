@@ -776,36 +776,63 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                 // Get file data
                 const f = await this.file.handle.getFile();
+                const text = await f.text();
 
-                // Parse json
-                let json = null;
-                try {
-                    json = JSON.parse(await f.text());
+                // JSON
+                if (text[0] == '{') {
+                    let json = null;
+                    try {
+                        json = JSON.parse(text);
+                    }
+                    catch(error) {
+                        alert("Can't recognize Metaviz json file.");
+                    }
+                    if (json) {
+
+                        // Save handler in IndexedDB
+                        //metaviz.storage.db.table['boards'].set({'id': json.id, 'handle': this.file.handle});
+
+                        // Set ?board=<id> in URL
+                        //window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
+
+                        // Decode
+                        //if (json.format == 'MetavizJSON')
+                        //    metaviz.format.json.in.deserialize(json);
+
+                        // Launch start
+                        for (const node of metaviz.render.nodes.get()) node.start();
+
+                        // Dispatch final event
+                        metaviz.events.call('on:loaded');
+                    }
                 }
-                catch(error) {
-                    alert("Can't recognize Metaviz file.");
+
+                // XML
+                else if (text.substring(0, 4) == '<mv>') {
+                    const parser = new DOMParser();
+                    let xml = null;
+                    try {
+                        xml = parser.parseFromString(text, 'text/xml');
+                    }
+                    catch(error) {
+                        alert("Can't recognize Metaviz xml file.");
+                    }
+                    if (xml) {
+
+                        // Decode
+                        if (xml.querySelector('mv > format').textContent == 'MetavizStack')
+                            metaviz.format.stack.in.deserialize(xml);
+    
+                        // Launch start
+                        for (const node of metaviz.render.nodes.get()) node.start();
+
+                        // Dispatch final event
+                        metaviz.events.call('on:loaded');
+                    }
                 }
-                if (json) {
 
-                    // Save handler in IndexedDB
-                    //metaviz.storage.db.table['boards'].set({'id': json.id, 'handle': this.file.handle});
-
-                    // Set ?board=<id> in URL
-                    //window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
-
-                    // Decode
-                    //if (json.format == 'MetavizJSON')
-                    //    metaviz.format.json.in.deserialize(json);
-                    if (json.format == 'MetavizStack')
-                        metaviz.format.stack.in.deserialize(json);
-
-                    // Launch start
-                    for (const node of metaviz.render.nodes.get()) node.start();
-
-                    // Dispatch final event
-                    metaviz.events.call('on:loaded');
-                }
             }
+
             // Unlock interaction
             this.interaction.unlock();
         }
