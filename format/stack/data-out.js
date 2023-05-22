@@ -27,38 +27,46 @@ class MetavizOutStack {
             if ('namePrev' in p) delete p['namePrev'];
             if ('nodes' in p) {
                 for (const node of p.nodes) {
-                    delete node['locked']
-                    delete node['zindex']
+                    delete node['locked'];
+                    delete node['zindex'];
                 }
             }
 
             // Convert action packets
             switch (p.action) {
+
                 case 'add':
                     if ('nodes' in p)
-                        xml += `    <add timestamp='${p.timestamp}' nodes='${JSON.stringify(p.nodes)}'/>\n`
+                        xml += `    <add timestamp='${p.timestamp}' nodes='${JSON.stringify(p.nodes)}'/>\n`;
                     if ('links' in p)
-                        xml += `    <add timestamp='${p.timestamp}' links='${JSON.stringify(p.links)}'/>\n`
+                        xml += `    <add timestamp='${p.timestamp}' links='${JSON.stringify(p.links)}'/>\n`;
                     break;
+
                 case 'del':
                     if ('nodes' in p)
-                        xml += `    <del timestamp='${p.timestamp}' nodes='${JSON.stringify(p.nodes)}'/>\n`
+                        xml += `    <del timestamp='${p.timestamp}' nodes='${JSON.stringify(p.nodes)}'/>\n`;
                     if ('links' in p)
-                        xml += `    <del timestamp='${p.timestamp}' links='${JSON.stringify(p.links)}'/>\n`
+                        xml += `    <del timestamp='${p.timestamp}' links='${JSON.stringify(p.links)}'/>\n`;
                     break;
+
                 case 'move':
                     if ('offset' in p)
-                        xml += `    <move timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' offsetX='${p.offset.x}' offsetY='${p.offset.y}'/>\n`
+                        xml += `    <move timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' offsetX='${p.offset.x}' offsetY='${p.offset.y}'/>\n`;
                     if ('position' in p)
-                        xml += `    <move timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' positionX='${p.position.x}' positionY='${p.position.y}'/>\n`
+                        xml += `    <move timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' positionX='${p.position.x}' positionY='${p.position.y}'/>\n`;
                     break;
+
                 case 'resize':
-                    xml += `    <resize timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' w='${p.size.w}' h='${p.size.h}'/>\n`
+                    xml += `    <resize timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' w='${p.size.w}' h='${p.size.h}'/>\n`;
                     break;
+
                 case 'param':
-                    xml += `    <param timestamp='${p.timestamp}' node='${p.node.id}' data='${JSON.stringify(p.data)}' />\n`
+                    for (const [key, value] of Object.entries(p.data)) p.data[key] = value.escape();
+                    xml += `    <param timestamp='${p.timestamp}' node='${p.node.id}' data='${JSON.stringify(p.data)}'/>\n`;
                     break;
+
             }
+
         });
         xml += `  </history>\n`;
         xml += `</mv>\n`;

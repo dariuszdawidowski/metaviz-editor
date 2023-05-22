@@ -16,33 +16,37 @@ class MetavizInStack {
         const packets = [];
 
         const history = xml.querySelector('mv > history');
+
         for (let i = 0; i < history.children.length; i++) {
             const element = history.children[i];
             switch (element.tagName) {
+
                 case 'add':
                     let packetAdd = {
                         action: 'add',
                         timestamp: element.getAttribute('timestamp')
-                    }
+                    };
                     if (element.getAttribute('nodes')) packetAdd['nodes'] = JSON.parse(element.getAttribute('nodes'));
                     if (element.getAttribute('links')) packetAdd['links'] = JSON.parse(element.getAttribute('links'));
                     packets.push(packetAdd);
                     break;
+
                 case 'del':
                     let packetDel = {
                         action: 'del',
                         timestamp: element.getAttribute('timestamp')
-                    }
+                    };
                     if (element.getAttribute('nodes')) packetDel['nodes'] = JSON.parse(element.getAttribute('nodes'));
                     if (element.getAttribute('links')) packetDel['links'] = JSON.parse(element.getAttribute('links'));
                     packets.push(packetDel);
                     break;
+
                 case 'move':
                     let packetMove = {
                         action: 'move',
                         timestamp: element.getAttribute('timestamp'),
                         nodes: element.getAttribute('nodes').split(',')
-                    }
+                    };
                     if (element.getAttribute('offsetX')) packetMove['offset'] = {
                         x: parseInt(element.getAttribute('offsetX')),
                         y: parseInt(element.getAttribute('offsetY'))
@@ -53,18 +57,25 @@ class MetavizInStack {
                     };
                     packets.push(packetMove);
                     break;
+
                 case 'resize':
                     packets.push({
-                        action: 'move',
+                        action: 'resize',
                         timestamp: element.getAttribute('timestamp'),
-                        nodes: JSON.parse(element.getAttribute('nodes')),
+                        nodes: element.getAttribute('nodes').split(','),
                         size: {
                             w: parseInt(element.getAttribute('w')),
                             h: parseInt(element.getAttribute('h'))
                         }
                     });
                     break;
+
                 case 'param':
+                    const s_data = JSON.parse(element.getAttribute('data'));
+                    let p_data = {};
+                    for (const [key, value] of Object.entries(s_data)) {
+                        p_data[key] = value;
+                    }
                     packets.push({
                         action: 'param',
                         timestamp: element.getAttribute('timestamp'),
@@ -72,8 +83,10 @@ class MetavizInStack {
                         data: JSON.parse(element.getAttribute('data'))
                     });
                     break;
+
             }
         }
+        console.log(packets.sort((a, b) => a.timestamp - b.timestamp))
         metaviz.editor.history.set(packets.sort((a, b) => a.timestamp - b.timestamp));
         metaviz.editor.history.recreate();
     }

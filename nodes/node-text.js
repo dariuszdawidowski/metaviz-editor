@@ -121,7 +121,6 @@ class MetavizNodeText extends MetavizNode {
                     this.setSize(this.looks[this.meta.look], true);
                     this.setLook(value);
                     metaviz.editor.menu.hide();
-                    metaviz.render.layers.current.update();
                 }
             }),
 
@@ -155,6 +154,7 @@ class MetavizNodeText extends MetavizNode {
                 const page = parseInt(key.replace('page_', ''));
                 if (page == this.page) this.controls.textarea.set(value);
             }
+
             else if (key == 'palette') {
                 for (const [key, color] of Object.entries(this.colors)) this.element.classList.remove(color.class);
                 this.element.classList.add(this.colors[this.meta.palette].class);

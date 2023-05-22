@@ -474,10 +474,6 @@ class MetavizNode extends TotalDiagramNode {
     setSize(size, save = false) {
         super.setSize(size);
         if (save) {
-            // Set current layer node size
-            const vnode = metaviz.render.layers.current.getNode(this.id);
-            vnode.w = size.width;
-            vnode.h = size.height;
 
             // Redraw
             this.update();

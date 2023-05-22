@@ -1,5 +1,5 @@
 /**
- * Javascript Language Extensions v 1.24.0
+ * Javascript Language Extensions v 1.25.0
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -182,6 +182,39 @@ String.prototype.slug = function() {
     .trim();
 }
 else console.error('String.prototype.slug already exist');
+
+
+/* Escape XML/HTML */
+
+if (typeof String.prototype.escape != 'function')
+String.prototype.escape = function() {
+    return this.replace(/[<>&'"]/g, function(c) {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+        }
+    });
+};
+else console.error('String.prototype.escape already exist');
+
+
+if (typeof String.prototype.unescape != 'function')
+String.prototype.unescape = function() {
+    return this.replace(/&([a-zA-Z]+|#[0-9]+);/g, function(entity) {
+        switch (entity) {
+            case '&lt;': return '<';
+            case '&gt;': return '>';
+            case '&amp;': return '&';
+            case '&apos;': return '\'';
+            case '&quot;': return '"';
+            default: return entity;
+        }
+    });
+};
+else console.error('String.prototype.unescape already exist');
 
 
 /* Add trailing space if not exists */
