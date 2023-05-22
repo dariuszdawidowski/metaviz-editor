@@ -242,9 +242,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 metaviz.render.nodes.del(node);
             }
 
-            // Refresh
-            metaviz.render.layers.current.render();
-            metaviz.render.layers.current.update();
         }
     }
 

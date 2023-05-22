@@ -86,7 +86,6 @@ class MetavizInStack {
 
             }
         }
-        console.log(packets.sort((a, b) => a.timestamp - b.timestamp))
         metaviz.editor.history.set(packets.sort((a, b) => a.timestamp - b.timestamp));
         metaviz.editor.history.recreate();
     }
