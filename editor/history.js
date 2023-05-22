@@ -1,16 +1,11 @@
-/**
- * Metaviz History system for Undo/Redo
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
-
-/*                                                      
-             wWw  
-            (___)
-              Y
-             \//
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-*/
+/***************************************************************************************************
+ *                                                                                                 *
+ *          wWw             Metaviz History                                                        *
+ *         (___)            Packet queue system for Undo/Redo.                                     *
+ *           Y              MIT License                                                            *
+ *          \//             (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.                 *
+ *      ^^^^^^^^^^^                                                                                *
+ **************************************************************************************************/
 
 /*
     History packet base:
@@ -55,26 +50,11 @@
         prev: {...}
     }
 
-    History packet parent:
-    {
-        action: 'parent',
-        node: {id: ..., parent: ..., parentPrev: ..., position: {x: ..., y: ...}, positionPrev: {x: ..., y: ...}},
-    }
-
     History packet board:
     {
         action: 'board',
         name: ...,
         namePrev: ...
-    }
-
-    History packet chat:
-    {
-        action: 'chat',
-        datetime: ...,
-        avatar: ...,
-        user: ...,
-        body: ...
     }
 */
 
@@ -92,7 +72,7 @@ class MetavizHistory {
         // Redo
         this.future = [];
         // Last added node (for dblclick)
-        this.last = {type: 'MetavizNodeStickyNote'};
+        this.last = {type: 'MetavizNodeText'};
     }
 
     /**

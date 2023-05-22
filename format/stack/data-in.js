@@ -6,10 +6,11 @@
 class MetavizInStack {
 
     /**
-     * Recreate json history stack to nodes & links
+     * Recreate history stack to nodes & links
      */
 
     deserialize(json, args = {}) {
+        metaviz.editor.id = json.id;
         metaviz.editor.history.set(json.history);
         metaviz.editor.history.recreate();
     }

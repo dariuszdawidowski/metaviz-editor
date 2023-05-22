@@ -6,7 +6,7 @@
 class MetavizOutStack {
 
     /**
-     * Convert objects to json
+     * Convert objects to data
      */
 
     serialize(history) {
