@@ -1,7 +1,7 @@
 /* Metaviz color theme: Covellite */
 
 registry.add({
-    type: 'MetavizTheme',
+    theme: 'MetavizThemeCovellite',
     name: 'Covellite',
     vars: {
         '--metaviz-logo-save': 'rgb(234, 246, 254)',

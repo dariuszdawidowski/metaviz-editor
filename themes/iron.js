@@ -1,7 +1,7 @@
 /* Metaviz default color theme: Iron */
 
 registry.add({
-    type: 'MetavizTheme',
+    theme: 'MetavizThemeIron',
     name: 'Iron',
     vars: {
         '--metaviz-logo-save': '#004388',

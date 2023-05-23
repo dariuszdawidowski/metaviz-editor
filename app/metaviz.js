@@ -55,15 +55,57 @@ const registry = {
 
     /**
      * Register node type {args}
-     * proto: class prototype
-     * name: display name (optional)
-     * slug: slug identifier (optional)
-     * menu: sub-menu name to attach to (optional)
+     * @param node: node class prototype
+     * @param link: node class prototype
+     * @param theme: node class prototype
+     * @param vars: variables for theme
+     * @param proto: class prototype guess (starts with 'MetavizNode' | 'MetavizLink' | 'MetavizTheme')
+     * @param name: display name
+     * @param slug: slug identifier
+     * @param menu: sub-menu name to attach to
+     * @param icon: icon to display on menu
      */
 
     add: function(args) {
-        // Node or Link
-        if ('proto' in args) {
+
+        // Node
+        if ('node' in args) {
+
+            // Prototype
+            const protoName = args.node.prototype.constructor.name;
+            args.type = protoName;
+            args.proto = args.node;
+
+            // Generate display name if not given
+            if (!('name' in args)) args.name = args.type.humanize();
+
+            // Slug
+            if (!('slug' in args)) args.slug = args.name.slug();
+
+            // Node
+            this.nodes[protoName] = args;
+        }
+
+        // Link
+        else if ('link' in args) {
+
+            // Prototype
+            const protoName = args.link.prototype.constructor.name;
+            args.type = protoName;
+            args.proto = args.link;
+
+            // Generate display name if not given
+            if (!('name' in args)) args.name = args.type.humanize();
+
+            // Slug
+            if (!('slug' in args)) args.slug = args.name.slug();
+
+            // Link
+            this.links[protoName] = args;
+        }
+
+        // Guess Node or Link
+        else if ('proto' in args) {
             // Type
             const protoName = args.proto.prototype.constructor.name;
             args.type = protoName;
@@ -83,9 +125,11 @@ const registry = {
             else if (protoName.startsWith('MetavizLink')) {
                 this.links[protoName] = args;
             }
+
         }
+
         // Theme
-        else if (args.type.startsWith('MetavizTheme')) {
+        else if (('theme' in args) && ('vars' in args)) {
             this.themes[args.name] = args.vars;
         }
     }
