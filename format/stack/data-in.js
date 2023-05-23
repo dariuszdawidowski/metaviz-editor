@@ -11,7 +11,8 @@ class MetavizInStack {
 
     deserialize(xml, args = {}) {
 
-        metaviz.editor.id = xml.querySelector('mv > id').textContent;
+        metaviz.editor.setBoardID(xml.querySelector('mv > id').textContent);
+        metaviz.editor.setBoardName(xml.querySelector('mv > name').textContent);
 
         const version = parseInt(xml.querySelector('mv > version').textContent);
         if (version != 3) {

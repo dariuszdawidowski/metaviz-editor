@@ -47,16 +47,16 @@ class MetavizOutStack {
             switch (p.action) {
 
                 case 'add':
-                    if ('nodes' in p)
+                    if (('nodes' in p) && p.nodes.length)
                         xml += `      <add timestamp='${p.timestamp}' nodes='${JSON.stringify(p.nodes)}'/>\n`;
-                    if ('links' in p)
+                    if (('links' in p) && p.links.length)
                         xml += `      <add timestamp='${p.timestamp}' links='${JSON.stringify(p.links)}'/>\n`;
                     break;
 
                 case 'del':
-                    if ('nodes' in p)
+                    if (('nodes' in p) && p.nodes.length)
                         xml += `      <del timestamp='${p.timestamp}' nodes='${JSON.stringify(p.nodes)}'/>\n`;
-                    if ('links' in p)
+                    if (('links' in p) && p.links.length)
                         xml += `      <del timestamp='${p.timestamp}' links='${JSON.stringify(p.links)}'/>\n`;
                     break;
 
