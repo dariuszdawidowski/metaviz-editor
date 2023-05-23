@@ -1,43 +1,44 @@
-/**
- * Metaviz Node Control Select Renderer
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
+/***************************************************************************************************
+ *      ..&&&  ..       .                                                                          *
+ *     &&&& - &&&&     &&&     Metaviz Control Select Renderer                                     *
+ *         ... -__ \_// &&&&   Text value selector.                                                *
+ *        &&&&&   (  )         MIT License                                                         *
+ *    ___________.-__"-___     (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.              *
+ *    \__________________/                                                                         *
+ **************************************************************************************************/
 
 class MetavizControlSelect extends MetavizControl {
 
     /**
      * Constructor
-     * options: {'value': 'Display Name', ....}
+     * @param: name: optional name for control
+     * @param: value: initial value
+     * @param: options: set of available options {'foo': 'Bar', ....}
      */
 
-    constructor(node = null, varname = null, value = null, options = null) {
+    constructor(args) {
         super();
 
+        // Params
+        const { name = null, value = null, options = null, onChange = null } = args;
+
         this.element = document.createElement('select');
-        this.control = this.element; // DEPRECATED (backward compatibility)
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-select');
 
         if (options) this.build(options);
         if (value) this.set(value);
 
-        // Previous value
-        this.valuePrev = value ? value : null;
-
         // Dirty on change
         this.element.addEventListener('change', (event) => {
-            const params = {action: 'param', node: {id: node.id}, data: {}, dataPrev: {}};
-            params.data[varname] = event.target.value;
-            params.dataPrev[varname] = this.valuePrev;
-            this.valuePrev = event.target.value;
-            metaviz.editor.history.store(params);
+            if (onChange) onChange(event.target.value);
         });
 
     }
 
     /**
      * Build options
-     * options: {'value': 'Display Name', ....}
+     * @param options: {'value': 'Display Name', ....}
      */
 
     build(options) {
