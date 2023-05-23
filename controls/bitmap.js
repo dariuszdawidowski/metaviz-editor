@@ -7,45 +7,48 @@ class MetavizControlBitmap extends MetavizControl {
 
     /**
      * Constructor
+     * @param arg.url: url to image bitmap
      */
 
-    constructor(value = null) {
+    constructor(args) {
         super();
+
+        // Params
+        const { uri = null } = args;
 
         // URI
         this.uri = null;
 
         // Element
         this.element = document.createElement('div');
-        this.control = this.element; // DEPRECATED (backward compatibility)
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-bitmap');
 
         // Set bitmap image
-        if (value) this.set(value);
+        if (uri) this.set(uri);
     }
 
     /**
      * Set image by url or File object
      */
 
-    set(url) {
+    set(uri) {
         this.element.style.backgroundColor = 'white';
 
-        // Url String
-        if (url.constructor.name == 'String') {
-            this.element.style.backgroundImage = `url(${url})`;
-            this.uri = url;
+        // URI String
+        if (uri.constructor.name == 'String') {
+            this.element.style.backgroundImage = `url(${uri})`;
+            this.uri = uri;
         }
 
         // Encoded File
-        else if (url.constructor.name == 'File') {
+        else if (uri.constructor.name == 'File') {
             const reader = new FileReader();
             reader.onload = (event) => {
                 this.element.style.backgroundImage = `url(${event.target.result})`;
                 this.uri = event.target.result;
             }
-            reader.readAsDataURL(url);
+            reader.readAsDataURL(uri);
         }
 
     }
@@ -60,8 +63,8 @@ class MetavizControlBitmap extends MetavizControl {
 
     /**
      * Get resolution (async)
-     * constraints: {maxWidth: <Number>}
-     * returns: {width: <Number>, height: <Number>}
+     * @param constraints: {maxWidth: <Number>}
+     * @returns: {width: <Number>, height: <Number>}
      */
 
     getResolution(constraints) {

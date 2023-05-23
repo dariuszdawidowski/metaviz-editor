@@ -1,30 +1,27 @@
-/**
- * Metaviz Node Control Input Renderer
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- * 
- * Params:
- * name: name of the control
- * value: inital value
- * placeholder: helping message
- * onChange: callabck
- */
-
-/*
-                 o 
-                 .          .      
-   ><(((^>                      >°))))><
-                                             <o)))><  
-           ) ) )                         (
-          ( ( (  .    >+++o>            ) ) )
-*/
+/***************************************************************************************************
+ *               o                                                                                 *
+ *    ><(((o>    .            Metaviz Control Input Renderer                                       *
+ *               .            Input text in line.                                                  *
+ *                >°))))><    MIT License                                                          *
+ *   ) ) )                    (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *  ( ( (  .    >+++o>                                                                             *
+ **************************************************************************************************/
 
 class MetavizControlInput extends MetavizControl {
 
-    constructor(params) {
+    /**
+     * Constructor
+     * @param args.name: name of the control
+     * @param args.value: inital value
+     * @param args.placeholder: helping message
+     * @param args.onChange: callabck
+     */
+
+    constructor(args) {
         super();
 
         // Params
-        const { name = null, value = null, placeholder = null, onChange = null } = params;
+        const { name = null, value = null, placeholder = null, onChange = null } = args;
 
         // Control name
         this.name = name;
@@ -39,9 +36,6 @@ class MetavizControlInput extends MetavizControl {
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-input');
         if (this.name) this.element.classList.add('metaviz-control-input-' + this.name.slug());
-
-        // Previous value
-        // this.valuePrev = value ? value : null;
 
         // View mode
         if (metaviz.editor.interaction == 'view') this.edit(false);
