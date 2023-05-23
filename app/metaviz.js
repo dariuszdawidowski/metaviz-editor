@@ -218,6 +218,14 @@ class Metaviz {
 
         };
 
+        // Pseudo user
+        this.user = {
+
+            // User pseudo ID
+            id: null,
+
+        };
+
         // Global instances of main components
         this.config = null;
         this.format = {};
@@ -269,6 +277,15 @@ class Metaviz {
         this.agent.client = document.querySelector('meta[name="metaviz:agent:client"]')?.content;
         this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
         this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
+
+        // Pseudo-user session for local standalone
+        if (this.agent.client == 'browser' && this.agent.data == 'local') {
+            this.user.id = localStorage.getItem('metaviz.user.pseudoID');
+            if (!this.user.id) {
+                this.user.id = crypto.randomUUID();
+                localStorage.setItem('metaviz.user.pseudoID', this.user.id);
+            }
+        }
 
     }
 
