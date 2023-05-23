@@ -14,6 +14,7 @@
         action: ...,
         instance: ..., // Generated tabID (better than session ID because user can browse in many tabs)
         board: ..., // Board ID
+        session: ..., // Session ID for pseudo-user (local standalone only)
         ...other params...
     }
 
