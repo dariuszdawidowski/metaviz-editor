@@ -265,12 +265,10 @@ class Metaviz {
         };
 
         // Local info
-        if (window.location.protocol == 'file:') {
-            this.agent.name = document.querySelector('meta[name="metaviz:agent:name"]')?.content;
-            this.agent.client = 'browser';
-            this.agent.data = 'local';
-            this.agent.db = 'file';
-        }
+        this.agent.name = document.querySelector('meta[name="metaviz:agent:name"]')?.content;
+        this.agent.client = document.querySelector('meta[name="metaviz:agent:client"]')?.content;
+        this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
+        this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
 
     }
 
