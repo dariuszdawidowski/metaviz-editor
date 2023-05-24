@@ -15,8 +15,8 @@ class MetavizInStack {
         metaviz.editor.setBoardName(xml.querySelector('mv > name').textContent);
 
         const version = parseInt(xml.querySelector('mv > version').textContent);
-        if (version != 3) {
-            alert('Unknown file version!');
+        if (version != 4) {
+            alert('Unsupported file version!');
             return;
         }
 
@@ -37,8 +37,8 @@ class MetavizInStack {
                             timestamp: element.getAttribute('timestamp'),
                             session: session.id
                         };
-                        if (element.getAttribute('nodes')) packetAdd['nodes'] = JSON.parse(element.getAttribute('nodes'));
-                        if (element.getAttribute('links')) packetAdd['links'] = JSON.parse(element.getAttribute('links'));
+                        if (element.getAttribute('node')) packetAdd['nodes'] = [{id: element.getAttribute('node'), type: element.getAttribute('type'), x: element.getAttribute('x'), y: element.getAttribute('y'), w: element.getAttribute('w'), h: element.getAttribute('h')}];
+                        if (element.getAttribute('link')) packetAdd['links'] = [{id: element.getAttribute('link'), type: element.getAttribute('type'), start: element.getAttribute('start'), end: element.getAttribute('end')}];
                         packets.push(packetAdd);
                         break;
 
@@ -48,8 +48,8 @@ class MetavizInStack {
                             timestamp: element.getAttribute('timestamp'),
                             session: session.id
                         };
-                        if (element.getAttribute('nodes')) packetDel['nodes'] = JSON.parse(element.getAttribute('nodes'));
-                        if (element.getAttribute('links')) packetDel['links'] = JSON.parse(element.getAttribute('links'));
+                        if (element.getAttribute('nodes')) packetDel['nodes'] = element.getAttribute('nodes').split(',');
+                        if (element.getAttribute('links')) packetDel['links'] = element.getAttribute('links').split(',');
                         packets.push(packetDel);
                         break;
 
@@ -60,13 +60,13 @@ class MetavizInStack {
                             session: session.id,
                             nodes: element.getAttribute('nodes').split(',')
                         };
-                        if (element.getAttribute('offsetX')) packetMove['offset'] = {
-                            x: parseInt(element.getAttribute('offsetX')),
-                            y: parseInt(element.getAttribute('offsetY'))
+                        if (element.getAttribute('offset-x')) packetMove['offset'] = {
+                            x: parseInt(element.getAttribute('offset-x')),
+                            y: parseInt(element.getAttribute('offset-y'))
                         };
-                        if (element.getAttribute('positionX')) packetMove['position'] = {
-                            x: parseInt(element.getAttribute('positionX')),
-                            y: parseInt(element.getAttribute('positionY'))
+                        if (element.getAttribute('position-x')) packetMove['position'] = {
+                            x: parseInt(element.getAttribute('position-x')),
+                            y: parseInt(element.getAttribute('position-y'))
                         };
                         packets.push(packetMove);
                         break;
@@ -86,8 +86,8 @@ class MetavizInStack {
 
                     case 'param':
                         let data = {};
-                        for (const [key, value] of Object.entries(JSON.parse(element.getAttribute('data')))) {
-                            data[key] = value.unescape();
+                        for (const attr of Array.from(element.getAttributeNames()).filter(name => name.startsWith('data-'))) {
+                            data[attr.slice(5)] = element.getAttribute(attr);
                         }
                         packets.push({
                             action: 'param',
@@ -101,7 +101,10 @@ class MetavizInStack {
                 }
             } // for j
         } // for i
-        metaviz.editor.history.set(packets.sort((a, b) => a.timestamp - b.timestamp));
+
+        // Sort packets by timestamp
+        packets.sort((a, b) => a.timestamp - b.timestamp);
+        metaviz.editor.history.set(packets);
         metaviz.editor.history.recreate();
     }
 
