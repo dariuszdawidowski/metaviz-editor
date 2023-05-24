@@ -42,30 +42,30 @@ class MetavizOutStack {
                         });
                     if (('links' in p) && p.links.length)
                         p.links.forEach(link => {
-                            xml += `      <add timestamp='${p.timestamp}' link='${link.id}' start='${link.start}' end='${link.end}'/>\n`;
+                            xml += `      <add timestamp="${p.timestamp}" link="${link.id}" type="${link.type}" start="${link.start}" end="${link.end}"/>\n`;
                         });
                     break;
 
                 case 'del':
                     if (('nodes' in p) && p.nodes.length)
-                        xml += `      <del timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}'/>\n`;
+                        xml += `      <del timestamp="${p.timestamp}" nodes="${p.nodes.join(',')}"/>\n`;
                     if (('links' in p) && p.links.length)
-                        xml += `      <del timestamp='${p.timestamp}' links='${p.links.join(",")}'/>\n`;
+                        xml += `      <del timestamp="${p.timestamp}" links="${p.links.join(',')}"/>\n`;
                     break;
 
                 case 'move':
                     if ('offset' in p)
-                        xml += `      <move timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' offset-x='${p.offset.x}' offset-y='${p.offset.y}'/>\n`;
+                        xml += `      <move timestamp="${p.timestamp}" nodes="${p.nodes.join(',')}" offset-x="${p.offset.x}" offset-y="${p.offset.y}"/>\n`;
                     if ('position' in p)
-                        xml += `      <move timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' position-x='${p.position.x}' position-y='${p.position.y}'/>\n`;
+                        xml += `      <move timestamp="${p.timestamp}" nodes="${p.nodes.join(',')}" position-x="${p.position.x}" position-y="${p.position.y}"/>\n`;
                     break;
 
                 case 'resize':
-                    xml += `      <resize timestamp='${p.timestamp}' nodes='${p.nodes.join(",")}' w='${p.size.w}' h='${p.size.h}'/>\n`;
+                    xml += `      <resize timestamp="${p.timestamp}" nodes="${p.nodes.join(',')}" w="${p.size.w}" h="${p.size.h}"/>\n`;
                     break;
 
                 case 'param':
-                    xml += `      <param timestamp='${p.timestamp}' node='${p.node.id}'${this.dataStrip(p.data)}/>\n`;
+                    xml += `      <param timestamp="${p.timestamp}" node="${p.node.id}"${this.dataStrip(p.data)}/>\n`;
                     break;
 
             }
