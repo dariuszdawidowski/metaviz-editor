@@ -41,7 +41,7 @@ class MetavizOutStack {
                             xml += `      <add timestamp="${p.timestamp}" node="${node.id}" type="${node.type}" x="${node.x}" y="${node.y}" w="${node.w}" h="${node.h}"${this.dataStrip(p.data)}/>\n`;
                         });
                     if (('links' in p) && p.links.length)
-                        p.links.forEach(node => {
+                        p.links.forEach(link => {
                             xml += `      <add timestamp='${p.timestamp}' link='${link.id}' start='${link.start}' end='${link.end}'/>\n`;
                         });
                     break;
