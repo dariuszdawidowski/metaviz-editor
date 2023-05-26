@@ -37,8 +37,20 @@ class MetavizInStack {
                             timestamp: element.getAttribute('timestamp'),
                             session: session.id
                         };
-                        if (element.getAttribute('node')) packetAdd['nodes'] = [{id: element.getAttribute('node'), type: element.getAttribute('type'), x: element.getAttribute('x'), y: element.getAttribute('y'), w: element.getAttribute('w'), h: element.getAttribute('h')}];
-                        if (element.getAttribute('link')) packetAdd['links'] = [{id: element.getAttribute('link'), type: element.getAttribute('type'), start: element.getAttribute('start'), end: element.getAttribute('end')}];
+                        if (element.getAttribute('node')) packetAdd['nodes'] = [{
+                            id: element.getAttribute('node'),
+                            type: element.getAttribute('type'),
+                            x: parseInt(element.getAttribute('x')),
+                            y: parseInt(element.getAttribute('y')),
+                            w: parseInt(element.getAttribute('w')),
+                            h: parseInt(element.getAttribute('h'))
+                        }];
+                        if (element.getAttribute('link')) packetAdd['links'] = [{
+                            id: element.getAttribute('link'),
+                            type: element.getAttribute('type'),
+                            start: element.getAttribute('start'),
+                            end: element.getAttribute('end')
+                        }];
                         packets.push(packetAdd);
                         break;
 
