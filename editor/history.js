@@ -370,8 +370,7 @@ class MetavizHistory {
             // Size
             else if (args.action == 'resize') {
                 const node = metaviz.render.nodes.get(args.nodes[0]);
-                node.transform.w = args.size.w;
-                node.transform.h = args.size.h;
+                node.setSize({width: args.size.w, height: args.size.h});
                 node.update();
             }
 
