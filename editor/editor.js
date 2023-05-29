@@ -260,37 +260,20 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     linkSelected() {
         if (this.selection.count() == 2) {
-            let linkType = 'MetavizLinkBezier';
-
-            // Special treat for Node Teleport (TODO make it universal)
-            if (this.selection.nodes[0].constructor.name == 'MetavizNodeTeleport') {
-                linkType = 'MetavizLinkSymlink';
-                if (this.selection.nodes[0].links.get().length > 0) {
-                    alert('Only one link for this node is allowed');
-                    return;
-                }
-            }
-
-            // Special treat for Node Collection (TODO make it universal)
-            else if (this.selection.nodes[0].constructor.name == 'MetavizNodeCollection' || this.selection.nodes[1].constructor.name == 'MetavizNodeCollection') {
-                linkType = 'MetavizLinkSymlink';
-            }
 
             // Create link
-            const link = metaviz.render.links.add({
-                id: crypto.randomUUID(),
-                type: linkType,
+            const link = new MetavizLinkBezier({
                 start: this.selection.nodes[0],
                 end: this.selection.nodes[1]
             });
+            metaviz.render.links.add(link);
 
             // Undo/Sync
             this.history.store({action: 'add', links: [link.serialize()]});
             this.selection.clear();
 
             // Re-render
-            metaviz.render.layers.current.render();
-            metaviz.render.layers.current.update();
+            this.update()
         }
     }
 
@@ -314,8 +297,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     // Clear
                     this.selection.clear();
                     // Update
-                    metaviz.render.layers.current.render();
-                    metaviz.render.layers.current.update();
+                    this.update();
                 }
             }
         }
@@ -641,7 +623,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 node.transform.x = positions[i].x;
                 node.transform.y = positions[i].y;
             });
-            metaviz.render.layers.update(nodes);
+            this.update();
         }
     }
 
@@ -935,10 +917,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     /**
      * Set current folder and node
-     * state: {folder: <string id>}
      */
 
-    render(state) {
+    render() {
 
         // Clear selection
         this.selection.clear();
@@ -951,11 +932,16 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             node.visible(false);
         }
 
-        // Render
-        metaviz.render.layers.current.render();
-
         // Force redraw
         metaviz.render.redraw();
+    }
+
+    /**
+     * Refresh view
+     */
+
+    update() {
+        /* Overload */
     }
 
 }

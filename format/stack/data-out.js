@@ -48,9 +48,9 @@ class MetavizOutStack {
 
                 case 'del':
                     if (('nodes' in p) && p.nodes.length)
-                        xml += `      <del timestamp="${p.timestamp}" nodes="${p.nodes.join(',')}"/>\n`;
+                        xml += `      <del timestamp="${p.timestamp}" nodes="${p.nodes.map(n => n.id).join(',')}"/>\n`;
                     if (('links' in p) && p.links.length)
-                        xml += `      <del timestamp="${p.timestamp}" links="${p.links.join(',')}"/>\n`;
+                        xml += `      <del timestamp="${p.timestamp}" links="${p.links.map(l => l.id).join(',')}"/>\n`;
                     break;
 
                 case 'move':

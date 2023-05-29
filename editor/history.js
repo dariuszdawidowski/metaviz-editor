@@ -326,20 +326,15 @@ class MetavizHistory {
 
                 // Nodes
                 if ('nodes' in args) {
-                    let nodesToDelete = structuredClone(args.nodes);
-                    while (nodesToDelete.length) {
-                        const node = nodesToDelete.pop();
-                        metaviz.render.nodes.del(metaviz.render.nodes.get(node.id))
+                    for (const id of args.nodes) {
+                        metaviz.render.nodes.del(metaviz.render.nodes.get(id));
                     }
                 }
 
                 // Links
                 if ('links' in args) {
-                    let linksToDelete = structuredClone(args.links);
-                    while (linksToDelete.length) {
-                        const link = linksToDelete.pop();
-                        const fullLink = metaviz.render.links.get(link.id);
-                        if (fullLink) metaviz.render.links.del(fullLink);
+                    for (const id of args.links) {
+                        metaviz.render.links.del(metaviz.render.links.get(id));
                     }
                 }
 
