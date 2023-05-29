@@ -222,7 +222,7 @@ class MetavizSelection {
 
     all() {
         this.clear();
-        for (const node of metaviz.render.nodes.get()) if (node.parent == metaviz.render.nodes.parent) this.add(node);
+        for (const node of metaviz.render.nodes.get('*')) if (node.parent == metaviz.render.nodes.parent) this.add(node);
     }
 
     /**

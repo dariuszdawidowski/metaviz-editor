@@ -183,7 +183,7 @@ class MetavizHistory {
                 }
                 // Update node
                 node.update();
-                node.links.get().forEach(link => link.update());
+                node.links.get('*').forEach(link => link.update());
             }
         }
 
@@ -357,7 +357,7 @@ class MetavizHistory {
 
                     // Update node
                     node.update();
-                    node.links.get().forEach(link => link.update());
+                    node.links.get('*').forEach(link => link.update());
                 }
 
             }

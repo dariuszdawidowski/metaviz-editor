@@ -203,7 +203,7 @@ class MetavizCage {
             height: Math.min(Math.max(size.height + offset.y, size.minHeight), size.maxHeight)
         });
         node.update();
-        for (const link of node.links.get()) link.update();
+        for (const link of node.links.get('*')) link.update();
         this.update(node.transform);
     }
 

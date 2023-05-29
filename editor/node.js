@@ -279,7 +279,7 @@ class MetavizNode extends TotalDiagramNode {
         if (state !== null) {
             // Show/Hide
             this.element.style.display = state ? 'flex' : 'none';
-            for (const link of this.links.get()) {
+            for (const link of this.links.get('*')) {
                 link.visible(state);
             }
             this.isVisible = state;
@@ -362,7 +362,7 @@ class MetavizNode extends TotalDiagramNode {
 
     getTree() {
         const children = [this];
-        for (const node of metaviz.render.nodes.get()) {
+        for (const node of metaviz.render.nodes.get('*')) {
             if (this.id == node.parent) children.push(...node.getTree());
         }
         return children;
@@ -395,7 +395,7 @@ class MetavizNode extends TotalDiagramNode {
         const children = [];
         // Out direction
         if (direction == 'out' || direction == 'both') {
-            this.links.get().forEach(link => {
+            this.links.get('*').forEach(link => {
                 if (types.length) {
                     if (types.includes(link.end.constructor.name)) children.push(link.end);
                 }
@@ -406,8 +406,8 @@ class MetavizNode extends TotalDiagramNode {
         }
         // In direction
         if (direction == 'in' || direction == 'both') {
-            metaviz.render.nodes.get().forEach(node => {
-                if (node.id != this.id) node.links.get().forEach(link => {
+            metaviz.render.nodes.get('*').forEach(node => {
+                if (node.id != this.id) node.links.get('*').forEach(link => {
                     if (link.end.id == this.id) {
                         if (types.length) {
                             if (types.includes(node.constructor.name)) children.push(node);
@@ -617,7 +617,7 @@ class MetavizNode extends TotalDiagramNode {
         const stream = new MetavizEngineStream();
 
         // Traverse all links endpoints and fetch pipeline data
-        for (const link of this.links.get()) {
+        for (const link of this.links.get('*')) {
             if (link.end.id == this.id) {
                 stream.add(link.start.pipeline());
             }
@@ -633,7 +633,7 @@ class MetavizNode extends TotalDiagramNode {
 
     pipelineSend(stream) {
         // Traverse all links endpoints and send pipeline data
-        for (const link of this.links.get()) {
+        for (const link of this.links.get('*')) {
             if (link.start.id == this.id) {
                 link.end.pipelineRecv(stream);
             }

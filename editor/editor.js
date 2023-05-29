@@ -228,7 +228,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Delete
             const nodesTree = list.flatMap(node => { return node.getTree(); });
             const nodes = nodesTree.map(node => { return node.serializeWithTransform(); });
-            const links = [...new Set(nodesTree.flatMap(node => node.links.get().map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
+            const links = [...new Set(nodesTree.flatMap(node => node.links.get('*').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
 
             // Undo/Sync
             this.history.store({
@@ -388,7 +388,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                     // Update position
                     node.update();
-                    for (const linkNodeLink of node.links.get()) {
+                    for (const linkNodeLink of node.links.get('*')) {
                         linkNodeLink.update();
                     }
                 }
@@ -591,7 +591,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragBoxEnd() {
-        this.selection.box.intersection(metaviz.render.nodes.get());
+        this.selection.box.intersection(metaviz.render.nodes.get('*'));
         this.selection.box.hide();
     }
 
@@ -779,7 +779,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         //    metaviz.format.json.in.deserialize(json);
 
                         // Launch start
-                        for (const node of metaviz.render.nodes.get()) node.start();
+                        for (const node of metaviz.render.nodes.get('*')) node.start();
 
                         // Dispatch final event
                         metaviz.events.call('on:loaded');
@@ -803,7 +803,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                             metaviz.format.stack.in.deserialize(xml);
     
                         // Launch start
-                        for (const node of metaviz.render.nodes.get()) node.start();
+                        for (const node of metaviz.render.nodes.get('*')) node.start();
 
                         // Dispatch final event
                         metaviz.events.call('on:loaded');
@@ -928,7 +928,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.menu.hide();
 
         // Hide all nodes
-        for (const node of metaviz.render.nodes.get()) {
+        for (const node of metaviz.render.nodes.get('*')) {
             node.visible(false);
         }
 
