@@ -10,8 +10,21 @@ class MetavizOutStack {
      */
 
     serialize(history) {
+
+        // Sort by session
+        history.sort((a, b) => {
+            if (a.session < b.session) {
+                return -1;
+            }
+            if (a.session > b.session) {
+                return 1;
+            }
+            return 0;
+        });
+
         let lastSession = null;
         let numSession = 0;
+
         let xml = `<mv>\n`;
         xml += `  <format>MetavizStack</format>\n`;
         xml += `  <version>4</version>\n`;
