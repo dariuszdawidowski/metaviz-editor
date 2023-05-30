@@ -699,11 +699,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     setBoardName(text) {
-        if (text) {
-            this.name = text;
-            document.title = this.name;
-            metaviz.events.call('update:projectname', text);
-        }
+        this.name = text;
+        document.title = this.name;
+        metaviz.events.call('update:projectname', text);
     }
 
     getBoardName() {
@@ -729,6 +727,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         metaviz.render.clear();
         // Centre board
         metaviz.render.center();
+        // Reset board name
+        this.setBoardName('');
         // Generate new board ID
         this.id = crypto.randomUUID();
     }
@@ -740,6 +740,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     async open(boardID = null) {
 
         if (metaviz.system.features.nativeFileSystemApi) {
+
+            // Reset if already something is open
+            this.new();
 
             // Lock interaction
             this.interaction.lock();
