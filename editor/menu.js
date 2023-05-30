@@ -244,6 +244,8 @@ class MetavizContextMenu extends TotalProMenu {
                     options: {'Iron': {icon: '', text: 'Theme: Iron'}, 'Covellite': {icon: '', text: 'Theme: Covellite'}},
                     value: metaviz.config.theme.get(),
                     onChange: (value) => {
+                        metaviz.container.element.classList.remove('theme-iron', 'theme-covellite');
+                        metaviz.container.element.classList.add('theme-' + value.toLowerCase());
                         for (const [key, theme] of Object.entries(registry.themes[value])) {
                             document.documentElement.style.setProperty(key, theme);
                         }
