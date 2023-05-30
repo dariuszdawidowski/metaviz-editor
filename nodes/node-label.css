@@ -143,11 +143,11 @@
 /* Color 0 */
 
 .metaviz-node-label.style-underline.color-0 {
-    border-bottom: 10px solid var(--paper-1);
+    border-bottom: 10px solid var(--paper-2);
 }
 
 .metaviz-node-label.style-underline.color-0 input {
-    color: var(--paper-1);
+    color: var(--paper-2);
 }
 
 /* Color 1 */

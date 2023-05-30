@@ -337,7 +337,9 @@ class Metaviz {
         if (this.agent.client == 'browser') {
 
             // Theme
-            for (const [key, value] of Object.entries(registry.themes[localStorage.getItem('metaviz.config.theme') || 'Iron'])) {
+            const theme = localStorage.getItem('metaviz.config.theme') || 'Iron';
+            this.container.element.classList.add('theme-' + theme.toLowerCase());
+            for (const [key, value] of Object.entries(registry.themes[theme])) {
                 document.documentElement.style.setProperty(key, value);
             }
 
