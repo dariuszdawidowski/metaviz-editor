@@ -259,50 +259,16 @@ class MetavizControlRichText extends TotalText {
     }
 
     /**
-     * Caret position
-     */
-
-    getCursorPosition(element = this.editor) {
-        let start = 0;
-        let end = 0;
-        const doc = element.ownerDocument || element.document;
-        const win = doc.defaultView || doc.parentWindow;
-        let sel;
-        let anchor;
-        if (typeof win.getSelection != 'undefined') {
-            sel = win.getSelection();
-            anchor = sel.anchorNode;
-            if (sel.rangeCount > 0) {
-                var range = win.getSelection().getRangeAt(0);
-                var preCaretRange = range.cloneRange();
-                preCaretRange.selectNodeContents(element);
-                preCaretRange.setEnd(range.startContainer, range.startOffset);
-                start = preCaretRange.toString().length;
-                preCaretRange.setEnd(range.endContainer, range.endOffset);
-                end = preCaretRange.toString().length;
-            }
-        }
-        else if ((sel = doc.selection) && sel.type != 'Control') {
-            var textRange = sel.createRange();
-            var preCaretTextRange = doc.body.createTextRange();
-            preCaretTextRange.moveToElementText(element);
-            preCaretTextRange.setEndPoint('EndToStart', textRange);
-            start = preCaretTextRange.text.length;
-            preCaretTextRange.setEndPoint('EndToEnd', textRange);
-            end = preCaretTextRange.text.length;
-        }
-        return { start: start, end: end, anchor, parent: anchor.nodeType == 3 ? anchor.parentNode : anchor};
-    }
-
-    /**
      * Read current paragraph style from carret position
      */
 
     readStyle() {
-        const cursor = this.getCursorPosition();
-        let style = cursor.parent.nodeName;
-        if (!['DIV', 'H1', 'H2', 'H3', 'H4', 'H5'].includes(style)) style = 'div';
-        this.icons.style.set(style.toLowerCase());
+        const caret = this.getCaretPosition();
+        if (caret.element && !(caret.element.hasClass('editor') && caret.element.parentNode.hasClass('total-text'))) {
+            let style = caret.element.nodeName;
+            if (!['DIV', 'H1', 'H2', 'H3', 'H4', 'H5'].includes(style)) style = 'div';
+            this.icons.style.set(style.toLowerCase());
+        }
     }
 
 }
