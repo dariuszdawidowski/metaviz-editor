@@ -138,6 +138,30 @@ class MetavizControlRichText extends TotalText {
             this.toolbar.append(icon.element);
         }
 
+        // Process Paste
+        this.editor.addEventListener('paste', (event) => {
+            event.preventDefault();
+
+            // Get data from clipboard
+            const clipboardData = event.clipboardData || window.clipboardData;
+            const pastedText = clipboardData.getData('text/plain');
+            const modifiedText = this.stripHTMLTags(pastedText);
+
+            // Insert
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            const textNode = document.createTextNode(modifiedText);
+            range.insertNode(textNode);
+
+            // Set cursor at the end
+            range.setStartAfter(textNode);
+            range.setEndAfter(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+
+
         // Track cursor position
         this.editor.addEventListener('click', (event) => {
             this.readStyle();
@@ -273,6 +297,16 @@ class MetavizControlRichText extends TotalText {
             if (!['DIV', 'H1', 'H2', 'H3', 'H4', 'H5'].includes(style)) style = 'div';
             this.icons.style.set(style.toLowerCase());
         }
+    }
+
+    /**
+     * Remove html tags
+     */
+
+    stripHTMLTags(html) {
+        const container = document.createElement("div");
+        container.innerHTML = html;
+        return container.textContent || container.innerText;
     }
 
 }
