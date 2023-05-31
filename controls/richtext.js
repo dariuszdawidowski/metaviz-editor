@@ -1,7 +1,11 @@
-/**
- * Metaviz Node Control Rich Text
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
+/***************************************************************************************************
+ *                                                                                                 *
+ *        o  o  o             Metaviz Control Rich Text                                            *
+ *       /^\/^\/^\            Replace of textarea.                                                 *
+ *       \<-<@>->/            MIT License                                                          *
+ *        \_*_*_/             (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *                                                                                                 *
+ **************************************************************************************************/
 
 class MetavizControlRichText extends TotalText {
 
@@ -35,21 +39,21 @@ class MetavizControlRichText extends TotalText {
         // Toolbar icons
         this.icons = {
             bold: new MetavizControlRichTextButton({
-                content: '<i class="fa-solid fa-bold"></i>',
+                content: '<b>B</b>',
                 onClick: () => {
                     document.execCommand('bold', false, null);
                     this.editor.focus();
                 }
             }),
             italic: new MetavizControlRichTextButton({
-                content: '<i class="fa-solid fa-italic"></i>',
+                content: '<i>I</i>',
                 onClick: () => {
                     document.execCommand('italic', false, null);
                     this.editor.focus();
                 }
             }),
             underline: new MetavizControlRichTextButton({
-                content: '<i class="fa-solid fa-underline"></i>',
+                content: '<u>U</u>',
                 onClick: () => {
                     document.execCommand('underline', false, null);
                     this.editor.focus();
@@ -97,14 +101,14 @@ class MetavizControlRichText extends TotalText {
                 }
             }),*/
             hr: new MetavizControlRichTextButton({
-                content: '<i class="fa-solid fa-grip-lines"></i>',
+                content: '&#9473;',
                 onClick: () => {
                     document.execCommand('insertHorizontalRule', false, null);
                     this.element.focus();
                 }
             }),
             prev: new MetavizControlRichTextButton({
-                content: '<i class="fa-solid fa-circle-chevron-left"></i>',
+                content: '&#129032;',
                 onClick: () => {
                     if (onPrevPage) onPrevPage();
                 }
@@ -113,7 +117,7 @@ class MetavizControlRichText extends TotalText {
                 content: '1/1'
             }),
             next: new MetavizControlRichTextButton({
-                content: '<i class="fa-solid fa-circle-chevron-right"></i>',
+                content: '&#129034;',
                 onClick: () => {
                     if (onNextPage) onNextPage();
                 }

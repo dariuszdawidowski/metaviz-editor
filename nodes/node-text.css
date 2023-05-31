@@ -84,7 +84,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #666;
+    color: var(--font-color-1);
     border-radius: 3px;
     font-size: 15px;
 }
@@ -98,7 +98,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #666;
+    color: var(--font-color-1);
     border-radius: 3px;
     font-size: 13px;
 }
