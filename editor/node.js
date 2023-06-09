@@ -259,18 +259,6 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
-     * Out focus
-     */
-
-    blur() {
-        for (const [key, control] of Object.entries(this.controls)) {
-            control.blur();
-        }
-        this.element.blur();
-        metaviz.events.call('on:edited');
-    }
-
-    /**
      * Set or get visibility
      */
 
@@ -668,23 +656,20 @@ class MetavizNode extends TotalDiagramNode {
         // Show highlight frame
         this.highlight.style.display = 'block';
         // Render
-        this.render();
+        //this.render();
     }
 
     deselect() {
-        // Clear text selection
-        window.clearSelection();
         // Hide highlight frame
         this.highlight.style.display = 'none';
         // Deselect
-        this.blur();
         this.element.classList.remove('selected');
         // Switch
         this.selected = false;
     }
 
     /**
-     * Focus
+     * Focus (currently selected node with transform cage)
      */
 
     focus() {
@@ -699,12 +684,13 @@ class MetavizNode extends TotalDiagramNode {
         this.transform.w = size.width;
         this.transform.h = size.height;
         // Show resizing cage
-        metaviz.editor.cage.show(this.transform, this.resize);
+        metaviz.editor.cage.assign(this);
+        metaviz.editor.cage.show();
         // Render
         this.render();
     }
 
-    unfocus() {
+    blur() {
         // Class
         this.element.classList.remove('focused');
         // Restore highlight frame
@@ -712,9 +698,20 @@ class MetavizNode extends TotalDiagramNode {
         // Hide empty sockets
         this.sockets.hide();
         // Hide resizing cage
+        metaviz.editor.cage.assign(null);
         metaviz.editor.cage.hide();
         // Switch
         this.focused = false;
+        // Blur controls
+        for (const [key, control] of Object.entries(this.controls)) {
+            control.blur();
+        }
+        // Blur DOM element
+        this.element.blur();
+        // Clear text selection
+        window.clearSelection();
+        // Broadcast event
+        metaviz.events.call('on:edited');
     }
 
     /**

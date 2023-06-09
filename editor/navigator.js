@@ -1,17 +1,11 @@
-/**
- * Metaviz 3d space navigator
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
-
-/*
-  ..  ~  ~  ~  ~   { }
-  ||          \       }
-        |\_/|  \    }
-       -(o.O)-  \ {
-         \O /    \
-       _(__)_     \
-  ^^^^^^^^^^^^^^^^^^^^^^^^
-*/
+/***************************************************************************************************
+ *   ..  ~  ~  ~  ~   { }                                                                          *
+ *   ||          \       }    Metaviz 3d space navigator                                           *
+ *         |\_/|  \    }      Pan and zoom view.                                                   *
+ *        -(o.O)-  \ {        MIT License                                                          *
+ *          \O /    \         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *        _(__)_     \                                                                             *
+ **************************************************************************************************/
 
 class MetavizNavigatorBrowser {
 
@@ -187,6 +181,7 @@ class MetavizNavigatorBrowser {
         this.mouseWheelZoom = (event) => {
             event.preventDefault();
             metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.zoomFactor);
+            metaviz.editor.cage.update();
         };
 
         // Mouse Wheel pan and pinch zoom view (Mac style)
@@ -195,10 +190,12 @@ class MetavizNavigatorBrowser {
             // Pinch
             if (event.ctrlKey) {
                 metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.pinchFactor);
+                metaviz.editor.cage.update();
             }
             // Swipe
             else {
                 metaviz.render.pan(-event.deltaX / window.devicePixelRatio, -event.deltaY / window.devicePixelRatio);
+                metaviz.editor.cage.update();
             }
         };
 

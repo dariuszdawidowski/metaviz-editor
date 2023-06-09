@@ -14,6 +14,9 @@ class MetavizCage {
         // Mode ('avg' = average proportional resizing, 'free' = separate x,y, 'ratio' = proportional)
         this.mode = 'ratio';
 
+        // Binded to node
+        this.node = null;
+
         // Margin size
         this.margin = 8;
 
@@ -129,15 +132,23 @@ class MetavizCage {
     }
 
     /**
+     * Assign to node
+     */
+
+    assign(node) {
+        this.node = node;
+    }
+
+    /**
      * Show cage
      * transform: {x: <Number>, y: <Number>}
      */
 
-    show(transform) {
-        this.update(transform);
+    show() {
+        this.update();
         this.element.style.display = 'block';
         // Disable base navigation events
-        metaviz.events.disable('viewer:*');
+        // metaviz.events.disable('viewer:*');
         metaviz.events.disable('editor:paste');
         metaviz.events.disable('editor:keydown');
         metaviz.events.disable('editor:keyup');
@@ -152,7 +163,7 @@ class MetavizCage {
         this.element.style.display = 'none';
         // Restore base navigation events
         metaviz.events.disable('browser:prevent');
-        metaviz.events.enable('viewer:*');
+        // metaviz.events.enable('viewer:*');
         metaviz.events.enable('editor:paste');
         metaviz.events.enable('editor:keydown');
         metaviz.events.enable('editor:keyup');
@@ -260,36 +271,37 @@ class MetavizCage {
 
     /**
      * Update dimensions
-     * transform: {x: <Number>, y: <Number>, ox: <Number>, oy: <Number>}
      */
 
-    update(transform) {
-        const container = metaviz.container.getOffset();
-        const leftTop = metaviz.render.world2Screen({
-            x: transform.x - transform.ox - this.margin + container.x,
-            y: transform.y - transform.oy - this.margin + container.y
-        });
-        const rightBottom = metaviz.render.world2Screen({
-            x: transform.x - transform.ox + transform.w + this.margin + transform.border + container.left,
-            y: transform.y - transform.oy + transform.h + this.margin + transform.border + container.top
-        });
-        const width = rightBottom.x - leftTop.x;
-        const height = rightBottom.y - leftTop.y;
-        this.element.style.transform = `translate(${leftTop.x}px, ${leftTop.y}px)`;
-        this.n.style.transform = `translate(${0}px, ${0}px)`;
-        this.n.style.width = `${width}px`;
-        this.e.style.transform = `translate(${width}px, ${0}px)`;
-        this.e.style.height = `${height}px`;
-        this.s.style.transform = `translate(${0}px, ${height}px)`;
-        this.s.style.width = `${width}px`;
-        this.w.style.transform = `translate(${0}px, ${0}px)`;
-        this.w.style.height = `${height}px`;
-        this.nw.style.transform = `translate(${-this.resize}px, ${-this.resize}px)`;
-        this.ne.style.transform = `translate(${width - this.resize}px, ${-this.resize}px)`;
-        this.se.style.transform = `translate(${width - this.resize}px, ${height - this.resize}px)`;
-        this.sw.style.transform = `translate(${-this.resize}px, ${height - this.resize}px)`;
-        // Re-render node
-        if (metaviz.editor.selection.nodes.length) metaviz.editor.selection.getFocused().render();
+    update() {
+        if (this.node) {
+            const container = metaviz.container.getOffset();
+            const leftTop = metaviz.render.world2Screen({
+                x: this.node.transform.x - this.node.transform.ox - this.margin + container.x,
+                y: this.node.transform.y - this.node.transform.oy - this.margin + container.y
+            });
+            const rightBottom = metaviz.render.world2Screen({
+                x: this.node.transform.x - this.node.transform.ox + this.node.transform.w + this.margin + this.node.transform.border + container.left,
+                y: this.node.transform.y - this.node.transform.oy + this.node.transform.h + this.margin + this.node.transform.border + container.top
+            });
+            const width = rightBottom.x - leftTop.x;
+            const height = rightBottom.y - leftTop.y;
+            this.element.style.transform = `translate(${leftTop.x}px, ${leftTop.y}px)`;
+            this.n.style.transform = `translate(${0}px, ${0}px)`;
+            this.n.style.width = `${width}px`;
+            this.e.style.transform = `translate(${width}px, ${0}px)`;
+            this.e.style.height = `${height}px`;
+            this.s.style.transform = `translate(${0}px, ${height}px)`;
+            this.s.style.width = `${width}px`;
+            this.w.style.transform = `translate(${0}px, ${0}px)`;
+            this.w.style.height = `${height}px`;
+            this.nw.style.transform = `translate(${-this.resize}px, ${-this.resize}px)`;
+            this.ne.style.transform = `translate(${width - this.resize}px, ${-this.resize}px)`;
+            this.se.style.transform = `translate(${width - this.resize}px, ${height - this.resize}px)`;
+            this.sw.style.transform = `translate(${-this.resize}px, ${height - this.resize}px)`;
+            // Re-render node
+            if (metaviz.editor.selection.nodes.length) metaviz.editor.selection.getFocused().render();
+        }
     }
 
 }

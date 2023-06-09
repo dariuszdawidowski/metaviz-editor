@@ -145,7 +145,7 @@ class MetavizSelection {
 
         // Re-highlight all the selected nodes
         this.nodes.forEach(n => {
-            n.unfocus();
+            n.blur();
             n.select();
         });
 
@@ -166,7 +166,7 @@ class MetavizSelection {
 
     del(node) {
         this.nodes.forEach(n => {
-            n.unfocus();
+            n.blur();
         });
         node.deselect();
         //this.nodes.remove(node);
@@ -231,7 +231,7 @@ class MetavizSelection {
 
     clear() {
         for (const node of this.nodes) {
-            node.unfocus();
+            node.blur();
             node.deselect();
         }
         this.nodes = [];

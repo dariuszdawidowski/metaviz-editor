@@ -1,17 +1,11 @@
-/**
- * Metaviz Editor Pointer Events
- * (c) 2009-2022 Dariusz Dawidowski, All Rights Reserved.
- */
-
-/*
-        (
-       __\__
-      |__|__|
-      |  I  |
-      |     |
-      '.___.'
-
-*/
+/***************************************************************************************************
+ *            (                                                                                    *
+ *           __\__            Metaviz Editor Pointer Events                                        *
+ *          |__|__|           Mouse, touchpad and touchscreen.                                     *
+ *          |  I  |           MIT License                                                          *
+ *          |     |           (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *          '.___.'                                                                                *
+ **************************************************************************************************/
 
 class MetavizEditorPointer {
 
@@ -181,16 +175,38 @@ class MetavizEditorPointer {
             }
         }*/
 
-        // Clicked Node
+        // Clicked Node or Board
         else {
+
+            // Clicked on Node: Select node
             this.clicked = metaviz.render.nodes.get(event.target);
-            // Select node
-            if (this.clicked && !this.editor.keyboard.key.ctrl && !this.editor.keyboard.key.alt) {
+            if (this.clicked) {
+                //console.log('click on node')
+
+                // Interaction with node
                 this.editor.interaction.object = 'node';
-                // Single select (if not already in selection list)
+
+                // If not already in selection
                 if (!this.editor.selection.get(this.clicked)) {
-                    this.editor.selection.set(this.clicked);
+    
+                    // Add to selection
+                    if (this.editor.keyboard.key.ctrl) {
+                        //console.log('node: add to selection')
+                        this.editor.selection.add(this.clicked);
+                    }
+
+                    // Single selection
+                    else {
+                        //console.log('node: single selection')
+                        this.editor.selection.set(this.clicked);
+                    }
                 }
+            }
+
+            // Clicked on Board: Clear all selected nodes
+            else if (!this.editor.keyboard.key.ctrl) {
+                //console.log('board: clear selection')
+                this.editor.selection.clear();
             }
         }
 
@@ -207,34 +223,45 @@ class MetavizEditorPointer {
         // Drag start damper
         this.offset.update(event.x, event.y);
         if (!this.dragStarted && this.offset.get() > 2.0) {
+
             // Start drag: Socket
             if (this.editor.interaction.object == 'socket') {
                 this.editor.dragLinkStart();
                 this.editor.interaction.mode = 'drag';
             }
+
             // Start drag: Node
             else if (this.editor.interaction.object == 'node') {
+                //console.log('dragSelectionStart');
                 this.editor.dragSelectionStart();
                 if (this.editor.selection.count()) this.editor.interaction.mode = 'drag';
             }
+
             // Start drag: Selection Box (TEMPORARY DISABLED)
             /*else if (this.editor.interaction.object == 'box') {
                 this.editor.dragBoxStart(event.x, event.y);
                 this.editor.interaction.mode = 'drag';
             }*/
+
             this.dragStarted = true;
         }
 
         // Drag
+        //metaviz.editor.interaction.mode
+        //metaviz.editor.interaction.object
         if (this.editor.interaction.mode == 'drag') {
+
             // Drag link from socket
             if (this.editor.interaction.object == 'socket') {
                 this.editor.dragLinkMove();
             }
+
             // Move selected nodes
             else if (this.editor.interaction.object == 'node') {
+                //console.log('dragSelectionMove');
                 this.editor.dragSelectionMove();
             }
+
             // Select box (TEMPORARY DISABLED)
             /*else if (this.editor.interaction.object == 'box') {
                 this.editor.dragBoxMove(event.x, event.y);
@@ -253,7 +280,7 @@ class MetavizEditorPointer {
         if (this.editor.interaction.mode == 'idle') {
 
             // Clicked on node - select
-            if (this.clicked) {
+            /*if (this.clicked) {
                 // Multiple selection
                 if (this.editor.keyboard.key.ctrl && !this.editor.keyboard.key.alt) {
                     // Add to selection (if not present in the selection already)
@@ -276,7 +303,7 @@ class MetavizEditorPointer {
                 if (!this.editor.keyboard.key.ctrl && !this.editor.keyboard.key.alt) {
                     this.editor.selection.clear();
                 }
-            }
+            }*/
 
         }
 

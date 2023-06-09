@@ -245,7 +245,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
     }
 
-    snapToGrid(x, y, width=16) {
+    snapToGrid(x, y, width = 16) {
         return {
             x: Math.round(x / width) * width,
             y: Math.round(y / width) * width
@@ -409,6 +409,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragSelectionEnd() {
+
+        // Show cage again
+        this.cage.show();
 
         // Dragged node returns to normal z-index and events
         for (const node of this.selection.get()) {
