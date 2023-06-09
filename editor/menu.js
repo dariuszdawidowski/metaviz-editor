@@ -10,23 +10,23 @@ class MetavizContextMenu extends TotalProMenu {
         const {projectName = ''} = args;
 
         // Add node
-        this.subAddNode = new SubMenu({ text: 'Add node' });
+        this.subAddNode = new TotalProSubMenu({ text: 'Add node' });
         this.panel.left.add(this.subAddNode);
 
         // Generate list of available nodes
         const menuAddNode = this.generateNodesList();
 
         // Edit selection
-        const subEditSelection = new SubMenu({ text: 'Edit selection' });
+        const subEditSelection = new TotalProSubMenu({ text: 'Edit selection' });
         this.panel.left.add(subEditSelection);
 
         // Navigation
-        const subNavigation = new SubMenu({ text: 'Navigation' });
+        const subNavigation = new TotalProSubMenu({ text: 'Navigation' });
         this.panel.left.add(subNavigation);
-        subNavigation.add(new MenuGroup({ text: 'Navigation', widgets: [
+        subNavigation.add(new TotalProMenuGroup({ text: 'Navigation', widgets: [
 
             // Navigation: Centre Board
-            new MenuOption({ text: 'Centre Board', onChange: () => {
+            new TotalProMenuOption({ text: 'Centre Board', onChange: () => {
                 this.hide();
                 metaviz.render.center();
             }}),
@@ -34,32 +34,32 @@ class MetavizContextMenu extends TotalProMenu {
         ] }));
 
         // Node options
-        subEditSelection.add(new MenuGroup({ text: 'Node options', widgets: []}));
+        subEditSelection.add(new TotalProMenuGroup({ text: 'Node options', widgets: []}));
 
         // Node local options
-        subEditSelection.add(new MenuGroup({ text: 'Node local options', widgets: []}));
+        subEditSelection.add(new TotalProMenuGroup({ text: 'Node local options', widgets: []}));
 
         // ----
-        // subEditSelection.add(new MenuSeparator());
+        // subEditSelection.add(new TotalProMenuSeparator());
 
         // Node edit
-        subEditSelection.add(new MenuGroup({ text: 'Node functions', widgets: []}));
+        subEditSelection.add(new TotalProMenuGroup({ text: 'Node functions', widgets: []}));
 
         // Link / Unlink
-        subEditSelection.add(new MenuOption({ text: 'Link', shortcut: [17, 76], onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Link', shortcut: [17, 76], onChange: () => {
             metaviz.editor.linkToggleSelected();
             this.hide();
         }}));
 
         // Lock
-        subEditSelection.add(new MenuOption({ text: 'Lock', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Lock', onChange: () => {
             metaviz.editor.selection.nodes[0].lockToggle();
             this.hide();
         }}));
 
         // Copy url of node
         if (!metaviz.agent.client == 'browser') {
-            subEditSelection.add(new MenuOption({ text: 'Copy url of node', onChange: () => {
+            subEditSelection.add(new TotalProMenuOption({ text: 'Copy url of node', onChange: () => {
                 let params = window.location.search.uriToDict();
                 params['node'] = metaviz.editor.selection.nodes[0].id;
                 metaviz.editor.clipboard.set(location.protocol + '//' + location.host + location.pathname + '?' + dictToUri(params));
@@ -68,49 +68,49 @@ class MetavizContextMenu extends TotalProMenu {
         }
 
         // ----
-        subEditSelection.add(new MenuSeparator());
+        subEditSelection.add(new TotalProMenuSeparator());
 
         // Arrange
-        subEditSelection.add(new MenuOption({ text: 'Sort', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Sort', onChange: () => {
             metaviz.editor.arrangeSort();
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ text: 'Align Horizontal', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Align Horizontal', onChange: () => {
             metaviz.editor.arrangeHorizontal();
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ text: 'Align Vertical', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Align Vertical', onChange: () => {
             metaviz.editor.arrangeVertical();
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ text: 'Move to Foreground', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Move to Foreground', onChange: () => {
             metaviz.editor.arrangeZ(1);
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ text: 'Move to Background', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Move to Background', onChange: () => {
             metaviz.editor.arrangeZ(-1);
             this.hide();
         }}));
-        subEditSelection.add(new MenuOption({ text: 'Reset Translations', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Reset Translations', onChange: () => {
             metaviz.editor.arrangeReset();
             this.hide();
         }}));
 
         // ----
-        subEditSelection.add(new MenuSeparator());
+        subEditSelection.add(new TotalProMenuSeparator());
 
         // Delete Node(s)
-        subEditSelection.add(new MenuOption({ text: 'Delete Node', onChange: () => {
+        subEditSelection.add(new TotalProMenuOption({ text: 'Delete Node', onChange: () => {
             metaviz.editor.nodeDeleteSelected();
             this.hide();
         }}));
 
         // ----
-        this.panel.left.add(new MenuSeparator());
+        this.panel.left.add(new TotalProMenuSeparator());
 
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
             // New
-            this.panel.left.add(new MenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
+            this.panel.left.add(new TotalProMenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
                 this.hide();
                 let msg = 'Create new board?';
                 if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
@@ -118,65 +118,65 @@ class MetavizContextMenu extends TotalProMenu {
             }}));
 
             // Open File
-            this.panel.left.add(new MenuOption({ text: 'Open File...', shortcut: [17, 79], onChange: () => {
+            this.panel.left.add(new TotalProMenuOption({ text: 'Open File...', shortcut: [17, 79], onChange: () => {
                 this.hide();
                 metaviz.editor.open();
             }}));
 
             // Save
-            this.panel.left.add(new MenuOption({ text: 'Save', shortcut: [17, 83], onChange: () => {
+            this.panel.left.add(new TotalProMenuOption({ text: 'Save', shortcut: [17, 83], onChange: () => {
                 this.hide();
                 metaviz.editor.save();
             }}));
 
             // ----
-            this.panel.left.add(new MenuSeparator());
+            this.panel.left.add(new TotalProMenuSeparator());
         }
 
         // Undo
-        this.panel.left.add(new MenuOption({ text: 'Undo', shortcut: [17, 90], onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Undo', shortcut: [17, 90], onChange: () => {
             this.hide();
             metaviz.editor.history.undo();
         } }));
 
         // Redo
-        this.panel.left.add(new MenuOption({ text: 'Redo', shortcut: [17, 16, 90], onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Redo', shortcut: [17, 16, 90], onChange: () => {
             this.hide();
             metaviz.editor.history.redo();
         } }));
 
         // ----
-        this.panel.left.add(new MenuSeparator());
+        this.panel.left.add(new TotalProMenuSeparator());
 
         // Cut Copy Paste Duplicate
-        this.panel.left.add(new MenuOption({ text: 'Cut', shortcut: [17, 88], onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Cut', shortcut: [17, 88], onChange: () => {
             metaviz.editor.cut();
             this.hide();
         }}));
-        this.panel.left.add(new MenuOption({ text: 'Copy', shortcut: [17, 67], onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Copy', shortcut: [17, 67], onChange: () => {
             metaviz.editor.copy();
             this.hide();
         }}));
-        this.panel.left.add(new MenuOption({ text: 'Paste', shortcut: [17, 86], onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Paste', shortcut: [17, 86], onChange: () => {
             metaviz.editor.paste();
             this.hide();
         }}));
-        this.panel.left.add(new MenuOption({ text: 'Duplicate', shortcut: [17, 68], onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Duplicate', shortcut: [17, 68], onChange: () => {
             metaviz.editor.duplicate();
             this.hide();
         }}));
 
         // ----
-        this.panel.left.add(new MenuSeparator());
+        this.panel.left.add(new TotalProMenuSeparator());
 
         // Project Settings
         let subSettings = null;
         if (metaviz.agent.client != 'app') {
-            subSettings = new SubMenu({ text: 'Settings' });
+            subSettings = new TotalProSubMenu({ text: 'Settings' });
             this.panel.left.add(subSettings);
-            subSettings.add(new MenuGroup({ text: 'Project settings', widgets: [
+            subSettings.add(new TotalProMenuGroup({ text: 'Project settings', widgets: [
                 // Project name
-                new MenuInput({ id: 'total-pro-menu-project-name', placeholder: 'Project name', value: projectName, onChange: (event) => {
+                new TotalProMenuInput({ id: 'total-pro-menu-project-name', placeholder: 'Project name', value: projectName, onChange: (event) => {
                     // Undo/Sync
                     metaviz.editor.history.store({action: 'board', name: event.target.value, namePrev: metaviz.editor.getBoardName()});
                     // Set new name
@@ -191,17 +191,17 @@ class MetavizContextMenu extends TotalProMenu {
             }, false);
 
             // ----
-            subSettings.add(new MenuSeparator());
+            subSettings.add(new TotalProMenuSeparator());
 
             // Browser Settings
-            subSettings.add(new MenuGroup({ text: 'Local settings', widgets: [
+            subSettings.add(new TotalProMenuGroup({ text: 'Local settings', widgets: [
             ] }));
 
             // Naviagtion
-            subSettings.add(new MenuGroup({ text: 'Naviagtion', widgets: [
+            subSettings.add(new TotalProMenuGroup({ text: 'Naviagtion', widgets: [
 
                 // Swipe
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Primal pointer device',
                     options: {'pan': {'icon': '', text: 'Moving: Touchpad-centric'}, 'zoom': {icon: '', text: 'Moving: Mouse-centric'}},
                     value: metaviz.config.touchpad.swipe.get(),
@@ -213,7 +213,7 @@ class MetavizContextMenu extends TotalProMenu {
                 }),
 
                 // Desktop Click
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Click on desktop',
                     options: {'pan': {'icon': '', text: 'Click on desktop: Pan view'}, 'box': {icon: '', text: 'Click on desktop: Selection'}},
                     value: metaviz.config.pointer.desktop.get(),
@@ -226,20 +226,24 @@ class MetavizContextMenu extends TotalProMenu {
             ] }));
 
             // Helpers
-            subSettings.add(new MenuGroup({ text: 'Helpers', widgets: [
+            subSettings.add(new TotalProMenuGroup({ text: 'Helpers', widgets: [
 
                 // Auto-Align
-                new MenuSwitch({ text: 'Auto-Align', value: metaviz.config.snap.grid.enabled, onChange: (value) => {
-                    metaviz.config.snap.grid.enabled = value;
-                    metaviz.config.save();
-                }}),
+                new TotalProMenuSwitch({
+                    text: 'Auto-Align',
+                    value: metaviz.config.snap.grid.enabled,
+                    onChange: (value) => {
+                        metaviz.config.snap.grid.enabled = value;
+                        metaviz.config.save();
+                    }
+                }),
 
             ] }));
 
             // Look & feel
-            subSettings.add(new MenuGroup({ text: 'Look & feel', widgets: [
+            subSettings.add(new TotalProMenuGroup({ text: 'Look & feel', widgets: [
 
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Select color theme',
                     options: {'Iron': {icon: '', text: 'Theme: Iron'}, 'Covellite': {icon: '', text: 'Theme: Covellite'}},
                     value: metaviz.config.theme.get(),
@@ -257,10 +261,10 @@ class MetavizContextMenu extends TotalProMenu {
             ] }));
 
             // Notifications
-            subSettings.add(new MenuGroup({ text: 'Notifications', widgets: [
+            subSettings.add(new TotalProMenuGroup({ text: 'Notifications', widgets: [
 
                 // Allow system notifications
-                new MenuOption({
+                new TotalProMenuOption({
                     text: 'Allow notifications',
                     onChange: () => {
                         Notification.requestPermission().then((result) => {});
@@ -269,7 +273,7 @@ class MetavizContextMenu extends TotalProMenu {
                 }),
 
                 // Style of notification
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Text on notification box',
                     options: {
                         'sound': {icon: '', text: 'Play sound only'},
@@ -289,14 +293,14 @@ class MetavizContextMenu extends TotalProMenu {
         } // Project Settings
 
         // Help selection
-        const subHelp = new SubMenu({ text: 'Help' });
+        const subHelp = new TotalProSubMenu({ text: 'Help' });
         this.panel.left.add(subHelp);
-        subHelp.add(new MenuGroup({ text: `Metaviz ${metaviz.version}`, widgets: [
+        subHelp.add(new TotalProMenuGroup({ text: `Metaviz ${metaviz.version}`, widgets: [
             // Help: GitHub Page
-            new MenuOption({ text: 'GitHub page', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor') }),
+            new TotalProMenuOption({ text: 'GitHub page', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor') }),
 
             // Help: Submit issue
-            new MenuOption({ text: 'Submit issue', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor/issues') }),
+            new TotalProMenuOption({ text: 'Submit issue', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor/issues') }),
         ] }));
 
         // Simulate scroll event
@@ -319,7 +323,7 @@ class MetavizContextMenu extends TotalProMenu {
         for (const [className, args] of Object.entries(registry.nodes)) {
             const menuName = (('menu' in args) ? args.menu : 'Default Nodes');
             if (!(menuName in menuAddNode)) menuAddNode[menuName] = [];
-            menuAddNode[menuName].push(new MenuOption({
+            menuAddNode[menuName].push(new TotalProMenuOption({
                 id: `total-pro-menu-node-${args.name.slug()}`,
                 text: args.name,
                 onChange: () => {
@@ -329,7 +333,7 @@ class MetavizContextMenu extends TotalProMenu {
             }));
         }
         for (const [menuName, menuNodes] of Object.entries(menuAddNode)) {
-            this.subAddNode.add(new MenuGroup({ text: menuName, widgets: menuNodes }));
+            this.subAddNode.add(new TotalProMenuGroup({ text: menuName, widgets: menuNodes }));
         }
     }
 
@@ -405,7 +409,7 @@ class MetavizContextMenu extends TotalProMenu {
                 // Activate
                 this.panel.left.find('total-pro-menu-edit-selection')?.select();
 
-                // Node Menu Options {options: [MenuOption, ...], localOptions: [MenuOption, ...]}
+                // Node Menu Options {options: [TotalProMenuOption, ...], localOptions: [TotalProMenuOption, ...]}
                 const data = editor.selection.getFocused().menu();
                 // Node options
                 const options = this.panel.left.find('total-pro-menu-node-options');
@@ -432,7 +436,7 @@ class MetavizContextMenu extends TotalProMenu {
                     }
                     // No options
                     else {
-                        options.add(new MenuOption({ text: 'No options', disabled: true}));
+                        options.add(new TotalProMenuOption({ text: 'No options', disabled: true}));
                     }
                     options.show();
 

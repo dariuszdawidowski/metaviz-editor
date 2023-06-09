@@ -24,11 +24,17 @@ class MetavizNodeLabel extends MetavizNode {
 
         // Controls
         this.addControls({
+
             // Input control
-            input: new MetavizControlInput({name: 'text', value: this.meta.text, onChange: (value) => {
-                metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {text: value}, prev: {text: this.meta.text}});
-                this.meta.text = value;
-            }})
+            input: new MetavizControlInput({
+                name: 'text',
+                value: this.meta.text,
+                onChange: (value) => {
+                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {text: value}, prev: {text: this.meta.text}});
+                    this.meta.text = value;
+                }
+            })
+
         });
 
         // Font
@@ -123,7 +129,7 @@ class MetavizNodeLabel extends MetavizNode {
             options: [
 
                 // Style
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Style',
                     options: {
                         'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Label'},
@@ -138,7 +144,7 @@ class MetavizNodeLabel extends MetavizNode {
                 }),
 
                 // Color
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Color',
                     options: {
                         '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: 'Color: Default'},
@@ -156,7 +162,7 @@ class MetavizNodeLabel extends MetavizNode {
                 }),
 
                 // Font
-                new MenuSelect({
+                new TotalProMenuSelect({
                     placeholder: 'Font',
                     options: {
                         'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Roboto'},
@@ -171,7 +177,7 @@ class MetavizNodeLabel extends MetavizNode {
                 }),
 
                 // Rotate
-                new MenuInput({
+                new TotalProMenuInput({
                     placeholder: 'Rotate',
                     value: this.meta.rotate,
                     onChange: (event) => {

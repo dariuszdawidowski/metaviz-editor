@@ -111,7 +111,7 @@ class MetavizNodeText extends MetavizNode {
         this.addOptions({
 
             // Appearance preset
-            look: new MenuSelect({
+            look: new TotalProMenuSelect({
                 placeholder: 'Look',
                 options: this.genLookOptions(),
                 value: this.meta.look,
@@ -125,7 +125,7 @@ class MetavizNodeText extends MetavizNode {
             }),
 
             // Colors
-            palette: new MenuSelect({
+            palette: new TotalProMenuSelect({
                 placeholder: 'Color palette',
                 options: this.colors,
                 value: this.meta.palette,
@@ -137,11 +137,15 @@ class MetavizNodeText extends MetavizNode {
             }),
 
             // Spellcheck turn on/off
-            spellcheck: new MenuSwitch({ text: 'Spellcheck', value: this.meta.spellcheck, onChange: (value) => {
-                metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {spellcheck: value}, metaPrev: {spellcheck: this.meta.spellcheck}});
-                this.meta.spellcheck = value;
-                this.controls.textarea.spellcheck(value);
-            }}),
+            spellcheck: new TotalProMenuSwitch({
+                text: 'Spellcheck',
+                value: this.meta.spellcheck,
+                onChange: (value) => {
+                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {spellcheck: value}, metaPrev: {spellcheck: this.meta.spellcheck}});
+                    this.meta.spellcheck = value;
+                    this.controls.textarea.spellcheck(value);
+                }
+            }),
 
         });
 

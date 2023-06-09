@@ -59,7 +59,7 @@ class MetavizControlRichText extends TotalText {
                     this.editor.focus();
                 }
             }),
-            style: new MenuSelect({
+            style: new TotalProMenuSelect({
                 placeholder: 'Style',
                 options: {
                     'div': {icon: '', text: 'Normal'},
