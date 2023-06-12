@@ -1,8 +1,12 @@
 /* Metaviz Node Point */
 
-.metaviz-node-point {
+.metaviz-node-point::before {
+    content: "";
     border-radius: 50%;
     border: 4px solid white;
     background-color: transparent;
     transform: translate(-4px, -4px);
+    width: 20px;
+    height: 20px;
+    position: absolute;
 }
