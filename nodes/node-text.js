@@ -116,10 +116,19 @@ class MetavizNodeText extends MetavizNode {
                 options: this.genLookOptions(),
                 value: this.meta.look,
                 onChange: (value) => {
+
+                    // Store value
                     metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {look: value}, metaPrev: {look: this.meta.look}});
                     this.meta.set('look', value);
+
+                    // Change size
                     this.setSize(this.looks[this.meta.look], true);
                     this.setLook(value);
+
+                    // Cage update
+                    metaviz.editor.cage.update();
+
+                    // Hide menu
                     metaviz.editor.menu.hide();
                 }
             }),
