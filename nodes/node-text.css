@@ -210,6 +210,10 @@
     color: rgb(0, 47, 77);
 }
 
+.metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .toolbar .label {
+    color: rgb(240, 240, 240);
+}
+
 /* Palette Color 3 Navy */
 
 .metaviz-node-text.palette-3 {
@@ -235,6 +239,10 @@
     background-color: rgb(240, 240, 240);
 }
 
+.metaviz-node-text.palette-3 .metaviz-control.metaviz-control-richtext .toolbar .label {
+    color: rgb(240, 240, 240);
+}
+
 /* Palette Color 4 Jade */
 
 .metaviz-node-text.palette-4 {
@@ -258,6 +266,10 @@
 .metaviz-node-text.palette-4.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
     color: var(--color-jade);
     background-color: rgb(240, 240, 240);
+}
+
+.metaviz-node-text.palette-4 .metaviz-control.metaviz-control-richtext .toolbar .label {
+    color: rgb(240, 240, 240);
 }
 
 /* Palette Color 5 Sunny */
