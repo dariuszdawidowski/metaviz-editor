@@ -161,11 +161,13 @@ class MetavizNavigatorBrowser {
                 this.interaction.object = 'desktop';
                 metaviz.container.element.style.cursor = 'grabbing';
                 metaviz.render.pan(event.movementX / window.devicePixelRatio, event.movementY / window.devicePixelRatio);
+                metaviz.editor.cage.update();
             }
             else if (event.which == 2) {
                 this.interaction.object = 'desktop';
                 metaviz.container.element.style.cursor = 'grabbing';
                 metaviz.render.pan(event.movementX / window.devicePixelRatio, event.movementY / window.devicePixelRatio);
+                metaviz.editor.cage.update();
             }
         };
 
