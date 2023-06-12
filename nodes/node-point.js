@@ -9,7 +9,7 @@ class MetavizNodePoint extends MetavizNode {
         super(args);
 
         // Set size
-        this.setSize({width: 20, height: 20, border: 4});
+        this.setSize({width: 20, height: 20});
 
         // Add socket
         this.addSockets({
@@ -19,8 +19,7 @@ class MetavizNodePoint extends MetavizNode {
                 parent: this.element,
                 transform: {
                     x: this.transform.ox,
-                    y: this.transform.oy,
-                    border: this.transform.border
+                    y: this.transform.oy
                 }
             })
         });
