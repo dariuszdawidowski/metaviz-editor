@@ -42,5 +42,7 @@ registry.add({
         '--glass': 'rgba(235, 236, 237, 0.5)',
         '--metaviz-color-cyan': 'rgb(122, 204, 255)',
         '--metaviz-color-cyan-trans': 'rgba(122, 204, 255, 0.69)',
+        '--metaviz-color-darkblue': 'rgb(122, 204, 255)',
+        '--metaviz-color-darkblue-trans': 'rgba(122, 204, 255, 0.69)',
     }
 });

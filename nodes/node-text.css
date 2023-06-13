@@ -272,6 +272,11 @@
     caret-color: white;
 }
 
+.theme-studio .metaviz-node-text.palette-2 .metaviz-control-richtext {
+    color: rgb(0, 0, 10);
+    caret-color: rgb(0, 0, 10);
+}
+
 .metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .toolbar .button {
     color: rgb(240, 240, 240);
 }
@@ -465,6 +470,16 @@
     border-left: 25px solid rgba(0, 142, 230, 0.69);
 }
 
+.theme-studio .metaviz-node-text.sticky.palette-2:before {
+    border-bottom: 25px solid rgb(45, 162, 235);
+    border-left: 25px solid rgb(168, 222, 255);
+}
+
+.theme-studio .metaviz-node-text.sticky.palette-2.drag:before {
+    border-bottom: 25px solid rgba(0, 94, 153, 0.69);
+    border-left: 25px solid rgba(0, 142, 230, 0.69);
+}
+
 .metaviz-node-text.sticky.palette-3:before {
     border-bottom: 25px solid rgb(0, 56, 112);
     border-left: 25px solid rgb(0, 92, 184);
@@ -493,4 +508,10 @@
 .metaviz-node-text.sticky.palette-5.drag:before {
     border-bottom: 25px solid rgba(225, 186, 47, 0.69);
     border-left: 25px solid rgba(255, 225, 118, 0.69);
+}
+
+/* Comic */
+
+.metaviz-node-text.comic {
+    background-color: white;
 }
