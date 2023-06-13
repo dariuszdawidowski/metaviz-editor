@@ -112,10 +112,6 @@
     overflow: hidden;
 }
 
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing {
-    overflow-y: scroll;
-}
-
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.with-toolbar {
     height: calc(100% - 16px - 31px);
 }
@@ -148,6 +144,28 @@
     background-color: #aaa;
 }
 
+/* Rich text editor: Scrollbar */
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing {
+    overflow-y: auto;
+    scrollbar-width: thin; /* Firefox */
+}
+
+/* Chrome, Opera, Edge */
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar {
+    width: 6px;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    border: none;
+}
+
 /*** Palette ***/
 
 /* Palette Color 0 Default */
@@ -166,6 +184,18 @@
     caret-color: var(--caret-color-1);
 }
 
+.metaviz-node-text.palette-0 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    background-color: rgb(192, 192, 192);
+}
+
+.metaviz-node-text.palette-0 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.metaviz-node-text.palette-0 .metaviz-control.metaviz-control-richtext .editor.editing {
+    scrollbar-color: rgb(192, 192, 192) transparent;
+}
+
 /* Palette Color 1 Sky */
 
 .metaviz-node-text.palette-1 {
@@ -180,6 +210,18 @@
 .metaviz-node-text.palette-1 .metaviz-control-richtext {
     color: var(--font-color-2);
     caret-color: var(--caret-color-2);
+}
+
+.metaviz-node-text.palette-1 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    background-color: rgb(154, 182, 203);
+}
+
+.metaviz-node-text.palette-1 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.metaviz-node-text.palette-1 .metaviz-control.metaviz-control-richtext .editor.editing {
+    scrollbar-color: rgb(154, 182, 203) transparent;
 }
 
 /* Palette Color 2 Water */
@@ -214,6 +256,18 @@
     color: rgb(240, 240, 240);
 }
 
+.metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.metaviz-node-text.palette-2 .metaviz-control.metaviz-control-richtext .editor.editing {
+    scrollbar-color: rgba(255, 255, 255, 0.6) transparent;
+}
+
 /* Palette Color 3 Navy */
 
 .metaviz-node-text.palette-3 {
@@ -241,6 +295,18 @@
 
 .metaviz-node-text.palette-3 .metaviz-control.metaviz-control-richtext .toolbar .label {
     color: rgb(240, 240, 240);
+}
+
+.metaviz-node-text.palette-3 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.metaviz-node-text.palette-3 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.metaviz-node-text.palette-3 .metaviz-control.metaviz-control-richtext .editor.editing {
+    scrollbar-color: rgba(255, 255, 255, 0.6) transparent;
 }
 
 /* Palette Color 4 Jade */
@@ -272,6 +338,18 @@
     color: rgb(240, 240, 240);
 }
 
+.metaviz-node-text.palette-4 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.metaviz-node-text.palette-4 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.metaviz-node-text.palette-4 .metaviz-control.metaviz-control-richtext .editor.editing {
+    scrollbar-color: rgba(255, 255, 255, 0.6) transparent;
+}
+
 /* Palette Color 5 Sunny */
 
 .metaviz-node-text.palette-5 {
@@ -295,6 +373,18 @@
 .metaviz-node-text.palette-5.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
     color: rgb(244, 201, 50);
     background-color: rgb(73, 58, 4);
+}
+
+.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb {
+    background-color: rgb(107, 85, 6);
+}
+
+.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .editor.editing::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(170, 135, 9);
+}
+
+.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .editor.editing {
+    scrollbar-color: rgb(107, 85, 6) transparent;
 }
 
 /* Menu options */
