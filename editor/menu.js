@@ -1,7 +1,11 @@
-/**
- * Metaviz Editor Context Menu
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
+/***************************************************************************************************
+ *                                                                                                 *
+ *                            Metaviz Editor Context Menu                                          *
+ *  (\(\   o ( (  o  (\__/)   Create menu and bind all options.                                    *
+ *  (-.-) /   )))  \ ('.'=)   MIT License                                                          *
+ * o(")(")  (()())  (")(")_)  (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ * ^^^^^^^^^^^^^^^^^^^^^^^^^                                                                       *
+ **************************************************************************************************/
 
 class MetavizContextMenu extends TotalProMenu {
 
