@@ -264,36 +264,6 @@ class MetavizContextMenu extends TotalProMenu {
 
             ] }));
 
-            // Notifications
-            subSettings.add(new TotalProMenuGroup({ text: 'Notifications', widgets: [
-
-                // Allow system notifications
-                new TotalProMenuOption({
-                    text: 'Allow notifications',
-                    onChange: () => {
-                        Notification.requestPermission().then((result) => {});
-                        this.hide();
-                    }
-                }),
-
-                // Style of notification
-                new TotalProMenuSelect({
-                    placeholder: 'Text on notification box',
-                    options: {
-                        'sound': {icon: '', text: 'Play sound only'},
-                        'minimal': {icon: '', text: 'Display notification'},
-                        'user': {icon: '', text: 'Notification with user name'},
-                        'message': {icon: '', text: 'Notification with message'}
-                    },
-                    value: metaviz.config.notifications.get(),
-                    onChange: (value) => {
-                        metaviz.config.notifications.set(value);
-                        metaviz.config.save();
-                    }
-                }),
-
-            ] }));
-
         } // Project Settings
 
         // Help selection
