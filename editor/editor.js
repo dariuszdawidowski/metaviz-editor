@@ -941,9 +941,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Show empty board/folder information
      */
 
-    showInfoBubble(msg) {
+    showInfoBubble(icon, msg) {
         if (!metaviz.render.board.querySelector('.info-bubble')) metaviz.render.board.append(this.info);
-        this.info.innerHTML = msg;
+        this.info.innerHTML = `<span style="font-size: 20px; margin-right: 12px">${icon}</span> ${msg}`;
         this.info.style.display = 'flex';
     }
 
@@ -967,7 +967,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     checkEmpty() {
         if (this.isEmpty()) {
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
-            this.showInfoBubble(`${emojis[Math.randomRangeInt(0, emojis.length - 1)]} &nbsp; This is empty ${metaviz.render.nodes.parent ? 'folder' : 'board'} - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to add something...`);
+            this.showInfoBubble(
+                emojis[Math.randomRangeInt(0, emojis.length - 1)],
+                `This is empty ${metaviz.render.nodes.parent ? 'folder' : 'board'} - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...`
+            );
         }
         else {
             this.hideInfoBubble();
