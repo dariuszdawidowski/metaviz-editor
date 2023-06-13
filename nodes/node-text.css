@@ -107,13 +107,22 @@
 
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor {
     width: calc(100% - 2em);
-    margin: 1em;
+    margin: 1em calc(1em - 8px) 1em 1em;
     outline: none;
     overflow: hidden;
 }
 
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.editing {
+    width: calc(100% - 1em - 6px);
+}
+
 .metaviz-node-text.sticky .metaviz-control.metaviz-control-richtext .editor {
-    margin: 8px;
+    width: calc(100% - 16px);
+    margin: 8px 2px 8px 8px;
+}
+
+.metaviz-node-text.sticky .metaviz-control.metaviz-control-richtext .editor.editing {
+    width: calc(100% - 10px);
 }
 
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.with-toolbar {
@@ -151,11 +160,11 @@
 /* Rich text editor: Headers */
 
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h1 {
-    font-size: 1.7em;
+    font-size: 1.5em;
 }
 
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h2 {
-    font-size: 1.32em;
+    font-size: 1.3em;
 }
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h3 {
     font-size: 1.2em;
