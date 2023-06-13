@@ -161,15 +161,30 @@ class MetavizControlRichText extends TotalText {
             selection.addRange(range);
         });
 
-
-        // Track cursor position
+        // Mouse & keyboard events
         this.editor.addEventListener('click', (event) => {
+            // Track carret position
             this.readStyle();
         });
         this.editor.addEventListener('keydown', (event) => {
+            // Track carret position
             this.readStyle();
+
+            // PageUp
+            if (event.key == 'PageUp') {
+                event.preventDefault();
+                this.editor.scrollBy(0, -100);
+            }
+
+            // PageDown
+            else if (event.key == 'PageDown') {
+                event.preventDefault();
+                this.editor.scrollBy(0, 100);
+            }
+
         });
         this.editor.addEventListener('keyup', (event) => {
+            // Track carret position
             this.readStyle();
         });
 
