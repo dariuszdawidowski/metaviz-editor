@@ -922,6 +922,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     }
 
     /**
+     * Show empty board/folder information
+     */
+
+    empty() {
+    }
+
+    /**
      * Set current folder and node
      */
 
