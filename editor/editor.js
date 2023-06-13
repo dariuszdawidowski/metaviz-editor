@@ -91,6 +91,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
         };
 
+        // Info bubble in the center of board
+        this.info = document.createElement('div');
+        this.info.classList.add('info-bubble');
+        this.info.style.display = 'none';
+
         // Spinner
         this.spinner = document.getElementById(metaviz.container.spinnerID);
 
@@ -180,6 +185,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         newNode.start();
         this.history.clearFuture();
         this.history.store({action: 'add', nodes: [newNode.serializeWithTransform()]});
+        this.checkEmpty();
     }
 
     /**
@@ -190,6 +196,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (this.selection.count() > 0) {
             this.nodeDelete(this.selection.get(), true);
             this.selection.clear();
+            this.checkEmpty();
         }
     }
 
@@ -201,6 +208,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (this.selection.count() > 0) {
             this.nodeDelete(this.selection.get(), false);
             this.selection.clear();
+            this.checkEmpty();
         }
     }
 
@@ -241,8 +249,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             for (const node of nodesTree) {
                 metaviz.render.nodes.del(node);
             }
-
         }
+        this.checkEmpty();
     }
 
     snapToGrid(x, y, width = 16) {
@@ -734,6 +742,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.setBoardName('');
         // Generate new board ID
         this.id = crypto.randomUUID();
+        // Empty info
+        this.checkEmpty();
     }
 
     /**
@@ -925,8 +935,40 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Show empty board/folder information
      */
 
-    empty() {
+    showInfoBubble(msg) {
+        if (!metaviz.render.board.querySelector('.info-bubble')) metaviz.render.board.append(this.info);
+        this.info.innerHTML = msg;
+        this.info.style.display = 'flex';
     }
+
+    hideInfoBubble() {
+        this.info.style.display = 'none';
+    }
+
+    /**
+     * Check if board/folder is empty
+     */
+
+    isEmpty() {
+        if (metaviz.render.nodes.list.length == 0) return true;
+        //metaviz.render.nodes.parent
+        return false;
+    }
+
+    /**
+     * Check if board/folder is empty and show/hide info
+     */
+
+    checkEmpty() {
+        if (this.isEmpty()) {
+            const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
+            this.showInfoBubble(`${emojis[Math.randomRangeInt(0, emojis.length - 1)]} &nbsp; This is empty ${metaviz.render.nodes.parent ? 'folder' : 'board'} - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to add something...`);
+        }
+        else {
+            this.hideInfoBubble();
+        }
+    }
+
 
     /**
      * Set current folder and node

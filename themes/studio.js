@@ -4,7 +4,7 @@ registry.add({
     theme: 'MetavizThemeStudio',
     name: 'Studio',
     vars: {
-        '--metaviz-logo-save': '#004388',
+        '--metaviz-logo-save': 'rgb(122, 204, 255)',
         '--canvas-bg-color': 'rgb(30, 30, 30)',
         '--front-color': 'rgb(255, 255, 255)',
         '--front-color-reverse': 'rgb(40, 40, 40)',
