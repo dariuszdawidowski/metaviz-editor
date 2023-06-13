@@ -166,6 +166,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     start() {
+        /*** Overload ***/
     }
 
     /** NODES **********************************************************************************************************************/
@@ -291,10 +292,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     linkDeleteSelected(ask = true) {
         if (this.selection.count() == 2) {
+
             // Ask in modal window
             let confirmed = !ask;
             if (ask && confirm('Delete link?')) confirmed = true;
             if (confirmed) {
+
                 // Find link
                 const link = metaviz.render.links.get(this.selection.nodes[0], this.selection.nodes[1]);
                 if (link) {
@@ -501,8 +504,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragLinkStart() {
+
         // Start node
         const startNode = this.pointer.clicked;
+
         // Synthetic end node (which is cursor)
         const cursor = metaviz.render.screen2World(this.transform);
         const endNode = {
@@ -520,6 +525,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             },
             addLink: function(link) {}
         };
+
         // Create
         this.interaction.link = new registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
         startNode.addLink(this.interaction.link);
@@ -951,7 +957,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     isEmpty() {
         if (metaviz.render.nodes.list.length == 0) return true;
-        //metaviz.render.nodes.parent
         return false;
     }
 
@@ -968,7 +973,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             this.hideInfoBubble();
         }
     }
-
 
     /**
      * Set current folder and node
