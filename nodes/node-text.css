@@ -45,7 +45,7 @@
 }
 
 .metaviz-node-text.a4 .editor {
-    font-size: 15px;
+    font-size: 17px;
 }
 
 .metaviz-node-text.comic .editor {
@@ -106,14 +106,18 @@
 /* Rich text editor: Content */
 
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor {
-    width: calc(100% - 16px);
-    margin: 8px;
+    width: calc(100% - 2em);
+    margin: 1em;
     outline: none;
     overflow: hidden;
 }
 
+.metaviz-node-text.sticky .metaviz-control.metaviz-control-richtext .editor {
+    margin: 8px;
+}
+
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.with-toolbar {
-    height: calc(100% - 16px - 31px);
+    height: calc(100% - 2em - 31px);
 }
 
 .metaviz-node-text .metaviz-control.metaviz-control-richtext .editor.without-toolbar {
@@ -142,6 +146,25 @@
     border: none;
     height: 1px;
     background-color: #aaa;
+}
+
+/* Rich text editor: Headers */
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h1 {
+    font-size: 1.7em;
+}
+
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h2 {
+    font-size: 1.32em;
+}
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h3 {
+    font-size: 1.2em;
+}
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h4 {
+    font-size: 1.1em;
+}
+.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h5 {
+    font-size: 1.0em;
 }
 
 /* Rich text editor: Scrollbar */
