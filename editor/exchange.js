@@ -4,20 +4,6 @@
  */
 
 class MetavizExchange {
-
-    /**
-     * Constructor
-     */
-
-    constructor() {
-
-        // Hack: dummy a href for download
-        this.a = document.createElement('a');
-        this.a.style.display = 'none';
-        this.a.style.position = 'absolute';
-        this.a.style.left = '-3000px';
-        metaviz.render.container.appendChild(this.a);
-    }
         
     /**
      * Paste file or item from system clipboard
@@ -55,7 +41,7 @@ class MetavizExchange {
 
         // Decode
         const newNodes = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true, save: true});
-console.log(newNodes)
+
         // Redraw
         metaviz.editor.update();
 
@@ -82,31 +68,35 @@ console.log(newNodes)
     }
 
     /**
-     * Download file from raw data
+     * Download file
+     *
      * @param args.data: raw blob data
-     * @param args.path: path to file or raw blob data
+     * @param args.path: path to file
      * @param atgs.name: file name
      */
 
     download(args) {
-        const { data = null, path = null, name = 'file' } = args; 
+        const { data = null, path = null, name = null } = args;
+
+        // Create link element
+        const a = document.createElement('a');
 
         // File from disk
         if (path) {
-            this.a.href = data;
+            a.href = path;
         }
 
         // Raw blob
         else if (data) {
             const blob = new Blob([data]);
-            this.a.href = URL.createObjectURL(blob);
+            a.href = URL.createObjectURL(blob);
         }
 
         // File name
-        if (name) this.a.download = name;
+        if (name) a.download = name;
 
-        // Simulate click to start download
-        this.a.click();
+        // Start download hack
+        a.click();
     }
 
 }
