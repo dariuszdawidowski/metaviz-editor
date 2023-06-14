@@ -27,7 +27,8 @@ class MetavizOutStack {
 
         let xml = `<mv>\n`;
         xml += `  <format>MetavizStack</format>\n`;
-        xml += `  <version>4</version>\n`;
+        xml += `  <version>5</version>\n`;
+        xml += `  <mimetype>text/mvstack+xml</mimetype>\n`;
         xml += `  <id>${metaviz.editor.id}</id>\n`;
         xml += `  <name>${metaviz.editor.name}</name>\n`;
         xml += `  <history>\n`;

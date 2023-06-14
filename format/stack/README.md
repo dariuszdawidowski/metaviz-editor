@@ -1,10 +1,9 @@
 # Metaviz history stack format
 
-Mimetype: text/mvstack+xml
-
     <mv>
         <format>MetavizStack</format>
-        <version>4</version>
+        <mimetype>text/mvstack+xml</mimetype>
+        <version>5</version>
 	    <id></id>
         <name></name>
 	    <history>
@@ -24,6 +23,9 @@ Mimetype: text/mvstack+xml
 	</mv>
 
 ## Changelog:
+
+### 5:
+Added mimetype.
 
 ### 4:
 Strip json to separate xml attributes.

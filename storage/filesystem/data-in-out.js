@@ -1,19 +1,11 @@
-/**
- * Metaviz Filesystem
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
-
-/*
-     ______________
-    |o | ______ |  |
-    |  | ______ |  |
-    |  | ______ |  |
-    |  |________|  |
-    |   ________   |
-    |  | [ ]    |  |
-    \__|_[_]____|__|
-
-*/
+/***************************************************************************************************
+ *        __________                                                                               *
+ *       |o| ==== |o|         Metaviz Filesystem                                                   *
+ *       | |______| |         Interface for Native Filesystem API.                                 *
+ *       |  ______  |         MIT License                                                          *
+ *       | |[]    | |         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *       \_|[]____|_|                                                                              *
+ **************************************************************************************************/
 
 class MetavizFilesystem {
 
@@ -55,7 +47,7 @@ class MetavizFilesystem {
 
                     // Decode
                     if (json) {
-                        if (metaviz.format.json.in.deserialize(json)) {
+                        if (metaviz.format.deserialize('text/metaviz+json', json)) {
                             metaviz.render.layers.set('Base Layer');
                             metaviz.render.layers.current.update();
                         }

@@ -14,8 +14,9 @@ class MetavizInStack {
         metaviz.editor.setBoardID(xml.querySelector('mv > id').textContent);
         metaviz.editor.setBoardName(xml.querySelector('mv > name').textContent);
 
+        // Version check 5..4
         const version = parseInt(xml.querySelector('mv > version').textContent);
-        if (version != 4) {
+        if (version > 5 || version < 4) {
             alert('Unsupported file version!');
             return;
         }

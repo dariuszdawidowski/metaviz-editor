@@ -701,6 +701,140 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
     }
 
+    /** CLIPBOARD ******************************************************************************************************************/
+
+    /**
+     * Copy
+     */
+
+    copy(nodes = this.selection.get()) {
+
+        // Disable event to avoid of recursive loop
+        metaviz.events.disable('editor:copy');
+
+        let copy = 'json';
+        let data = null;
+
+        // Any nodes selected?
+        if (this.selection.get().length > 0) {
+
+            // If currently editing text and text is selected then copy raw text not node json
+            const control = this.selection.getFocused().getEditingControl();
+            if (control) {
+                data = control.getSelection();
+                if (data) copy = 'text';
+            }
+
+            // Copy inner contents
+            if (copy == 'text') this.copyRaw(this.selection.getFocused(), data);
+
+            // Copy node(s) if no selected text
+            else if (copy == 'json') this.copyJson(this.selection.get());
+        }
+
+        // Enable event back
+        metaviz.events.enable('editor:copy');
+    }
+
+    /**
+     * Copy pure text
+     */
+
+    copyRaw(node, data) {
+
+        // Copy to clipboard
+        this.clipboard.set(data, node.miniature());
+
+        // Enable event back
+        metaviz.events.enable('editor:copy');
+
+    }
+
+    /**
+     * Copy node JSON
+     * nodes: [MetavizNodeX, ...]
+     */
+
+    copyJson(nodes) {
+
+        // If any nodes
+        if (nodes.length) {
+
+            // Serialize JSON
+            const jsonIN = metaviz.format.serialize('text/metaviz+json', nodes, [metaviz.render.layers.current]);
+
+            // Prepare out
+            const jsonOUT = {
+                format: 'MetavizJSON',
+                version: jsonIN.version,
+                nodes: jsonIN.nodes,
+                layers: [{id: 0, nodes: [], links: []}]
+            };
+
+            // Build own layer nodes {id, x, y, w, h, scale}
+            jsonOUT.layers[0].nodes = nodes.map(node => {
+                return {id: node.id, x: node.transform.x, y: node.transform.y, w: node.transform.w, h: node.transform.h, scale: node.transform.scale}
+            });
+
+            // Build own layer links
+            jsonIN.layers[0].links.forEach(link => {
+                const startFound = nodes.find(node => node.id === link.start);
+                const endFound = nodes.find(node => node.id === link.end);
+                if (startFound && endFound) jsonOUT.layers[0].links.push(link);
+            });
+
+            // Correct center
+            const bounds = this.arrange.align.getBounds(jsonOUT.layers[0].nodes);
+            for (let i = 0; i < jsonOUT.layers[0].nodes.length; i ++) {
+                jsonOUT.layers[0].nodes[i].x -= bounds.left + bounds.center.x;
+                jsonOUT.layers[0].nodes[i].y -= bounds.top + bounds.center.y;
+            }
+
+            // Copy to clipboard
+            this.clipboard.set(JSON.stringify(jsonOUT), nodes[0].miniature());
+
+        }
+
+    }
+
+    /**
+     * Cut
+     */
+
+    cut(nodes = this.selection.get()) {
+        this.copy(nodes);
+        this.nodeDeleteSelectedInstantly();
+    }
+
+    /**
+     * Paste
+     */
+
+    paste(event = false, offset = null) {
+
+        // Paste from system event (CTRL+V)
+        if (event) {
+            metaviz.exchange.paste(event.clipboardData, metaviz.render.screen2World({x: this.transform.x, y: this.transform.y}));
+        }
+
+        // Paste from internal clipboard (menu copy or duplicate)
+        else {
+            if (!offset) offset = metaviz.render.screen2World(this.menu.position());
+            metaviz.exchange.item(this.clipboard.get(), offset);
+        }
+
+    }
+
+    /**
+     * Duplicate
+     */
+
+    duplicate() {
+        this.copy();
+        const bounds = this.arrange.align.getBounds(this.selection.get());
+        this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
+    }
+
     /** BOARD PROJECT FILE ********************************************************************************************************/
 
     /**
@@ -798,7 +932,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                         // Decode
                         //if (json.format == 'MetavizJSON')
-                        //    metaviz.format.json.in.deserialize(json);
+                        //    metaviz.format.deserialize('text/metaviz+json', json);
 
                         // Launch start
                         for (const node of metaviz.render.nodes.get('*')) node.start();
@@ -822,7 +956,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                         // Decode
                         if (xml.querySelector('mv > format').textContent == 'MetavizStack')
-                            metaviz.format.stack.in.deserialize(xml);
+                            metaviz.format.deserialize('text/mvstack+xml', xml);
     
                         // Launch start
                         for (const node of metaviz.render.nodes.get('*')) node.start();
@@ -862,7 +996,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.busy();
 
         // Collect JSON data
-        const json = metaviz.format.stack.out.serialize(this.history.get());
+        const json = metaviz.format.serialize('text/mvstack+xml', this.history.get());
 
         // Save to disk using File System API
         if (this.file.handle) {

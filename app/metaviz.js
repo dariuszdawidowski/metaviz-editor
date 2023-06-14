@@ -228,7 +228,7 @@ class Metaviz {
 
         // Global instances of main components
         this.config = null;
-        this.format = {};
+        this.format = null;
         this.storage = {};
         this.render = null;
         this.events = null;
@@ -304,12 +304,11 @@ class Metaviz {
 
         // Contructors (order matters)
         this.config = new MetavizConfig();
-        this.format = {
-            stack: {
-                in: new MetavizInStack(),
-                out: new MetavizOutStack()
-            },
-        };
+        this.format = new MetavizFormat();
+        this.format.register('text/mvstack+xml', {
+            in: new MetavizInStack(),
+            out: new MetavizOutStack()
+        });
         this.storage = {
             filesystem: new MetavizFilesystem(),
         };
