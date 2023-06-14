@@ -739,7 +739,8 @@ class MetavizNode extends TotalDiagramNode {
 
     fixURI(uri) {
         if (uri == '') return '';
-        return (uri.substring(0, 4) == 'http' || uri.substring(0, 4) == 'file') ? uri : 'media/' + uri;
+        if (metaviz.agent.server) return (uri.substring(0, 4) == 'http' || uri.substring(0, 4) == 'file') ? uri : 'media/' + uri;
+        return uri;
     }
 
     /**
