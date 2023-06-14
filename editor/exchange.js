@@ -20,6 +20,68 @@ class MetavizExchange {
     }
         
     /**
+     * Paste file or item from system clipboard
+     */
+
+    paste(clipboardData, offset = {x: 0, y: 0}) {
+        for (const item of clipboardData.items) {
+            // Item
+            if (item.kind == 'string' && item.type == 'text/plain') {
+                item.getAsString((text) => {
+                    this.item(text, offset);
+                });
+            }
+        }
+    }
+
+    /**
+     * Detect Item type and advance to processing
+     */
+
+    item(text, offset = {x: 0, y: 0}) {
+        const data = this.detectFormat(text);
+
+        // Create whole diagram from json
+        if (data.mime == 'text/metaviz+json') {
+            this.processMV(data.json, offset);
+        }
+    }
+
+    /**
+     * MetavizJSON -> Append diagram
+     */
+
+    processMV(json, offset) {
+
+        // Decode
+        const newNodes = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true, save: true});
+console.log(newNodes)
+        // Redraw
+        metaviz.editor.update();
+
+        // Launch start for nodes
+        for (const node of newNodes) node.start();
+
+        // Check empoty board/folder
+        metaviz.editor.checkEmpty();
+    }
+
+    /**
+     * Detect formats
+     */
+
+    detectFormat(text) {
+
+        // Detecting 'text/metaviz+json'
+        let json = null;
+        try { json = JSON.parse(text); } catch(error) {}
+        if (json && json.format == 'MetavizJSON') return {mime: 'text/metaviz+json', json: json};
+
+        // Unreckognized format returns plain text
+        return {mime: 'text/plain', text: text};
+    }
+
+    /**
      * Download file from raw data
      * @param args.data: raw blob data
      * @param args.path: path to file or raw blob data

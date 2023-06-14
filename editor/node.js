@@ -414,35 +414,33 @@ class MetavizNode extends TotalDiagramNode {
      * Serialization
      */
 
-    serialize() {
+    serialize(type = 'basic') {
         let cleanData = {...this.meta};
         if (cleanData.hasOwnProperty('set')) delete cleanData['set'];
         if (cleanData.hasOwnProperty('get')) delete cleanData['get'];
-        return {
-            id: this.id,
-            parent: this.parent,
-            type: this.constructor.name,
-            data: cleanData,
-            locked: this.locked
-        };
-    }
-
-    serializeWithTransform() {
-        let cleanData = {...this.meta};
-        if (cleanData.hasOwnProperty('set')) delete cleanData['set'];
-        if (cleanData.hasOwnProperty('get')) delete cleanData['get'];
-        return {
-            id: this.id,
-            parent: this.parent,
-            type: this.constructor.name,
-            data: cleanData,
-            locked: this.locked,
-            x: this.transform.x,
-            y: this.transform.y,
-            w: this.transform.w,
-            h: this.transform.h,
-            zindex: this.transform.zindex
-        };
+        if (type == 'basic') {
+            return {
+                id: this.id,
+                parent: this.parent,
+                type: this.constructor.name,
+                data: cleanData,
+                locked: this.locked
+            };
+        }
+        else if (type == 'transform') {
+            return {
+                id: this.id,
+                parent: this.parent,
+                type: this.constructor.name,
+                data: cleanData,
+                locked: this.locked,
+                x: this.transform.x,
+                y: this.transform.y,
+                w: this.transform.w,
+                h: this.transform.h,
+                zindex: this.transform.zindex
+            };
+        }
     }
 
     /**

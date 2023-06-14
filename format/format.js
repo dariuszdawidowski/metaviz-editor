@@ -30,7 +30,6 @@ class MetavizFormat {
      */
 
     serialize(mimetype, data) {
-        console.log(this, mimetype, data)
         return this.out[mimetype].serialize(data);
     }
 
@@ -39,7 +38,7 @@ class MetavizFormat {
      */
 
     deserialize(mimetype, data, args = {}) {
-        this.in[mimetype].deserialize(data, args);
+        return this.in[mimetype].deserialize(data, args);
     }
 
 }

@@ -309,6 +309,10 @@ class Metaviz {
             in: new MetavizInStack(),
             out: new MetavizOutStack()
         });
+        this.format.register('text/metaviz+json', {
+            in: new MetavizInJSON(),
+            out: new MetavizOutJSON()
+        });
         this.storage = {
             filesystem: new MetavizFilesystem(),
         };

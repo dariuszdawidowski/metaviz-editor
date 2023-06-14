@@ -79,6 +79,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Transform cage
         this.cage = new MetavizCage();
 
+        // Clipboard
+        this.clipboard = new MetavizClipboard(metaviz.render.container);
+
         // File
         this.file = {
 
@@ -111,11 +114,32 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Viewer events
         super.initEvents();
 
+        // Paste events
+        this.initEditorCopyPasteEvents();
+
         // Editor leave events
         this.initEditorLeaveEvents();
 
         // Open context menu
         this.initEditorMenuEvents();
+    }
+
+    /**
+     * Copy/Paste data
+     */
+
+    initEditorCopyPasteEvents() {
+
+        // Copy
+        metaviz.events.subscribe('editor:copy', document, 'copy', (event) => {
+            this.copy();
+        });
+
+        // Paste
+        metaviz.events.subscribe('editor:paste', document, 'paste', (event) => {
+            this.paste(event);
+        });
+
     }
 
     /**
@@ -185,7 +209,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         newNode.update();
         newNode.start();
         this.history.clearFuture();
-        this.history.store({action: 'add', nodes: [newNode.serializeWithTransform()]});
+        this.history.store({action: 'add', nodes: [newNode.serialize('transform')]});
         this.checkEmpty();
     }
 
@@ -236,7 +260,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (rusure) {
             // Delete
             const nodesTree = list.flatMap(node => { return node.getTree(); });
-            const nodes = nodesTree.map(node => { return node.serializeWithTransform(); });
+            const nodes = nodesTree.map(node => { return node.serialize('transform'); });
             const links = [...new Set(nodesTree.flatMap(node => node.links.get('*').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
 
             // Undo/Sync
@@ -270,12 +294,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     linkSelected() {
         if (this.selection.count() == 2) {
 
-            // Create link
-            const link = new MetavizLinkBezier({
-                start: this.selection.nodes[0],
-                end: this.selection.nodes[1]
+            const link = metaviz.render.links.add({
+                type: 'MetavizLinkBezier',
+                start: this.selection.nodes[0].id,
+                end: this.selection.nodes[1].id
             });
-            metaviz.render.links.add(link);
 
             // Undo/Sync
             this.history.store({action: 'add', links: [link.serialize()]});
@@ -421,9 +444,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     dragSelectionEnd() {
 
-        // Show cage again
-        this.cage.show();
-
         // Dragged node returns to normal z-index and events
         for (const node of this.selection.get()) {
 
@@ -460,6 +480,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
 
         }
+
+        // Show cage again
+        this.cage.show();
 
     }
 
@@ -725,10 +748,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 if (data) copy = 'text';
             }
 
-            // Copy inner contents
-            if (copy == 'text') this.copyRaw(this.selection.getFocused(), data);
+            // Copy inner contents (RAW)
+            if (copy == 'text') {
+                this.copyRaw(this.selection.getFocused(), data);
+            }
 
-            // Copy node(s) if no selected text
+            // Copy node(s) if no selected text (MetavizJSON)
             else if (copy == 'json') this.copyJson(this.selection.get());
         }
 
@@ -761,37 +786,20 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (nodes.length) {
 
             // Serialize JSON
-            const jsonIN = metaviz.format.serialize('text/metaviz+json', nodes, [metaviz.render.layers.current]);
+            const json = metaviz.format.serialize('text/metaviz+json', nodes);
 
-            // Prepare out
-            const jsonOUT = {
-                format: 'MetavizJSON',
-                version: jsonIN.version,
-                nodes: jsonIN.nodes,
-                layers: [{id: 0, nodes: [], links: []}]
-            };
-
-            // Build own layer nodes {id, x, y, w, h, scale}
-            jsonOUT.layers[0].nodes = nodes.map(node => {
-                return {id: node.id, x: node.transform.x, y: node.transform.y, w: node.transform.w, h: node.transform.h, scale: node.transform.scale}
-            });
-
-            // Build own layer links
-            jsonIN.layers[0].links.forEach(link => {
-                const startFound = nodes.find(node => node.id === link.start);
-                const endFound = nodes.find(node => node.id === link.end);
-                if (startFound && endFound) jsonOUT.layers[0].links.push(link);
-            });
+            // Reset layer ID
+            json.layers[0].id = 0;
 
             // Correct center
-            const bounds = this.arrange.align.getBounds(jsonOUT.layers[0].nodes);
-            for (let i = 0; i < jsonOUT.layers[0].nodes.length; i ++) {
-                jsonOUT.layers[0].nodes[i].x -= bounds.left + bounds.center.x;
-                jsonOUT.layers[0].nodes[i].y -= bounds.top + bounds.center.y;
+            const bounds = this.arrange.align.getBounds(json.layers[0].nodes);
+            for (let i = 0; i < json.layers[0].nodes.length; i ++) {
+                json.layers[0].nodes[i].x -= bounds.left + bounds.center.x;
+                json.layers[0].nodes[i].y -= bounds.top + bounds.center.y;
             }
 
             // Copy to clipboard
-            this.clipboard.set(JSON.stringify(jsonOUT), nodes[0].miniature());
+            this.clipboard.set(JSON.stringify(json), nodes[0].miniature());
 
         }
 
@@ -872,8 +880,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.file.clear();
         // History
         this.history.clear();
-        // Clear links and nodes
-        metaviz.render.clear();
+        // Clipboard
+        this.clipboard.clear();
         // Clear DOM on board
         metaviz.render.clear();
         // Centre board
