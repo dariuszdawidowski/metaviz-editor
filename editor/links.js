@@ -23,7 +23,7 @@ class MetavizLinksManager extends TotalDiagramLinksManager {
      */
 
     add(args, visible = true) {
-console.log('add link', args)
+
         // Optional: decode string to json
         if (typeof(args) == 'string') args = JSON.parse(args)
 
@@ -33,7 +33,6 @@ console.log('add link', args)
         const endNode = metaviz.render.nodes.get(args.end);
         if (!startNode || !endNode) return null;
 
-console.log('nodes found.')
         // Create
         const newLink = new registry.links[args.type].proto({
             id: 'id' in args ? args.id : crypto.randomUUID(),
@@ -41,7 +40,6 @@ console.log('nodes found.')
             start: startNode,
             end: endNode
         });
-console.log('new link', newLink)
 
         // Store link
         this.list.push(newLink);

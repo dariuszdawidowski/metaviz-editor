@@ -939,8 +939,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         //window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
 
                         // Decode
-                        //if (json.format == 'MetavizJSON')
-                        //    metaviz.format.deserialize('text/metaviz+json', json);
+                        if (json.format == 'MetavizJSON')
+                            metaviz.format.deserialize('text/metaviz+json', json);
+
+                        // Empty folder?
+                        metaviz.editor.checkEmpty();
 
                         // Launch start
                         for (const node of metaviz.render.nodes.get('*')) node.start();
@@ -966,6 +969,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         if (xml.querySelector('mv > format').textContent == 'MetavizStack')
                             metaviz.format.deserialize('text/mvstack+xml', xml);
     
+                        // Empty folder?
+                        metaviz.editor.checkEmpty();
+
                         // Launch start
                         for (const node of metaviz.render.nodes.get('*')) node.start();
 
