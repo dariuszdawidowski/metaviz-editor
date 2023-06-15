@@ -130,7 +130,7 @@ const registry = {
 
         // Theme
         else if (('theme' in args) && ('vars' in args)) {
-            this.themes[args.name] = args.vars;
+            this.themes[args.name] = args;
         }
     }
 
@@ -342,7 +342,7 @@ class Metaviz {
             // Theme
             const theme = localStorage.getItem('metaviz.config.theme') || 'Iron';
             this.container.element.classList.add('theme-' + theme.toLowerCase());
-            for (const [key, value] of Object.entries(registry.themes[theme])) {
+            for (const [key, value] of Object.entries(registry.themes[theme].vars)) {
                 document.documentElement.style.setProperty(key, value);
             }
 

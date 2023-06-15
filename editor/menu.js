@@ -245,20 +245,25 @@ class MetavizContextMenu extends TotalProMenu {
             ] }));
 
             // Look & feel
+            const themes = {};
+            const themeClasses = [];
+            for (const [key, value] of Object.entries(registry.themes)) {
+                themes[key] = {icon: '', text: 'Theme: ' + key};
+                themeClasses.push('theme-' + registry.themes[key].name.toLowerCase());
+            }
             subSettings.add(new TotalProMenuGroup({ text: 'Look & feel', widgets: [
 
                 new TotalProMenuSelect({
                     placeholder: 'Select color theme',
                     options: {
                         'Iron': {icon: '', text: 'Theme: Iron'},
-                        'Covellite': {icon: '', text: 'Theme: Covellite'},
-                        'Studio': {icon: '', text: 'Theme: Studio'}
+                        'Covellite': {icon: '', text: 'Theme: Covellite'}
                     },
                     value: metaviz.config.theme.get(),
                     onChange: (value) => {
-                        metaviz.container.element.classList.remove('theme-iron', 'theme-covellite', 'theme-studio');
+                        metaviz.container.element.classList.remove(...themeClasses);
                         metaviz.container.element.classList.add('theme-' + value.toLowerCase());
-                        for (const [key, theme] of Object.entries(registry.themes[value])) {
+                        for (const [key, theme] of Object.entries(registry.themes[value].vars)) {
                             document.documentElement.style.setProperty(key, theme);
                         }
                         metaviz.config.theme.set(value);
