@@ -794,8 +794,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Correct center
             const bounds = this.arrange.align.getBounds(json.layers[0].nodes);
             for (let i = 0; i < json.layers[0].nodes.length; i ++) {
-                json.layers[0].nodes[i].x -= bounds.left + bounds.center.x;
-                json.layers[0].nodes[i].y -= bounds.top + bounds.center.y;
+                json.layers[0].nodes[i].x -= bounds.center.x;
+                json.layers[0].nodes[i].y -= bounds.center.y;
             }
 
             // Copy to clipboard

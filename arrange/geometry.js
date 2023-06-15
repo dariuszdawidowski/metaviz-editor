@@ -9,6 +9,8 @@ class MetavizGeometry {
      * Nodes bound box with center
      * nodes: [MetavizNode, ...]
      * or
+     * nodes as transforms wit width and height: [{x: <Number>, y: <Number>, w: <Number>, h: <Number>}, ...]
+     * or
      * nodes as transforms without width and height: [{x: <Number>, y: <Number>}, ...]
      */
 
@@ -21,6 +23,12 @@ class MetavizGeometry {
                 bounds.top = Math.min(node.transform.y - (node.transform.h / 2), bounds.top);
                 bounds.right = Math.max(node.transform.x + (node.transform.w / 2), bounds.right);
                 bounds.bottom = Math.max(node.transform.y + (node.transform.h / 2), bounds.bottom);
+            }
+            else if ('w' in node && 'h' in node) {
+                bounds.left = Math.min(node.x - (node.w / 2), bounds.left);
+                bounds.top = Math.min(node.y - (node.h / 2), bounds.top);
+                bounds.right = Math.max(node.x + (node.w / 2), bounds.right);
+                bounds.bottom = Math.max(node.y + (node.h / 2), bounds.bottom);
             }
             else {
                 if (node.x < bounds.left) bounds.left = node.x;
