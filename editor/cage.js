@@ -281,8 +281,8 @@ class MetavizCage {
                 y: this.node.transform.y - this.node.transform.oy - this.margin + container.y
             });
             const rightBottom = metaviz.render.world2Screen({
-                x: this.node.transform.x - this.node.transform.ox + this.node.transform.w + this.margin + this.node.transform.border + container.left,
-                y: this.node.transform.y - this.node.transform.oy + this.node.transform.h + this.margin + this.node.transform.border + container.top
+                x: this.node.transform.x - this.node.transform.ox + this.node.transform.w + this.margin + container.left + (this.node.transform.border * 2),
+                y: this.node.transform.y - this.node.transform.oy + this.node.transform.h + this.margin + container.top + (this.node.transform.border * 2)
             });
             const width = rightBottom.x - leftTop.x;
             const height = rightBottom.y - leftTop.y;
