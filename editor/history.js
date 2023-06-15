@@ -155,6 +155,8 @@ class MetavizHistory {
                 let newNodes = [];
                 for (const node of args.nodes) {
                     const newNode = metaviz.render.nodes.add(node);
+                    newNode.render();
+                    newNode.update();
                     newNodes.push(newNode);
                 }
                 // Call start on all recreated nodes
