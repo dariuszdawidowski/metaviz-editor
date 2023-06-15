@@ -233,7 +233,6 @@ class MetavizNodeText extends MetavizNode {
      */
 
     miniature(content = false) {
-        this.serialize();
         return `<div class="miniature metaviz-node-text" data-id="${this.id}">${content ? `<h2>${this.getText(1).synopsis(10)}</h2>▬▬▬▬▬▬▬▬▬<br>▬▬▬▬▬▬▬▬<br>▬▬▬▬▬<br>▬▬▬▬▬▬▬▬<br>▬▬▬▬` : 'Page'}</div>`;
     }
 

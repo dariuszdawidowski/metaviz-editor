@@ -167,7 +167,6 @@ class MetavizHistory {
 
             // Links
             if ('links' in args) {
-                // TODO: w linkach zmieniłem id nodów na obiekty
                 for (const link of args.links) metaviz.render.links.add(link);
             }
 

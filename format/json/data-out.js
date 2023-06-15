@@ -29,9 +29,22 @@ class MetavizOutJSON {
 
         // Nodes
         nodes.forEach(node => {
-            json.nodes.push(node.serialize());
-            const n = node.serialize('transform');
-            json.layers[0].nodes.push({id: n.id, x: n.x, y: n.y, w: n.w, h: n.h, zindex: n.zindex});
+            const n = node.serialize();
+            json.nodes.push({
+                id: n.id,
+                parent: n.parent,
+                type: n.type,
+                data: n.data,
+                locked: n.locked
+            });
+            json.layers[0].nodes.push({
+                id: n.id,
+                x: n.x,
+                y: n.y,
+                w: n.w,
+                h: n.h,
+                zindex: n.zindex
+            });
         });
 
         // Links

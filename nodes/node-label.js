@@ -287,7 +287,6 @@ class MetavizNodeLabel extends MetavizNode {
      */
 
     miniature(content=false) {
-        this.serialize();
         return `<div class="miniature metaviz-node-label color-${this.meta.color}" data-id="${this.id}">${content ? this.meta.text.synopsis(3) : 'Label'}</div>`;
     }
 

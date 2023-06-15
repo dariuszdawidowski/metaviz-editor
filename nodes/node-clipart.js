@@ -101,7 +101,6 @@ class MetavizNodeClipart extends MetavizNode {
      */
 
     miniature(content=false) {
-        this.serialize();
         return `<div class="miniature miniature-node-clipart" style="width: 100%; height: 100%;" data-id="${this.id}">${content ? this.control.icon.control.outerHTML : '<i class="fa-solid fa-palette"></i>'}</div>`;
     }
 
