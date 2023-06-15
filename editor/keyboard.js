@@ -99,8 +99,7 @@ class MetavizEditorKeyboard {
                 else if (this.key.ctrl && !this.key.alt && !this.key.shift && event.keyCode == 90) {
                     event.preventDefault();
                     if (this.editor.history.undo()) {
-                        metaviz.render.layers.current.render();
-                        metaviz.render.layers.current.update();
+                        metaviz.editor.update();
                     }
                 }
 
@@ -108,8 +107,7 @@ class MetavizEditorKeyboard {
                 else if (this.key.ctrl && !this.key.alt && this.key.shift && event.keyCode == 90) {
                     event.preventDefault();
                     if (this.editor.history.redo()) {
-                        metaviz.render.layers.current.render();
-                        metaviz.render.layers.current.update();
+                        metaviz.editor.update();
                     }
                 }
 

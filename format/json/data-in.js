@@ -66,6 +66,8 @@ class MetavizInJSON {
                     newNodes.push(newNode);
                 }
 
+                const newLinks = [];
+
                 // Create links
                 for (const link of layer.links) {
                     if (reindex) {
@@ -73,13 +75,29 @@ class MetavizInJSON {
                         link.start = reindexLookup[link.start];
                         link.end = reindexLookup[link.end];
                     }
-                    metaviz.render.links.add({
+                    const newLink = metaviz.render.links.add({
                         id: link.id,
                         type: link.type,
                         start: link.start,
                         end: link.end,
                     });
+                    newLinks.push(newLink);
                 }
+
+                // Save to history & databse
+                if (save) {
+                    metaviz.editor.history.clearFuture();
+                    metaviz.editor.history.store({
+                        action: 'add',
+                        nodes: newNodes.map(n => {
+                            return n.serialize('transform');
+                        }),
+                        links: newLinks.map(l => {
+                            return l.serialize();
+                        })
+                    });
+                }
+
             }
 
             // Successfully created
