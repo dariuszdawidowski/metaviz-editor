@@ -155,6 +155,9 @@ class MetavizHistory {
                 let newNodes = [];
                 for (const node of args.nodes) {
                     const newNode = metaviz.render.nodes.add(node);
+                    for (const [param, value] of Object.entries(node.data)) {
+                        newNode.meta.set(param, value);
+                    }
                     newNode.render();
                     newNode.update();
                     newNodes.push(newNode);
@@ -296,6 +299,7 @@ class MetavizHistory {
      */
 
     recreate() {
+
         this.get(true).forEach(args => {
 
             // Add
@@ -309,6 +313,7 @@ class MetavizHistory {
                         for (const [param, value] of Object.entries(node.data)) {
                             newNode.meta.set(param, value);
                         }
+                        newNode.render();
                         newNode.update();
                         newNodes.push(newNode);
                     }
