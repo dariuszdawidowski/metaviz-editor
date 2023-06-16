@@ -38,20 +38,29 @@ class MetavizInStack {
                             timestamp: element.getAttribute('timestamp'),
                             session: session.id
                         };
-                        if (element.getAttribute('node')) packetAdd['nodes'] = [{
-                            id: element.getAttribute('node'),
-                            type: element.getAttribute('type'),
-                            x: parseInt(element.getAttribute('x')),
-                            y: parseInt(element.getAttribute('y')),
-                            w: parseInt(element.getAttribute('w')),
-                            h: parseInt(element.getAttribute('h'))
-                        }];
-                        if (element.getAttribute('link')) packetAdd['links'] = [{
-                            id: element.getAttribute('link'),
-                            type: element.getAttribute('type'),
-                            start: element.getAttribute('start'),
-                            end: element.getAttribute('end')
-                        }];
+                        let dataAdd = {};
+                        for (const attr of Array.from(element.getAttributeNames()).filter(name => name.startsWith('data-'))) {
+                            dataAdd[attr.slice(5)] = element.getAttribute(attr);
+                        }
+                        if (element.getAttribute('node')) {
+                            packetAdd['nodes'] = [{
+                                id: element.getAttribute('node'),
+                                type: element.getAttribute('type'),
+                                x: parseInt(element.getAttribute('x')),
+                                y: parseInt(element.getAttribute('y')),
+                                w: parseInt(element.getAttribute('w')),
+                                h: parseInt(element.getAttribute('h')),
+                                data: dataAdd
+                            }];
+                        }
+                        if (element.getAttribute('link')) {
+                            packetAdd['links'] = [{
+                                id: element.getAttribute('link'),
+                                type: element.getAttribute('type'),
+                                start: element.getAttribute('start'),
+                                end: element.getAttribute('end')
+                            }];
+                        }
                         packets.push(packetAdd);
                         break;
 
