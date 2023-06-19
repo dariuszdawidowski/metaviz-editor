@@ -13,14 +13,14 @@ class MetavizNodeLabel extends MetavizNode {
         super(args);
 
         // Meta defaults
-        if (!('text' in this.meta)) this.meta['text'] = '';
-        if (!('color' in this.meta)) this.meta['color'] = '0';
-        if (!('style' in this.meta)) this.meta['style'] = 'label';
-        if (!('font' in this.meta)) this.meta['font'] = 'Roboto';
-        if (!('rotate' in this.meta)) this.meta['rotate'] = 0;
+        if (!('text' in this.params)) this.params['text'] = '';
+        if (!('color' in this.params)) this.params['color'] = '0';
+        if (!('style' in this.params)) this.params['style'] = 'label';
+        if (!('font' in this.params)) this.params['font'] = 'Roboto';
+        if (!('rotate' in this.params)) this.params['rotate'] = 0;
 
         // Migrate Meta
-        if (typeof(this.meta['color']) == 'number') this.meta['color'] = this.meta['color'].toString();
+        if (typeof(this.params['color']) == 'number') this.params['color'] = this.params['color'].toString();
 
         // Controls
         this.addControls({
@@ -28,43 +28,48 @@ class MetavizNodeLabel extends MetavizNode {
             // Input control
             input: new MetavizControlInput({
                 name: 'text',
-                value: this.meta.text,
+                value: this.params.text,
                 onChange: (value) => {
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {text: value}, prev: {text: this.meta.text}});
-                    this.meta.text = value;
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {text: value},
+                        prev: {text: this.params.text}
+                    });
+                    this.params.text = value;
                 }
             })
 
         });
 
         // Font
-        this.controls.input.element.style.fontFamily = this.meta.font;
+        this.controls.input.element.style.fontFamily = this.params.font;
 
         // Size
         this.setSize({width: 176, height: 24});
 
         // Rotate
-        if (this.meta['rotate'] != 0) this.controls.input.element.style.rotate = this.meta['rotate'] + 'deg';
+        if (this.params['rotate'] != 0) this.controls.input.element.style.rotate = this.params['rotate'] + 'deg';
 
         // Classes
-        this.element.classList.add('color-' + this.meta.color);
-        this.element.classList.add('style-' + this.meta.style);
+        this.element.classList.add('color-' + this.params.color);
+        this.element.classList.add('style-' + this.params.style);
 
         // Meta setter
-        this.meta.set = (key, value) => {
-            this.meta[key] = value;
+        this.params.set = (key, value) => {
+            this.params[key] = value;
             if (key == 'color') {
                 this.element.classList.remove('color-0', 'color-1', 'color-2', 'color-3', 'color-4', 'color-5');
-                this.element.classList.add('color-' + this.meta.color);
+                this.element.classList.add('color-' + this.params.color);
                 this.update();
             }
             else if (key == 'style') {
                 this.element.classList.remove('style-label', 'style-text', 'style-underline');
-                this.element.classList.add('style-' + this.meta.style);
+                this.element.classList.add('style-' + this.params.style);
                 this.update();
             }
             else if (key == 'font') {
-                this.controls.input.element.style.fontFamily = this.meta.font;
+                this.controls.input.element.style.fontFamily = this.params.font;
             }
             else if (key == 'text') {
                 this.controls.input.set(value);
@@ -102,7 +107,7 @@ class MetavizNodeLabel extends MetavizNode {
      */
 
     serialize() {
-        this.meta.text = this.controls.input.get();
+        this.params.text = this.controls.input.get();
         return super.serialize();
     }
 
@@ -136,10 +141,10 @@ class MetavizNodeLabel extends MetavizNode {
                         'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Only text'},
                         'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Underline'},
                     },
-                    value: this.meta.style,
+                    value: this.params.style,
                     onChange: (value) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {style: value}, prev: {style: this.meta.style}});
-                        this.meta.set('style', value);
+                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {style: value}, prev: {style: this.params.style}});
+                        this.params.set('style', value);
                     }
                 }),
 
@@ -154,10 +159,10 @@ class MetavizNodeLabel extends MetavizNode {
                         '4': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: 'Color: Sunny'},
                         '5': {icon: '<div class="menu-icon-square" style="background-color: #e89191"></div>', text: 'Color: Fire'}
                     },
-                    value: this.meta.color,
+                    value: this.params.color,
                     onChange: (value) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {color: value}, prev: {color: this.meta.color}});
-                        this.meta.set('color', value);
+                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {color: value}, prev: {color: this.params.color}});
+                        this.params.set('color', value);
                     }
                 }),
 
@@ -169,20 +174,20 @@ class MetavizNodeLabel extends MetavizNode {
                         'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Allura'},
                         'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Mansalva'},
                     },
-                    value: this.meta.font,
+                    value: this.params.font,
                     onChange: (value) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {font: value}, prev: {font: this.meta.font}});
-                        this.meta.set('font', value);
+                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {font: value}, prev: {font: this.params.font}});
+                        this.params.set('font', value);
                     }
                 }),
 
                 // Rotate
                 new TotalProMenuInput({
                     placeholder: 'Rotate',
-                    value: this.meta.rotate,
+                    value: this.params.rotate,
                     onChange: (event) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {rotate: parseInt(event.target.value)}, prev: {rotate: this.meta.rotate}});
-                        this.meta.set('rotate', parseInt(event.target.value));
+                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {rotate: parseInt(event.target.value)}, prev: {rotate: this.params.rotate}});
+                        this.params.set('rotate', parseInt(event.target.value));
                     }
                 }),
 
@@ -206,7 +211,7 @@ class MetavizNodeLabel extends MetavizNode {
             this.transform.y - (this.transform.h / 2),
             this.transform.x + (this.transform.w / 2),
             this.transform.y + (this.transform.h / 2),
-            this.meta['rotate']
+            this.params['rotate']
         );
         return {
             width: bounds.w,
@@ -264,7 +269,7 @@ class MetavizNodeLabel extends MetavizNode {
      */
 
     search(text) {
-        return this.meta.text.toLowerCase().includes(text.toLowerCase());
+        return this.params.text.toLowerCase().includes(text.toLowerCase());
     }
 
     /**
@@ -287,7 +292,7 @@ class MetavizNodeLabel extends MetavizNode {
      */
 
     miniature(content=false) {
-        return `<div class="miniature metaviz-node-label color-${this.meta.color}" data-id="${this.id}">${content ? this.meta.text.synopsis(3) : 'Label'}</div>`;
+        return `<div class="miniature metaviz-node-label color-${this.params.color}" data-id="${this.id}">${content ? this.params.text.synopsis(3) : 'Label'}</div>`;
     }
 
 }

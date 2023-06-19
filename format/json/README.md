@@ -3,7 +3,7 @@
     {
 	    "format": "MetavizJSON",
 	    "mimetype": "text/metaviz+json",
-	    "version": 27,
+	    "version": 28,
 	    "id": "...",
 	    "updated": "...",
         "name": "...",
@@ -12,7 +12,7 @@
 	            "id": "...",
 	            "parent": "...",
 	            "type": "...",
-	            "data": {...} [optional]
+	            "params": {...} [optional]
 	        },
 	        ...
 	    ],

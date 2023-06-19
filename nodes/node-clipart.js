@@ -9,7 +9,7 @@ class MetavizNodeClipart extends MetavizNode {
         super(args);
 
         // Meta defaults
-        if (!('name' in this.meta)) this.meta['name'] = '';
+        if (!('name' in this.params)) this.params['name'] = '';
 
         // Controls
         this.addControls({
@@ -27,8 +27,13 @@ class MetavizNodeClipart extends MetavizNode {
 
             picker: new MetavizEmojiPicker({
                 onClick: (emoji) => {
-                    this.meta.set('name', emoji.unicode);
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {name: emoji.unicode}, dataPrev: {url: this.meta.name}});
+                    this.params.set('name', emoji.unicode);
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {name: emoji.unicode},
+                        prev: {url: this.params.name}
+                    });
                     metaviz.editor.menu.hide();
                 }
             })
@@ -36,9 +41,9 @@ class MetavizNodeClipart extends MetavizNode {
         });
 
         // Meta setter
-        this.meta.set = (key, value) => {
+        this.params.set = (key, value) => {
             if (key == 'name') {
-                this.meta.name = value;
+                this.params.name = value;
                 this.controls.icon.set(...this.getIconName());
             }
         };
@@ -64,14 +69,14 @@ class MetavizNodeClipart extends MetavizNode {
     getIconName() {
         // Emoji
         const regex = /\p{Extended_Pictographic}/ug
-        if (regex.test(this.meta.name)) {
-            return ['emoji', this.meta.name];
+        if (regex.test(this.params.name)) {
+            return ['emoji', this.params.name];
         }
 
         // Flag emoji (just unicode fallback, flags can't be detected by one regex)
         const regexFlag = /[^\u0000-\u007F]/g;
-        if (regexFlag.test(this.meta.name)) {
-            return ['emoji', this.meta.name];
+        if (regexFlag.test(this.params.name)) {
+            return ['emoji', this.params.name];
         }
 
         // Fallback
@@ -93,7 +98,7 @@ class MetavizNodeClipart extends MetavizNode {
      */
 
     search(text) {
-        return this.meta.name.toLowerCase().includes(text.toLowerCase());
+        return this.params.name.toLowerCase().includes(text.toLowerCase());
     }
 
     /**

@@ -26,14 +26,14 @@ class MetavizNode extends TotalDiagramNode {
         // Parent as object reference MetavizNode
         this.parentNode = null;
 
-        // Slot name (string)
-        this.slot = 'meta' in args && 'slot' in args.meta ? args.meta.slot : null;
-
         // Meta data
-        this.meta = args.meta ?? {};
+        this.params = args.params ?? {};
         // Setter and getter
-        this.meta.set = function(key, value) { this[key] = value; };
-        this.meta.get = function(key) { return this[key]; };
+        this.params.set = function(key, value) { this[key] = value; };
+        this.params.get = function(key) { return this[key]; };
+
+        // Slot name (string)
+        this.slot = 'params' in args && 'slot' in args.params ? args.params.slot : null;
 
         // Extend transform
         this.transform.prev = {
@@ -415,14 +415,14 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     serialize() {
-        let cleanData = {...this.meta};
+        let cleanData = {...this.params};
         if (cleanData.hasOwnProperty('set')) delete cleanData['set'];
         if (cleanData.hasOwnProperty('get')) delete cleanData['get'];
         return {
             id: this.id,
             parent: this.parent,
             type: this.constructor.name,
-            data: cleanData,
+            params: cleanData,
             locked: this.locked,
             x: this.transform.x,
             y: this.transform.y,
@@ -437,7 +437,7 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     migrate(version) {
-        if (!('v' in this.meta)) this.meta['v'] = version;
+        if (!('v' in this.params)) this.params['v'] = version;
         /* Overload version migration for node */
     }
 
@@ -733,7 +733,7 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
-     * Search meta data for given text
+     * Search params data for given text
      */
 
     search(text) {

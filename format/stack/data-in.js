@@ -16,7 +16,7 @@ class MetavizInStack {
 
         // Version check 5..4
         const version = parseInt(xml.querySelector('mv > version').textContent);
-        if (version > 5 || version < 4) {
+        if (version > 6 || version < 4) {
             alert('Unsupported file version!');
             return;
         }
@@ -39,6 +39,10 @@ class MetavizInStack {
                             session: session.id
                         };
                         let dataAdd = {};
+                        for (const attr of Array.from(element.getAttributeNames()).filter(name => name.startsWith('param-'))) {
+                            dataAdd[attr.slice(6)] = element.getAttribute(attr);
+                        }
+                        // < v5 compatibility
                         for (const attr of Array.from(element.getAttributeNames()).filter(name => name.startsWith('data-'))) {
                             dataAdd[attr.slice(5)] = element.getAttribute(attr);
                         }
@@ -50,7 +54,7 @@ class MetavizInStack {
                                 y: parseInt(element.getAttribute('y')),
                                 w: parseInt(element.getAttribute('w')),
                                 h: parseInt(element.getAttribute('h')),
-                                data: dataAdd
+                                params: dataAdd
                             }];
                         }
                         if (element.getAttribute('link')) {
@@ -107,16 +111,20 @@ class MetavizInStack {
                         break;
 
                     case 'param':
-                        let data = {};
+                        let params = {};
+                        for (const attr of Array.from(element.getAttributeNames()).filter(name => name.startsWith('param-'))) {
+                            params[attr.slice(6)] = element.getAttribute(attr);
+                        }
+                        // < v5 compatibility
                         for (const attr of Array.from(element.getAttributeNames()).filter(name => name.startsWith('data-'))) {
-                            data[attr.slice(5)] = element.getAttribute(attr);
+                            params[attr.slice(5)] = element.getAttribute(attr);
                         }
                         packets.push({
                             action: 'param',
                             timestamp: element.getAttribute('timestamp'),
                             session: session.id,
                             node: {id: element.getAttribute('node')},
-                            data: data
+                            params: params
                         });
                         break;
 

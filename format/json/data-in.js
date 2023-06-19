@@ -52,10 +52,6 @@ class MetavizInJSON {
                     // Optional reparent
                     if (reparent) node.parent = metaviz.render.nodes.parent;
 
-                    // Metadata
-                    node['meta'] = (('data' in node) && node['data'] != null) ? node['data'] : {};
-                    delete node['data'];
-
                     // Create
                     const newNode = metaviz.render.nodes.add(node, false);
                     newNode.setPosition({x: vnode.x + offset.x, y: vnode.y + offset.y})

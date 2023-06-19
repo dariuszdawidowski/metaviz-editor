@@ -47,7 +47,7 @@
     {
         action: 'param',
         node: {id: ...},
-        data: {...},
+        params: {...},
         prev: {...}
     }
 
@@ -82,22 +82,8 @@ class MetavizHistory {
 
     store(args) {
 
-        // Migrate meta -> data, metaPrev -> prev
-        if ('meta' in args) {
-            args['data'] = args['meta'];
-            delete args['meta'];
-        }
-        if ('metaPrev' in args) {
-            args['prev'] = args['metaPrev'];
-            delete args['metaPrev'];
-        }
-        if ('dataPrev' in args) {
-            args['prev'] = args['dataPrev'];
-            delete args['dataPrev'];
-        }
-
         // Anything really changed?
-        if ('data' in args && 'prev' in args && (JSON.stringify(args.data) === JSON.stringify(args.prev))) return;
+        if ('params' in args && 'prev' in args && (JSON.stringify(args.params) === JSON.stringify(args.prev))) return;
 
         // Timestamp
         args['timestamp'] = Date.now();
@@ -155,8 +141,8 @@ class MetavizHistory {
                 let newNodes = [];
                 for (const node of args.nodes) {
                     const newNode = metaviz.render.nodes.add(node);
-                    for (const [param, value] of Object.entries(node.data)) {
-                        newNode.meta.set(param, value);
+                    for (const [param, value] of Object.entries(node.params)) {
+                        newNode.params.set(param, value);
                     }
                     newNode.render();
                     newNode.update();
@@ -203,7 +189,7 @@ class MetavizHistory {
         else if (args.action == 'param') {
             const node = metaviz.render.nodes.get(args.node.id);
             for (const [param, value] of Object.entries(args.prev)) {
-                node.meta.set(param, value);
+                node.params.set(param, value);
             }
         }
 
@@ -310,8 +296,8 @@ class MetavizHistory {
                     let newNodes = [];
                     for (const node of args.nodes) {
                         const newNode = metaviz.render.nodes.add(node);
-                        for (const [param, value] of Object.entries(node.data)) {
-                            newNode.meta.set(param, value);
+                        for (const [param, value] of Object.entries(node.params)) {
+                            newNode.params.set(param, value);
                         }
                         newNode.render();
                         newNode.update();
@@ -381,8 +367,8 @@ class MetavizHistory {
             // Param
             else if (args.action == 'param') {
                 const node = metaviz.render.nodes.get(args.node.id);
-                for (const [param, value] of Object.entries(args.data)) {
-                    node.meta.set(param, value);
+                for (const [param, value] of Object.entries(args.params)) {
+                    node.params.set(param, value);
                 }
             }
 
@@ -449,9 +435,9 @@ class MetavizHistory {
         }
 
         // Param
-        else if (state.action == 'param' && 'data' in state && 'prev' in state) {
-            const temp = state.data;
-            state.data = state.prev;
+        else if (state.action == 'param' && 'params' in state && 'prev' in state) {
+            const temp = state.params;
+            state.params = state.prev;
             state.prev = temp;
         }
 

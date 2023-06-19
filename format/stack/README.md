@@ -3,18 +3,18 @@
     <mv>
         <format>MetavizStack</format>
         <mimetype>text/mvstack+xml</mimetype>
-        <version>5</version>
+        <version>6</version>
 	    <id></id>
         <name></name>
 	    <history>
 	        <session id="">
-		        <add timestamp="" node="id" type="" x="" y="" w="" h="" data-*=""/>
+		        <add timestamp="" node="id" type="" x="" y="" w="" h="" param-*=""/>
 		        <add timestamp="" link="id" type="" start="" end=""/>
 		        <del timestamp="" nodes="id,..."/>
 		        <del timestamp="" links="id,..."/>
 		        <move timestamp="" nodes="id,..." offset-x="" offset-y="" position-x="" position-y=""/>
 		        <resize timestamp="" nodes="id,..." w="" h=""/>
-		        <param timestamp="" node="" data-*=""/>
+		        <param timestamp="" node="" param-*=""/>
 	        </session>
 	        <session id="">
 	            ...
@@ -23,6 +23,9 @@
 	</mv>
 
 ## Changelog:
+
+### 6:
+Change data- to param-.
 
 ### 5:
 Added mimetype.

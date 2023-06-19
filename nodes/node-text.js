@@ -32,21 +32,21 @@ class MetavizNodeText extends MetavizNode {
         };
 
         // Meta defaults
-        if (!('look' in this.meta)) this.meta['look'] = 'sticky';
-        if (!('spellcheck' in this.meta)) this.meta['spellcheck'] = true;
-        if (!('page_1' in this.meta)) this.meta['page_1'] = '';
-        if (!('lastpage' in this.meta)) this.meta['lastpage'] = 1;
-        if (!('currpage' in this.meta)) this.meta['currpage'] = 1;
-        if (!('palette' in this.meta)) this.meta['palette'] = '0';
+        if (!('look' in this.params)) this.params['look'] = 'sticky';
+        if (!('spellcheck' in this.params)) this.params['spellcheck'] = true;
+        if (!('page_1' in this.params)) this.params['page_1'] = '';
+        if (!('lastpage' in this.params)) this.params['lastpage'] = 1;
+        if (!('currpage' in this.params)) this.params['currpage'] = 1;
+        if (!('palette' in this.params)) this.params['palette'] = '0';
 
         // Current page number
-        this.page = this.meta['currpage'];
+        this.page = this.params['currpage'];
 
         // Current color scheme
-        this.element.classList.add('palette-' + this.meta.palette);
+        this.element.classList.add('palette-' + this.params.palette);
 
         // Initial size
-        if (this.transform.w == 0) this.setSize({width: this.looks[this.meta.look].width, height: this.looks[this.meta.look].height});
+        if (this.transform.w == 0) this.setSize({width: this.looks[this.params.look].width, height: this.looks[this.params.look].height});
 
         // Controls
         this.addControls({
@@ -55,16 +55,16 @@ class MetavizNodeText extends MetavizNode {
             textarea: new MetavizControlRichText({
                 name: `page_${this.page}`,
                 value: this.getText(),
-                spellcheck: this.meta.spellcheck,
+                spellcheck: this.params.spellcheck,
                 onChange: (value) => {
                     // Store
-                    const params = {action: 'param', node: {id: this.id}, meta: {}, metaPrev: {}};
-                    params.meta[`page_${this.page}`] = value;
-                    params.metaPrev[`page_${this.page}`] = this.meta[`page_${this.page}`];
-                    metaviz.editor.history.store(params);
+                    const packet = {action: 'param', node: {id: this.id}, params: {}, prev: {}};
+                    packet.params[`page_${this.page}`] = value;
+                    packet.prev[`page_${this.page}`] = this.params[`page_${this.page}`];
+                    metaviz.editor.history.store(packet);
 
                     // Value
-                    this.meta[`page_${this.page}`] = value;
+                    this.params[`page_${this.page}`] = value;
 
                     // Resubscribe
                     metaviz.events.enable('viewer:keydown');
@@ -75,31 +75,31 @@ class MetavizNodeText extends MetavizNode {
                 },
                 onPrevPage: () => {
                     if (this.page > 1) {
-                        this.meta[`page_${this.page}`] = this.controls.textarea.get();
+                        this.params[`page_${this.page}`] = this.controls.textarea.get();
                         this.page --;
-                        this.meta.currpage = this.page;
-                        this.controls.textarea.set(this.meta[`page_${this.page}`]);
-                        this.controls.textarea.page(this.meta.currpage, this.meta.lastpage);
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {currpage: this.meta.currpage}, metaPrev: {currpage: this.meta.currpage + 1}});
+                        this.params.currpage = this.page;
+                        this.controls.textarea.set(this.params[`page_${this.page}`]);
+                        this.controls.textarea.page(this.params.currpage, this.params.lastpage);
+                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {currpage: this.params.currpage}, prev: {currpage: this.params.currpage + 1}});
                         this.update();
                     }
                 },
                 onNextPage: () => {
-                    this.meta[`page_${this.page}`] = this.controls.textarea.get();
+                    this.params[`page_${this.page}`] = this.controls.textarea.get();
                     this.page ++;
-                    this.meta.currpage = this.page;
+                    this.params.currpage = this.page;
                     // Create new page
-                    if (this.meta.lastpage < this.page) {
-                        this.meta.lastpage ++;
+                    if (this.params.lastpage < this.page) {
+                        this.params.lastpage ++;
                         this.controls.textarea.clear();
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {lastpage: this.meta.lastpage}, metaPrev: {lastpage: this.meta.lastpage - 1}});
+                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {lastpage: this.params.lastpage}, prev: {lastpage: this.params.lastpage - 1}});
                     }
                     // Switch to next page
                     else {
-                        this.controls.textarea.set(this.meta[`page_${this.page}`]);
+                        this.controls.textarea.set(this.params[`page_${this.page}`]);
                     }
-                    this.controls.textarea.page(this.meta.currpage, this.meta.lastpage);
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {currpage: this.meta.currpage}, metaPrev: {currpage: this.meta.currpage - 1}});
+                    this.controls.textarea.page(this.params.currpage, this.params.lastpage);
+                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {currpage: this.params.currpage}, prev: {currpage: this.params.currpage - 1}});
                     this.update();
                 },
             }),
@@ -114,15 +114,15 @@ class MetavizNodeText extends MetavizNode {
             look: new TotalProMenuSelect({
                 placeholder: 'Look',
                 options: this.genLookOptions(),
-                value: this.meta.look,
+                value: this.params.look,
                 onChange: (value) => {
 
                     // Store value
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {look: value}, metaPrev: {look: this.meta.look}});
-                    this.meta.set('look', value);
+                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {look: value}, prev: {look: this.params.look}});
+                    this.params.set('look', value);
 
                     // Change size
-                    this.setSize(this.looks[this.meta.look], true);
+                    this.setSize(this.looks[this.params.look], true);
                     this.setLook(value);
 
                     // Cage update
@@ -137,10 +137,10 @@ class MetavizNodeText extends MetavizNode {
             palette: new TotalProMenuSelect({
                 placeholder: 'Color palette',
                 options: this.colors,
-                value: this.meta.palette,
+                value: this.params.palette,
                 onChange: (value) => {
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {palette: value}, metaPrev: {palette: this.meta.palette}});
-                    this.meta.set('palette', value);
+                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {palette: value}, prev: {palette: this.params.palette}});
+                    this.params.set('palette', value);
                     metaviz.editor.menu.hide();
                 }
             }),
@@ -148,10 +148,10 @@ class MetavizNodeText extends MetavizNode {
             // Spellcheck turn on/off
             spellcheck: new TotalProMenuSwitch({
                 text: 'Spellcheck',
-                value: this.meta.spellcheck,
+                value: this.params.spellcheck,
                 onChange: (value) => {
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, meta: {spellcheck: value}, metaPrev: {spellcheck: this.meta.spellcheck}});
-                    this.meta.spellcheck = value;
+                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {spellcheck: value}, prev: {spellcheck: this.params.spellcheck}});
+                    this.params.spellcheck = value;
                     this.controls.textarea.spellcheck(value);
                 }
             }),
@@ -159,9 +159,9 @@ class MetavizNodeText extends MetavizNode {
         });
 
         // Meta setter
-        this.meta.set = (key, value) => {
+        this.params.set = (key, value) => {
 
-            this.meta[key] = value;
+            this.params[key] = value;
 
             if (key.startsWith('page_')) {
                 const page = parseInt(key.replace('page_', ''));
@@ -170,7 +170,7 @@ class MetavizNodeText extends MetavizNode {
 
             else if (key == 'palette') {
                 for (const [key, color] of Object.entries(this.colors)) this.element.classList.remove(color.class);
-                this.element.classList.add(this.colors[this.meta.palette].class);
+                this.element.classList.add(this.colors[this.params.palette].class);
                 this.update();
             }
 
@@ -186,9 +186,9 @@ class MetavizNodeText extends MetavizNode {
 
     start() {
         // Look (wait for dimensions)
-        this.setLook(this.meta.look);
+        this.setLook(this.params.look);
         // Pages on toolbar
-        this.controls.textarea.page(this.meta.currpage, this.meta.lastpage);
+        this.controls.textarea.page(this.params.currpage, this.params.lastpage);
     }
 
     /**
@@ -273,13 +273,13 @@ class MetavizNodeText extends MetavizNode {
         // All pages
         if (nr == 'all') {
             const pages = '';
-            for (let nr = 0; nr < this.meta.lastpage; nr ++) {
-                pages += this.meta[`page_${nr}`];
+            for (let nr = 0; nr < this.params.lastpage; nr ++) {
+                pages += this.params[`page_${nr}`];
             }
             return pages;
         }
         // Single page
-        return this.meta[`page_${nr}`];
+        return this.params[`page_${nr}`];
     }
 
     /**
@@ -287,10 +287,10 @@ class MetavizNodeText extends MetavizNode {
      */
 
     flush() {
-        const params = {action: 'param', node: {id: this.id}, meta: {}, metaPrev: {}};
-        params.meta[`page_${this.page}`] = this.controls.textarea.get();
-        params.metaPrev[`page_${this.page}`] = this.meta[`page_${this.page}`];
-        metaviz.editor.history.store(params);
+        const packet = {action: 'param', node: {id: this.id}, params: {}, prev: {}};
+        packet.params[`page_${this.page}`] = this.controls.textarea.get();
+        packet.prev[`page_${this.page}`] = this.params[`page_${this.page}`];
+        metaviz.editor.history.store(packet);
     }
 
     /**
@@ -299,7 +299,7 @@ class MetavizNodeText extends MetavizNode {
 
     update() {
         super.update();
-        this.setLook(this.meta.look);
+        this.setLook(this.params.look);
     }
 
 }

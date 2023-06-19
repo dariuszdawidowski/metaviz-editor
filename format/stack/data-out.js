@@ -27,7 +27,7 @@ class MetavizOutStack {
 
         let xml = `<mv>\n`;
         xml += `  <format>MetavizStack</format>\n`;
-        xml += `  <version>5</version>\n`;
+        xml += `  <version>6</version>\n`;
         xml += `  <mimetype>text/mvstack+xml</mimetype>\n`;
         xml += `  <id>${metaviz.editor.id}</id>\n`;
         xml += `  <name>${metaviz.editor.name}</name>\n`;
@@ -52,7 +52,7 @@ class MetavizOutStack {
                 case 'add':
                     if (('nodes' in p) && p.nodes.length)
                         p.nodes.forEach(node => {
-                            xml += `      <add timestamp="${p.timestamp}" node="${node.id}" type="${node.type}" x="${node.x}" y="${node.y}" w="${node.w}" h="${node.h}"${this.dataStrip(node.data)}/>\n`;
+                            xml += `      <add timestamp="${p.timestamp}" node="${node.id}" type="${node.type}" x="${node.x}" y="${node.y}" w="${node.w}" h="${node.h}"${this.paramStrip(node.params)}/>\n`;
                         });
                     if (('links' in p) && p.links.length)
                         p.links.forEach(link => {
@@ -79,7 +79,7 @@ class MetavizOutStack {
                     break;
 
                 case 'param':
-                    xml += `      <param timestamp="${p.timestamp}" node="${p.node.id}"${this.dataStrip(p.data)}/>\n`;
+                    xml += `      <param timestamp="${p.timestamp}" node="${p.node.id}"${this.paramStrip(p.params)}/>\n`;
                     break;
 
             }
@@ -91,11 +91,11 @@ class MetavizOutStack {
         return xml;
     }
 
-    dataStrip(data) {
+    paramStrip(data) {
         let str = '';
         if (data) { 
             for (const [key, value] of Object.entries(data)) {
-                str += ` data-${key}="${typeof(value) == 'string' ? value.escape() : value}"`;
+                str += ` param-${key}="${typeof(value) == 'string' ? value.escape() : value}"`;
             }
         }
         return str;
