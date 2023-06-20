@@ -180,12 +180,21 @@ class MetavizContextMenu extends TotalProMenu {
             this.panel.left.add(subSettings);
             subSettings.add(new TotalProMenuGroup({ text: 'Project settings', widgets: [
                 // Project name
-                new TotalProMenuInput({ id: 'total-pro-menu-project-name', placeholder: 'Project name', value: projectName, onChange: (event) => {
-                    // Undo/Sync
-                    metaviz.editor.history.store({action: 'board', name: event.target.value, namePrev: metaviz.editor.getBoardName()});
-                    // Set new name
-                    metaviz.editor.setBoardName(event.target.value);
-                }}),
+                new TotalProMenuInput({
+                    id: 'total-pro-menu-project-name',
+                    placeholder: 'Project name',
+                    value: projectName,
+                    onChange: (value) => {
+                        // Undo/Sync
+                        metaviz.editor.history.store({
+                            action: 'board',
+                            name: value,
+                            namePrev: metaviz.editor.getBoardName()
+                        });
+                        // Set new name
+                        metaviz.editor.setBoardName(event.target.value);
+                    }
+                }),
             ] }));
 
             // On update project name
