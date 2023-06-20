@@ -59,4 +59,50 @@ class MetavizNodesManager extends TotalDiagramNodesManager {
 
     }
 
+    /**
+     * Get nodes from scene
+     */
+
+    get(node) {
+
+        // All nodes
+        if (node == '*') return this.list;
+
+        // Find one node by giving DOM element
+        else if (node != null && typeof(node) == 'object') {
+            // Traverse DOM
+            let target = node;
+            while (target.parentNode) {
+
+                if ('classList' in target) {
+
+                    // Clicked on node
+                    if (target.classList.contains('total-diagram-node')) {
+                        // Found
+                        return this.get(target.dataset.id);
+                    }
+
+                    // Clicked on socket
+                    if (target.classList.contains('metaviz-socket')) {
+                        // Found
+                        return this.get(target.dataset.nodeId);
+                    }
+
+                }
+
+                target = target.parentNode;
+            }
+        }
+
+        // Find all nodes type by giving class
+        else if (typeof(node) == 'function') return this.list.filter(n => n instanceof node);
+
+        // Find one node by giving ID
+        else if (typeof(node) == 'string') return this.list.find(n => n.id == node);
+
+        // Not found
+        return null;
+
+    }
+
 }
