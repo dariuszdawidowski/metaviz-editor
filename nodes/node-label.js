@@ -17,7 +17,6 @@ class MetavizNodeLabel extends MetavizNode {
         if (!('color' in this.params)) this.params['color'] = '0';
         if (!('style' in this.params)) this.params['style'] = 'label';
         if (!('font' in this.params)) this.params['font'] = 'Roboto';
-        if (!('rotate' in this.params)) this.params['rotate'] = 0;
 
         // Migrate Meta
         if (typeof(this.params['color']) == 'number') this.params['color'] = this.params['color'].toString();
@@ -42,14 +41,79 @@ class MetavizNodeLabel extends MetavizNode {
 
         });
 
+        // Menu options
+        this.addOptions({
+
+            // Style
+            style: new TotalProMenuSelect({
+                placeholder: 'Style',
+                options: {
+                    'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Label'},
+                    'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Only text'},
+                    'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Underline'},
+                },
+                value: this.params.style,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {style: value},
+                        prev: {style: this.params.style}
+                    });
+                    this.params.set('style', value);
+                }
+            }),
+
+            // Color
+            color: new TotalProMenuSelect({
+                placeholder: 'Color',
+                options: {
+                    '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: 'Color: Default'},
+                    '1': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: 'Color: Water'},
+                    '2': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 67, 136)"></div>', text: 'Color: Navy'},
+                    '3': {icon: '<div class="menu-icon-square" style="background-color: var(--color-jade)"></div>', text: 'Color: Jade'},
+                    '4': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: 'Color: Sunny'},
+                    '5': {icon: '<div class="menu-icon-square" style="background-color: #e89191"></div>', text: 'Color: Fire'}
+                },
+                value: this.params.color,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {color: value},
+                        prev: {color: this.params.color}
+                    });
+                    this.params.set('color', value);
+                }
+            }),
+
+            // Font
+            font: new TotalProMenuSelect({
+                placeholder: 'Font',
+                options: {
+                    'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Roboto'},
+                    'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Allura'},
+                    'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Mansalva'},
+                },
+                value: this.params.font,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {font: value},
+                        prev: {font: this.params.font}
+                    });
+                    this.params.set('font', value);
+                }
+            }),
+
+        });
+
         // Font
         this.controls.input.element.style.fontFamily = this.params.font;
 
         // Size
         this.setSize({width: 176, height: 24});
-
-        // Rotate
-        if (this.params['rotate'] != 0) this.controls.input.element.style.rotate = this.params['rotate'] + 'deg';
 
         // Classes
         this.element.classList.add('color-' + this.params.color);
@@ -58,25 +122,31 @@ class MetavizNodeLabel extends MetavizNode {
         // Meta setter
         this.params.set = (key, value) => {
             this.params[key] = value;
+
+            // Color
             if (key == 'color') {
                 this.element.classList.remove('color-0', 'color-1', 'color-2', 'color-3', 'color-4', 'color-5');
                 this.element.classList.add('color-' + this.params.color);
                 this.update();
             }
+
+            // Style
             else if (key == 'style') {
                 this.element.classList.remove('style-label', 'style-text', 'style-underline');
                 this.element.classList.add('style-' + this.params.style);
                 this.update();
             }
+
+            // Font
             else if (key == 'font') {
                 this.controls.input.element.style.fontFamily = this.params.font;
             }
+
+            // Text
             else if (key == 'text') {
                 this.controls.input.set(value);
             }
-            else if (key == 'rotate') {
-                this.controls.input.element.style.rotate = value + 'deg';
-            }
+
         }
 
         // Sockets
@@ -125,77 +195,6 @@ class MetavizNodeLabel extends MetavizNode {
     }
 
     /**
-     * Menu options
-     */
-
-    menu() {
-
-        return {
-            options: [
-
-                // Style
-                new TotalProMenuSelect({
-                    placeholder: 'Style',
-                    options: {
-                        'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Label'},
-                        'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Only text'},
-                        'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Underline'},
-                    },
-                    value: this.params.style,
-                    onChange: (value) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {style: value}, prev: {style: this.params.style}});
-                        this.params.set('style', value);
-                    }
-                }),
-
-                // Color
-                new TotalProMenuSelect({
-                    placeholder: 'Color',
-                    options: {
-                        '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: 'Color: Default'},
-                        '1': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: 'Color: Water'},
-                        '2': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 67, 136)"></div>', text: 'Color: Navy'},
-                        '3': {icon: '<div class="menu-icon-square" style="background-color: var(--color-jade)"></div>', text: 'Color: Jade'},
-                        '4': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: 'Color: Sunny'},
-                        '5': {icon: '<div class="menu-icon-square" style="background-color: #e89191"></div>', text: 'Color: Fire'}
-                    },
-                    value: this.params.color,
-                    onChange: (value) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {color: value}, prev: {color: this.params.color}});
-                        this.params.set('color', value);
-                    }
-                }),
-
-                // Font
-                new TotalProMenuSelect({
-                    placeholder: 'Font',
-                    options: {
-                        'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Roboto'},
-                        'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Allura'},
-                        'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Mansalva'},
-                    },
-                    value: this.params.font,
-                    onChange: (value) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {font: value}, prev: {font: this.params.font}});
-                        this.params.set('font', value);
-                    }
-                }),
-
-                // Rotate
-                new TotalProMenuInput({
-                    placeholder: 'Rotate',
-                    value: this.params.rotate,
-                    onChange: (event) => {
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, data: {rotate: parseInt(event.target.value)}, prev: {rotate: this.params.rotate}});
-                        this.params.set('rotate', parseInt(event.target.value));
-                    }
-                }),
-
-            ]
-        };
-    }
-
-    /**
      * Size
      * {width: .., height: ..}
      */
@@ -206,16 +205,9 @@ class MetavizNodeLabel extends MetavizNode {
     }
 
     getSize() {
-        const bounds = this.getBounds(
-            this.transform.x - (this.transform.w / 2),
-            this.transform.y - (this.transform.h / 2),
-            this.transform.x + (this.transform.w / 2),
-            this.transform.y + (this.transform.h / 2),
-            this.params['rotate']
-        );
         return {
-            width: bounds.w,
-            height: bounds.h,
+            width: this.transform.w,
+            height: this.transform.h,
             minWidth: 64,
             minHeight: 16,
             maxWidth: 1024,
