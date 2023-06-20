@@ -778,6 +778,36 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Dynamically load .js or .css
+     */
+
+    require(id, src) {
+        if (!document.getElementById(id)) {
+
+            // Load custom script
+            if (src.ext() == 'js') {
+                const script = document.createElement('script');
+                script.id = id;
+                script.setAttribute('type', 'module');
+                script.setAttribute('src', src);
+                script.onload = (event) => metaviz.editor.menu.regenerateNodesList();
+                document.body.appendChild(script);
+            }
+
+            // Load custom style
+            if (src.ext() == 'css') {
+                const style = document.createElement('link');
+                style.id = id;
+                style.setAttribute('rel', 'stylesheet');
+                style.setAttribute('type', 'stylesheet');
+                style.setAttribute('href', src);
+                document.body.appendChild(style);
+            }
+
+        }
+    }
+
+    /**
      * Get menu options
      */
 
