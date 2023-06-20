@@ -216,46 +216,6 @@ class MetavizNodeLabel extends MetavizNode {
         };
     }
 
-    getBounds(left, top, right, bottom, deg) {
-        // Współrzędne wierzchołków prostokąta
-        var x1 = left, y1 = top; // lewy górny róg
-        var x2 = right, y2 = top; // prawy górny róg
-        var x3 = right, y3 = bottom; // prawy dolny róg
-        var x4 = left, y4 = bottom; // lewy dolny róg
-
-        // Współrzędne środka prostokąta
-        var centerX = (x1 + x2 + x3 + x4) / 4;
-        var centerY = (y1 + y2 + y3 + y4) / 4;
-
-        // Kąt obrotu prostokąta (w radianach)
-        var angle = deg * (Math.PI / 180);
-
-        // Wartości sinusa i cosinusa kąta obrotu
-        var sinAngle = Math.sin(angle);
-        var cosAngle = Math.cos(angle);
-
-        // Nowe współrzędne punktów wierzchołków prostokąta
-        var newX1 = cosAngle * (x1 - centerX) - sinAngle * (y1 - centerY) + centerX;
-        var newY1 = sinAngle * (x1 - centerX) + cosAngle * (y1 - centerY) + centerY;
-
-        var newX2 = cosAngle * (x2 - centerX) - sinAngle * (y2 - centerY) + centerX;
-        var newY2 = sinAngle * (x2 - centerX) + cosAngle * (y2 - centerY) + centerY;
-
-        var newX3 = cosAngle * (x3 - centerX) - sinAngle * (y3 - centerY) + centerX;
-        var newY3 = sinAngle * (x3 - centerX) + cosAngle * (y3 - centerY) + centerY;
-
-        var newX4 = cosAngle * (x4 - centerX) - sinAngle * (y4 - centerY) + centerX;
-        var newY4 = sinAngle * (x4 - centerX) + cosAngle * (y4 - centerY) + centerY;
-
-        // Granice prostokąta na podstawie nowych współrzędnych punktów wierzchołków
-        var left = Math.min(newX1, newX2, newX3, newX4);
-        var top = Math.min(newY1, newY2, newY3, newY4);
-        var right = Math.max(newX1, newX2, newX3, newX4);
-        var bottom = Math.max(newY1, newY2, newY3, newY4);
-
-        return {left, top, right, bottom, w: right - left, h: bottom - top};
-    }
-
     /**
      * Search meta data for given text
      */
