@@ -181,7 +181,6 @@ class MetavizEditorPointer {
             // Clicked on Node: Select node
             this.clicked = metaviz.render.nodes.get(event.target);
             if (this.clicked) {
-                //console.log('click on node')
 
                 // Interaction with node
                 this.editor.interaction.object = 'node';
@@ -205,8 +204,8 @@ class MetavizEditorPointer {
 
             // Clicked on Board: Clear all selected nodes
             else if (!this.editor.keyboard.key.ctrl) {
-                //console.log('board: clear selection')
                 this.editor.selection.clear();
+                this.editor.interaction.object = null;
             }
         }
 
@@ -247,8 +246,6 @@ class MetavizEditorPointer {
         }
 
         // Drag
-        //metaviz.editor.interaction.mode
-        //metaviz.editor.interaction.object
         if (this.editor.interaction.mode == 'drag') {
 
             // Drag link from socket
