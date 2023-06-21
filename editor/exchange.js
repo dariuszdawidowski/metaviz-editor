@@ -39,8 +39,9 @@ class MetavizExchange {
 
     processMV(json, offset) {
 
-        // Clean source board id (appending to current board)
+        // Clean source board info (appending to current board)
         delete json.id;
+        delete json.name;
 
         // Decode
         const [newNodes, newLinks] = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true});
