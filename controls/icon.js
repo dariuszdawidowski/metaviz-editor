@@ -8,13 +8,14 @@ class MetavizControlIcon extends MetavizControl {
     /**
      * Constructor
      * family: icon family
+     *   mdi: Material Design Icons
      *   fa-: Font Awesome 6.x
      *   fas: Font Awesome Solid
      *   fab: Font Awesome Brands
      *   svg: regular svg file
      *   img: bitmap image
      *   emoji: emoji text
-     * name: name of the Font Awesome or url to svg file
+     * name: name of the font or url
      */
 
     constructor(family, name = '') {
@@ -46,8 +47,19 @@ class MetavizControlIcon extends MetavizControl {
      */
 
     build() {
+
+        // Material Design Icons
+        if (this.family == 'mdi') {
+            this.element = document.createElement('span');
+            this.element.classList.add('metaviz-control');
+            this.element.classList.add('metaviz-control-icon');
+            this.element.classList.add(this.family);
+            this.element.classList.add(this.name);
+            this.element.classList.add('metaviz-control-icon-' + this.name.slug());
+        }
+
         // Font Awesome
-        if (this.family.startsWith('fa-') || this.family == 'fas' || this.family == 'far' || this.family == 'fab') {
+        else if (this.family.startsWith('fa-') || this.family == 'fas' || this.family == 'far' || this.family == 'fab') {
             this.element = document.createElement('i');
             this.element.classList.add('metaviz-control');
             this.element.classList.add('metaviz-control-icon');
@@ -80,6 +92,7 @@ class MetavizControlIcon extends MetavizControl {
 
         // Prevent system drag
         if (this.element) this.element.ondragstart = function() { return false; };
+
     }
 
     /**
