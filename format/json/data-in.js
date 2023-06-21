@@ -10,14 +10,14 @@ class MetavizInJSON {
      */
 
     deserialize(json, args = {}) {
-        const { reindex = false, reparent = false, realign = false, save = false } = args; 
+        const { reindex = false, reparent = false, realign = false } = args; 
         const offset = {x: 'offset' in args ? args.offset.x : 0, y: 'offset' in args ? args.offset.y : 0};
 
         // List of new created nodes
         const newNodes = [];
 
-        // Version 27
-        if (json.format == 'MetavizJSON' && json.version == 27) {
+        // Version 27..28
+        if (json.format == 'MetavizJSON' && json.version >= 27 && json.version <= 28) {
 
             // Board ID
             if ('id' in json && json.id) metaviz.editor.id = json.id;
@@ -80,24 +80,10 @@ class MetavizInJSON {
                     newLinks.push(newLink);
                 }
 
-                // Save to history & databse
-                if (save) {
-                    metaviz.editor.history.clearFuture();
-                    metaviz.editor.history.store({
-                        action: 'add',
-                        nodes: newNodes.map(n => {
-                            return n.serialize('transform');
-                        }),
-                        links: newLinks.map(l => {
-                            return l.serialize();
-                        })
-                    });
-                }
-
             }
 
             // Successfully created
-            return newNodes;
+            return [newNodes, newLinks];
 
         }
 

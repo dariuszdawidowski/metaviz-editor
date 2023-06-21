@@ -39,8 +39,23 @@ class MetavizExchange {
 
     processMV(json, offset) {
 
+        // Clean source board id (appending to current board)
+        delete json.id;
+
         // Decode
-        const newNodes = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true, save: true});
+        const [newNodes, newLinks] = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true});
+
+        // Save to history & databse
+        metaviz.editor.history.clearFuture();
+        metaviz.editor.history.store({
+            action: 'add',
+            nodes: newNodes.map(n => {
+                return n.serialize('transform');
+            }),
+            links: newLinks.map(l => {
+                return l.serialize();
+            })
+        });
 
         // Redraw
         metaviz.editor.update();
@@ -48,7 +63,7 @@ class MetavizExchange {
         // Launch start for nodes
         for (const node of newNodes) node.start();
 
-        // Check empoty board/folder
+        // Check empty board/folder
         metaviz.editor.checkEmpty();
     }
 
