@@ -5,7 +5,7 @@ registry.add({
     name: 'Iron',
     vars: {
         '--metaviz-logo-save': '#004388',
-        '--canvas-bg-color': '#dddfe1',
+        '--canvas-bg-color': '#dce2e5',
         '--front-color': 'rgb(60, 75, 60)',
         '--front-color-reverse': 'rgb(240, 240, 240)',
         '--node-icon': 'rgb(60, 75, 60)',
