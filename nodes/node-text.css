@@ -256,6 +256,16 @@
     scrollbar-color: rgb(154, 182, 203) transparent;
 }
 
+.metaviz-node-text.palette-1 .metaviz-control.metaviz-control-richtext .toolbar .button,
+.metaviz-node-text.palette-1 .metaviz-control.metaviz-control-richtext .toolbar .label {
+    color: rgb(73, 58, 4);
+}
+
+.metaviz-node-text.palette-1.focused .metaviz-control.metaviz-control-richtext .toolbar .button:hover {
+    color: rgb(244, 201, 50);
+    background-color: rgb(73, 58, 4);
+}
+
 /* Palette Color 2 Water */
 
 .metaviz-node-text.palette-2 {
@@ -403,7 +413,8 @@
     caret-color: black;
 }
 
-.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .toolbar .button {
+.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .toolbar .button,
+.metaviz-node-text.palette-5 .metaviz-control.metaviz-control-richtext .toolbar .label {
     color: rgb(73, 58, 4);
 }
 
