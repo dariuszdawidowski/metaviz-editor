@@ -231,6 +231,9 @@ class MetavizHistory {
             // Store for Redo
             this.future.push(this.mirror(previous));
 
+            // Cage update
+            metaviz.editor.cage.update();
+
             // Moved to previous state
             return true;
 
@@ -263,6 +266,9 @@ class MetavizHistory {
 
             // Store for Undo
             this.history.push(this.mirror(next));
+
+            // Cage update
+            metaviz.editor.cage.update();
 
             // Moved to future state
             return true;
