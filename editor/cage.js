@@ -11,10 +11,10 @@ class MetavizCage {
 
     constructor(args) {
 
-        // Mode ('avg' = average proportional resizing, 'free' = separate x,y, 'ratio' = proportional)
+        // Mode ('none' = can't resize, 'avg' = average proportional resizing, 'free' = separate x,y, 'ratio' = proportional)
         this.mode = 'ratio';
 
-        // Binded to node
+        // Current node
         this.node = null;
 
         // Margin size
@@ -145,10 +145,23 @@ class MetavizCage {
      */
 
     show() {
+        // Hide/show resizing squares
+        if (this.node.getSize().mode == 'none') {
+            this.nw.style.display = 'none';
+            this.ne.style.display = 'none';
+            this.se.style.display = 'none';
+            this.sw.style.display = 'none';
+        }
+        else {
+            this.nw.style.display = 'block';
+            this.ne.style.display = 'block';
+            this.se.style.display = 'block';
+            this.sw.style.display = 'block';
+        }
         this.update();
         this.element.style.display = 'block';
+
         // Disable base navigation events
-        // metaviz.events.disable('viewer:*');
         metaviz.events.disable('editor:paste');
         metaviz.events.disable('editor:keydown');
         metaviz.events.disable('editor:keyup');
@@ -160,10 +173,11 @@ class MetavizCage {
      */
 
     hide() {
+        // Hide
         this.element.style.display = 'none';
+
         // Restore base navigation events
         metaviz.events.disable('browser:prevent');
-        // metaviz.events.enable('viewer:*');
         metaviz.events.enable('editor:paste');
         metaviz.events.enable('editor:keydown');
         metaviz.events.enable('editor:keyup');
@@ -194,8 +208,7 @@ class MetavizCage {
      */
 
     resizeDrag(event) {
-        const node = metaviz.editor.selection.getFocused();
-        const size = node.getSize();
+        const size = this.node.getSize();
         let offset = null;
         switch (size.mode) {
             case 'free':
@@ -205,17 +218,17 @@ class MetavizCage {
                 offset = this.offset.deltaAvg(event.x, event.y);
                 break;
             case 'ratio':
-                const ratio = (node.transform.w / node.transform.h).toFixed(2);
+                const ratio = (this.node.transform.w / this.node.transform.h).toFixed(2);
                 offset = this.offset.deltaRatio(event.x, event.y, ratio, 1);
                 break;
         }
-        node.setSize({
+        this.node.setSize({
             width: Math.min(Math.max(size.width + offset.x, size.minWidth), size.maxWidth),
             height: Math.min(Math.max(size.height + offset.y, size.minHeight), size.maxHeight)
         });
-        node.update();
-        for (const link of node.links.get('*')) link.update();
-        this.update(node.transform);
+        this.node.update();
+        for (const link of this.node.links.get('*')) link.update();
+        this.update(this.node.transform);
     }
 
     /**
@@ -225,7 +238,7 @@ class MetavizCage {
     resizeEnd(event) {
 
         // Snap size
-        const size = metaviz.editor.selection.nodes[0].getSize();
+        const size = this.node.getSize();
         const offset = size.mode == 'avg' ? this.offset.deltaAvg(event.x, event.y) : this.offset.delta(event.x, event.y);
         const snappedSize = metaviz.editor.snapToGrid(
             Math.min(Math.max(size.width + offset.x, size.minWidth), size.maxWidth),
@@ -233,7 +246,7 @@ class MetavizCage {
         );
 
         // Set rendered node size
-        metaviz.editor.selection.nodes[0].setSize({
+        this.node.setSize({
             width: snappedSize.x,
             height: snappedSize.y
         }, true);
@@ -300,7 +313,7 @@ class MetavizCage {
             this.se.style.transform = `translate(${width - this.resize}px, ${height - this.resize}px)`;
             this.sw.style.transform = `translate(${-this.resize}px, ${height - this.resize}px)`;
             // Re-render node
-            if (metaviz.editor.selection.nodes.length) metaviz.editor.selection.getFocused().render();
+            this.node.render();
         }
     }
 

@@ -26,6 +26,22 @@ class MetavizNodePoint extends MetavizNode {
     }
 
     /**
+     * Get Size
+     */
+
+    getSize() {
+        return {
+            width: this.transform.w,
+            height: this.transform.h,
+            minWidth: this.transform.wmin,
+            minHeight: this.transform.hmin,
+            maxWidth: this.transform.wmax,
+            maxHeight: this.transform.hmax,
+            mode: 'none'
+        };
+    }
+
+    /**
      * Make node elastic
      */
 

@@ -475,7 +475,7 @@ class MetavizNode extends TotalDiagramNode {
             minHeight: this.transform.hmin,
             maxWidth: this.transform.wmax,
             maxHeight: this.transform.hmax,
-            // Resize mode ('avg' = average, 'free' = separate x,y, 'ratio' = proportional)
+            // Resize mode ('none' = can't resize, 'avg' = average, 'free' = separate x,y, 'ratio' = proportional)
             mode: 'ratio'
         };
     }
