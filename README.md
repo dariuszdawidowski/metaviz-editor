@@ -5,7 +5,7 @@ Metaviz Editor
 Diagramming application for web browser.
 <p>
 <p align="center">
-v0.9.10
+v0.9.11
 <p>
 
 [![build](https://github.com/dariuszdawidowski/metaviz-editor/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/metaviz-editor/actions/workflows/build.yml)
