@@ -589,7 +589,7 @@ class MetavizNode extends TotalDiagramNode {
 
     pipeline() {
         // New stream
-        const stream = new MetavizEngineStream();
+        const stream = new MetavizStream();
 
         // Traverse all links endpoints and fetch pipeline data
         for (const link of this.links.get('*')) {
