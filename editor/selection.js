@@ -124,7 +124,9 @@ class MetavizSelection {
             },
             intersection: (nodes) => {
                 nodes.forEach((node) => {
-                    if (node.intersects(metaviz.render.screen2World(this.box.leftTop()), metaviz.render.screen2World(this.box.rightBottom()))) this.add(node);
+                    const leftTop = metaviz.render.screen2World(this.box.leftTop());
+                    const rightBottom = metaviz.render.screen2World(this.box.rightBottom());
+                    if (node.intersects({left: leftTop.x, top: leftTop.y, right: rightBottom.x, bottom: rightBottom.y})) this.add(node);
                 });
             }
         };

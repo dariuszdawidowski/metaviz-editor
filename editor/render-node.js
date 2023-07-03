@@ -703,21 +703,44 @@ class MetavizNode extends TotalDiagramNode {
 
     /**
      * Calculate collision with other box (in world coordinates)
-     * leftTop: {x: .., y: ..}
-     * rightBottom: {x: .., y: ..}
+     * box1: {left: ..., top: ..., right: ..., bottom: ...}
      */
 
-    intersects(leftTop, rightBottom) {
+    intersects(box1) {
         // Not in current folder or parented into group/frame
         if (this.parent != metaviz.render.nodes.parent) return false;
+
         // Compare left-top corner inside box
-        if (this.transform.x >= leftTop.x && this.transform.y >= leftTop.y && this.transform.x <= rightBottom.x && this.transform.y <= rightBottom.y) return true;
+        //if (this.transform.x >= leftTop.x && this.transform.y >= leftTop.y && this.transform.x <= rightBottom.x && this.transform.y <= rightBottom.y) return true;
         // Compare right-top corner inside box
-        if (this.transform.x + this.transform.w >= leftTop.x && this.transform.y >= leftTop.y && this.transform.x + this.transform.w <= rightBottom.x && this.transform.y <= rightBottom.y) return true;
+        //if (this.transform.x + this.transform.w >= leftTop.x && this.transform.y >= leftTop.y && this.transform.x + this.transform.w <= rightBottom.x && this.transform.y <= rightBottom.y) return true;
         // Compare right-bottom corner inside box
-        if (this.transform.x + this.transform.w >= leftTop.x && this.transform.y + this.transform.h >= leftTop.y && this.transform.x + this.transform.w <= rightBottom.x && this.transform.y <= rightBottom.y + this.transform.h) return true;
+        //if (this.transform.x + this.transform.w >= leftTop.x && this.transform.y + this.transform.h >= leftTop.y && this.transform.x + this.transform.w <= rightBottom.x && this.transform.y <= rightBottom.y + this.transform.h) return true;
         // Compare left-bottom corner inside box
-        if (this.transform.x >= leftTop.x && this.transform.y + this.transform.h >= leftTop.y && this.transform.x <= rightBottom.x && this.transform.y <= rightBottom.y + this.transform.h) return true;
+        //if (this.transform.x >= leftTop.x && this.transform.y + this.transform.h >= leftTop.y && this.transform.x <= rightBottom.x && this.transform.y <= rightBottom.y + this.transform.h) return true;
+
+        // console.log(this.transform, box1)
+
+        // Contains center
+        // if (this.transform.x > box1.left && this.transform.x < box1.right && this.transform.y > box1.top && this.transform.y < box1.bottom)
+        //     return true;
+
+        // Node area
+        const box2 = {
+            left: this.transform.x - (this.transform.w / 2),
+            right: this.transform.x + (this.transform.w / 2),
+            top: this.transform.y - (this.transform.h / 2),
+            bottom: this.transform.y + (this.transform.h / 2)
+        };
+
+        // Check intersection
+        if (box1.right >= box2.left && box2.right >= box1.left && box1.bottom >= box2.top && box2.bottom >= box1.top)
+           return true;
+        // else if (
+        //     (box1.left <= box2.right && box1.right >= box2.left && box1.top <= box2.bottom && box1.bottom >= box2.top) ||
+        //     (box2.left <= box1.right && box2.right >= box1.left && box2.top <= box1.bottom && box2.bottom >= box1.top)
+        // ) return true;
+
         // Not intersects
         return false;
     }

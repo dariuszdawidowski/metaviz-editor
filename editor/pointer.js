@@ -159,10 +159,12 @@ class MetavizEditorPointer {
             this.editor.interaction.object = 'socket';
         }
 
-        // Select box (TEMPORARY DISABLED)
-        /*else if (event.target.id == metaviz.container.id || event.target.hasClass('metaviz-link')) {
+        // Selection box
+        else if (event.target.id == metaviz.container.id || event.target.hasClass('metaviz-link')) {
+
             // Deselect
             if (this.editor.selection.count() > 0) this.editor.selection.clear();
+
             // Start pan or box
             switch (metaviz.config.pointer.desktop.get()) {
                 case 'pan':
@@ -173,7 +175,7 @@ class MetavizEditorPointer {
                     break;
 
             }
-        }*/
+        }
 
         // Clicked Node or Board
         else {
@@ -236,11 +238,11 @@ class MetavizEditorPointer {
                 if (this.editor.selection.count()) this.editor.interaction.mode = 'drag';
             }
 
-            // Start drag: Selection Box (TEMPORARY DISABLED)
-            /*else if (this.editor.interaction.object == 'box') {
+            // Start drag: Selection Box
+            else if (this.editor.interaction.object == 'box') {
                 this.editor.dragBoxStart(event.x, event.y);
                 this.editor.interaction.mode = 'drag';
-            }*/
+            }
 
             this.dragStarted = true;
         }
@@ -259,10 +261,10 @@ class MetavizEditorPointer {
                 this.editor.dragSelectionMove();
             }
 
-            // Select box (TEMPORARY DISABLED)
-            /*else if (this.editor.interaction.object == 'box') {
+            // Selection box
+            else if (this.editor.interaction.object == 'box') {
                 this.editor.dragBoxMove(event.x, event.y);
-            }*/
+            }
         }
 
     }
