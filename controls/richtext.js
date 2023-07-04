@@ -108,7 +108,7 @@ class MetavizControlRichText extends TotalText {
                 }
             }),
             prev: new MetavizControlRichTextButton({
-                content: '&#129032;',
+                content: '&#8678;',
                 onClick: () => {
                     if (onPrevPage) onPrevPage();
                 }
@@ -117,7 +117,7 @@ class MetavizControlRichText extends TotalText {
                 content: '1/1'
             }),
             next: new MetavizControlRichTextButton({
-                content: '&#129034;',
+                content: '&#8680;',
                 onClick: () => {
                     if (onNextPage) onNextPage();
                 }
