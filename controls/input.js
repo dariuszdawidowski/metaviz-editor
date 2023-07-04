@@ -97,15 +97,26 @@ class MetavizControlInput extends MetavizControl {
         this.element.setAttribute('readonly', '');
     }
 
+    /**
+     * Set selected text
+     */
+
     getSelection() {
-        const selection = window.getSelection();
         let selectedText = '';
 
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            const container = document.createElement('div');
-            container.appendChild(range.cloneContents());
-            selectedText = container.textContent || container.innerText;
+        if (typeof this.element.selectionStart === 'number' && typeof this.element.selectionEnd === 'number') {
+            const startIndex = this.element.selectionStart;
+            const endIndex = this.element.selectionEnd;
+
+            if (startIndex !== endIndex) {
+                selectedText = this.element.value.substring(startIndex, endIndex);
+            }
+        }
+        else if (document.selection && document.selection.createRange) {
+            const range = document.selection.createRange();
+            if (range.text) {
+              selectedText = range.text;
+            }
         }
 
         return selectedText;

@@ -173,6 +173,14 @@ class MetavizNodeLabel extends MetavizNode {
     }
 
     /**
+     * Return control if in edit mode
+     */
+
+    getEditingControl() {
+        return this.controls.input;
+    }
+
+    /**
      * Serialize
      */
 
