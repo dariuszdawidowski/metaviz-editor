@@ -13,8 +13,9 @@ class MetavizInJSON {
         const { reindex = false, reparent = false, realign = false } = args; 
         const offset = {x: 'offset' in args ? args.offset.x : 0, y: 'offset' in args ? args.offset.y : 0};
 
-        // List of new created nodes
+        // List of new created nodes and links
         const newNodes = [];
+        const newLinks = [];
 
         // Version 27..28
         if (json.format == 'MetavizJSON' && json.version >= 27 && json.version <= 28) {
@@ -61,8 +62,6 @@ class MetavizInJSON {
                     newNode.update();
                     newNodes.push(newNode);
                 }
-
-                const newLinks = [];
 
                 // Create links
                 for (const link of layer.links) {
