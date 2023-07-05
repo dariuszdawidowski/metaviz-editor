@@ -13,9 +13,27 @@ v0.9.12
 [![NPM Downloads](https://img.shields.io/npm/dm/metaviz-editor)](https://www.npmjs.com/package/metaviz-editor)
 [![license](https://img.shields.io/github/license/dariuszdawidowski/metaviz-editor?color=9cf)](./LICENSE)
 
+# Install
+
+Clone these dependency repositories next to metaviz-editor project:
+```bash
+git clone git@github.com:dariuszdawidowski/total-diagram.git
+git clone git@github.com:dariuszdawidowski/total-pro-menu.git
+git clone git@github.com:dariuszdawidowski/total-text.git
+```
+
+Directory structure:
+```
+project/
+|-- metaviz-editor/
+|-- total-diagram/
+|-- total-pro-menu/
+|-- total-text/
+```
+
 # Quick Start
 
-Open index.html directly in the browser (File->Open file... or just drag&drop).
+Open metaviz-editor/index.html directly in the browser (File->Open file... or just drag&drop).
 
 # Build minified bundle file
 
@@ -27,9 +45,17 @@ Note: This is browser-centric vanilla JavaScript library, npm is only used to mi
 
 # Load from CDN
 
-https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.js
+As a library to include in other projects:
+
+https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.js\
+https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.css
+
+
+Ready to use bundled webapp:
+
+https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.html
 
 # Authors
 
-Dariusz Dawidowski
+Dariusz Dawidowski\
 Maksym Godovanets
