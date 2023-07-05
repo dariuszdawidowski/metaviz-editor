@@ -2,15 +2,10 @@
  * Build script v6-custom
  */
 
-let files = [];
-
-if (process.argv[2] === 'html') {
-    files.push({ src: 'metaviz.html.ejs', dst: 'metaviz.html' });
-}
-else if (process.argv[2] === 'lib') {
-    files.push({ src: 'metaviz-editor.css.ejs', dst: 'metaviz-editor.css' });
-    files.push({ src: 'metaviz-editor.js.ejs', dst: 'metaviz-editor.js' });
-}
+const files = [
+    { src: 'metaviz-editor.css.ejs', dst: 'metaviz-editor.css' },
+    { src: 'metaviz-editor.js.ejs', dst: 'metaviz-editor.js' }
+];
 
 const fs = require('fs');
 const { readFile } = require('fs').promises;

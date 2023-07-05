@@ -4,9 +4,8 @@
 	"description": "Diagramming application for web browser.",
 	"license": "MIT",
 	"scripts": {
-		"build:html": "node build.js html",
-		"build:lib": "node build.js lib",
-		"build": "npm-run-all build:html build:lib",
+		"build:bundle": "node build.js",
+		"build": "npm-run-all build:bundle",
 		"start": "npm-run-all build"
 	},
 	"devDependencies": {
