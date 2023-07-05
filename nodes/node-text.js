@@ -12,9 +12,6 @@ class MetavizNodeText extends MetavizNode {
     constructor(args) {
         super(args);
 
-        // Emoji Picker https://github.com/nolanlawson/emoji-picker-element
-        this.require('emoji-picker-element', 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js');
-
         // Predefined style
         this.looks = {
             'sticky': {name: 'Sticky Note', width: 168, height: 168},

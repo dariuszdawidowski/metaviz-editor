@@ -13,6 +13,15 @@ v0.9.12
 [![NPM Downloads](https://img.shields.io/npm/dm/metaviz-editor)](https://www.npmjs.com/package/metaviz-editor)
 [![license](https://img.shields.io/github/license/dariuszdawidowski/metaviz-editor?color=9cf)](./LICENSE)
 
+# About
+
+Web-based diagramming tool, solution for creating visually stunning diagrams with ease.
+This application empowers you to construct diagrams using various elements, including points, labels, text, and clipart.
+Whether you need to illustrate complex concepts, map out processes, or simply express your ideas visually, intuitive interface and versatile set of features make it a breeze.
+Important feature is the capability to develop custom plugins, providing users with the flexibility to expand its functionality and customize it according to their specific requirements.
+
+<img src="https://raw.githubusercontent.com/dariuszdawidowski/metaviz-editor/main/metaviz-editor-showcase.png" alt="" />
+
 # Install
 
 Clone these dependency repositories next to metaviz-editor project:
@@ -47,7 +56,7 @@ Note: This is browser-centric vanilla JavaScript library, npm is only used to mi
 
 As a library to include in other projects:
 
-https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.js\
+https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.js  
 https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.css
 
 
@@ -57,5 +66,5 @@ https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.html
 
 # Authors
 
-Dariusz Dawidowski\
+Dariusz Dawidowski  
 Maksym Godovanets

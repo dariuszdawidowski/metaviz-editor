@@ -8,6 +8,9 @@ class MetavizNodeClipart extends MetavizNode {
     constructor(args) {
         super(args);
 
+        // Emoji Picker https://github.com/nolanlawson/emoji-picker-element
+        this.require('emoji-picker-element', 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js');
+
         // Meta defaults
         if (!('name' in this.params)) this.params['name'] = '';
 
