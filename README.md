@@ -2,25 +2,38 @@
 Metaviz Editor
 </h1>
 <p align="center">
-Diagramming application for web browser.
-<p>
+Diagramming editor library for web browser.
+</p>
 <p align="center">
 v0.9.12
-<p>
-
+</p>
+<p align="center">
 [![build](https://github.com/dariuszdawidowski/metaviz-editor/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/metaviz-editor/actions/workflows/build.yml)
 [![npm](https://img.shields.io/npm/v/metaviz-editor)](https://www.npmjs.com/package/metaviz-editor)
 [![NPM Downloads](https://img.shields.io/npm/dm/metaviz-editor)](https://www.npmjs.com/package/metaviz-editor)
 [![license](https://img.shields.io/github/license/dariuszdawidowski/metaviz-editor?color=9cf)](./LICENSE)
+</p>
 
 # About
 
-Web-based diagramming tool, solution for creating visually stunning diagrams with ease.
-This application empowers you to construct diagrams using various elements, including points, labels, text, and clipart.
-Whether you need to illustrate complex concepts, map out processes, or simply express your ideas visually, intuitive interface and versatile set of features make it a breeze.
-Important feature is the capability to develop custom plugins, providing users with the flexibility to expand its functionality and customize it according to their specific requirements.
+Metaviz is a web-based team productivity tool for creating visually stunning diagrams with ease.
 
-<img src="https://raw.githubusercontent.com/dariuszdawidowski/metaviz-editor/main/metaviz-editor-showcase.png" alt="" />
+Important note: this repository is for developers and contains editor code with development information.
+If you want to start using the tool quickly - go to the distribution page https://github.com/dariuszdawidowski/metaviz containing the ready-to-use package.
+
+<img src="https://raw.githubusercontent.com/dariuszdawidowski/metaviz-editor/main/metaviz-editor-showcase.png" />
+
+# Component libraries
+
+Total Diagram: https://github.com/dariuszdawidowski/total-diagram
+
+Total Text: https://github.com/dariuszdawidowski/total-text
+
+Total Pro Menu: https://github.com/dariuszdawidowski/total-pro-menu
+
+# Third party libraries
+
+Emoji Picker: https://github.com/nolanlawson/emoji-picker-element
 
 # Install
 
@@ -33,18 +46,20 @@ git clone git@github.com:dariuszdawidowski/total-text.git
 
 Directory structure:
 ```
-project/
+metaviz/
 |-- metaviz-editor/
 |-- total-diagram/
 |-- total-pro-menu/
 |-- total-text/
 ```
 
-# Quick Start
+Third party libraries are loaded from CDN.
+
+# Quick start in development mode
 
 Open metaviz-editor/index.html directly in the browser (File->Open file... or just drag&drop).
 
-# Build minified bundle file
+# Build minified bundle files
 
 ```bash
 npm install
@@ -54,15 +69,8 @@ Note: This is browser-centric vanilla JavaScript library, npm is only used to mi
 
 # Load from CDN
 
-As a library to include in other projects:
-
 https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.js  
 https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.css
-
-
-Ready to use bundled webapp:
-
-https://unpkg.com/metaviz-editor@latest/dist/metaviz-editor.html
 
 # Authors
 
