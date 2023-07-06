@@ -264,10 +264,7 @@ class MetavizContextMenu extends TotalProMenu {
 
                 new TotalProMenuSelect({
                     placeholder: 'Select color theme',
-                    options: {
-                        'Iron': {icon: '', text: 'Theme: Iron'},
-                        'Covellite': {icon: '', text: 'Theme: Covellite'}
-                    },
+                    options: themes,
                     value: metaviz.config.theme.get(),
                     onChange: (value) => {
                         metaviz.container.element.classList.remove(...themeClasses);
