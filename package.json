@@ -1,7 +1,7 @@
 {
 	"name": "metaviz-editor",
-	"version": "0.9.12",
-	"description": "Diagramming application for web browser.",
+	"version": "0.9.13",
+	"description": "Diagramming editor library for web browser.",
 	"license": "MIT",
 	"scripts": {
 		"build:bundle": "node build.js",
