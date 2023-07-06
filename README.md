@@ -56,7 +56,7 @@ Third party libraries are loaded from CDN.
 
 # Quick start in development mode
 
-Open metaviz-editor/index.html directly in the browser (File->Open file... or just drag&drop).
+Open metaviz-editor/localtest.html directly in the browser (File->Open file... or just drag&drop).
 
 # Build minified bundle files
 

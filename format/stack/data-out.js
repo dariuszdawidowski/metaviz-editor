@@ -95,7 +95,9 @@ class MetavizOutStack {
         let str = '';
         if (data) { 
             for (const [key, value] of Object.entries(data)) {
-                str += ` param-${key}="${typeof(value) == 'string' ? value.escape() : value}"`;
+                if (key != 'set' && key != 'get') {
+                    str += ` param-${key}="${typeof(value) == 'string' ? value.escape() : value}"`;
+                }
             }
         }
         return str;
