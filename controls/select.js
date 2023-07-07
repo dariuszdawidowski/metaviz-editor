@@ -16,7 +16,7 @@ class MetavizControlSelect extends MetavizControl {
      * @param: options: set of available options {'foo': 'Bar', ....}
      */
 
-    constructor(args) {
+    constructor(args = {}) {
         super();
 
         // Params

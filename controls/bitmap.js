@@ -10,7 +10,7 @@ class MetavizControlBitmap extends MetavizControl {
      * @param arg.url: url to image bitmap
      */
 
-    constructor(args) {
+    constructor(args = {}) {
         super();
 
         // Params
