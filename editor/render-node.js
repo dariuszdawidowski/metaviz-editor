@@ -590,15 +590,29 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
-     * Traverse links
+     * Collect connected nodes traversing up to tree
      */
 
-    getLinksUpTree() {
-        const links = [];
+    getLinkedUpTree(node = null) {
+        const nodes = [];
+        if (node) nodes.push(node);
         for (const link of this.links.get('in')) {
-            this.links.push(...link.getLinksUpTree());
+            nodes.push(...link.start.getLinkedUpTree(link.start));
         }
-        return links;
+        return nodes;
+    }
+
+    /**
+     * Collect connected nodes traversing down to tree
+     */
+
+    getLinkedDownTree(node = null) {
+        const nodes = [];
+        if (node) nodes.push(node);
+        for (const link of this.links.get('out')) {
+            nodes.push(...link.end.getLinkedDownTree(link.end));
+        }
+        return nodes;
     }
 
     /**

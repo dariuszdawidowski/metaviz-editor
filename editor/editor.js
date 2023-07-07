@@ -538,6 +538,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 x: cursor.x,
                 y: cursor.y
             },
+            links: {
+                add: (node) => {}
+            },
             sockets: {
                 get: (coords) => {
                     return {
@@ -546,12 +549,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     }
                 }
             },
-            addLink: function(link) {}
         };
 
         // Create
         this.interaction.link = new registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
-        startNode.addLink(this.interaction.link);
+        startNode.links.add(this.interaction.link);
         metaviz.render.board.append(this.interaction.link.element);
     }
 
@@ -578,7 +580,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (node && this.interaction.link.start.id != node.id && metaviz.render.links.get(this.interaction.link.start, node) == null) {
 
             // Add new link
-            node.addLink(this.interaction.link);
+            node.links.add(this.interaction.link);
             this.interaction.link.end = node;
             this.interaction.link.update();
 
@@ -604,7 +606,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragLinkCancel() {
-        this.interaction.link.start.delLink(this.interaction.link);
+        this.interaction.link.start.links.del(this.interaction.link);
         this.interaction.link.element.remove();
         this.interaction.link = null;
     }
