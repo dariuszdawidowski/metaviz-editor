@@ -261,7 +261,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Delete
             const nodesTree = list.flatMap(node => { return node.getTree(); });
             const nodes = nodesTree.map(node => { return node.serialize('transform'); });
-            const links = [...new Set(nodesTree.flatMap(node => node.links.get('*').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
+            const links = [...new Set(nodesTree.flatMap(node => node.links.get('out').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
 
             // Undo/Sync
             this.history.store({

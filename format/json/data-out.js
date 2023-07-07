@@ -49,7 +49,7 @@ class MetavizOutJSON {
 
         // Links
         nodes.forEach(node => {
-            node.links.get('*').forEach(link => {
+            node.links.get('out').forEach(link => {
                 // Link not on list already
                 if (!json.layers[0].links.find(l => l.id == link.id)) {
                     // Start node exists

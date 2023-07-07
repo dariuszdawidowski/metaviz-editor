@@ -391,7 +391,7 @@ class MetavizNode extends TotalDiagramNode {
         const children = [];
         // Out direction
         if (direction == 'out' || direction == 'both') {
-            this.links.get('*').forEach(link => {
+            this.links.get('out').forEach(link => {
                 if (types.length) {
                     if (types.includes(link.end.constructor.name)) children.push(link.end);
                 }
@@ -403,7 +403,7 @@ class MetavizNode extends TotalDiagramNode {
         // In direction
         if (direction == 'in' || direction == 'both') {
             metaviz.render.nodes.get('*').forEach(node => {
-                if (node.id != this.id) node.links.get('*').forEach(link => {
+                if (node.id != this.id) node.links.get('out').forEach(link => {
                     if (link.end.id == this.id) {
                         if (types.length) {
                             if (types.includes(node.constructor.name)) children.push(node);
@@ -590,6 +590,18 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Traverse links
+     */
+
+    getLinksUpTree() {
+        const links = [];
+        for (const link of this.links.get('in')) {
+            this.links.push(...link.getLinksUpTree());
+        }
+        return links;
+    }
+
+    /**
      * Pipeline
      *
      * Gathers all meta from connected ancestor nodes
@@ -600,10 +612,8 @@ class MetavizNode extends TotalDiagramNode {
         const stream = new MetavizStream();
 
         // Traverse all links endpoints and fetch pipeline data
-        for (const link of this.links.get('*')) {
-            if (link.end.id == this.id) {
-                stream.add(link.start.pipeline());
-            }
+        for (const link of this.links.get('in')) {
+            stream.add(link.start.pipeline());
         }
 
         // Return pipeline
@@ -616,10 +626,8 @@ class MetavizNode extends TotalDiagramNode {
 
     pipelineSend(stream) {
         // Traverse all links endpoints and send pipeline data
-        for (const link of this.links.get('*')) {
-            if (link.start.id == this.id) {
-                link.end.pipelineRecv(stream);
-            }
+        for (const link of this.links.get('out')) {
+            link.end.pipelineRecv(stream);
         }
     }
 
@@ -718,21 +726,6 @@ class MetavizNode extends TotalDiagramNode {
         // Not in current folder or parented into group/frame
         if (this.parent != metaviz.render.nodes.parent) return false;
 
-        // Compare left-top corner inside box
-        //if (this.transform.x >= leftTop.x && this.transform.y >= leftTop.y && this.transform.x <= rightBottom.x && this.transform.y <= rightBottom.y) return true;
-        // Compare right-top corner inside box
-        //if (this.transform.x + this.transform.w >= leftTop.x && this.transform.y >= leftTop.y && this.transform.x + this.transform.w <= rightBottom.x && this.transform.y <= rightBottom.y) return true;
-        // Compare right-bottom corner inside box
-        //if (this.transform.x + this.transform.w >= leftTop.x && this.transform.y + this.transform.h >= leftTop.y && this.transform.x + this.transform.w <= rightBottom.x && this.transform.y <= rightBottom.y + this.transform.h) return true;
-        // Compare left-bottom corner inside box
-        //if (this.transform.x >= leftTop.x && this.transform.y + this.transform.h >= leftTop.y && this.transform.x <= rightBottom.x && this.transform.y <= rightBottom.y + this.transform.h) return true;
-
-        // console.log(this.transform, box1)
-
-        // Contains center
-        // if (this.transform.x > box1.left && this.transform.x < box1.right && this.transform.y > box1.top && this.transform.y < box1.bottom)
-        //     return true;
-
         // Node area
         const box2 = {
             left: this.transform.x - (this.transform.w / 2),
@@ -744,10 +737,6 @@ class MetavizNode extends TotalDiagramNode {
         // Check intersection
         if (box1.right >= box2.left && box2.right >= box1.left && box1.bottom >= box2.top && box2.bottom >= box1.top)
            return true;
-        // else if (
-        //     (box1.left <= box2.right && box1.right >= box2.left && box1.top <= box2.bottom && box1.bottom >= box2.top) ||
-        //     (box2.left <= box1.right && box2.right >= box1.left && box2.top <= box1.bottom && box2.bottom >= box1.top)
-        // ) return true;
 
         // Not intersects
         return false;
