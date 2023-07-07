@@ -158,6 +158,17 @@ class MetavizNodeText extends MetavizNode {
 
         });
 
+        // Second page
+        this.textblockRight = document.createElement('div');
+        this.textblockRight.classList.add('nextpage', 'right');
+        this.element.append(this.textblockRight);
+        this.textblockBottom = document.createElement('div');
+        this.textblockBottom.classList.add('nextpage', 'bottom');
+        this.element.append(this.textblockBottom);
+        this.textblockCorner = document.createElement('div');
+        this.textblockCorner.classList.add('nextpage', 'corner');
+        this.element.append(this.textblockCorner);
+
         // Meta setter
         this.params.set = (key, value) => {
 
@@ -196,9 +207,15 @@ class MetavizNodeText extends MetavizNode {
      */
 
     setLook(value) {
+
         // Class
         for (const [key, look] of Object.entries(this.looks)) this.element.classList.remove(key);
         this.element.classList.add(value);
+
+        // More than one page
+        if (this.params.lastpage == 1) this.element.classList.add('singlepage');
+        else this.element.classList.remove('singlepage')
+
         // Toolbar
         if (this.transform.w < 200 || this.transform.h < 200) this.controls.textarea.hideToolbar();
         else if (this.selected) this.controls.textarea.showToolbar();

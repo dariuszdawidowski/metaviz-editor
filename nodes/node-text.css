@@ -198,16 +198,60 @@
     border: none;
 }
 
+/* Next page under current one */
+
+.metaviz-node-text .nextpage.right {
+    position: absolute;
+    background-color: #eee;
+    width: 4px;
+    height: 100%;
+    right: -4px;
+    top: 4px;
+    box-shadow: inset 1px 0 3px 0px rgba(0,0,0, 0.3);
+}
+
+.metaviz-node-text .nextpage.corner {
+    position: absolute;
+    background-color: white;
+    width: 4px;
+    height: 4px;
+    right: -4px;
+    bottom: -4px;
+    box-shadow: inset 0px 0px 2px 0px rgba(0,0,0, 0.3);
+}
+
+.metaviz-node-text .nextpage.bottom {
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    height: 4px;
+    left: 4px;
+    bottom: -4px;
+    box-shadow: inset 0 1px 3px 0px rgba(0,0,0, 0.3);
+}                                                           
+
+.metaviz-node-text.singlepage .nextpage,
+.metaviz-node-text.sticky .nextpage,
+.metaviz-node-text.comic .nextpage {
+    display: none;
+}
+
 /*** Palette ***/
 
 /* Palette Color 0 Default */
 
-.metaviz-node-text.palette-0 {
+.metaviz-node-text.palette-0,
+.metaviz-node-text.palette-0 .nextpage.bottom,
+.metaviz-node-text.palette-0 .nextpage.right,
+.metaviz-node-text.palette-0 .nextpage.corner {
     color: var(--font-color-1);
     background-color: var(--paper-2);
 }
 
-.metaviz-node-text.palette-0.drag {
+.metaviz-node-text.palette-0.drag,
+.metaviz-node-text.palette-0.drag .nextpage.bottom,
+.metaviz-node-text.palette-0.drag .nextpage.right,
+.metaviz-node-text.palette-0.drag .nextpage.corner {
     background-color: var(--paper-2-trans);
 }
 
@@ -230,12 +274,18 @@
 
 /* Palette Color 1 Sky */
 
-.metaviz-node-text.palette-1 {
+.metaviz-node-text.palette-1,
+.metaviz-node-text.palette-1 .nextpage.bottom,
+.metaviz-node-text.palette-1 .nextpage.right,
+.metaviz-node-text.palette-1 .nextpage.corner {
     color: var(--font-color-2);
     background-color: var(--color-sky);
 }
 
-.metaviz-node-text.palette-1.drag {
+.metaviz-node-text.palette-1.drag,
+.metaviz-node-text.palette-1.drag .nextpage.bottom,
+.metaviz-node-text.palette-1.drag .nextpage.right,
+.metaviz-node-text.palette-1.drag .nextpage.corner {
     background-color: var(--color-sky-trans);
 }
 
@@ -268,12 +318,18 @@
 
 /* Palette Color 2 Water */
 
-.metaviz-node-text.palette-2 {
+.metaviz-node-text.palette-2,
+.metaviz-node-text.palette-2 .nextpage.bottom,
+.metaviz-node-text.palette-2 .nextpage.right,
+.metaviz-node-text.palette-2 .nextpage.corner {
     color: rgb(240, 240, 240);
     background-color: var(--metaviz-color-darkblue);
 }
 
-.metaviz-node-text.palette-2.drag {
+.metaviz-node-text.palette-2.drag,
+.metaviz-node-text.palette-2.drag .nextpage.bottom,
+.metaviz-node-text.palette-2.drag .nextpage.right,
+.metaviz-node-text.palette-2.drag .nextpage.corner {
     background-color: var(--metaviz-color-darkblue-trans);
 }
 
@@ -317,12 +373,18 @@
 
 /* Palette Color 3 Navy */
 
-.metaviz-node-text.palette-3 {
+.metaviz-node-text.palette-3,
+.metaviz-node-text.palette-3 .nextpage.bottom,
+.metaviz-node-text.palette-3 .nextpage.right,
+.metaviz-node-text.palette-3 .nextpage.corner {
     color: rgb(236, 238, 243);
     background-color: var(--metaviz-color-navy);
 }
 
-.metaviz-node-text.palette-3.drag {
+.metaviz-node-text.palette-3.drag,
+.metaviz-node-text.palette-3.drag .nextpage.bottom,
+.metaviz-node-text.palette-3.drag .nextpage.right,
+.metaviz-node-text.palette-3.drag .nextpage.corner {
     background-color: var(--metaviz-color-navy-trans);
 }
 
@@ -358,12 +420,18 @@
 
 /* Palette Color 4 Jade */
 
-.metaviz-node-text.palette-4 {
+.metaviz-node-text.palette-4,
+.metaviz-node-text.palette-4 .nextpage.bottom,
+.metaviz-node-text.palette-4 .nextpage.right,
+.metaviz-node-text.palette-4 .nextpage.corner {
     color: rgb(250, 250, 250);
     background-color: var(--color-jade);
 }
 
-.metaviz-node-text.palette-4.drag {
+.metaviz-node-text.palette-4.drag,
+.metaviz-node-text.palette-4.drag .nextpage.bottom,
+.metaviz-node-text.palette-4.drag .nextpage.right,
+.metaviz-node-text.palette-4.drag .nextpage.corner {
     background-color: rgba(1, 163, 148, 0.69);
 }
 
@@ -399,12 +467,18 @@
 
 /* Palette Color 5 Sunny */
 
-.metaviz-node-text.palette-5 {
+.metaviz-node-text.palette-5,
+.metaviz-node-text.palette-5 .nextpage.bottom,
+.metaviz-node-text.palette-5 .nextpage.right,
+.metaviz-node-text.palette-5 .nextpage.corner {
     color: var(--font-color-2);
     background-color: rgb(244, 201, 50);
 }
 
-.metaviz-node-text.palette-5.drag {
+.metaviz-node-text.palette-5.drag,
+.metaviz-node-text.palette-5.drag .nextpage.bottom,
+.metaviz-node-text.palette-5.drag .nextpage.right,
+.metaviz-node-text.palette-5.drag .nextpage.corner {
     background-color: rgba(244, 201, 50, 0.69);
 }
 
