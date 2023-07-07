@@ -265,11 +265,19 @@ class MetavizNode extends TotalDiagramNode {
     visible(state = null) {
         // Setter
         if (state !== null) {
-            // Show/Hide
-            this.element.style.display = state ? 'flex' : 'none';
+            // Show
+            if (state) {
+                this.element.style.removeProperty('display');
+            }
+            // Hide
+            else {
+                this.element.style.display = 'none';
+            }
+            // Show/hide related links
             for (const link of this.links.get('*')) {
                 link.visible(state);
             }
+            // Set current state
             this.isVisible = state;
         }
         // Getter
