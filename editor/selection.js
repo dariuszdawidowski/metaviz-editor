@@ -74,6 +74,12 @@ class MetavizSelection {
                 this.endPos.y = y;
                 this.position(this.startPos.x, this.startPos.y, this.endPos.x, this.endPos.y);
             },
+            clear: function() {
+                this.startPos.x = 0;
+                this.startPos.y = 0;
+                this.endPos.x = 0;
+                this.endPos.y = 0;
+            },
             leftTop: function() {
                 let left = 0;
                 let top = 0;

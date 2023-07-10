@@ -1,9 +1,9 @@
 /***************************************************************************************************
  *                                                                                                 *
- *     (\___/)                Metaviz Editor Interface                                             *
- *    -(o . o)-               Add, delete, move, copy, paste links and nodes.                      *
- *    (       )/\             MIT License                                                          *
- *    (_______)_/             (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *         (\___/)            Metaviz Editor Interface                                             *
+ *        -(o . o)-           Add, delete, move, copy, paste links and nodes.                      *
+ *        (       )/\         MIT License                                                          *
+ *        (_______)_/         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -164,6 +164,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Mouse out of bounds
         metaviz.events.subscribe('window:out', window, 'mouseout', (event) => {
             if (event.relatedTarget == null || event.relatedTarget.nodeName == 'HTML') {
+                this.selection.box.clear();
+                this.selection.box.hide();
                 this.keyboard.key.clear();
                 this.flush(false);
             }
