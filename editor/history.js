@@ -234,6 +234,9 @@ class MetavizHistory {
             // Cage update
             metaviz.editor.cage.update();
 
+            // Check for empty
+            metaviz.editor.checkEmpty();
+
             // Moved to previous state
             return true;
 
@@ -269,6 +272,9 @@ class MetavizHistory {
 
             // Cage update
             metaviz.editor.cage.update();
+
+            // Check for empty
+            metaviz.editor.checkEmpty();
 
             // Moved to future state
             return true;

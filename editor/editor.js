@@ -1108,8 +1108,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     isEmpty() {
+        // Obviously empty
         if (metaviz.render.nodes.list.length == 0) return true;
-        return false;
+        // Search in current parent
+        for (const node of metaviz.render.nodes.get('*')) if (node.parent == metaviz.render.nodes.parent) return false;
+        // Empty
+        return true;
     }
 
     /**
@@ -1117,6 +1121,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     checkEmpty() {
+        console.log('checkEmpty', this.isEmpty());
         if (this.isEmpty()) {
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
             this.showInfoBubble(
