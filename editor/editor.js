@@ -1121,7 +1121,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     checkEmpty() {
-        console.log('checkEmpty', this.isEmpty());
         if (this.isEmpty()) {
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
             this.showInfoBubble(
