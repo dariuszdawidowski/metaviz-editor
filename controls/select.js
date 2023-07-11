@@ -42,23 +42,41 @@ class MetavizControlSelect extends MetavizControl {
      */
 
     build(options) {
+        if (this.element.children.length > 0) this.clear();
         for (const [value, text] of Object.entries(options)) {
             const option = document.createElement('option');
             option.value = value;
             option.text = text;
-            this.element.appendChild(option);
+            this.element.append(option);
         }
     }
 
-    /* Set/get value */
+    /**
+     * Set value
+     * @param text
+     */
 
     set(text) {
         this.element.value = text;
     }
 
+    /**
+     * Get value
+     * @return current value (string)
+     */
+
     get() {
         return this.element.value;
     }
 
+    /**
+     * Remove all options
+     */
+
+    clear() {
+        while (this.element.firstChild) {
+            this.element.remove(this.element.firstChild);
+        }        
+    }
 
 }

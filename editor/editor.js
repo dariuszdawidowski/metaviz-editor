@@ -592,6 +592,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Store in renderer
             metaviz.render.links.list.push(this.interaction.link);
 
+            // Broadcast creation event
+            const event = new CustomEvent('broadcast:addlink', { detail: this.interaction.link });
+            metaviz.render.container.dispatchEvent(event);
         }
 
         // Cancel

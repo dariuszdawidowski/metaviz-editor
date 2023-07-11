@@ -54,6 +54,10 @@ class MetavizNodesManager extends TotalDiagramNodesManager {
         // Call node awake function sice it's added into DOM tree
         newNode.awake();
 
+        // Broadcast creation event
+        const event = new CustomEvent('broadcast:addnode', { detail: newNode });
+        this.render.container.dispatchEvent(event);
+
         // Return new node instance
         return newNode;
 

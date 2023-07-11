@@ -50,6 +50,10 @@ class MetavizLinksManager extends TotalDiagramLinksManager {
         // It's not visible?
         if (!visible) newLink.visible(false);
 
+        // Broadcast creation event
+        const event = new CustomEvent('broadcast:addlink', { detail: newLink });
+        this.render.container.dispatchEvent(event);
+
         // Return new link
         return newLink;
 
