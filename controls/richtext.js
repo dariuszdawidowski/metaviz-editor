@@ -273,7 +273,11 @@ class MetavizControlRichText extends TotalText {
             metaviz.events.enable('editor:paste');
             metaviz.events.enable('editor:keydown');
             metaviz.events.enable('editor:keyup');
-            if (this.onChange) this.onChange(this.get());
+            if (this.onChange) {
+                this.onChange(this.get());
+                const customev = new CustomEvent('broadcast:text', { detail: {name: this.name, value: this.get()} });
+                metaviz.render.container.dispatchEvent(customev);
+            }
         }
     }
 

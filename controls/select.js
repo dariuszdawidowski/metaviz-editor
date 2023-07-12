@@ -22,6 +22,9 @@ class MetavizControlSelect extends MetavizControl {
         // Params
         const { name = null, value = null, options = null, onChange = null } = args;
 
+        // Control name
+        this.name = name;
+
         this.element = document.createElement('select');
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-select');
@@ -31,7 +34,11 @@ class MetavizControlSelect extends MetavizControl {
 
         // Dirty on change
         this.element.addEventListener('change', (event) => {
-            if (onChange) onChange(event.target.value);
+            if (onChange) {
+                onChange(event.target.value);
+                const customev = new CustomEvent('broadcast:select', { detail: {name: this.name, value: event.target.value} });
+                metaviz.render.container.dispatchEvent(customev);
+            }
         });
 
     }

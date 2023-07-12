@@ -42,7 +42,11 @@ class MetavizControlInput extends MetavizControl {
 
         // Dirty on change
         this.element.addEventListener('change', (event) => {
-            if (onChange) onChange(event.target.value);
+            if (onChange) {
+                onChange(event.target.value);
+                const customev = new CustomEvent('broadcast:input', { detail: {name: this.name, value: event.target.value} });
+                metaviz.render.container.dispatchEvent(customev);
+            }
         });
 
         // Enter blurs
