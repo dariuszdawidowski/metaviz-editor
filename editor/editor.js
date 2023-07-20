@@ -617,6 +617,69 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     }
 
     /**
+     * Start blossoming
+     */
+
+    dragBlossomStart() {
+        // Start node
+        const startNode = this.pointer.clicked;
+
+        // Synthetic end node (which is cursor)
+        const cursor = metaviz.render.screen2World(this.transform);
+        const endNode = {
+            transform: {
+                x: cursor.x,
+                y: cursor.y
+            },
+            links: {
+                add: (node) => {}
+            },
+            sockets: {
+                get: (coords) => {
+                    return {
+                        x: endNode.transform.x,
+                        y: endNode.transform.y
+                    }
+                }
+            },
+        };
+
+        // Create link
+        this.interaction.link = new registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
+        startNode.links.add(this.interaction.link);
+        metaviz.render.board.append(this.interaction.link.element);
+
+        // Duplicate node
+        this.copy();
+        const bounds = this.arrange.align.getBounds(this.selection.get());
+        this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
+    }
+
+    /**
+     * During blossoming
+     */
+
+    dragBlossomMove() {
+        this.dragLinkMove();
+    }
+
+    /**
+     * Finish blossoming
+     */
+
+    dragBlossomEnd(node) {
+        this.dragLinkEnd(node);
+    }
+
+    /**
+     * Cancel blossoming
+     */
+
+    dragBlossomCancel() {
+        this.dragLinkCancel();
+    }
+
+    /**
      * Start selection box drag
      */
 

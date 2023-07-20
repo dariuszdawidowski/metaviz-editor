@@ -157,7 +157,7 @@ class MetavizNavigatorBrowser {
 
         // Mouse Move
         this.mouseMove = (event) => {
-            if (event.buttons == 1 && (event.target.id == metaviz.container.id || event.target.hasClass('metaviz-link')) && this.interaction.object != 'node' && this.interaction.object != 'box' && this.interaction.object != 'socket') {
+            if (event.buttons == 1 && (event.target.id == metaviz.container.id || event.target.hasClass('metaviz-link')) && !['node', 'socket', 'blossom', 'box'].includes(this.interaction.object)) {
                 this.interaction.object = 'desktop';
                 metaviz.container.element.style.cursor = 'grabbing';
                 metaviz.render.pan(event.movementX / window.devicePixelRatio, event.movementY / window.devicePixelRatio);

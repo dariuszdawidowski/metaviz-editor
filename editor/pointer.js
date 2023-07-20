@@ -10,6 +10,7 @@
 class MetavizEditorPointer {
 
     constructor(editor) {
+
         // Editor
         this.editor = editor;
 
@@ -225,15 +226,21 @@ class MetavizEditorPointer {
         this.offset.update(event.x, event.y);
         if (!this.dragStarted && this.offset.get() > 2.0) {
 
+            // Start blossoming
+            if (this.editor.keyboard.key.ctrl && ['node', 'socket'].includes(this.editor.interaction.object)) {
+                this.editor.dragBlossomStart();
+                this.editor.interaction.object = 'blossom';
+                this.editor.interaction.mode = 'drag';
+            }
+
             // Start drag: Socket
-            if (this.editor.interaction.object == 'socket') {
+            else if (this.editor.interaction.object == 'socket') {
                 this.editor.dragLinkStart();
                 this.editor.interaction.mode = 'drag';
             }
 
             // Start drag: Node
             else if (this.editor.interaction.object == 'node') {
-                //console.log('dragSelectionStart');
                 this.editor.dragSelectionStart();
                 if (this.editor.selection.count()) this.editor.interaction.mode = 'drag';
             }
@@ -255,9 +262,13 @@ class MetavizEditorPointer {
                 this.editor.dragLinkMove();
             }
 
+            // Drag blossoming
+            else if (this.editor.interaction.object == 'blossom') {
+                this.editor.dragBlossomMove();
+            }
+
             // Move selected nodes
             else if (this.editor.interaction.object == 'node') {
-                //console.log('dragSelectionMove');
                 this.editor.dragSelectionMove();
             }
 
@@ -397,7 +408,7 @@ class MetavizEditorPointer {
 
             }
 
-            // Link
+            // End drag link
             else if (this.editor.interaction.object == 'socket') {
 
                 let nodeFound = false;
@@ -426,7 +437,12 @@ class MetavizEditorPointer {
                 }
             }
 
-            // Box
+            // End blossoming
+            else if (this.editor.interaction.object == 'blossom') {
+                this.editor.dragBlossomEnd();
+            }
+
+            // End box
             else if (this.editor.interaction.object == 'box') {
                 this.editor.dragBoxEnd();
             }
