@@ -577,7 +577,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragLinkEnd(node) {
-
         // Attach to node (if not the same and has no link already)
         if (node && this.interaction.link.start.id != node.id && metaviz.render.links.get(this.interaction.link.start, node) == null) {
 
@@ -624,35 +623,29 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Start node
         const startNode = this.pointer.clicked;
 
-        // Synthetic end node (which is cursor)
+        // End node
         const cursor = metaviz.render.screen2World(this.transform);
-        const endNode = {
-            transform: {
-                x: cursor.x,
-                y: cursor.y
-            },
-            links: {
-                add: (node) => {}
-            },
-            sockets: {
-                get: (coords) => {
-                    return {
-                        x: endNode.transform.x,
-                        y: endNode.transform.y
-                    }
-                }
-            },
-        };
+        const endNode = metaviz.render.nodes.add({
+            id: crypto.randomUUID(),
+            parent: metaviz.render.nodes.parent,
+            type: startNode.constructor.name,
+            ...cursor
+        });
+        endNode.render();
+        endNode.update();
+        endNode.start();
 
         // Create link
         this.interaction.link = new registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
         startNode.links.add(this.interaction.link);
         metaviz.render.board.append(this.interaction.link.element);
 
-        // Duplicate node
-        this.copy();
-        const bounds = this.arrange.align.getBounds(this.selection.get());
-        this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
+        // Deselect start, select end
+        this.selection.clear();
+        this.selection.add(endNode);
+        this.cage.hide();
+        startNode.sockets.hide();
+        endNode.sockets.hide();
     }
 
     /**
@@ -660,7 +653,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragBlossomMove() {
-        this.dragLinkMove();
+        this.dragSelectionMove();
     }
 
     /**
@@ -668,7 +661,25 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragBlossomEnd(node) {
-        this.dragLinkEnd(node);
+
+        // Store Node
+        this.history.store({action: 'add', nodes: [this.selection.get()[0].serialize('transform')]});
+
+        // End Node
+        this.dragSelectionEnd();
+
+        // Store Link
+        this.history.store({action: 'add', links: [this.interaction.link.serialize()]});
+
+        // Store in renderer
+        metaviz.render.links.list.push(this.interaction.link);
+
+        // Broadcast creation event
+        const event = new CustomEvent('broadcast:addlink', { detail: this.interaction.link });
+        metaviz.render.container.dispatchEvent(event);
+
+        // Clear
+        this.selection.clear();
     }
 
     /**
@@ -676,7 +687,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragBlossomCancel() {
-        this.dragLinkCancel();
     }
 
     /**

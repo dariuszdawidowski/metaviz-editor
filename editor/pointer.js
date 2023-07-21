@@ -74,7 +74,7 @@ class MetavizEditorPointer {
 
         metaviz.events.subscribe('editor:pointermove', metaviz.render.container, 'pointermove', (event) => {
             // Not locked and click left button only and node is selected
-            if (!this.editor.interaction.locked && event.pointerType == 'mouse' && event.buttons == 1 && ['node', 'socket', 'box'].includes(this.editor.interaction.object)) {
+            if (!this.editor.interaction.locked && event.pointerType == 'mouse' && event.buttons == 1 && ['node', 'blossom', 'socket', 'box'].includes(this.editor.interaction.object)) {
                 this.pointerMove(event);
             }
         });
@@ -193,13 +193,11 @@ class MetavizEditorPointer {
     
                     // Add to selection
                     if (this.editor.keyboard.key.ctrl) {
-                        //console.log('node: add to selection')
                         this.editor.selection.add(this.clicked);
                     }
 
                     // Single selection
                     else {
-                        //console.log('node: single selection')
                         this.editor.selection.set(this.clicked);
                     }
                 }
