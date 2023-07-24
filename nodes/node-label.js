@@ -257,4 +257,4 @@ class MetavizNodeLabel extends MetavizNode {
 
 }
 
-registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<i class="fas fa-tag"></i>'});
+global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<i class="fas fa-tag"></i>'});

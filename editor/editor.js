@@ -554,7 +554,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         };
 
         // Create
-        this.interaction.link = new registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
+        this.interaction.link = new global.registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
         startNode.links.add(this.interaction.link);
         metaviz.render.board.append(this.interaction.link.element);
     }
@@ -636,7 +636,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         endNode.start();
 
         // Create link
-        this.interaction.link = new registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
+        this.interaction.link = new global.registry.links['MetavizLinkBezier'].proto({start: startNode, end: endNode});
         startNode.links.add(this.interaction.link);
         metaviz.render.board.append(this.interaction.link.element);
 

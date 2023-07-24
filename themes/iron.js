@@ -1,6 +1,6 @@
 /* Metaviz default color theme: Iron */
 
-registry.add({
+global.registry.add({
     theme: 'MetavizThemeIron',
     name: 'Iron',
     vars: {

@@ -34,7 +34,7 @@ class MetavizLinksManager extends TotalDiagramLinksManager {
         if (!startNode || !endNode) return null;
 
         // Create
-        const newLink = new registry.links[args.type].proto({
+        const newLink = new global.registry.links[args.type].proto({
             id: 'id' in args ? args.id : crypto.randomUUID(),
             type: args.type,
             start: startNode,

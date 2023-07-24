@@ -114,7 +114,7 @@ class MetavizNodeClipart extends MetavizNode {
 
 }
 
-registry.add({proto: MetavizNodeClipart, name: 'Clipart', icon: '<i class="fas fa-palette"></i>'});
+global.registry.add({proto: MetavizNodeClipart, name: 'Clipart', icon: '<i class="fas fa-palette"></i>'});
 
 
 /*** Emoji Picker ***/

@@ -256,9 +256,9 @@ class MetavizContextMenu extends TotalProMenu {
             // Look & feel
             const themes = {};
             const themeClasses = [];
-            for (const [key, value] of Object.entries(registry.themes)) {
+            for (const [key, value] of Object.entries(global.registry.themes)) {
                 themes[key] = {icon: '', text: 'Theme: ' + key};
-                themeClasses.push('theme-' + registry.themes[key].name.toLowerCase());
+                themeClasses.push('theme-' + global.registry.themes[key].name.toLowerCase());
             }
             subSettings.add(new TotalProMenuGroup({ text: 'Look & feel', widgets: [
 
@@ -269,7 +269,7 @@ class MetavizContextMenu extends TotalProMenu {
                     onChange: (value) => {
                         metaviz.container.element.classList.remove(...themeClasses);
                         metaviz.container.element.classList.add('theme-' + value.toLowerCase());
-                        for (const [key, theme] of Object.entries(registry.themes[value].vars)) {
+                        for (const [key, theme] of Object.entries(global.registry.themes[value].vars)) {
                             document.documentElement.style.setProperty(key, theme);
                         }
                         metaviz.config.theme.set(value);
@@ -309,7 +309,7 @@ class MetavizContextMenu extends TotalProMenu {
 
     generateNodesList() {
         const menuAddNode = {'Default Nodes': []};
-        for (const [className, args] of Object.entries(registry.nodes)) {
+        for (const [className, args] of Object.entries(global.registry.nodes)) {
             const menuName = (('menu' in args) ? args.menu : 'Default Nodes');
             if (!(menuName in menuAddNode)) menuAddNode[menuName] = [];
             menuAddNode[menuName].push(new TotalProMenuOption({

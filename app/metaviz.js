@@ -4,135 +4,143 @@
  */
 
 
-// Global Registry
-const registry = {
+// Global
+const global = {
 
-    /*
-     * Nodes registry:
-     * {
-     *     'MetavizNodeX':
-     *     {
-     *         proto: MetavizNodeX, // class prototype
-     *         type: 'MetavizNodeX', // class name as a string
-     *         name: 'X', // display name (optional - fallback to type.humanize())
-     *         slug: 'x', // slug (optional - fallback to name.slug())
-     *         menu: '', // menu name (optional - root in null) TODO
-     *     },
-     *     ...
-     * }
-     */
-    nodes: {},
+    // Global registry for Nodes, Links and Themes
+    registry: {
 
-    /*
-     * Links registry:
-     * {
-     *     'MetavizLinkX':
-     *     {
-     *         proto: MetavizLinkX, // class prototype
-     *         type: 'MetavizLinkX', // class name as a string
-     *         name: 'X', // display name (optional - fallback to type.humanize())
-     *         slug: 'x', // slug (optional - fallback to name.slug())
-     *         menu: '', // menu name (optional - root in null) TODO
-     *     },
-     *     ...
-     * }
-     */
-    links: {},
+        /*
+         * Nodes registry:
+         * {
+         *     'MetavizNodeX':
+         *     {
+         *         proto: MetavizNodeX, // class prototype
+         *         type: 'MetavizNodeX', // class name as a string
+         *         name: 'X', // display name (optional - fallback to type.humanize())
+         *         slug: 'x', // slug (optional - fallback to name.slug())
+         *         menu: '', // menu name (optional - root in null) TODO
+         *     },
+         *     ...
+         * }
+         */
+        nodes: {},
 
-    /*
-     * Themes registry:
-     * {
-     *     'MetavizThemeX':
-     *     {
-     *         type: 'MetavizTheme',
-     *         name: 'X', // name
-     *         vars: {'--var-name': value, ...}
-     *     },
-     *     ...
-     * }
-     */
-    themes: {},
+        /*
+         * Links registry:
+         * {
+         *     'MetavizLinkX':
+         *     {
+         *         proto: MetavizLinkX, // class prototype
+         *         type: 'MetavizLinkX', // class name as a string
+         *         name: 'X', // display name (optional - fallback to type.humanize())
+         *         slug: 'x', // slug (optional - fallback to name.slug())
+         *         menu: '', // menu name (optional - root in null) TODO
+         *     },
+         *     ...
+         * }
+         */
+        links: {},
 
-    /**
-     * Register node type {args}
-     * @param node: node class prototype
-     * @param link: node class prototype
-     * @param theme: node class prototype
-     * @param vars: variables for theme
-     * @param proto: class prototype guess (starts with 'MetavizNode' | 'MetavizLink' | 'MetavizTheme')
-     * @param name: display name
-     * @param slug: slug identifier
-     * @param menu: sub-menu name to attach to
-     * @param icon: icon to display on menu
-     */
+        /*
+         * Themes registry:
+         * {
+         *     'MetavizThemeX':
+         *     {
+         *         type: 'MetavizTheme',
+         *         name: 'X', // name
+         *         vars: {'--var-name': value, ...}
+         *     },
+         *     ...
+         * }
+         */
+        themes: {},
 
-    add: function(args) {
+        /**
+         * Register node type {args}
+         * @param node: node class prototype
+         * @param link: node class prototype
+         * @param theme: node class prototype
+         * @param vars: variables for theme
+         * @param proto: class prototype guess (starts with 'MetavizNode' | 'MetavizLink' | 'MetavizTheme')
+         * @param name: display name
+         * @param slug: slug identifier
+         * @param menu: sub-menu name to attach to
+         * @param icon: icon to display on menu
+         */
 
-        // Node
-        if ('node' in args) {
-
-            // Prototype
-            const protoName = args.node.prototype.constructor.name;
-            args.type = protoName;
-            args.proto = args.node;
-
-            // Generate display name if not given
-            if (!('name' in args)) args.name = args.type.humanize();
-
-            // Slug
-            if (!('slug' in args)) args.slug = args.name.slug();
+        add: function(args) {
 
             // Node
-            this.nodes[protoName] = args;
-        }
+            if ('node' in args) {
 
-        // Link
-        else if ('link' in args) {
+                // Prototype
+                const protoName = args.node.prototype.constructor.name;
+                args.type = protoName;
+                args.proto = args.node;
 
-            // Prototype
-            const protoName = args.link.prototype.constructor.name;
-            args.type = protoName;
-            args.proto = args.link;
+                // Generate display name if not given
+                if (!('name' in args)) args.name = args.type.humanize();
 
-            // Generate display name if not given
-            if (!('name' in args)) args.name = args.type.humanize();
+                // Slug
+                if (!('slug' in args)) args.slug = args.name.slug();
 
-            // Slug
-            if (!('slug' in args)) args.slug = args.name.slug();
-
-            // Link
-            this.links[protoName] = args;
-        }
-
-        // Guess Node or Link
-        else if ('proto' in args) {
-            // Type
-            const protoName = args.proto.prototype.constructor.name;
-            args.type = protoName;
-
-            // Generate display name if not given
-            if (!('name' in args)) args.name = args.type.humanize();
-
-            // Slug
-            if (!('slug' in args)) args.slug = args.name.slug();
-
-            // Node
-            if (protoName.startsWith('MetavizNode')) {
+                // Node
                 this.nodes[protoName] = args;
             }
 
             // Link
-            else if (protoName.startsWith('MetavizLink')) {
+            else if ('link' in args) {
+
+                // Prototype
+                const protoName = args.link.prototype.constructor.name;
+                args.type = protoName;
+                args.proto = args.link;
+
+                // Generate display name if not given
+                if (!('name' in args)) args.name = args.type.humanize();
+
+                // Slug
+                if (!('slug' in args)) args.slug = args.name.slug();
+
+                // Link
                 this.links[protoName] = args;
             }
 
+            // Guess Node or Link
+            else if ('proto' in args) {
+                // Type
+                const protoName = args.proto.prototype.constructor.name;
+                args.type = protoName;
+
+                // Generate display name if not given
+                if (!('name' in args)) args.name = args.type.humanize();
+
+                // Slug
+                if (!('slug' in args)) args.slug = args.name.slug();
+
+                // Node
+                if (protoName.startsWith('MetavizNode')) {
+                    this.nodes[protoName] = args;
+                }
+
+                // Link
+                else if (protoName.startsWith('MetavizLink')) {
+                    this.links[protoName] = args;
+                }
+
+            }
+
+            // Theme
+            else if (('theme' in args) && ('vars' in args)) {
+                this.themes[args.name] = args;
+            }
         }
 
-        // Theme
-        else if (('theme' in args) && ('vars' in args)) {
-            this.themes[args.name] = args;
-        }
-    }
+    },
+
+    // Global cache system
+    cache: {}
 
 };
 
@@ -342,7 +350,7 @@ class Metaviz {
             // Theme
             const theme = localStorage.getItem('metaviz.config.theme') || 'Iron';
             this.container.element.classList.add('theme-' + theme.toLowerCase());
-            for (const [key, value] of Object.entries(registry.themes[theme].vars)) {
+            for (const [key, value] of Object.entries(global.registry.themes[theme].vars)) {
                 document.documentElement.style.setProperty(key, value);
             }
 

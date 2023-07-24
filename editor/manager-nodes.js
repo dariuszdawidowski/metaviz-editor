@@ -34,9 +34,9 @@ class MetavizNodesManager extends TotalDiagramNodesManager {
         let newNode = null;
 
         // Create
-        if (args.type in registry.nodes) {
-            if (!('name' in args)) args['name'] = registry.nodes[args.type].name;
-            newNode = new registry.nodes[args.type].proto(args);
+        if (args.type in global.registry.nodes) {
+            if (!('name' in args)) args['name'] = global.registry.nodes[args.type].name;
+            newNode = new global.registry.nodes[args.type].proto(args);
             this.list.push(newNode);
         }
         // Type of node not found: create Quarantine Node instead

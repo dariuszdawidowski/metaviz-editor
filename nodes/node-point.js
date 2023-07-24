@@ -66,4 +66,4 @@ class MetavizNodePoint extends MetavizNode {
 
 }
 
-registry.add({proto: MetavizNodePoint, name: 'Point', icon: '<i class="fas fa-bullseye"></i>'});
+global.registry.add({proto: MetavizNodePoint, name: 'Point', icon: '<i class="fas fa-bullseye"></i>'});

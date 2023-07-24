@@ -95,5 +95,5 @@ class MetavizLinkBezier extends MetavizLink {
 
 }
 
-registry.add({proto: MetavizLinkBezier, name: 'Link'});
+global.registry.add({proto: MetavizLinkBezier, name: 'Link'});
 

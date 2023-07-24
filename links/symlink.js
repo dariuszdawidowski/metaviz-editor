@@ -48,5 +48,5 @@ class MetavizLinkSymlink extends MetavizLink {
 
 }
 
-registry.add({proto: MetavizLinkSymlink, name: 'Symlink'});
+global.registry.add({proto: MetavizLinkSymlink, name: 'Symlink'});
 

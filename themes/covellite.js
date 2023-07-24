@@ -1,6 +1,6 @@
 /* Metaviz color theme: Covellite */
 
-registry.add({
+global.registry.add({
     theme: 'MetavizThemeCovellite',
     name: 'Covellite',
     vars: {

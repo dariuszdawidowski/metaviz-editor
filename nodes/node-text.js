@@ -321,4 +321,4 @@ class MetavizNodeText extends MetavizNode {
 
 }
 
-registry.add({proto: MetavizNodeText, name: 'Text', icon: '<i class="fas fa-sticky-note"></i>'});
+global.registry.add({proto: MetavizNodeText, name: 'Text', icon: '<i class="fas fa-sticky-note"></i>'});

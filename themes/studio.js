@@ -1,6 +1,6 @@
 /* Metaviz dark color theme: Studio */
 
-registry.add({
+global.registry.add({
     theme: 'MetavizThemeStudio',
     name: 'Studio',
     vars: {

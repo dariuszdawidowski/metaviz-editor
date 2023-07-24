@@ -116,7 +116,7 @@ class MetavizNode extends TotalDiagramNode {
         this.controls = {};
 
         // Custom css class
-        this.element.classList.add(`metaviz-node-${registry.nodes[args.type] ? registry.nodes[args.type]?.slug : 'dummy'}`);
+        this.element.classList.add(`metaviz-node-${global.registry.nodes[args.type] ? global.registry.nodes[args.type]?.slug : 'dummy'}`);
 
         // Menu options
         this.options = {};
