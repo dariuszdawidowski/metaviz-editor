@@ -41,15 +41,6 @@ class MetavizControlInput extends MetavizControl {
         // View mode
         if (metaviz.editor.interaction == 'view') this.edit(false);
 
-        // Dirty on change
-        this.element.addEventListener('change', (event) => {
-            if (onChange) {
-                onChange(event.target.value);
-                const customev = new CustomEvent('broadcast:input', { detail: {name: this.name, value: event.target.value} });
-                metaviz.render.container.dispatchEvent(customev);
-            }
-        });
-
         // Enter blurs
         this.element.addEventListener('keyup', (event) => {
             if (event.key == 'Enter') this.element.blur();
@@ -73,6 +64,12 @@ class MetavizControlInput extends MetavizControl {
             metaviz.events.enable('editor:paste');
             metaviz.events.enable('editor:keydown');
             metaviz.events.enable('editor:keyup');
+            // Callback
+            if (onChange) {
+                onChange(event.target.innerText);
+                const customev = new CustomEvent('broadcast:input', { detail: {name: this.name, value: event.target.innerText} });
+                metaviz.render.container.dispatchEvent(customev);
+            }
         });
     }
 
