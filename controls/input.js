@@ -27,9 +27,10 @@ class MetavizControlInput extends MetavizControl {
         this.name = name;
 
         // Input
-        this.element = document.createElement('input');
+        this.element = document.createElement('div');
         if (value) this.set(value);
         if (placeholder) this.element.placeholder = placeholder;
+        this.element.setAttribute('contenteditable', 'true');
         this.element.setAttribute('spellcheck', 'false');
         this.element.setAttribute('autocomplete', 'off');
         this.element.setAttribute('name', 'notASearchField'); // Safari hack to prevent autofill
@@ -78,11 +79,11 @@ class MetavizControlInput extends MetavizControl {
     /* Input value */
 
     set(text) {
-        this.element.value = text;
+        this.element.innerText = text;
     }
 
     get() {
-        return this.element.value;
+        return this.element.innerText;
     }
 
     /**

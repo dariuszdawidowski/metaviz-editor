@@ -100,37 +100,37 @@
 
 /* Color 0 */
 
-.metaviz-node-label.style-text.color-0 input {
+.metaviz-node-label.style-text.color-0 .metaviz-control-input {
     color: var(--paper-1);
 }
 
 /* Color 1 */
 
-.metaviz-node-label.style-text.color-1 input {
+.metaviz-node-label.style-text.color-1 .metaviz-control-input {
     color: var(--metaviz-color-darkblue);
 }
 
 /* Color 2 */
 
-.metaviz-node-label.style-text.color-2 input {
+.metaviz-node-label.style-text.color-2 .metaviz-control-input {
     color: var(--metaviz-color-navy);
 }
 
 /* Color 3 */
 
-.metaviz-node-label.style-text.color-3 input {
+.metaviz-node-label.style-text.color-3 .metaviz-control-input {
     color: var(--color-jade);
 }
 
 /* Color 4 */
 
-.metaviz-node-label.style-text.color-4 input {
+.metaviz-node-label.style-text.color-4 .metaviz-control-input {
     color: rgb(244, 201, 50);
 }
 
 /* Color 5 */
 
-.metaviz-node-label.style-text.color-5 input {
+.metaviz-node-label.style-text.color-5 .metaviz-control-input {
     color: rgb(232, 145, 145);
 }
 
@@ -146,7 +146,7 @@
     border-bottom: 10px solid var(--paper-2);
 }
 
-.metaviz-node-label.style-underline.color-0 input {
+.metaviz-node-label.style-underline.color-0 .metaviz-control-input {
     color: var(--paper-2);
 }
 
@@ -156,7 +156,7 @@
     border-bottom: 10px solid var(--metaviz-color-darkblue);
 }
 
-.metaviz-node-label.style-underline.color-1 input {
+.metaviz-node-label.style-underline.color-1 .metaviz-control-input {
     color: var(--metaviz-color-darkblue);
 }
 
@@ -166,7 +166,7 @@
     border-bottom: 10px solid var(--metaviz-color-navy);
 }
 
-.metaviz-node-label.style-underline.color-2 input {
+.metaviz-node-label.style-underline.color-2 .metaviz-control-input {
     color: var(--metaviz-color-navy);
 }
 
@@ -176,7 +176,7 @@
     border-bottom: 10px solid var(--color-jade);
 }
 
-.metaviz-node-label.style-underline.color-3 input {
+.metaviz-node-label.style-underline.color-3 .metaviz-control-input {
     color: var(--color-jade);
 }
 
@@ -186,7 +186,7 @@
     border-bottom: 10px solid rgb(244, 201, 50);
 }
 
-.metaviz-node-label.style-underline.color-4 input {
+.metaviz-node-label.style-underline.color-4 .metaviz-control-input {
     color: rgb(244, 201, 50);
 }
 
@@ -196,7 +196,7 @@
     border-bottom: 10px solid rgb(232, 145, 145);
 }
 
-.metaviz-node-label.style-underline.color-5 input {
+.metaviz-node-label.style-underline.color-5 .metaviz-control-input {
     color: rgb(232, 145, 145);
 }
 
@@ -214,6 +214,7 @@
     border: none;
     width: calc(100% - 8px);
     height: 100%;
+    line-height: 1.4em;
     background-color: transparent;
     text-align: center;
     font-size: 13px;
