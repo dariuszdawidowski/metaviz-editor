@@ -1,5 +1,5 @@
 /**
- * Javascript Language Extensions v 1.25.0
+ * Javascript Language Extensions v 1.26.0
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -201,6 +201,8 @@ String.prototype.escape = function() {
 else console.error('String.prototype.escape already exist');
 
 
+/* Unescape XML/HTML */
+
 if (typeof String.prototype.unescape != 'function')
 String.prototype.unescape = function() {
     return this.replace(/&([a-zA-Z]+|#[0-9]+);/g, function(entity) {
@@ -215,6 +217,17 @@ String.prototype.unescape = function() {
     });
 };
 else console.error('String.prototype.unescape already exist');
+
+
+/* Remove html tags */
+
+if (typeof String.prototype.stripHTML != 'function')
+String.prototype.stripHTML = function() {
+    const container = document.createElement('div');
+    container.innerHTML = this;
+    return container.textContent || container.innerText;
+};
+else console.error('String.prototype.stripHTML already exist');
 
 
 /* Add trailing space if not exists */
