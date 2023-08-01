@@ -169,6 +169,45 @@ input, textarea, label {
     box-shadow: 0 0 10px rgba(0,0,0, 0.3) ;
 }
 
+/* Cookie Bubble */
+
+.cookie-bubble {
+    position: fixed;
+    margin: 20px;
+    padding: 12px 20px;
+    color: white;
+    background-color: #444;
+    border: 2px solid white;
+    border-radius: 20px;
+}
+
+.cookie-bubble a,
+.cookie-bubble a:visited {
+    color: white;
+    text-decoration: underline;
+}
+
+.cookie-bubble .x {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    color: white;
+    background-color: #444;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 15px;
+    transition: background-color 0.5s;
+}
+
+.cookie-bubble .x:hover {
+    background-color: #777;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
 
 /* Node base */
 

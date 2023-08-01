@@ -283,6 +283,7 @@ class Metaviz {
         // Local info
         this.agent.name = document.querySelector('meta[name="metaviz:agent:name"]')?.content;
         this.agent.client = document.querySelector('meta[name="metaviz:agent:client"]')?.content;
+        this.agent.server = window.location.hostname;
         this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
         this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
 
@@ -353,6 +354,13 @@ class Metaviz {
             for (const [key, value] of Object.entries(global.registry.themes[theme].vars)) {
                 document.documentElement.style.setProperty(key, value);
             }
+
+            // Cookie info
+            if (this.agent.server != '')
+                this.editor.showCookieBubble({
+                text: "The diagram data is not permanently stored anywhere until you save it to the downloaded file. <a href='/privacy-policy/webapp/' target='_blank'>Click here to read the Privacy Policy.</a>",
+                position: "bottom-center"
+            });
 
             // Load config from browser
             //this.storage.db.init(this.storage.dbNames, this.storage.dbVersion)

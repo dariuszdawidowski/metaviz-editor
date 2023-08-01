@@ -1167,16 +1167,50 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     /**
      * Show empty board/folder information
+     * @param icon: icon to display
+     * @param text: html to display
      */
 
-    showInfoBubble(icon, msg) {
+    showInfoBubble(args) {
         if (!metaviz.render.board.querySelector('.info-bubble')) metaviz.render.board.append(this.info);
-        this.info.innerHTML = `<span style="font-size: 20px; margin-right: 12px">${icon}</span> ${msg}`;
+        this.info.innerHTML = `<span style="font-size: 20px; margin-right: 12px">${args.icon}</span> ${args.text}`;
         this.info.style.display = 'flex';
     }
 
     hideInfoBubble() {
         this.info.style.display = 'none';
+    }
+
+    /**
+     * Show cookie bar
+     * @param text: html to display
+     * @param position: 'bottom-left' | 'bottom-center' (default) | 'bottom-right'
+     */
+
+    showCookieBubble(args) {
+        const { text = '', position = 'bottom-center' } = args;
+        const element = document.createElement('div');
+        element.classList.add('cookie-bubble');
+        element.innerHTML = text;
+        const x = document.createElement('div');
+        x.classList.add('x');
+        x.innerHTML = '&#215;';
+        x.addEventListener('click', () => { element.remove(); });
+        element.append(x);
+        document.body.append(element);
+        const transform = element.getBoundingClientRect();
+        if (position == 'bottom-left') {
+            element.style.left = '0px';
+            element.style.bottom = '0px';
+        }
+        else if (position == 'bottom-center') {
+            element.style.left = `calc(50% - ${transform.width / 2}px)`;
+            element.style.bottom = '0px';
+        }
+        else if (position == 'bottom-right') {
+            element.style.right = '0px';
+            element.style.bottom = '0px';
+        }
     }
 
     /**
@@ -1199,10 +1233,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     checkEmpty() {
         if (this.isEmpty()) {
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
-            this.showInfoBubble(
-                emojis[Math.randomRangeInt(0, emojis.length - 1)],
-                `This is empty ${metaviz.render.nodes.parent ? 'folder' : 'board'} - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...`
-            );
+            this.showInfoBubble({
+                icon: emojis[Math.randomRangeInt(0, emojis.length - 1)],
+                text: `This is empty ${metaviz.render.nodes.parent ? 'folder' : 'board'} - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...`
+            });
         }
         else {
             this.hideInfoBubble();
