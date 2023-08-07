@@ -237,8 +237,8 @@ class MetavizEditorPointer {
                 this.editor.interaction.mode = 'drag';
             }
 
-            // Start drag: Node
-            else if (this.editor.interaction.object == 'node') {
+            // Start drag: Node (unless SHIFT is pressed)
+            else if (this.editor.interaction.object == 'node' && this.editor.keyboard.key.shift) {
                 this.editor.dragSelectionStart();
                 if (this.editor.selection.count()) this.editor.interaction.mode = 'drag';
             }
