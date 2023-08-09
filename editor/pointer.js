@@ -91,9 +91,9 @@ class MetavizEditorPointer {
                     this.pointerEnd(event);
                 }
                 // Right button also selects with menu
-                else if (event.button == 2) {
+                /*else if (event.button == 2) {
                     this.pointerEndForMenu(event);
-                }
+                }*/
             }
         });
 
@@ -468,7 +468,7 @@ class MetavizEditorPointer {
      * Mouse up: Drop/End (right button)
      */
 
-    pointerEndForMenu(event) {
+    /*pointerEndForMenu(event) {
 
         // If it's not during selection
         if (!this.editor.keyboard.key.ctrl) {
@@ -487,7 +487,7 @@ class MetavizEditorPointer {
                 this.editor.interaction.object = 'node';
             }
         }
-    }
+    }*/
 
     /**
      * Doubleclick
