@@ -371,8 +371,15 @@ class MetavizContextMenu extends TotalProMenu {
             // If node is pointed then open Edit Selection section
             const clicked = metaviz.render.nodes.get(event.target);
             if (clicked) {
+                // Interaction object: node
                 editor.interaction.object = 'node';
-                editor.selection.set(clicked);
+                // If not part of selection
+                if (!editor.selection.get(clicked)) {
+                    // If multiselection then clear others
+                    if (editor.selection.count() > 0) editor.selection.clear();
+                    // Add to selection
+                    editor.selection.add(clicked);
+                }
             }
             // Clear selection if clicked on board background
             else {
