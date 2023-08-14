@@ -27,6 +27,7 @@ class MetavizControlRichText extends TotalText {
         // Main element
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-richtext');
+        if (this.name) this.element.classList.add('metaviz-control-richtext-' + this.name.slug());
 
         // Textarea
         this.editor.setAttribute('contenteditable', false);

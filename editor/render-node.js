@@ -160,6 +160,9 @@ class MetavizNode extends TotalDiagramNode {
 
         // Elastic mode as children
         this.isElastic = false;
+
+        // Resizing mode scenario
+        this.transform.resize = '';
     }    
 
     /**
@@ -456,6 +459,7 @@ class MetavizNode extends TotalDiagramNode {
 
     setSize(size, save = false) {
         super.setSize(size);
+        if ('resize' in size) this.transform.resize = size.resize;
         if (save) {
 
             // Redraw
@@ -484,7 +488,7 @@ class MetavizNode extends TotalDiagramNode {
             maxWidth: this.transform.wmax,
             maxHeight: this.transform.hmax,
             // Resize mode ('none' = can't resize, 'avg' = average, 'free' = separate x,y, 'ratio' = proportional)
-            mode: 'ratio'
+            mode: this.transform.resize == '' ? 'ratio' : this.transform.resize
         };
     }
 

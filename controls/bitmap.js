@@ -14,7 +14,10 @@ class MetavizControlBitmap extends MetavizControl {
         super();
 
         // Params
-        const { uri = null } = args;
+        const { name = null, uri = null } = args;
+
+        // Control name
+        this.name = name;
 
         // URI
         this.uri = null;
@@ -23,6 +26,7 @@ class MetavizControlBitmap extends MetavizControl {
         this.element = document.createElement('div');
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-bitmap');
+        if (this.name) this.element.classList.add('metaviz-control-bitmap-' + this.name.slug());
 
         // Set bitmap image
         if (uri) this.set(uri);

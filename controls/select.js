@@ -28,6 +28,7 @@ class MetavizControlSelect extends MetavizControl {
         this.element = document.createElement('select');
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-select');
+        if (this.name) this.element.classList.add('metaviz-control-select-' + this.name.slug());
 
         if (options) this.build(options);
         if (value) this.set(value);

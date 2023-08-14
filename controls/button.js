@@ -10,7 +10,6 @@ class MetavizControlButton extends MetavizControl {
 
         // Button
         this.element = document.createElement('button');
-        this.control = this.element; // DEPRECATED (backward compatibility)
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-button');
         if (text) {
