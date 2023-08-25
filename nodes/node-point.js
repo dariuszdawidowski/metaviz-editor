@@ -9,7 +9,7 @@ class MetavizNodePoint extends MetavizNode {
         super(args);
 
         // Set size
-        this.setSize({width: 20, height: 20});
+        this.setSize({width: 20, height: 20, mode: 'none'});
 
         // Add socket
         this.addSockets({
@@ -23,22 +23,6 @@ class MetavizNodePoint extends MetavizNode {
                 }
             })
         });
-    }
-
-    /**
-     * Get Size
-     */
-
-    getSize() {
-        return {
-            width: this.transform.w,
-            height: this.transform.h,
-            minWidth: this.transform.wmin,
-            minHeight: this.transform.hmin,
-            maxWidth: this.transform.wmax,
-            maxHeight: this.transform.hmax,
-            mode: 'none'
-        };
     }
 
     /**
@@ -66,4 +50,4 @@ class MetavizNodePoint extends MetavizNode {
 
 }
 
-global.registry.add({proto: MetavizNodePoint, name: 'Point', icon: '<i class="fas fa-bullseye"></i>'});
+global.registry.add({proto: MetavizNodePoint, name: 'Point', icon: '<span class="mdi mdi-record-circle-outline"></span>'});

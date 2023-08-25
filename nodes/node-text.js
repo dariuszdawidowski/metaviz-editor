@@ -242,6 +242,11 @@ class MetavizNodeText extends MetavizNode {
      */
 
     search(text) {
+        for (const [key, value] of Object.entries(this.params)) {
+            if (key.startsWith('page_')) {
+                return value.toLowerCase().includes(text.toLowerCase());
+            }
+        }
         return false;
     }
 
@@ -321,4 +326,4 @@ class MetavizNodeText extends MetavizNode {
 
 }
 
-global.registry.add({proto: MetavizNodeText, name: 'Text', icon: '<i class="fas fa-sticky-note"></i>'});
+global.registry.add({proto: MetavizNodeText, name: 'Text', icon: '<span class="mdi mdi-text-box"></span>'});

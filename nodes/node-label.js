@@ -121,7 +121,7 @@ class MetavizNodeLabel extends MetavizNode {
 
         // Meta setter
         this.params.set = (key, value) => {
-            this.params[key] = value;
+            this.params[key] = value.trim();
 
             // Color
             if (key == 'color') {
@@ -257,4 +257,4 @@ class MetavizNodeLabel extends MetavizNode {
 
 }
 
-global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<i class="fas fa-tag"></i>'});
+global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<span class="mdi mdi-label"></span>'});

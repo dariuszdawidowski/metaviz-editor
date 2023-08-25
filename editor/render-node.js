@@ -901,6 +901,14 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Get assigned icon from registry
+     */
+
+    icon() {
+        return global.registry.nodes[this.constructor.name].icon;
+    }
+
+    /**
      * Miniature version
      */
 
