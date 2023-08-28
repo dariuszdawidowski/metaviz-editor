@@ -10,3 +10,17 @@
     height: 20px;
     position: absolute;
 }
+
+/* Miniature */
+
+.metaviz-node-point.miniature {
+    border-radius: 50%;
+    border: 4px solid var(--paper-2);
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+}
+
+.metaviz-node-point.miniature::before {
+    display: none;
+}
