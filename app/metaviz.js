@@ -135,6 +135,30 @@ const global = {
             else if (('theme' in args) && ('vars' in args)) {
                 this.themes[args.name] = args;
             }
+        },
+
+        /**
+         * Get dictionary of nodes sorted by group
+         * @param type: string 'nodes'
+         */
+
+        get: function(type) {
+
+            // Nodes
+            if (type == 'nodes') {
+                const nodes = {'Default': []};
+                for (const [className, args] of Object.entries(this.nodes)) {
+                    // Group
+                    const group = ('menu' in args) ? args.menu : 'Default';
+                    // Create grop if not exist
+                    if (!(group in nodes)) nodes[group] = [];
+                    // Push node info
+                    nodes[group].push(args);
+                }
+                return nodes;
+            }
+
+            return null;
         }
 
     },
