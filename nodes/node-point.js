@@ -9,7 +9,7 @@ class MetavizNodePoint extends MetavizNode {
         super(args);
 
         // Set size
-        this.setSize({width: 20, height: 20, mode: 'none'});
+        this.setSize({width: 12, height: 12, resize: 'none'});
 
         // Add socket
         this.addSockets({
