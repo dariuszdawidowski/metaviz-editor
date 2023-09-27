@@ -113,7 +113,7 @@ class MetavizNodeLabel extends MetavizNode {
         this.controls.input.element.style.fontFamily = this.params.font;
 
         // Size
-        this.setSize({width: 176, height: 24});
+        this.setSize({width: 176, height: 24, minWidth: 176, minHeight: 24});
 
         // Classes
         this.element.classList.add('color-' + this.params.color);
