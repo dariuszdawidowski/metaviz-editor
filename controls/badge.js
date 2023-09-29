@@ -48,4 +48,12 @@ class MetavizControlBadge extends MetavizControl {
         return this.element.innerText;
     }
 
+    /**
+     * No selecting content
+     */
+
+    getSelection() {
+        return null;
+    }
+
 }
