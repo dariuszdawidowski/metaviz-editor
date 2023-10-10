@@ -346,6 +346,22 @@ input, textarea, label {
     font-weight: var(--node-icon-subtitle-weight);
 }
 
+/* Single line input */
+
+.metaviz-control-input.metaviz-control-input-single-line {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.metaviz-control-input.metaviz-control-input-single-line br {
+    display: none;
+}
+
+.metaviz-control-input.metaviz-control-input-single-line * {
+    display: inline;
+    white-space: nowrap;
+}
+
 /* Generic node panel style */
 
 .metaviz-node-panel {

@@ -1,15 +1,11 @@
-/**
- * Metaviz Clipboard functionality
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- * (c) 2020-2023 Metaviz Sp. z o.o., All Rights Reserved.
- *      ________
- *    /\ -- . - |
- *    `| -- - - |
- *     | --=- --|
- *     | _______|_
- *     |/________/
- * 
- */
+/***************************************************************************************************
+ *         ________                                                                                *
+ *       /\ -- . - |          Metaviz Clipboard functionality                                      *
+ *       `| -- - - |          Cut/Copy/paste data.                                                 *
+ *        | --=- --|          MIT License                                                          *
+ *        | _______|_         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *        |/________/                                                                              *
+ **************************************************************************************************/
 
 
 class MetavizClipboard {

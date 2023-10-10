@@ -834,7 +834,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
 
             // Copy node(s) if no selected text (MetavizJSON)
-            else if (copy == 'json') this.copyJson(this.selection.get());
+            else if (copy == 'json') {
+                this.copyJson(this.selection.get());
+            }
         }
 
         // Enable event back

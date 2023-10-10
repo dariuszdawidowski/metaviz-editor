@@ -14,14 +14,15 @@ class MetavizControlInput extends MetavizControl {
      * @param args.name: name of the control
      * @param args.value: inital value
      * @param args.placeholder: helping message
-     * @param args.onChange: callabck
+     * @param args.multiline: editable in multiple lines (default false)
+     * @param args.onChange: callback
      */
 
     constructor(args) {
         super();
 
         // Params
-        const { name = null, value = null, placeholder = null, onChange = null } = args;
+        const { name = null, value = null, placeholder = null, multiline = false, onChange = null } = args;
 
         // Control name
         this.name = name;
@@ -37,6 +38,9 @@ class MetavizControlInput extends MetavizControl {
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-input');
         if (this.name) this.element.classList.add('metaviz-control-input-' + this.name.slug());
+
+        // Single line mode
+        if (!multiline) this.element.classList.add('metaviz-control-input-single-line');
 
         // View mode
         if (metaviz.editor.interaction == 'view') this.edit(false);
@@ -104,21 +108,14 @@ class MetavizControlInput extends MetavizControl {
      */
 
     getSelection() {
+        const selection = window.getSelection();
         let selectedText = '';
 
-        if (typeof this.element.selectionStart === 'number' && typeof this.element.selectionEnd === 'number') {
-            const startIndex = this.element.selectionStart;
-            const endIndex = this.element.selectionEnd;
-
-            if (startIndex !== endIndex) {
-                selectedText = this.element.value.substring(startIndex, endIndex);
-            }
-        }
-        else if (document.selection && document.selection.createRange) {
-            const range = document.selection.createRange();
-            if (range.text) {
-              selectedText = range.text;
-            }
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const container = document.createElement('div');
+            container.appendChild(range.cloneContents());
+            selectedText = container.textContent || container.innerText;
         }
 
         return selectedText;
