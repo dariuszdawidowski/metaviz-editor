@@ -115,6 +115,10 @@ class MetavizNode extends TotalDiagramNode {
             content: false
         };
 
+        // Paperclip
+        this.paperclip = 'paperclip' in args ? args.paperclip : false;
+        if (this.paperclip) this.addPaperclip();
+
         // Controls
         this.controls = {};
 
@@ -356,6 +360,19 @@ class MetavizNode extends TotalDiagramNode {
 
     unChildren(node) {
         node.unParent(this);
+    }
+
+    /**
+     * Enable paperclip
+     */
+
+    addPaperclip() {
+        console.log('add paperclip');
+        const paperclip = document.createElement('div');
+        paperclip.classList.add('paperclip');
+        paperclip.innerHTML = '📎';
+        this.element.append(paperclip);
+        this.paperclip = true;
     }
 
     /**

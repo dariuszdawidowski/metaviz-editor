@@ -313,6 +313,15 @@ input, textarea, label {
     position: absolute;
 }
 
+/* Node paperclip */
+
+.metaviz-node .paperclip {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 32px;
+}
+
 /* Generic node icon style */
 
 .metaviz-node-icon {
