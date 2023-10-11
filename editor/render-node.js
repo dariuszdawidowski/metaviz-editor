@@ -110,7 +110,10 @@ class MetavizNode extends TotalDiagramNode {
         this.isVisible = true;
 
         // Locked
-        this.locked = 'locked' in args ? args.locked : false;
+        this.locked = {
+            move: 'locked' in args ? args.locked : false,
+            content: false
+        };
 
         // Controls
         this.controls = {};
@@ -257,7 +260,7 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     lockToggle() {
-        if (this.locked) this.unlock();
+        if (this.locked.move) this.unlock();
         else this.lock();
     }
 
@@ -434,7 +437,7 @@ class MetavizNode extends TotalDiagramNode {
             parent: this.parent,
             type: this.constructor.name,
             params: cleanData,
-            locked: this.locked,
+            locked: this.locked.move,
             x: this.transform.x,
             y: this.transform.y,
             w: this.transform.w,
@@ -800,7 +803,7 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     lock() {
-        this.locked = true;
+        this.locked.move = true;
         // Undo/Sync
         metaviz.editor.history.store({action: 'lock', node: {id: this.id, locked: true}});
     }
@@ -810,7 +813,7 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     unlock() {
-        this.locked = false;
+        this.locked.move = false;
         // Undo/Sync
         metaviz.editor.history.store({action: 'lock', node: {id: this.id, locked: false}});
     }

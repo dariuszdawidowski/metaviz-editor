@@ -375,7 +375,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             node.sockets.hide();
 
             // Unlocked only
-            if (!node.locked) {
+            if (!node.locked.move) {
 
                 // Send signal to parent
                 if (node.slot) node.parentNode.dragSelectionStart();
@@ -410,7 +410,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         for (const node of this.selection.get()) {
 
             // Unlocked only
-            if (!node.locked) {
+            if (!node.locked.move) {
 
                 // Regular Node
                 if (!node.slot) {
@@ -450,7 +450,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         for (const node of this.selection.get()) {
 
             // Unlocked only
-            if (!node.locked) {
+            if (!node.locked.move) {
 
                 // Remove drag class
                 node.element.classList.remove('drag');
@@ -498,7 +498,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         for (const node of this.selection.get()) {
 
             // Unlocked only
-            if (!node.locked) {
+            if (!node.locked.move) {
 
                 // Drag class
                 node.element.classList.remove('drag');

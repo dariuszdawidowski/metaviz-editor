@@ -449,7 +449,7 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Lock
             if (editor.selection.count() > 0) {
-                if (metaviz.editor.selection.getFocused().locked) {
+                if (metaviz.editor.selection.getFocused().locked.move) {
                     this.panel.left.find('total-pro-menu-lock')?.setName('Locked');
                 }
                 else {
