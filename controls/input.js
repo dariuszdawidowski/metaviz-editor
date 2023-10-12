@@ -16,16 +16,23 @@ class MetavizControlInput extends MetavizControl {
      * @param args.placeholder: helping message
      * @param args.multiline: editable in multiple lines (default false)
      * @param args.onChange: callback
+     * @param args.broadcast: broadcast event message (optional)
      */
 
     constructor(args) {
         super();
 
         // Params
-        const { name = null, value = null, placeholder = null, multiline = false, onChange = null } = args;
+        const { name = null, value = null, placeholder = null, multiline = false, onChange = null, broadcast = null } = args;
 
         // Control name
         this.name = name;
+
+        // Store value
+        this.value = value;
+
+        // Broadcast event message
+        this.broadcast = broadcast;
 
         // Input
         this.element = document.createElement('div');
@@ -71,9 +78,22 @@ class MetavizControlInput extends MetavizControl {
             // Callback
             if (onChange) {
                 onChange(event.target.innerText);
-                const customev = new CustomEvent('broadcast:input', { detail: {name: this.name, value: event.target.innerText} });
+            }
+            // Broadcast event
+            if (this.broadcast) {
+                const customev = new CustomEvent('broadcast:input', {
+                    detail: {
+                        message: this.broadcast,
+                        type: this.constructor.name,
+                        name: this.name,
+                        value: this.get(),
+                        prev: this.value
+                    }
+                });
                 metaviz.render.container.dispatchEvent(customev);
             }
+            // Update value
+            this.value = this.get();
         });
     }
 
