@@ -331,7 +331,10 @@ class MetavizEditorPointer {
                         // Parent (Folder, Group, Frame)
                         if (target.hasClass('metaviz-parent')) {
                             const parent = metaviz.render.nodes.get(target);
-                            for (const child of this.editor.selection.get().filter(node => !node.locked)) {
+                            for (const child of this.editor.selection.get().filter(node => !node.locked.move)) {
+                                child.transform.clear();
+                                child.render();
+                                child.update();
                                 child.setStyle('pointer-events', 'auto');
                                 child.setStyle('z-index', 'var(--z-node)');
                                 child.edit(false);
@@ -342,6 +345,8 @@ class MetavizEditorPointer {
                                     this.offset.getCoords()
                                 );
                             }
+                            this.editor.selection.clear();
+                            this.editor.update();
                             parentFound = true;
                             break;
                         }
@@ -356,7 +361,7 @@ class MetavizEditorPointer {
                             // Bind to root folder
                             if (parent == null) {
                                 if (confirm('Move selected node(s) to the root folder?')) {
-                                    for (const node of this.editor.selection.get()) {
+                                    for (const node of this.editor.selection.get().filter(node => !node.locked.move)) {
                                         const parentPrev = node.parent;
                                         const positionPrev = {
                                             x: node.transform.x - this.offset.getCoords().x,
@@ -370,6 +375,7 @@ class MetavizEditorPointer {
                                         node.setStyle('z-index', 'var(--z-node)');
                                         node.edit(false);
                                         node.element.classList.remove('drag');
+                                        node.visible(false);
                                         metaviz.editor.history.store({
                                             action: 'parent',
                                             node: {
@@ -381,6 +387,8 @@ class MetavizEditorPointer {
                                             }
                                         });
                                     }
+                                    this.editor.selection.clear();
+                                    this.editor.update();
                                 }
                                 else {
                                     metaviz.editor.dragSelectionCancel();
