@@ -216,7 +216,10 @@ class MetavizContextMenu extends TotalProMenu {
                 // Swipe
                 new TotalProMenuSelect({
                     placeholder: 'Primal pointer device',
-                    options: {'pan': {'icon': '', text: 'Moving: Touchpad-centric'}, 'zoom': {icon: '', text: 'Moving: Mouse-centric'}},
+                    options: {
+                        'pan': {icon: '', text: 'Primary device: Touchpad'},
+                        'zoom': {icon: '', text: 'Primary device: Mouse'}
+                    },
                     value: metaviz.config.touchpad.swipe.get(),
                     onChange: (value) => {
                         metaviz.config.touchpad.swipe.set(value);
@@ -228,7 +231,10 @@ class MetavizContextMenu extends TotalProMenu {
                 // Desktop Click
                 new TotalProMenuSelect({
                     placeholder: 'Click on desktop',
-                    options: {'pan': {'icon': '', text: 'Click on desktop: Pan view'}, 'box': {icon: '', text: 'Click on desktop: Selection'}},
+                    options: {
+                        'pan': {icon: '', text: 'Click on desktop: Pan view'},
+                        'box': {icon: '', text: 'Click on desktop: Selection'}
+                    },
                     value: metaviz.config.pointer.desktop.get(),
                     onChange: (value) => {
                         metaviz.config.pointer.desktop.set(value);

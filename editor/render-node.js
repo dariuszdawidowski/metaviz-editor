@@ -367,7 +367,6 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     addPaperclip() {
-        console.log('add paperclip');
         const paperclip = document.createElement('div');
         paperclip.classList.add('paperclip');
         paperclip.innerHTML = '📎';

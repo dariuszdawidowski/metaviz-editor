@@ -160,13 +160,13 @@ class MetavizNavigatorBrowser {
             if (event.buttons == 1 && (event.target.id == metaviz.container.id || event.target.hasClass('metaviz-link')) && !['node', 'socket', 'blossom', 'box'].includes(this.interaction.object)) {
                 this.interaction.object = 'desktop';
                 metaviz.container.element.style.cursor = 'grabbing';
-                metaviz.render.pan(event.movementX / window.devicePixelRatio, event.movementY / window.devicePixelRatio);
+                metaviz.render.pan(event.movementX, event.movementY);
                 metaviz.editor.cage.update();
             }
             else if (event.buttons == 4) {
                 this.interaction.object = 'desktop';
                 metaviz.container.element.style.cursor = 'grabbing';
-                metaviz.render.pan(event.movementX / window.devicePixelRatio, event.movementY / window.devicePixelRatio);
+                metaviz.render.pan(event.movementX, event.movementY);
                 metaviz.editor.cage.update();
             }
         };
