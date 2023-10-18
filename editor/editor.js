@@ -167,6 +167,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 this.selection.box.clear();
                 this.selection.box.hide();
                 this.keyboard.key.clear();
+                if (this.interaction.mode == 'drag') {
+                    this.dragSelectionCancel();
+                    this.interaction.mode = 'idle';
+                }
                 this.flush(false);
             }
         });
@@ -521,6 +525,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
 
         }
+
+        // Clear selection
+        this.selection.clear();
 
     }
 
