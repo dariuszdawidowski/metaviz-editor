@@ -237,7 +237,7 @@ class MetavizEditorPointer {
                 this.editor.interaction.mode = 'drag';
             }
 
-            // Start drag: Node (unless SHIFT is pressed)
+            // Start drag: Node (unless SHIFT is pressed - used for text selection)
             else if (this.editor.interaction.object == 'node' && !this.editor.keyboard.key.shift) {
                 this.editor.dragSelectionStart();
                 if (this.editor.selection.count()) this.editor.interaction.mode = 'drag';
