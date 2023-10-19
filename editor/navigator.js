@@ -188,22 +188,28 @@ class MetavizNavigatorBrowser {
 
         // Mouse Wheel pan and pinch zoom view (Mac style)
         this.mouseWheelPanPinch = (event) => {
-            event.preventDefault();
-            // Pinch
-            if (event.ctrlKey) {
-                metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.pinchFactor);
-                metaviz.editor.cage.update();
-            }
-            // Swipe
-            else {
-                metaviz.render.pan(-event.deltaX / window.devicePixelRatio, -event.deltaY / window.devicePixelRatio);
-                metaviz.editor.cage.update();
+            // Pan if not SHIFT (for native text scrolling)
+            if (!metaviz.editor.keyboard.key.shift) {
+                event.preventDefault();
+                // Pinch
+                if (event.ctrlKey) {
+                    metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.pinchFactor);
+                    metaviz.editor.cage.update();
+                }
+                // Swipe
+                else {
+                    metaviz.render.pan(-event.deltaX / window.devicePixelRatio, -event.deltaY / window.devicePixelRatio);
+                    metaviz.editor.cage.update();
+                }
             }
         };
 
         // Prevent default behaviours
         this.prevent = (event) => {
-            event.preventDefault();
+            // Prevent if not SHIFT (for native text scrolling)
+            if (!metaviz.editor.keyboard.key.shift) {
+                event.preventDefault();
+            }
         }
 
         // Click
