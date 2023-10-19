@@ -167,12 +167,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 this.selection.box.clear();
                 this.selection.box.hide();
                 this.keyboard.key.clear();
-                if (this.interaction.mode == 'drag' && this.interaction.object = 'node') {
+                if (this.interaction.mode == 'drag' && this.interaction.object == 'node') {
                     this.dragSelectionCancel();
                     this.interaction.mode = 'idle';
                     this.interaction.object = null;
                 }
-                else if (this.interaction.mode == 'drag' && this.interaction.object = 'blossom') {
+                else if (this.interaction.mode == 'drag' && this.interaction.object == 'blossom') {
                     this.dragBlossomCancel();
                     this.interaction.mode = 'idle';
                     this.interaction.object = null;
