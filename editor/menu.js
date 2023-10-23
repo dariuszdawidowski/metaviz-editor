@@ -101,15 +101,6 @@ class MetavizContextMenu extends TotalProMenu {
         }}));
 
         // ----
-        subEditSelection.add(new TotalProMenuSeparator());
-
-        // Delete Node(s)
-        subEditSelection.add(new TotalProMenuOption({ text: 'Delete Node', onChange: () => {
-            metaviz.editor.nodeDeleteSelected();
-            this.hide();
-        }}));
-
-        // ----
         this.panel.left.add(new TotalProMenuSeparator());
 
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
@@ -167,6 +158,14 @@ class MetavizContextMenu extends TotalProMenu {
         }}));
         this.panel.left.add(new TotalProMenuOption({ text: 'Duplicate', shortcut: [17, 68], onChange: () => {
             metaviz.editor.duplicate();
+            this.hide();
+        }}));
+
+        // ----
+        this.panel.left.add(new TotalProMenuSeparator());
+
+        this.panel.left.add(new TotalProMenuOption({ text: 'Remove', onChange: () => {
+            metaviz.editor.nodeDeleteSelected();
             this.hide();
         }}));
 
@@ -495,8 +494,17 @@ class MetavizContextMenu extends TotalProMenu {
                 this.panel.left.find('total-pro-menu-link')?.disable();
             }
 
-            // Delete Node(s)
-            this.panel.left.find('total-pro-menu-delete-node')?.setName(`Delete Node${(editor.selection.count() > 1 ? 's' : '')} (${editor.selection.count()})`);
+            // Remove
+            if (editor.selection.count() > 0)
+            {
+                this.panel.left.find('total-pro-menu-remove')?.setName(`Remove (${editor.selection.count()})`);
+                this.panel.left.find('total-pro-menu-remove')?.enable();
+            }
+            else
+            {
+                this.panel.left.find('total-pro-menu-remove')?.setName(`Remove`);
+                this.panel.left.find('total-pro-menu-remove')?.disable();
+            }
 
             // File functions
             if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
