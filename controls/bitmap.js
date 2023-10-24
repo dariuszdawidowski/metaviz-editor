@@ -49,8 +49,7 @@ class MetavizControlBitmap extends MetavizControl {
         else if (uri.constructor.name == 'File') {
             const reader = new FileReader();
             reader.onload = (event) => {
-                this.element.style.backgroundImage = `url(${event.target.result})`;
-                this.uri = event.target.result;
+                this.set(event.target.result);
             }
             reader.readAsDataURL(uri);
         }
