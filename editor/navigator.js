@@ -77,8 +77,8 @@ class MetavizNavigatorBrowser {
      */
 
     initViewerKeyboardEvents() {
-        // Key down
 
+        // Key down
         metaviz.events.subscribe('viewer:keydown', document, 'keydown', (event) => {
         /*
             // Button '0': Center camera to origin
@@ -181,9 +181,12 @@ class MetavizNavigatorBrowser {
 
         // Mouse Wheel zoom view (classic style)
         this.mouseWheelZoom = (event) => {
-            event.preventDefault();
-            metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.zoomFactor);
-            metaviz.editor.cage.update();
+            // Pan if not SHIFT (for native text scrolling)
+            if (!metaviz.editor.keyboard.key.shift) {
+                event.preventDefault();
+                metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.zoomFactor);
+                metaviz.editor.cage.update();
+            }
         };
 
         // Mouse Wheel pan and pinch zoom view (Mac style)
