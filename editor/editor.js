@@ -57,8 +57,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Arranger
         this.arrange = {
-            sort: new MetavizArrangeSort(),
-            align: new MetavizArrangeAlign(),
+            sort: typeof MetavizArrangeSort === 'function' ? new MetavizArrangeSort() : null,
+            align: typeof MetavizArrangeSort === 'function' ? new MetavizArrangeAlign() : null,
             settings: {
                 margin: 40
             }
