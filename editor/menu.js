@@ -143,23 +143,44 @@ class MetavizContextMenu extends TotalProMenu {
         // ----
         this.panel.left.add(new TotalProMenuSeparator());
 
-        // Cut Copy Paste Duplicate
+        // Cut
         this.panel.left.add(new TotalProMenuOption({ text: 'Cut', shortcut: [17, 88], onChange: () => {
             metaviz.editor.cut();
             this.hide();
         }}));
+
+        // Copy
         this.panel.left.add(new TotalProMenuOption({ text: 'Copy', shortcut: [17, 67], onChange: () => {
             metaviz.editor.copy();
             this.hide();
         }}));
+
+        // Paste
         this.panel.left.add(new TotalProMenuOption({ text: 'Paste', shortcut: [17, 86], onChange: () => {
             metaviz.editor.paste();
             this.hide();
         }}));
+
+        // Duplicate
         this.panel.left.add(new TotalProMenuOption({ text: 'Duplicate', shortcut: [17, 68], onChange: () => {
             metaviz.editor.duplicate();
             this.hide();
         }}));
+
+        // Select All Nodes / Text
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Select All',
+            shortcut: [17, 65],
+            onChange: () => {
+                if (this.panel.left.find('total-pro-menu-select-all').getName() == 'Select All Nodes') {
+                    metaviz.editor.selection.all();
+                }
+                else if (this.panel.left.find('total-pro-menu-select-all').getName() == 'Select All Text') {
+                    const edit = metaviz.editor.selection.getFocused().getEditingControl();
+                    if (edit) edit.setSelection();
+                }
+            }
+        }));
 
         // ----
         this.panel.left.add(new TotalProMenuSeparator());
@@ -532,6 +553,17 @@ class MetavizContextMenu extends TotalProMenu {
             }
             else if (editor.clipboard?.count() > 0) {
                 this.panel.left.find('total-pro-menu-paste')?.enable();
+            }
+
+            // Select All
+            if (editor.selection.count() == 0) {
+                this.panel.left.find('total-pro-menu-select-all')?.enable().setName('Select All Nodes');
+            }
+            else {
+                if (editor.selection.getFocused().getEditingControl())
+                    this.panel.left.find('total-pro-menu-select-all')?.enable().setName('Select All Text');
+                else
+                    this.panel.left.find('total-pro-menu-select-all')?.enable().setName('Select All Nodes');
             }
 
             // Enable Navigation (always)
