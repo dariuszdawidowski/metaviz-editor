@@ -23,6 +23,9 @@ class MetavizNode extends TotalDiagramNode {
         // Folder or slot parent node (ID)
         this.parent = 'parent' in args ? args.parent : null;
 
+        // This node is container
+        this.container = false;
+
         // Parent as object reference MetavizNode
         this.parentNode = null;
 
@@ -304,7 +307,7 @@ class MetavizNode extends TotalDiagramNode {
     getPosition() {
         let x = this.transform.x;
         let y = this.transform.y;
-        if (this.parentNode instanceof MetavizNodeGroup || this.parentNode instanceof MetavizNodeFrame) {
+        if (this.parentNode.container) {
             const parentTransform = this.parentNode.getPosition();
             x += parentTransform.x;
             y += parentTransform.y;
