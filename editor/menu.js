@@ -30,10 +30,22 @@ class MetavizContextMenu extends TotalProMenu {
         subNavigation.add(new TotalProMenuGroup({ text: 'Navigation', widgets: [
 
             // Navigation: Centre Board
-            new TotalProMenuOption({ text: 'Centre Board', onChange: () => {
-                this.hide();
-                metaviz.render.center();
-            }}),
+            new TotalProMenuOption({
+                text: 'Centre Board',
+                onChange: () => {
+                    this.hide();
+                    metaviz.render.center();
+                }
+            }),
+
+            // Navigation: Focus Content
+            new TotalProMenuOption({
+                text: 'Focus Content',
+                onChange: () => {
+                    this.hide();
+                    metaviz.render.focusBounds();
+                }
+            }),
 
         ] }));
 
