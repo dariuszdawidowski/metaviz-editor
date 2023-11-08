@@ -31,16 +31,7 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Navigation: Centre Board
             new TotalProMenuOption({
-                text: 'Centre Board',
-                onChange: () => {
-                    this.hide();
-                    metaviz.render.center();
-                }
-            }),
-
-            // Navigation: Focus Content
-            new TotalProMenuOption({
-                text: 'Focus Content',
+                text: 'Centre',
                 onChange: () => {
                     this.hide();
                     metaviz.render.focusBounds();
