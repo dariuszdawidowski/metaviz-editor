@@ -1040,6 +1040,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         // Empty folder?
                         metaviz.editor.checkEmpty();
 
+                        // Centre
+                        metaviz.render.focusBounds();
+
                         // Launch start
                         for (const node of metaviz.render.nodes.get('*')) node.start();
 
@@ -1066,6 +1069,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     
                         // Empty folder?
                         metaviz.editor.checkEmpty();
+
+                        // Centre
+                        metaviz.render.focusBounds();
 
                         // Launch start
                         for (const node of metaviz.render.nodes.get('*')) node.start();
