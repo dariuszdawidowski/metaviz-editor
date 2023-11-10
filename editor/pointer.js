@@ -505,7 +505,7 @@ class MetavizEditorPointer {
 
         // Clicked on background - create new node
         if (!this.clicked && this.editor.keyboard.key.ctrl) {
-            metaviz.editor.nodeAdd(this.editor.history.last.type, {x: event.offsetX, y: event.offsetY});
+            metaviz.editor.nodeAdd(this.editor.history.last.type || 'MetavizNodeText', {x: event.offsetX, y: event.offsetY});
         }
 
         // Send dblclick event to node
