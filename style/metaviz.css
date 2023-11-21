@@ -468,6 +468,17 @@ input, textarea, label {
     }
 }
 
+.metaviz-control-spinner .counter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(254, 192, 11);
+    text-shadow: 1px 1px black;
+}
+
+/* Loading */
+
 .metaviz-load-bg {
     width: 100%;
     height: 100px;

@@ -12,16 +12,23 @@ class MetavizControlSpinner extends MetavizControl {
     constructor() {
         super();
         this.element = document.createElement('div');
-        this.control = this.element; // DEPRECATED (backward compatibility)
         this.element.classList.add('metaviz-control-spinner');
+        this.counter = document.createElement('div');
+        this.counter.classList.add('counter');
+        this.element.append(this.counter);
     }
 
     show() {
+        this.counter.innerText = '';
         this.element.style.display = 'block';
     }
 
     hide() {
         this.element.style.display = 'none';
+    }
+
+    set(percent) {
+        this.counter.innerText = `${Math.round(percent)}%`;
     }
 
 }
