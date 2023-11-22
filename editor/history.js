@@ -221,10 +221,15 @@ class MetavizHistory {
      */
 
     undo() {
+
         // Pop previous state from queue
         const previous = this.history.pop();
 
         if (previous) {
+
+            // Clear selection
+            metaviz.editor.selection.clear();
+
             // Restore state
             this.restore(previous);
 
@@ -259,10 +264,14 @@ class MetavizHistory {
      */
 
     redo() {
+
         // Pop next state from queue
         const next = this.future.pop();
 
         if (next) {
+
+            // Clear selection
+            metaviz.editor.selection.clear();
 
             // Restore state
             this.restore(next);
