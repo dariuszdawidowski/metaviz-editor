@@ -139,6 +139,12 @@ class MetavizControlRichText extends TotalText {
             this.toolbar.append(icon.element);
         }
 
+        // Page nr badge
+        this.pageBadge = document.createElement('div');
+        this.pageBadge.classList.add('page-badge');
+        this.pageBadge.innerText = '1/1';
+        this.element.append(this.pageBadge);
+
         // Process Paste
         this.editor.addEventListener('paste', (event) => {
             event.preventDefault();
@@ -288,12 +294,14 @@ class MetavizControlRichText extends TotalText {
 
     showToolbar() {
         this.toolbar.style.display = 'flex';
+        this.pageBadge.style.display = 'none';
         this.editor.classList.remove('without-toolbar');
         this.editor.classList.add('with-toolbar');
     }
 
     hideToolbar() {
         this.toolbar.style.display = 'none';
+        this.pageBadge.style.display = 'flex';
         this.editor.classList.remove('with-toolbar');
         this.editor.classList.add('without-toolbar');
     }
@@ -304,6 +312,7 @@ class MetavizControlRichText extends TotalText {
 
     page(nr, total) {
         this.icons.page.set(`${nr}/${total}`);
+        this.pageBadge.innerText = `${nr}/${total}`;
     }
 
     /**
