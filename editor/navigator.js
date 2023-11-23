@@ -19,12 +19,12 @@ class MetavizNavigatorBrowser {
             object: null, // null | 'desktop' | 'node' | 'socket' | 'box'
         };
 
-        // Transform values
+        // Pointer transform values
         this.transform = {
 
-            // Coordinates
-            x: 0,
-            y: 0,
+            // Pointer arrow or finger coordinates in screen space (not board space)
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
 
             // Offset from last position
             delta: {
@@ -46,8 +46,6 @@ class MetavizNavigatorBrowser {
             },
 
             end: () => {
-                this.transform.x = 0;
-                this.transform.y = 0;
                 this.transform.delta.x = 0;
                 this.transform.delta.y = 0;
             }
@@ -218,8 +216,9 @@ class MetavizNavigatorBrowser {
         // Click
         metaviz.events.subscribe('viewer:mousedown', metaviz.render.container, 'mousedown', this.mouseDown);
 
-        // Mouse track
-        metaviz.events.subscribe('always:mousetrack', metaviz.render.container, 'mousemove', this.mouseTrack);
+        // Pointer track
+        metaviz.events.subscribe('always:pointertrack', metaviz.render.container, 'pointermove', this.mouseTrack);
+        metaviz.events.subscribe('always:pointerenter', metaviz.render.container, 'pointerenter', this.mouseTrack);
 
         // Wheel bind
         metaviz.events.subscribe('viewer:mousewheel',
@@ -251,8 +250,10 @@ class MetavizNavigatorBrowser {
         metaviz.events.unsubscribe('viewer:mousedown');
         // viewer:mousewheel @ metaviz.render.container
         metaviz.events.unsubscribe('viewer:mousewheel');
-        // viewer:mousetrack @ metaviz.render.container
-        metaviz.events.unsubscribe('always:mousetrack');
+        // viewer:pointertrack @ metaviz.render.container
+        metaviz.events.unsubscribe('always:pointertrack');
+        // viewer:pointerenter @ metaviz.render.container
+        metaviz.events.unsubscribe('always:pointerenter');
         // viewer:mouseleave @ document
         metaviz.events.unsubscribe('viewer:mouseleave');
         // browser:prevent @ metaviz.render.container

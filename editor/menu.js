@@ -548,15 +548,15 @@ class MetavizContextMenu extends TotalProMenu {
             if (editor.history.hasUndo()) this.panel.left.find('total-pro-menu-undo')?.enable();
             if (editor.history.hasRedo()) this.panel.left.find('total-pro-menu-redo')?.enable();
             
-            // Enable Cut/Copy/Paste/Duplicate
+            // Enable Cut/Copy/Duplicate
             if (editor.selection.count() > 0) {
                 this.panel.left.find('total-pro-menu-cut')?.enable();
                 this.panel.left.find('total-pro-menu-copy')?.enable();
                 this.panel.left.find('total-pro-menu-duplicate')?.enable();
             }
-            else if (editor.clipboard?.count() > 0) {
-                this.panel.left.find('total-pro-menu-paste')?.enable();
-            }
+
+            // Enable Paste
+            this.checkClipboardToPaste();
 
             // Select All
             if (editor.selection.count() == 0) {
@@ -605,6 +605,23 @@ class MetavizContextMenu extends TotalProMenu {
         metaviz.events.enable('editor:pointerdown');
         metaviz.events.enable('editor:pointermove');
         metaviz.events.enable('editor:pointerup');
+    }
+
+    /**
+     * Check whether clipboard contains any elements and enable paste
+     */
+
+    async checkClipboardToPaste() {
+        try {
+            const items = await navigator.clipboard.read();
+            const text = await navigator.clipboard.readText();
+            if (items.length > 0 || text != '') this.panel.left.find('total-pro-menu-paste')?.enable();
+        }
+        catch (err) {
+            if (metaviz.editor.clipboard?.count() > 0) {
+                this.panel.left.find('total-pro-menu-paste')?.enable();
+            }
+        }
     }
 
 }

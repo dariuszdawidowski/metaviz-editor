@@ -80,7 +80,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.cage = new MetavizCage();
 
         // Clipboard
-        this.clipboard = new MetavizClipboard(metaviz.render.container);
+        this.clipboard = new MetavizClipboardLegacy(metaviz.render.container);
 
         // File
         this.file = {
@@ -131,12 +131,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     initEditorCopyPasteEvents() {
 
         // Copy
-        metaviz.events.subscribe('editor:copy', document, 'copy', (event) => {
+        metaviz.events.subscribe('editor:copy', document, 'copy', async (event) => {
             this.copy();
         });
 
         // Paste
-        metaviz.events.subscribe('editor:paste', document, 'paste', (event) => {
+        metaviz.events.subscribe('editor:paste', document, 'paste', async (event) => {
             this.paste(event);
         });
 
@@ -823,7 +823,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Copy
      */
 
-    copy(nodes = this.selection.get()) {
+    async copy(nodes = this.selection.get()) {
 
         // Disable event to avoid of recursive loop
         metaviz.events.disable('editor:copy');
@@ -843,7 +843,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // Copy inner contents (RAW)
             if (copy == 'text') {
-                this.copyRaw(this.selection.getFocused(), data);
+                this.copyText(this.selection.getFocused(), data);
             }
 
             // Copy node(s) if no selected text (MetavizJSON)
@@ -860,14 +860,21 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Copy pure text
      */
 
-    copyRaw(node, data) {
+    async copyText(node, data) {
 
         // Copy to clipboard
-        this.clipboard.set(data, node.miniature());
+        try {
+            await navigator.clipboard.writeText(data);
+            console.log('async-copy:text:', data);
+        }
+        // Fallback to legacy version
+        catch (err) {
+            this.clipboard.set(data);
+            console.log('legacy-copy:text:', data);
+        }
 
-        // Enable event back
-        metaviz.events.enable('editor:copy');
-
+        // Store copy history
+        metaviz.events.call('update:clipboard', {data: data, miniature: node.miniature()});
     }
 
     /**
@@ -875,7 +882,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * nodes: [MetavizNodeX, ...]
      */
 
-    copyJson(nodes) {
+    async copyJson(nodes) {
 
         // If any nodes
         if (nodes.length) {
@@ -894,7 +901,19 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
 
             // Copy to clipboard
-            this.clipboard.set(JSON.stringify(json), nodes[0].miniature());
+            const data = JSON.stringify(json);
+            try {
+                await navigator.clipboard.writeText(data);
+                console.log('async-copy:json:', data);
+            }
+            // Fallback to legacy version
+            catch (err) {
+                this.clipboard.set(data);
+                console.log('legacy-copy:json:', data);
+            }
+
+            // Store copy history
+            metaviz.events.call('update:clipboard', {data: data, miniature: nodes[0].miniature()});
 
         }
 
@@ -913,8 +932,63 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Paste
      */
 
-    paste(event = false, offset = null) {
+    async paste(event = false, offset = null) {
 
+        // Table of sent items {'size:type': <bool sent>, ...}
+        const items = {};
+
+        // Compute offset (if present then it comes from Duplicate Node):
+        if (!offset) {
+            // From system event (CTRL/CMD+V)
+            if (event) offset = metaviz.render.screen2World({x: this.transform.x, y: this.transform.y});
+            // From internal clipboard (Menu Paste)
+            else offset = metaviz.render.screen2World(this.menu.position());
+        }
+
+        // Files (order matters - legacy clipboard should be first)
+        if (event) {
+            const itemsLegacyClipboard = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (const item of itemsLegacyClipboard) {
+                if (item.kind === 'file') {
+                    const blob = item.getAsFile();
+                    console.log('async-paste:file:', blob, offset);
+                    metaviz.exchange.file(blob, offset);
+                    items[`${blob.size}:${blob.type}`] = true;
+                }
+            }
+        }
+
+        // Images
+        const itemsNewClipboard = await navigator.clipboard.read();
+        for (const item of itemsNewClipboard) {
+            for (const type of item.types) {
+                // Image only because this method doesn't support File
+                if (type.startsWith('image/')) {
+                    const blob = await item.getType(type);
+                    // If not sent already
+                    if (!items.includes(`${blob.size}:${blob.type}`)) {
+                        const file = new File([blob], 'image.' + metaviz.exchange.mimetype2ext(type), {type: type});
+                        console.log('async-paste:image:', file, offset);
+                        metaviz.exchange.file(file, offset);
+                        items[`${file.size}:${file.type}`] = true;
+                    }
+                }
+            }
+        }
+
+        // Text
+        const text = await navigator.clipboard.readText();
+        if (text != '') {
+            // If not sent anything yet
+            if (Object.keys(items).length == 0) {
+                console.log('async-paste:text:', text, offset);
+                metaviz.exchange.text(text, offset);
+            }
+        }
+
+        // TODO: Legacy version
+
+        /*
         // Paste from system event (CTRL+V)
         if (event) {
             metaviz.exchange.paste(event.clipboardData, metaviz.render.screen2World({x: this.transform.x, y: this.transform.y}));
@@ -924,7 +998,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         else {
             if (!offset) offset = metaviz.render.screen2World(this.menu.position());
             metaviz.exchange.item(this.clipboard.get(), offset);
-        }
+        }*/
 
     }
 

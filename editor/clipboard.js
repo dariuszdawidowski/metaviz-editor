@@ -1,14 +1,15 @@
 /***************************************************************************************************
  *         ________                                                                                *
  *       /\ -- . - |          Metaviz Clipboard functionality                                      *
- *       `| -- - - |          Cut/Copy/paste data.                                                 *
- *        | --=- --|          MIT License                                                          *
- *        | _______|_         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
- *        |/________/                                                                              *
+ *       `| -- - - |          Legacy copy/paste system for non-AsyncClipboard API                  *
+ *        | --=- --|          https://caniuse.com/async-clipboard                                  *
+ *        | _______|_         MIT License                                                          *
+ *        |/________/         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *                                                                                                 *
  **************************************************************************************************/
 
 
-class MetavizClipboard {
+class MetavizClipboardLegacy {
 
     constructor(container) {
         // Pastebin (proxy dom element for system paste)
@@ -49,7 +50,6 @@ class MetavizClipboard {
             this.pastebin.setSelectionRange(0, data.length);
             document.execCommand('copy');
             this.close();
-            metaviz.events.call('update:clipboard', {data, miniature});
         }
     }
 

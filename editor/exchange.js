@@ -1,5 +1,5 @@
 /**
- * Metaviz File Download
+ * Metaviz Data Exchange and File Download
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -9,7 +9,7 @@ class MetavizExchange {
      * Paste file or item from system clipboard
      */
 
-    paste(clipboardData, offset = {x: 0, y: 0}) {
+    /*paste(clipboardData, offset = {x: 0, y: 0}) {
         for (const item of clipboardData.items) {
             // Item
             if (item.kind == 'string' && item.type == 'text/plain') {
@@ -18,19 +18,71 @@ class MetavizExchange {
                 });
             }
         }
+    }*/
+
+    /**
+     * Detect text type and create node
+     */
+
+    text(text, offset = {x: 0, y: 0}) {
+        const data = this.detectFormat(text);
+
+        // Create Node Image from url
+        if (data.mime == 'text/url') {
+            this.processURL(data.url, offset);
+        }
+
+        // Create Node Note filled with text
+        else if (data.mime == 'text/plain') {
+            this.processText(data.text, offset);
+        }
+
+        // Create whole diagram from json
+        else if (data.mime == 'text/metaviz+json') {
+            this.processMV(data.json, offset);
+        }
     }
 
     /**
-     * Detect Item type and advance to processing
+     * URL text -> Node URL | Node Image
      */
 
-    item(text, offset = {x: 0, y: 0}) {
-        const data = this.detectFormat(text);
+    processURL(url, position) {
 
-        // Create whole diagram from json
-        if (data.mime == 'text/metaviz+json') {
-            this.processMV(data.json, offset);
-        }
+        // Node URL
+        const node = metaviz.render.nodes.add({id: crypto.randomUUID(), type: 'MetavizNodeURL', parent: metaviz.render.nodes.parent, x: position.x, y: position.y, params: {url: url}});
+        metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
+
+        // Check empty board/folder
+        metaviz.editor.checkEmpty();
+
+    }
+
+    /**
+     * Plain text -> Create Node
+     */
+
+    processText(text, position) {
+
+        // Create Sticky Note (generic text)
+        const node = metaviz.render.nodes.add({
+            id: crypto.randomUUID(),
+            type: 'MetavizNodeText',
+            parent: metaviz.render.nodes.parent,
+            x: position.x,
+            y: position.y,
+            params: {
+                'page_1': text
+            }
+        });
+        metaviz.editor.history.store({
+            action: 'add',
+            nodes: [{...node.serialize('transform'), ...position}]
+        });
+
+        // Check empty board/folder
+        metaviz.editor.checkEmpty();
+
     }
 
     /**
@@ -69,10 +121,22 @@ class MetavizExchange {
     }
 
     /**
-     * Detect formats
+     * Guess mimetype based on structure
      */
 
     detectFormat(text) {
+
+        // Detecting 'text/url'
+        const patternURL = new RegExp(
+            "^(https?:\\/\\/)?" + // protocol
+            "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+            "((\\d{1,3}\\.){3}\\d{1,3}))" + // or ipv4 address
+            "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+            "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+            "(\\#[-a-z\\d_]*)?$",
+            "i"
+        );
+        if (patternURL.test(text)) return {mime: 'text/url', url: text};
 
         // Detecting 'text/metaviz+json'
         let json = null;
