@@ -117,6 +117,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Paste events
         this.initEditorCopyPasteEvents();
 
+        // System drag&drop files
+        this.initEditorDropEvents();
+
         // Editor leave events
         this.initEditorLeaveEvents();
 
@@ -140,6 +143,24 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             this.paste(event);
         });
 
+    }
+
+    /**
+     * Drop external text/image/file
+     */
+
+    initEditorDropEvents() {
+
+        metaviz.events.subscribe('editor:dragover', metaviz.render.container, 'dragover', (event) => {
+            // Needed for takeovering drop event
+            event.preventDefault();
+        });
+
+        metaviz.events.subscribe('editor:drop', metaviz.render.container, 'drop', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.drop(event);
+        });
     }
 
     /**
@@ -1010,6 +1031,30 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.copy();
         const bounds = this.arrange.align.getBounds(this.selection.get());
         this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
+    }
+
+    /** DROP SYSTEM ITEM **********************************************************************************************************/
+
+    /**
+     * Mouse drag & drop item (text) from OS to browser
+     */
+
+    drop(event) {
+
+        // Dropped position
+        const offset = metaviz.render.screen2World({x: event.clientX, y: event.clientY});
+
+        for (const item of event.dataTransfer.items) {
+
+            // Text
+            if (item.type == 'text/plain') {
+                item.getAsString((text) => {
+                    metaviz.exchange.text(text, offset);
+                });
+            }
+
+        }
+
     }
 
     /** BOARD PROJECT FILE ********************************************************************************************************/
