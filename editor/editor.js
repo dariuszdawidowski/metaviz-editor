@@ -966,37 +966,6 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             else offset = metaviz.render.screen2World(this.menu.position());
         }
 
-        // Files (order matters - legacy clipboard should be first)
-        if (event) {
-            const itemsLegacyClipboard = (event.clipboardData || event.originalEvent.clipboardData).items;
-            for (const item of itemsLegacyClipboard) {
-                if (item.kind === 'file') {
-                    const blob = item.getAsFile();
-                    console.log('async-paste:file:', blob, offset);
-                    metaviz.exchange.file(blob, offset);
-                    items[`${blob.size}:${blob.type}`] = true;
-                }
-            }
-        }
-
-        // Images
-        const itemsNewClipboard = await navigator.clipboard.read();
-        for (const item of itemsNewClipboard) {
-            for (const type of item.types) {
-                // Image only because this method doesn't support File
-                if (type.startsWith('image/')) {
-                    const blob = await item.getType(type);
-                    // If not sent already
-                    if (!items.includes(`${blob.size}:${blob.type}`)) {
-                        const file = new File([blob], 'image.' + metaviz.exchange.mimetype2ext(type), {type: type});
-                        console.log('async-paste:image:', file, offset);
-                        metaviz.exchange.file(file, offset);
-                        items[`${file.size}:${file.type}`] = true;
-                    }
-                }
-            }
-        }
-
         // Text
         const text = await navigator.clipboard.readText();
         if (text != '') {
