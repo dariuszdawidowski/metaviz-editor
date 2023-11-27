@@ -972,7 +972,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // If not sent anything yet
             if (Object.keys(items).length == 0) {
                 console.log('async-paste:text:', text, offset);
-                metaviz.exchange.text(text, offset);
+                metaviz.exchange.uploadText(text, offset);
             }
         }
 
@@ -1018,7 +1018,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Text
             if (item.type == 'text/plain') {
                 item.getAsString((text) => {
-                    metaviz.exchange.text(text, offset);
+                    metaviz.exchange.uploadText(text, offset);
                 });
             }
 
@@ -1208,7 +1208,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Fallback: download file
         else {
-            metaviz.exchange.download({data: json, name: 'metaviz-diagram.mv'});
+            metaviz.exchange.downloadFile({data: json, name: 'metaviz-diagram.mv'});
             this.history.dirty = false;
             this.idle();
         }

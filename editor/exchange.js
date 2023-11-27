@@ -6,25 +6,10 @@
 class MetavizExchange {
         
     /**
-     * Paste file or item from system clipboard
-     */
-
-    /*paste(clipboardData, offset = {x: 0, y: 0}) {
-        for (const item of clipboardData.items) {
-            // Item
-            if (item.kind == 'string' && item.type == 'text/plain') {
-                item.getAsString((text) => {
-                    this.item(text, offset);
-                });
-            }
-        }
-    }*/
-
-    /**
      * Detect text type and create node
      */
 
-    text(text, offset = {x: 0, y: 0}) {
+    uploadText(text, offset = {x: 0, y: 0}) {
         const data = this.detectFormat(text);
 
         // Create Node Image from url
@@ -155,7 +140,7 @@ class MetavizExchange {
      * @param atgs.name: file name
      */
 
-    download(args) {
+    downloadFile(args) {
         const { data = null, path = null, name = null } = args;
 
         // Create link element
