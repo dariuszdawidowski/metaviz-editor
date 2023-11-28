@@ -966,29 +966,38 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             else offset = metaviz.render.screen2World(this.menu.position());
         }
 
-        // Text
-        const text = await navigator.clipboard.readText();
-        if (text != '') {
-            // If not sent anything yet
-            if (Object.keys(items).length == 0) {
-                console.log('async-paste:text:', text, offset);
-                metaviz.exchange.uploadText(text, offset);
+        // Text (Clipboard API)
+        if (navigator.clipboard.readText) {
+            const text = await navigator.clipboard.readText();
+            if (text != '') {
+                // If not sent anything yet
+                if (Object.keys(items).length == 0) {
+                    metaviz.exchange.uploadText(text, offset);
+                }
             }
+
         }
 
-        // TODO: Legacy version
-
-        /*
-        // Paste from system event (CTRL+V)
-        if (event) {
-            metaviz.exchange.paste(event.clipboardData, metaviz.render.screen2World({x: this.transform.x, y: this.transform.y}));
-        }
-
-        // Paste from internal clipboard (menu copy or duplicate)
+        // Text (Legacy clipboard)
         else {
-            if (!offset) offset = metaviz.render.screen2World(this.menu.position());
-            metaviz.exchange.item(this.clipboard.get(), offset);
-        }*/
+
+            // Paste from system event (CTRL+V)
+            if (event) {
+                for (const item of event.clipboardData.items) {
+                    if (item.kind == 'string' && item.type == 'text/plain') {
+                        item.getAsString((text) => {
+                            metaviz.exchange.uploadText(text, offset);
+                        });
+                    }
+                }
+            }
+
+            // Paste from internal clipboard (menu copy or duplicate)
+            else {
+                metaviz.exchange.uploadText(this.clipboard.get(), offset);
+            }
+
+        }
 
     }
 
