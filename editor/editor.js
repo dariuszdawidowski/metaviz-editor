@@ -884,12 +884,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     async copyText(node, data) {
 
         // Copy to clipboard
-        try {
+        if (navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(data);
             console.log('async-copy:text:', data);
         }
-        // Fallback to legacy version
-        catch (err) {
+
+        // Legacy version needs copy in internal clipboard
+        if (!navigator.clipboard.readText) {
             this.clipboard.set(data);
             console.log('legacy-copy:text:', data);
         }
@@ -923,12 +924,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // Copy to clipboard
             const data = JSON.stringify(json);
-            try {
+            if (navigator.clipboard.writeText) {
                 await navigator.clipboard.writeText(data);
                 console.log('async-copy:json:', data);
             }
-            // Fallback to legacy version
-            catch (err) {
+            
+            // Legacy version needs copy in internal clipboard
+            if (!navigator.clipboard.readText) {
                 this.clipboard.set(data);
                 console.log('legacy-copy:json:', data);
             }
