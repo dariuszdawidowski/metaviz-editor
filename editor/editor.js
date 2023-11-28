@@ -912,8 +912,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Serialize JSON
             const json = metaviz.format.serialize('text/metaviz+json', nodes);
 
-            // Reset layer ID
+            // Reset base ID and layer ID
+            json.id = 0;
             json.layers[0].id = 0;
+
+            // Reset name
+            json.name = '';
 
             // Correct center
             const bounds = this.arrange.align.getBounds(json.layers[0].nodes);
@@ -921,6 +925,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 json.layers[0].nodes[i].x -= bounds.center.x;
                 json.layers[0].nodes[i].y -= bounds.center.y;
             }
+
+            // Clear history
+            if ('undo' in json) delete json['undo'];
 
             // Copy to clipboard
             const data = JSON.stringify(json);
