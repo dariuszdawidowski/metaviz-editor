@@ -152,7 +152,12 @@ class MetavizControlRichText extends TotalText {
             // Get data from clipboard
             const clipboardData = event.clipboardData || window.clipboardData;
             const pastedText = clipboardData.getData('text/plain');
-            const modifiedText = pastedText.split('\n').map(line => `<div>${line.trim() != '' ? line : '<br>'}</div>`).join('');
+
+            // Escape html
+            const escapedText = pastedText.escape();
+
+            // Convert end of lines to html
+            const modifiedText = escapedText.split('\n').map(line => `<div>${line.trim() != '' ? line : '<br>'}</div>`).join('');
 
             // Get selection
             const selection = window.getSelection();
