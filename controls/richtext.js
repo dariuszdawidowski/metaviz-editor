@@ -167,6 +167,9 @@ class MetavizControlRichText extends TotalText {
             range.collapse(false);
             selection.removeAllRanges();
             selection.addRange(range);
+
+            // Cleanup html
+            this.cleanUpHtml();
         });
 
         // Mouse & keyboard events
@@ -252,6 +255,7 @@ class MetavizControlRichText extends TotalText {
      */
 
     blur() {
+        this.cleanUpHtml();
         this.element.blur();
     }
 
@@ -327,6 +331,25 @@ class MetavizControlRichText extends TotalText {
             if (!['DIV', 'H1', 'H2', 'H3', 'H4', 'H5'].includes(style)) style = 'div';
             this.icons.style.set(style.toLowerCase());
         }
+    }
+
+    /**
+     * Cleanup odd html tags in editor's content
+     */
+
+    cleanUpHtml() {
+
+        // Remove empty <div></div>
+        const elementsToRemove = [];
+        for (const child of this.editor.children) {
+            if ((child.tagName === 'DIV' && child.innerHTML.trim() === '')) {
+                elementsToRemove.push(child);
+            }
+        }
+        elementsToRemove.forEach((element) => {
+            this.editor.removeChild(element);
+        });            
+
     }
 
 }
