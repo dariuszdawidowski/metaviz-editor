@@ -152,18 +152,19 @@ class MetavizControlRichText extends TotalText {
             // Get data from clipboard
             const clipboardData = event.clipboardData || window.clipboardData;
             const pastedText = clipboardData.getData('text/plain');
-            const modifiedText = pastedText.stripHTML();
+            const modifiedText = pastedText.split('\n').map(line => `<div>${line.trim() != '' ? line : '<br>'}</div>`).join('');
 
-            // Insert
+            // Get selection
             const selection = window.getSelection();
             const range = selection.getRangeAt(0);
             range.deleteContents();
-            const textNode = document.createTextNode(modifiedText);
-            range.insertNode(textNode);
+
+            // Inject text
+            const fragment = range.createContextualFragment(modifiedText);
+            range.insertNode(fragment);
 
             // Set cursor at the end
-            range.setStartAfter(textNode);
-            range.setEndAfter(textNode);
+            range.collapse(false);
             selection.removeAllRanges();
             selection.addRange(range);
         });
