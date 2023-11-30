@@ -154,7 +154,7 @@ class MetavizControlRichText extends TotalText {
             const pastedText = clipboardData.getData('text/plain');
 
             // Escape html
-            const escapedText = pastedText.escape();
+            const escapedText = pastedText.escapeHTML();
 
             // Convert end of lines to html
             const modifiedText = escapedText.split('\n').map(line => `<div>${line.trim() != '' ? line : '<br>'}</div>`).join('');

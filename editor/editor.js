@@ -858,7 +858,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // If currently editing text and text is selected then copy raw text not node json
             const control = this.selection.getFocused().getEditingControl();
             if (control) {
-                data = control.getSelection();
+                data = control.getSelection('html').stripHTML('formatted');
                 if (data) copy = 'text';
             }
 

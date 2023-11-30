@@ -96,7 +96,7 @@ class MetavizOutStack {
         if (data) { 
             for (const [key, value] of Object.entries(data)) {
                 if (key != 'set' && key != 'get') {
-                    str += ` param-${key}="${typeof(value) == 'string' ? value.escape() : value}"`;
+                    str += ` param-${key}="${typeof(value) == 'string' ? value.escapeHTML() : value}"`;
                 }
             }
         }

@@ -1,5 +1,5 @@
 /**
- * Javascript Language Extensions v 1.26.0
+ * JavaScript Language Extensions v 1.27.0
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -184,52 +184,6 @@ String.prototype.slug = function() {
 else console.error('String.prototype.slug already exist');
 
 
-/* Escape XML/HTML */
-
-if (typeof String.prototype.escape != 'function')
-String.prototype.escape = function() {
-    return this.replace(/[<>&'"]/g, function(c) {
-        switch (c) {
-            case '<': return '&lt;';
-            case '>': return '&gt;';
-            case '&': return '&amp;';
-            case '\'': return '&apos;';
-            case '"': return '&quot;';
-        }
-    });
-};
-else console.error('String.prototype.escape already exist');
-
-
-/* Unescape XML/HTML */
-
-if (typeof String.prototype.unescape != 'function')
-String.prototype.unescape = function() {
-    return this.replace(/&([a-zA-Z]+|#[0-9]+);/g, function(entity) {
-        switch (entity) {
-            case '&lt;': return '<';
-            case '&gt;': return '>';
-            case '&amp;': return '&';
-            case '&apos;': return '\'';
-            case '&quot;': return '"';
-            default: return entity;
-        }
-    });
-};
-else console.error('String.prototype.unescape already exist');
-
-
-/* Remove html tags */
-
-if (typeof String.prototype.stripHTML != 'function')
-String.prototype.stripHTML = function() {
-    const container = document.createElement('div');
-    container.innerHTML = this;
-    return container.textContent || container.innerText;
-};
-else console.error('String.prototype.stripHTML already exist');
-
-
 /* Add trailing space if not exists */
 
 if (typeof String.prototype.spaceize != 'function')
@@ -332,6 +286,73 @@ String.prototype.filterEmoji = function() {
     return text;
 };
 else console.error('String.prototype.filterEmoji already exist');
+
+
+/**********************************
+ * HTML Tools (String extensions) *
+ **********************************/
+
+
+/* Escape XML/HTML */
+
+if (typeof String.prototype.escapeHTML != 'function')
+String.prototype.escape = function() {
+    return this.replace(/[<>&'"]/g, function(c) {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+        }
+    });
+};
+else console.error('String.prototype.escape already exist');
+
+
+/* Unescape XML/HTML */
+
+if (typeof String.prototype.unescapeHTML != 'function')
+String.prototype.unescape = function() {
+    return this.replace(/&([a-zA-Z]+|#[0-9]+);/g, function(entity) {
+        switch (entity) {
+            case '&lt;': return '<';
+            case '&gt;': return '>';
+            case '&amp;': return '&';
+            case '&apos;': return '\'';
+            case '&quot;': return '"';
+            default: return entity;
+        }
+    });
+};
+else console.error('String.prototype.unescape already exist');
+
+
+/* Remove html tags */
+
+// format: output format: 'plain' = plain text, 'formatted' = formatted text
+
+if (typeof String.prototype.stripHTML != 'function')
+String.prototype.stripHTML = function(format = 'plain') {
+    if (format == 'formatted') {
+        let html = this;
+        html = html.replace(/<\/h.>/ig, '\n');
+        html = html.replace(/<\/div>/ig, '\n');
+        html = html.replace(/<\/li>/ig, '\n');
+        html = html.replace(/<li>/ig, '  *  ');
+        html = html.replace(/<\/ul>/ig, '\n');
+        html = html.replace(/<\/p>/ig, '\n');
+        html = html.replace(/<br\s*[\/]?>/gi, "\n");
+        html = html.replace(/<[^>]+>/ig, '');
+        return html;
+    }
+    else { // plain
+        const container = document.createElement('div');
+        container.innerHTML = this;
+        return container.textContent || container.innerText;
+    }
+};
+else console.error('String.prototype.stripHTML already exist');
 
 
 /*********************
