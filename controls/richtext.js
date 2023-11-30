@@ -149,23 +149,34 @@ class MetavizControlRichText extends TotalText {
         this.editor.addEventListener('paste', (event) => {
             event.preventDefault();
 
-            // Get data from clipboard
-            const clipboardData = event.clipboardData || window.clipboardData;
-            const pastedText = clipboardData.getData('text/plain');
+            // Text to paste
+            let text = '';
 
-            // Escape html
-            const escapedText = pastedText.escapeHTML();
+            // Get HTML meta-data from internal clipboard
+            if (metaviz.editor.clipboard.buffer) {
+                text = metaviz.editor.clipboard.buffer;
+            }
 
-            // Convert end of lines to html
-            const modifiedText = escapedText.split('\n').map(line => `<div>${line.trim() != '' ? line : '<br>'}</div>`).join('');
+            // Get RAW data from system clipboard
+            else {
+                // Get text
+                const clipboardData = event.clipboardData || window.clipboardData;
+                const pastedText = clipboardData.getData('text/plain');
 
-            // Get selection
+                // Escape html
+                const escapedText = pastedText.escapeHTML();
+
+                // Convert end of lines to html
+                text = escapedText.split('\n').map(line => `<div>${line.trim() != '' ? line : '<br>'}</div>`).join('');
+            }
+
+            // Get cursor position
             const selection = window.getSelection();
             const range = selection.getRangeAt(0);
             range.deleteContents();
 
             // Inject text
-            const fragment = range.createContextualFragment(modifiedText);
+            const fragment = range.createContextualFragment(text);
             range.insertNode(fragment);
 
             // Set cursor at the end

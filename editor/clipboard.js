@@ -18,6 +18,9 @@ class MetavizClipboardLegacy {
         this.pastebin.style.position = 'absolute';
         this.pastebin.style.left = '-1000px';
         container.appendChild(this.pastebin);
+
+        // Internal buffer helper
+        this.buffer = null;
     }
 
     /**
@@ -42,7 +45,8 @@ class MetavizClipboardLegacy {
      * Set content
      */
 
-    set(data, miniature = null) {
+    set(data, options = {}) {
+        // Plain data copied to system clipboard
         if (data) {
             this.open();
             this.pastebin.value = data;
@@ -50,6 +54,13 @@ class MetavizClipboardLegacy {
             this.pastebin.setSelectionRange(0, data.length);
             document.execCommand('copy');
             this.close();
+        }
+        // HTML version copied to internal clipbaord
+        if ('html' in options) {
+            this.buffer = options.html;
+        }
+        else {
+            this.buffer = null;
         }
     }
 
@@ -67,6 +78,7 @@ class MetavizClipboardLegacy {
 
     clear() {
         this.pastebin.value = '';
+        this.buffer = null;
         this.close();
     }
 

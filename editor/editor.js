@@ -851,6 +851,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         let copy = 'json';
         let data = null;
+        let html = null;
 
         // Any nodes selected?
         if (this.selection.get().length > 0) {
@@ -858,13 +859,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // If currently editing text and text is selected then copy raw text not node json
             const control = this.selection.getFocused().getEditingControl();
             if (control) {
-                data = control.getSelection('html').stripHTML('formatted');
+                html = control.getSelection('html');
+                data = html.stripHTML('formatted');
                 if (data) copy = 'text';
             }
 
             // Copy inner contents (RAW)
             if (copy == 'text') {
-                this.copyText(this.selection.getFocused(), data);
+                this.copyText(this.selection.getFocused(), data, html);
             }
 
             // Copy node(s) if no selected text (MetavizJSON)
@@ -879,19 +881,23 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     /**
      * Copy pure text
+     * node: parent node
+     * data: plain text data
+     * html: same data but html formatted
      */
 
-    async copyText(node, data) {
+    async copyText(node, data, html) {
 
         // Copy to clipboard
         if (navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(data);
-            console.log('async-copy:text:', data);
+            this.clipboard.set(null, {html: html});
+            console.log('async-copy:text:', data, html);
         }
 
         // Legacy version needs copy in internal clipboard
         if (!navigator.clipboard.readText) {
-            this.clipboard.set(data);
+            this.clipboard.set(data, {html: html});
             console.log('legacy-copy:text:', data);
         }
 

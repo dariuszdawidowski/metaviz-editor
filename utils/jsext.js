@@ -1,5 +1,5 @@
 /**
- * JavaScript Language Extensions v 1.27.0
+ * JavaScript Language Extensions v 1.27.1
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -296,7 +296,7 @@ else console.error('String.prototype.filterEmoji already exist');
 /* Escape XML/HTML */
 
 if (typeof String.prototype.escapeHTML != 'function')
-String.prototype.escape = function() {
+String.prototype.escapeHTML = function() {
     return this.replace(/[<>&'"]/g, function(c) {
         switch (c) {
             case '<': return '&lt;';
@@ -307,13 +307,13 @@ String.prototype.escape = function() {
         }
     });
 };
-else console.error('String.prototype.escape already exist');
+else console.error('String.prototype.escapeHTML already exist');
 
 
 /* Unescape XML/HTML */
 
 if (typeof String.prototype.unescapeHTML != 'function')
-String.prototype.unescape = function() {
+String.prototype.unescapeHTML = function() {
     return this.replace(/&([a-zA-Z]+|#[0-9]+);/g, function(entity) {
         switch (entity) {
             case '&lt;': return '<';
@@ -325,7 +325,7 @@ String.prototype.unescape = function() {
         }
     });
 };
-else console.error('String.prototype.unescape already exist');
+else console.error('String.prototype.unescapeHTML already exist');
 
 
 /* Remove html tags */
