@@ -95,6 +95,14 @@ class MetavizControlInput extends MetavizControl {
             // Update value
             this.value = this.get();
         });
+
+        // Process Paste
+        this.element.addEventListener('paste', (event) => {
+            event.preventDefault();
+            const clipboardData = event.clipboardData || window.clipboardData;
+            const pastedText = clipboardData.getData('text/plain');
+            this.element.innerText = pastedText;
+        });
     }
 
     /* Input value */
