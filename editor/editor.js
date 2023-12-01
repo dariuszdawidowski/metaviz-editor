@@ -30,8 +30,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Currently dragged link
             link: null,
 
-            // Node waiting for link? (bool)
-            linkNode: false,
+            // Node waiting for chaining?
+            chainNode: false,
             
             // Editing is locked?
             locked: false,
@@ -51,6 +51,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 this.interaction.mode = 'idle';
                 this.interaction.drag = false;
                 this.interaction.locked = false;
+                this.interaction.chainNode = false;
             }
 
         };
@@ -262,10 +263,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.history.clearFuture();
         this.history.store({action: 'add', nodes: [newNode.serialize('transform')]});
 
-        // Link optionally
-        if (this.interaction.linkNode) {
+        // Link if node chaining is active
+        if (this.interaction.chainNode) {
             this.dragLinkEnd(newNode);
-            this.interaction.linkNode = false;
+            this.interaction.clear();
         }
 
         // Show info
@@ -659,7 +660,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Dropped on board: Open Menu
         else {
-            this.interaction.linkNode = true;
+            this.interaction.chainNode = true;
             this.menu.show({target: document.querySelector('#metviz-diagram'), x: this.transform.x, y: this.transform.y});
         }
 
@@ -674,7 +675,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     dragLinkCancel() {
         this.interaction.link.start.links.del(this.interaction.link);
         this.interaction.link.element.remove();
-        this.interaction.link = null;
+        this.interaction.clear();
     }
 
     /**

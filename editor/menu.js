@@ -590,6 +590,11 @@ class MetavizContextMenu extends TotalProMenu {
     hide() {
         super.hide();
 
+        // Reset node chaining if interrupted
+        if (metaviz.editor.interaction.chainNode) {
+            metaviz.editor.dragLinkCancel();
+        }
+
         // Restore editor events
         metaviz.events.disable('browser:prevent');
         metaviz.events.enable('viewer:*');
