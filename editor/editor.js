@@ -29,6 +29,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // Currently dragged link
             link: null,
+
+            // Node waiting for link? (bool)
+            linkNode: false,
             
             // Editing is locked?
             locked: false,
@@ -211,7 +214,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     initEditorMenuEvents() {
 
         metaviz.events.subscribe('editor:menu', metaviz.render.container, 'contextmenu', (event) => {
-            this.menu.show(event, this);
+
+            // Prevent default context menu
+            event.preventDefault();
+            event.stopPropagation();
+
+            // Open menu
+            this.menu.show({x: event.clientX, y: event.clientY, target: event.target});
+
         });
 
     }
@@ -235,14 +245,30 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     nodeAdd(nodeType, transform) {
+
+        // Position
         let position = metaviz.render.screen2World(transform);
         if (metaviz.config.snap.grid.enabled) position = this.snapToGrid(position.x, position.y);
+
+        // Create node
         const newNode = metaviz.render.nodes.add({id: crypto.randomUUID(), parent: metaviz.render.nodes.parent, type: nodeType, ...position});
+
+        // Update
         newNode.render();
         newNode.update();
         newNode.start();
+
+        // Store
         this.history.clearFuture();
         this.history.store({action: 'add', nodes: [newNode.serialize('transform')]});
+
+        // Link optionally
+        if (this.interaction.linkNode) {
+            this.dragLinkEnd(newNode);
+            this.interaction.linkNode = false;
+        }
+
+        // Show info
         this.checkEmpty();
     }
 
@@ -611,6 +637,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragLinkEnd(node) {
+
         // Attach to node (if not the same and has no link already)
         if (node && this.interaction.link.start.id != node.id && metaviz.render.links.get(this.interaction.link.start, node) == null) {
 
@@ -630,9 +657,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             metaviz.render.container.dispatchEvent(event);
         }
 
-        // Cancel
+        // Dropped on board: Open Menu
         else {
-            this.dragLinkCancel();
+            this.interaction.linkNode = true;
+            this.menu.show({target: document.querySelector('#metviz-diagram'), x: this.transform.x, y: this.transform.y});
         }
 
         // Clear
@@ -892,13 +920,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(data);
             this.clipboard.set(null, {html: html});
-            console.log('async-copy:text:', data, html);
         }
 
         // Legacy version needs copy in internal clipboard
         if (!navigator.clipboard.readText) {
             this.clipboard.set(data, {html: html});
-            console.log('legacy-copy:text:', data);
         }
 
         // Store copy history
@@ -939,13 +965,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             const data = JSON.stringify(json);
             if (navigator.clipboard.writeText) {
                 await navigator.clipboard.writeText(data);
-                console.log('async-copy:json:', data);
             }
             
             // Legacy version needs copy in internal clipboard
             if (!navigator.clipboard.readText) {
                 this.clipboard.set(data);
-                console.log('legacy-copy:json:', data);
             }
 
             // Store copy history
