@@ -3,16 +3,18 @@
     {
 	    "format": "MetavizJSON",
 	    "mimetype": "text/metaviz+json",
-	    "version": 28,
+	    "version": 29,
 	    "id": "...",
 	    "updated": "...",
         "name": "...",
 	    "nodes": [
 	        {
 	            "id": "...",
+	            "board": "...",
 	            "parent": "...",
 	            "type": "...",
-	            "params": {...} [optional]
+	            "settings": {...},
+	            "params": {...}
 	        },
 	        ...
 	    ],

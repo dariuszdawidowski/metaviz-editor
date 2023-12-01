@@ -114,8 +114,8 @@ class MetavizNode extends TotalDiagramNode {
 
         // Locked
         this.locked = {
-            move: 'locked' in args ? args.locked : false,
-            content: false
+            move: 'lockedMove' in args['settings'] ? args['settings']['lockedMove'] : false,
+            content: 'lockedContent' in args['settings'] ? args['settings']['lockedContent'] : false,
         };
 
         // Paperclip
@@ -266,9 +266,9 @@ class MetavizNode extends TotalDiagramNode {
      * Toggle lock/unlock
      */
 
-    lockToggle() {
-        if (this.locked.move) this.unlock();
-        else this.lock();
+    lockToggle(kind = 'move') {
+        if (this.locked.move) this.unlock(kind);
+        else this.lock(kind);
     }
 
     /**
@@ -451,12 +451,15 @@ class MetavizNode extends TotalDiagramNode {
         let cleanData = {...this.params};
         if (cleanData.hasOwnProperty('set')) delete cleanData['set'];
         if (cleanData.hasOwnProperty('get')) delete cleanData['get'];
+        const settings = {};
+        if (this.locked.move) settings['lockedMove'] = this.locked.move;
+        if (this.locked.content) settings['lockedContent'] = this.locked.content;
         return {
             id: this.id,
             parent: this.parent,
             type: this.constructor.name,
+            settings: settings,
             params: cleanData,
-            locked: this.locked.move,
             x: this.transform.x,
             y: this.transform.y,
             w: this.transform.w,
@@ -819,22 +822,34 @@ class MetavizNode extends TotalDiagramNode {
 
     /**
      * Lock all node actions (until unlocked)
+     * kind: what to lock 'move' | 'content'
      */
 
-    lock() {
-        this.locked.move = true;
-        // Undo/Sync
-        metaviz.editor.history.store({action: 'lock', node: {id: this.id, locked: true}});
+    lock(kind = 'move') {
+        if (kind == 'move') {
+            this.locked.move = true;
+            metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedMove: true}});
+        }
+        else if (kind == 'content') {
+            this.locked.content = true;
+            metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedContent: true}});
+        }
     }
 
     /**
      * Unlock all node actions
+     * kind: what to unlock 'move' | 'content'
      */
 
-    unlock() {
-        this.locked.move = false;
-        // Undo/Sync
-        metaviz.editor.history.store({action: 'lock', node: {id: this.id, locked: false}});
+    unlock(kind = 'move') {
+        if (kind == 'move') {
+            this.locked.move = false;
+            metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedMove: false}});
+        }
+        else if (kind == 'content') {
+            this.locked.content = false;
+            metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedContent: false}});
+        }
     }
 
     /**

@@ -17,8 +17,8 @@ class MetavizInJSON {
         const newNodes = [];
         const newLinks = [];
 
-        // Version 27..28
-        if (json.format == 'MetavizJSON' && json.version >= 27 && json.version <= 28) {
+        // Version 27..29
+        if (json.format == 'MetavizJSON' && json.version >= 27 && json.version <= 29) {
 
             // Board ID
             if ('id' in json && json.id) metaviz.editor.id = json.id;

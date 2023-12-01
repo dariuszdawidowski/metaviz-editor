@@ -52,15 +52,29 @@ class MetavizContextMenu extends TotalProMenu {
         // Node edit
         subEditSelection.add(new TotalProMenuGroup({ text: 'Node functions', widgets: []}));
 
+        // Lock movement
+        subEditSelection.add(new TotalProMenuSwitch({
+            text: 'Lock movement',
+            value: false,
+            onChange: (value) => {
+                if (value) metaviz.editor.selection.getFocused().lock('move');
+                else metaviz.editor.selection.getFocused().unlock('move');
+            }
+        }));
+
+        // Lock content
+        subEditSelection.add(new TotalProMenuSwitch({
+            text: 'Lock content',
+            value: false,
+            onChange: (value) => {
+                if (value) metaviz.editor.selection.getFocused().lock('content');
+                else metaviz.editor.selection.getFocused().unlock('content');
+            }
+        }));
+
         // Link / Unlink
         subEditSelection.add(new TotalProMenuOption({ text: 'Link', shortcut: [17, 76], onChange: () => {
             metaviz.editor.linkToggleSelected();
-            this.hide();
-        }}));
-
-        // Lock
-        subEditSelection.add(new TotalProMenuOption({ text: 'Lock', onChange: () => {
-            metaviz.editor.selection.nodes[0].lockToggle();
             this.hide();
         }}));
 

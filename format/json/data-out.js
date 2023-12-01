@@ -15,7 +15,7 @@ class MetavizOutJSON {
         const json = {
             'format': 'MetavizJSON',
             'mimetype': 'text/metaviz+json',
-            'version': 27,
+            'version': 29,
             'id': metaviz.editor.id,
             'name': metaviz.editor.name,
             'nodes': [],
@@ -34,8 +34,8 @@ class MetavizOutJSON {
                 id: n.id,
                 parent: n.parent,
                 type: n.type,
-                params: n.params,
-                locked: n.locked.move
+                settings: {lockedMove: n.locked.move},
+                params: n.params
             });
             json.layers[0].nodes.push({
                 id: n.id,
