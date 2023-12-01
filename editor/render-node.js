@@ -114,8 +114,8 @@ class MetavizNode extends TotalDiagramNode {
 
         // Locked
         this.locked = {
-            move: 'lockedMove' in args['settings'] ? args['settings']['lockedMove'] : false,
-            content: 'lockedContent' in args['settings'] ? args['settings']['lockedContent'] : false,
+            move: 'settings' in args && 'lockedMove' in args['settings'] ? args['settings']['lockedMove'] : false,
+            content: 'settings' in args && 'lockedContent' in args['settings'] ? args['settings']['lockedContent'] : false,
         };
 
         // Paperclip
