@@ -66,10 +66,6 @@ class MetavizNodeClipart extends MetavizNode {
             })
         });
 
-        // Content locked?
-        if (!this.locked.content) this.options.picker.enable();
-        else this.options.picker.disable();
-
     }
 
     /**
@@ -94,15 +90,6 @@ class MetavizNodeClipart extends MetavizNode {
     }
 
     /**
-     * Edit emoji widget
-     */
-
-    edit(enable) {
-        if (enable) this.options.picker.enable();
-        else this.options.picker.disable();
-    }
-
-    /**
      * Size 
      * {width: .., height: ..}
      */
@@ -124,8 +111,8 @@ class MetavizNodeClipart extends MetavizNode {
      * Miniature version
      */
 
-    miniature(content=false) {
-        return `<div class="miniature miniature-node-clipart" style="width: 100%; height: 100%;" data-id="${this.id}">${content ? this.control.icon.control.outerHTML : '<i class="fa-solid fa-palette"></i>'}</div>`;
+    miniature(content = false) {
+        return `<div class="miniature miniature-node-clipart" style="width: 100%; height: 100%;" data-id="${this.id}">${content ? this.control.icon.control.outerHTML : '<span class="mdi mdi-palette"></span>'}</div>`;
     }
 
 }

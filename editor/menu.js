@@ -484,6 +484,9 @@ class MetavizContextMenu extends TotalProMenu {
                     }
                 }
 
+                // Menu callback
+                if (clicked) clicked.contextmenu();
+
             } // Edit Selection
 
             // Lock

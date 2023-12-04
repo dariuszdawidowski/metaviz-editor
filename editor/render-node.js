@@ -173,7 +173,17 @@ class MetavizNode extends TotalDiagramNode {
 
         // Resizing mode scenario
         this.transform.resize = '';
-    }    
+
+    }
+
+    /**
+     * Awake
+     */
+
+    awake() {
+        // Content locked?
+        Object.values(this.options).forEach(option => !this.locked.content ? option.enable() : option.disable());
+    }
 
     /**
      * Style
@@ -233,9 +243,8 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     edit(enable) {
-        for (const [key, control] of Object.entries(this.controls)) {
-            control.edit(enable);
-        }
+        Object.values(this.controls).forEach(control => control.edit(enable));
+        Object.values(this.options).forEach(option => enable ? option.enable() : option.disable());
         if (enable == true) metaviz.events.call('on:edit');
     }
 
@@ -255,11 +264,20 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     click() {
-        /* Overload */
+        /* Overload left click */
     }
 
     dblclick() {
-        /* Overload */
+        /* Overload double click */
+    }
+
+    /**
+     * Show context menu callback
+     */
+
+    contextmenu() {
+        // Content locked?
+        Object.values(this.options).forEach(option => !this.locked.content ? option.enable() : option.disable());
     }
 
     /**
@@ -696,7 +714,7 @@ class MetavizNode extends TotalDiagramNode {
         // Show highlight frame
         this.highlight.style.display = 'block';
 
-        // Enable editing in all controls
+        // Enable/Disable editing in all controls
         if (!this.locked.content) {
             Object.values(this.controls).forEach(control => control.edit(true));
         }
