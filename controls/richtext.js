@@ -237,20 +237,6 @@ class MetavizControlRichText extends TotalText {
     }
 
     /**
-     * Enable (write)
-     */
-
-    enable() {
-    }
-
-    /**
-     * Disable (read-only)
-     */
-
-    disable() {
-    }
-
-    /**
      * Title hover cloud
      */
 

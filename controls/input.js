@@ -116,22 +116,6 @@ class MetavizControlInput extends MetavizControl {
     }
 
     /**
-     * Enable (write)
-     */
-
-    enable() {
-        this.element.removeAttribute('readonly');
-    }
-
-    /**
-     * Disable (read-only)
-     */
-
-    disable() {
-        this.element.setAttribute('readonly', '');
-    }
-
-    /**
      * Set selected text
      */
 
@@ -159,6 +143,24 @@ class MetavizControlInput extends MetavizControl {
         }
 
         return selectedText;
+    }
+
+    /**
+     * Edit mode
+     */
+
+    edit(enable) {
+        this.editing = enable;
+        // Start editing
+        if (enable) {
+            this.element.classList.add('editing');
+            this.element.setAttribute('contenteditable', true);
+        }
+        // Finish editing
+        else {
+            this.element.removeAttribute('contenteditable');
+            this.element.classList.remove('editing');
+        }
     }
 
 }

@@ -445,7 +445,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 node.transform.prev.store();
             }
             else {
-                node.animateIcon('<i class="fa-solid fa-lock"></i>');
+                node.animateIcon('<span class="mdi mdi-lock"></span>');
             }
 
             // Cancel piemenu

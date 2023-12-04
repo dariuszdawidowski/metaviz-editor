@@ -265,7 +265,8 @@ class MetavizNodeText extends MetavizNode {
     select() {
         super.select();
         if (this.transform.w > 199 && this.transform.h > 199) this.controls.textarea.showToolbar();
-        this.controls.textarea.edit(true);
+        if (!this.locked.content) this.controls.textarea.edit(true);
+        else this.animateIcon('<span class="mdi mdi-lock"></span>');
     }
 
     deselect() {

@@ -263,15 +263,6 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
-     * Toggle lock/unlock
-     */
-
-    lockToggle(kind = 'move') {
-        if (this.locked.move) this.unlock(kind);
-        else this.lock(kind);
-    }
-
-    /**
      * Set or get visibility
      */
 
@@ -832,6 +823,7 @@ class MetavizNode extends TotalDiagramNode {
         }
         else if (kind == 'content') {
             this.locked.content = true;
+            this.edit(false);
             metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedContent: true}});
         }
     }
@@ -848,8 +840,18 @@ class MetavizNode extends TotalDiagramNode {
         }
         else if (kind == 'content') {
             this.locked.content = false;
+            this.edit(true);
             metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedContent: false}});
         }
+    }
+
+    /**
+     * Toggle lock/unlock
+     */
+
+    lockToggle(kind = 'move') {
+        if (kind in this.locked) this.unlock(kind);
+        else this.lock(kind);
     }
 
     /**

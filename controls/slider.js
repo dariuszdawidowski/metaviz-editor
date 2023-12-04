@@ -230,20 +230,4 @@ class MetavizControlSlider extends MetavizControl {
         this.fader.position(this.virtual.toVisual(this.get()));
     }
 
-    /**
-     * Enable (write)
-     */
-
-    enable() {
-        this.input.removeAttribute('readonly');
-    }
-
-    /**
-     * Disable (read-only)
-     */
-
-    disable() {
-        this.input.setAttribute('readonly', '');
-    }
-
 }

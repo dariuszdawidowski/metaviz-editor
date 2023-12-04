@@ -32,20 +32,6 @@ class MetavizControl {
     }
 
     /**
-     * Get selected content (browser based)
-     */
-
-    /*getSelection() {
-        if (typeof window.getSelection != 'undefined') {
-            return window.getSelection().toString();
-        } else if (typeof document.selection != 'undefined' && document.selection.type == 'Text') {
-            return document.selection.createRange().text;
-        }
-
-        return null;
-    }*/
-
-    /**
      * Edit mode
      */
 
@@ -78,24 +64,6 @@ class MetavizControl {
     hide() {
         this.display = this.element.style.display;
         this.element.style.display = 'none';
-    }
-
-    /**
-     * Enabled (write or action ready)
-     */
-
-    enable() {
-        this.element.readOnly = false;
-        this.element.disabled = false;
-    }
-
-    /**
-     * Disabled (read-only or inactive)
-     */
-
-    disable() {
-        this.element.readOnly = true;
-        this.element.disabled = false;
     }
 
     /**
