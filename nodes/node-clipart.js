@@ -30,14 +30,16 @@ class MetavizNodeClipart extends MetavizNode {
 
             picker: new MetavizEmojiPicker({
                 onClick: (emoji) => {
-                    this.params.set('name', emoji.unicode);
-                    metaviz.editor.history.store({
-                        action: 'param',
-                        node: {id: this.id},
-                        params: {name: emoji.unicode},
-                        prev: {url: this.params.name}
-                    });
-                    metaviz.editor.menu.hide();
+                    if (!this.locked.content) {
+                        this.params.set('name', emoji.unicode);
+                        metaviz.editor.history.store({
+                            action: 'param',
+                            node: {id: this.id},
+                            params: {name: emoji.unicode},
+                            prev: {url: this.params.name}
+                        });
+                        metaviz.editor.menu.hide();
+                    }
                 }
             })
 
@@ -63,6 +65,11 @@ class MetavizNodeClipart extends MetavizNode {
                 }
             })
         });
+
+        // Content locked?
+        if (!this.locked.content) this.options.picker.enable();
+        else this.options.picker.disable();
+
     }
 
     /**
@@ -84,6 +91,15 @@ class MetavizNodeClipart extends MetavizNode {
 
         // Fallback
         return ['emoji', '😀'];
+    }
+
+    /**
+     * Edit emoji widget
+     */
+
+    edit(enable) {
+        if (enable) this.options.picker.enable();
+        else this.options.picker.disable();
     }
 
     /**

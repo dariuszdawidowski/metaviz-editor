@@ -46,8 +46,13 @@
 
 /* Emoji picker */
 
+.metaviz-emoji-picker.disabled {
+    opacity: 0.3;
+}
+
 emoji-picker {
     height: 100%;
+    margin-left: 8px;
     --num-columns: 6;
     --background: transparent;
     --border-color: #777;
