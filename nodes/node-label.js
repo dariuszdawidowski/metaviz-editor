@@ -173,26 +173,6 @@ class MetavizNodeLabel extends MetavizNode {
     }
 
     /**
-     * Selection
-     */
-
-    select() {
-        super.select();
-        if (!this.locked.content) {
-            this.controls.input.edit(true);
-        }
-        else {
-            this.controls.input.edit(false);
-            this.animateIcon('<span class="mdi mdi-lock"></span>');
-        }
-    }
-
-    deselect() {
-        super.deselect();
-        this.controls.input.edit(false);
-    }
-
-    /**
      * Return control if in edit mode
      */
 

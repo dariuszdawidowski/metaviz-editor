@@ -686,23 +686,39 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     select() {
+
         // Switch
         this.selected = true;
+
         // Select
         this.element.classList.add('selected');
+
         // Show highlight frame
         this.highlight.style.display = 'block';
-        // Render
-        //this.render();
+
+        // Enable editing in all controls
+        if (!this.locked.content) {
+            Object.values(this.controls).forEach(control => control.edit(true));
+        }
+        else {
+            Object.values(this.controls).forEach(control => control.edit(false));
+            this.animateIcon('<span class="mdi mdi-lock"></span>');
+        }
     }
 
     deselect() {
+
         // Hide highlight frame
         this.highlight.style.display = 'none';
+
         // Deselect
         this.element.classList.remove('selected');
+
         // Switch
         this.selected = false;
+
+        // Disable editing in all controls
+        Object.values(this.controls).forEach(control => control.edit(false));
     }
 
     /**
@@ -710,43 +726,56 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     focus() {
+
         // Switch
         this.focused = true;
+
         // Class
         this.element.classList.add('focused');
+
         // Hide highlight frame
         this.highlight.style.display = 'none';
+
         // Refresh size information (for rotated nodes)
         const size = this.getSize();
         this.transform.w = size.width;
         this.transform.h = size.height;
+
         // Show resizing cage
         metaviz.editor.cage.assign(this);
         metaviz.editor.cage.show();
+
         // Render
         this.render();
     }
 
     blur() {
+
         // Class
         this.element.classList.remove('focused');
+
         // Restore highlight frame
         this.highlight.style.display = 'block';
+
         // Hide empty sockets
         this.sockets.hide();
+
         // Hide resizing cage
         metaviz.editor.cage.assign(null);
         metaviz.editor.cage.hide();
+
         // Switch
         this.focused = false;
+
         // Blur controls
-        for (const [key, control] of Object.entries(this.controls)) {
-            control.blur();
-        }
+        Object.values(this.controls).forEach(control => control.blur());
+
         // Blur DOM element
         this.element.blur();
+
         // Clear text selection
         window.clearSelection();
+
         // Broadcast event
         metaviz.events.call('on:edited');
     }
