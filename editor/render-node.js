@@ -177,15 +177,6 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
-     * Awake
-     */
-
-    awake() {
-        // Content locked?
-        Object.values(this.options).forEach(option => !this.locked.content ? option.enable() : option.disable());
-    }
-
-    /**
      * Style
      */
 
@@ -244,7 +235,6 @@ class MetavizNode extends TotalDiagramNode {
 
     edit(enable) {
         Object.values(this.controls).forEach(control => control.edit(enable));
-        Object.values(this.options).forEach(option => enable ? option.enable() : option.disable());
         if (enable == true) metaviz.events.call('on:edit');
     }
 
@@ -268,16 +258,11 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     dblclick() {
-        /* Overload double click */
+        /* Overload left double click */
     }
 
-    /**
-     * Show context menu callback
-     */
-
     contextmenu() {
-        // Content locked?
-        Object.values(this.options).forEach(option => !this.locked.content ? option.enable() : option.disable());
+        /* Overload right click */
     }
 
     /**

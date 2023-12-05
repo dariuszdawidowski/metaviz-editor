@@ -69,6 +69,15 @@ class MetavizNodeClipart extends MetavizNode {
     }
 
     /**
+     * Awake
+     */
+
+    awake() {
+        // Content locked?
+        Object.values(this.options).forEach(option => !this.locked.content ? option.enable() : option.disable());
+    }
+
+    /**
      * Smart return name
      */
 
@@ -97,6 +106,24 @@ class MetavizNodeClipart extends MetavizNode {
     setSize(size, save = false) {
         super.setSize(size, save);
         this.controls.icon.element.style.fontSize = (size.width * 0.76) + 'px';
+    }
+
+    /**
+     * Show context menu callback
+     */
+
+    contextmenu() {
+        // Content locked?
+        Object.values(this.options).forEach(option => !this.locked.content ? option.enable() : option.disable());
+    }
+
+    /**
+     * Edit (allow pick emoji)
+     */
+
+    edit(enable) {
+        Object.values(this.options).forEach(option => enable ? option.enable() : option.disable());
+        super.edit(enable);
     }
 
     /**
