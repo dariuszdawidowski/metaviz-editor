@@ -146,6 +146,15 @@ class MetavizEditorPointer {
 
     pointerStart(event) {
 
+        // Click on Node
+        for (const target of event.composedPath()) {
+            // Div (on Node)
+            if (target.nodeName == 'DIV' && target.hasClass('metaviz-node')) {
+                this.clicked = metaviz.render.nodes.get(target.dataset.id);
+                this.clicked.click();
+            }
+        }
+
         // Doubleclick
         const current = Date.now();
         if (current - this.timestamp < this.dblclickThreshold) {
@@ -284,39 +293,8 @@ class MetavizEditorPointer {
 
     pointerEnd(event) {
 
-        // (De)Select element(s)
-        if (this.editor.interaction.mode == 'idle') {
-
-            // Clicked on node - select
-            /*if (this.clicked) {
-                // Multiple selection
-                if (this.editor.keyboard.key.ctrl && !this.editor.keyboard.key.alt) {
-                    // Add to selection (if not present in the selection already)
-                    if (!this.editor.selection.get(this.clicked)) {
-                        this.editor.selection.add(this.clicked);
-                    }
-
-                    // Remove from selection (if already in selection)
-                    else {
-                        this.editor.selection.del(this.clicked);
-                    }
-                }
-                // Single click on selected node (don't clear)
-                else if (!this.editor.keyboard.key.ctrl && !this.editor.keyboard.key.alt) {
-                }
-            }
-
-            // Clicked on background - clear selection
-            else {
-                if (!this.editor.keyboard.key.ctrl && !this.editor.keyboard.key.alt) {
-                    this.editor.selection.clear();
-                }
-            }*/
-
-        }
-
         // Drop element
-        else if (this.editor.interaction.mode == 'drag') {
+        if (this.editor.interaction.mode == 'drag') {
 
             // Drop Node
             if (this.editor.interaction.object == 'node') {
@@ -459,12 +437,12 @@ class MetavizEditorPointer {
         }
 
         // Normal click-up
-        else {
+        // else {
 
             // Passtrough click
-            this.clicked.click();
+            // this.clicked.click();
 
-        }
+        // }
 
         // Clear
         this.editor.interaction.mode = 'idle';

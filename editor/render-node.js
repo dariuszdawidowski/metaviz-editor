@@ -255,11 +255,11 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     click() {
-        /* Overload left click */
+        if (this.selected && this.locked.content) this.animateIcon('🔒');
     }
 
     dblclick() {
-        /* Overload left double click */
+        /* Overload double click */
     }
 
     contextmenu() {
@@ -707,7 +707,6 @@ class MetavizNode extends TotalDiagramNode {
         }
         else {
             Object.values(this.controls).forEach(control => control.edit(false));
-            this.animateIcon('🔒');
         }
     }
 
