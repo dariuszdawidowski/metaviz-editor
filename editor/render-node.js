@@ -235,8 +235,13 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     edit(enable) {
-        Object.values(this.controls).forEach(control => control.edit(enable));
-        if (enable == true) metaviz.events.call('on:edit');
+        if (enable == true && !this.locked.content) {
+            Object.values(this.controls).forEach(control => control.edit(true));
+            metaviz.events.call('on:edit');
+        }
+        else {
+            Object.values(this.controls).forEach(control => control.edit(false));
+        }
     }
 
     /**
@@ -701,13 +706,8 @@ class MetavizNode extends TotalDiagramNode {
         // Show highlight frame
         this.highlight.style.display = 'block';
 
-        // Enable/Disable editing in all controls
-        if (!this.locked.content) {
-            Object.values(this.controls).forEach(control => control.edit(true));
-        }
-        else {
-            Object.values(this.controls).forEach(control => control.edit(false));
-        }
+        // Enable editing in all controls
+        this.edit(true);
     }
 
     deselect() {
@@ -722,7 +722,7 @@ class MetavizNode extends TotalDiagramNode {
         this.selected = false;
 
         // Disable editing in all controls
-        Object.values(this.controls).forEach(control => control.edit(false));
+        this.edit(false);
     }
 
     /**
