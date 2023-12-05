@@ -707,7 +707,7 @@ class MetavizNode extends TotalDiagramNode {
         }
         else {
             Object.values(this.controls).forEach(control => control.edit(false));
-            this.animateIcon('<span class="mdi mdi-lock"></span>');
+            this.animateIcon('🔒');
         }
     }
 
@@ -939,7 +939,8 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     animateIcon(html) {
-        this.animIcon.innerHTML = html;
+        if (typeof(html) == 'string') this.animIcon.innerHTML = html;
+        else if (typeof(html) == 'object') this.animIcon.append(html);
         this.animIcon.style.display = 'block';
         this.animIcon.style.left = (this.transform.ox - (this.animIcon.offsetWidth / 2)) + 'px';
         this.animIcon.style.top = (this.transform.oy - (this.animIcon.offsetHeight / 2)) + 'px';

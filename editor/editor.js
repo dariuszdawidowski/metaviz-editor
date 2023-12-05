@@ -320,27 +320,27 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         if (rusure) {
 
             // Collect
-            const nodesTree = list.flatMap(node => node.getTree());
-            const nodes = nodesTree.map(node => !node.locked.delete ? node.serialize('transform') : null);
-            const links = [...new Set(nodesTree.flatMap(node => node.links.get('out').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
+            const allNodes = list.flatMap(node => node.getTree());
+            const nodes = allNodes.filter(node => !node.locked.delete);
+            const links = [...new Set(nodes.flatMap(node => node.links.get('out').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
 
             // Undo/Sync
             this.history.store({
                 action: 'del',
-                nodes: nodes.filter(node => node !== null),
+                nodes: nodes.map(node => node.serialize('transform')),
                 links: links
             });
 
             // Delete
-            for (const node of nodesTree) {
+            for (const node of allNodes) {
                 if (!node.locked.delete) {
                     metaviz.render.nodes.del(node);
                 }
                 else {
-                    node.animateIcon('<span class="mdi mdi-lock"></span>');
+                    node.animateIcon('🔒');
                 }
-
             }
+
         }
 
         // Check empty board
@@ -458,7 +458,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 node.transform.prev.store();
             }
             else {
-                node.animateIcon('<span class="mdi mdi-lock"></span>');
+                node.animateIcon('🔒');
             }
 
             // Cancel piemenu
