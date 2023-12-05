@@ -72,6 +72,16 @@ class MetavizContextMenu extends TotalProMenu {
             }
         }));
 
+        // Lock delete
+        subEditSelection.add(new TotalProMenuSwitch({
+            text: 'Lock delete',
+            value: false,
+            onChange: (value) => {
+                if (value) metaviz.editor.selection.getFocused().lock('delete');
+                else metaviz.editor.selection.getFocused().unlock('delete');
+            }
+        }));
+
         // Link / Unlink
         subEditSelection.add(new TotalProMenuOption({ text: 'Link', shortcut: [17, 76], onChange: () => {
             metaviz.editor.linkToggleSelected();
@@ -202,7 +212,7 @@ class MetavizContextMenu extends TotalProMenu {
         // ----
         this.panel.left.add(new TotalProMenuSeparator());
 
-        this.panel.left.add(new TotalProMenuOption({ text: 'Remove', onChange: () => {
+        this.panel.left.add(new TotalProMenuOption({ text: 'Delete', onChange: () => {
             metaviz.editor.nodeDeleteSelected();
             this.hide();
         }}));
@@ -491,12 +501,9 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Lock
             if (metaviz.editor.selection.count() > 0) {
-                if (metaviz.editor.selection.getFocused().locked.move) {
-                    this.panel.left.find('total-pro-menu-lock')?.setName('Locked');
-                }
-                else {
-                    this.panel.left.find('total-pro-menu-lock')?.setName('Unlocked');
-                }
+                this.panel.left.find('total-pro-menu-lock-movement').set(metaviz.editor.selection.getFocused().locked.move);
+                this.panel.left.find('total-pro-menu-lock-content').set(metaviz.editor.selection.getFocused().locked.content);
+                this.panel.left.find('total-pro-menu-lock-delete').set(metaviz.editor.selection.getFocused().locked.delete);
             }
 
             // Arrange
@@ -531,16 +538,16 @@ class MetavizContextMenu extends TotalProMenu {
                 this.panel.left.find('total-pro-menu-link')?.disable();
             }
 
-            // Remove
+            // Delete
             if (metaviz.editor.selection.count() > 0)
             {
-                this.panel.left.find('total-pro-menu-remove')?.setName(`Remove (${metaviz.editor.selection.count()})`);
-                this.panel.left.find('total-pro-menu-remove')?.enable();
+                this.panel.left.find('total-pro-menu-delete')?.setName(`Delete (${metaviz.editor.selection.count()})`);
+                this.panel.left.find('total-pro-menu-delete')?.enable();
             }
             else
             {
-                this.panel.left.find('total-pro-menu-remove')?.setName(`Remove`);
-                this.panel.left.find('total-pro-menu-remove')?.disable();
+                this.panel.left.find('total-pro-menu-delete')?.setName('Delete');
+                this.panel.left.find('total-pro-menu-delete')?.disable();
             }
 
             // File functions

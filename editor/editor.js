@@ -318,25 +318,38 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
 
         if (rusure) {
-            // Delete
-            const nodesTree = list.flatMap(node => { return node.getTree(); });
-            const nodes = nodesTree.map(node => { return node.serialize('transform'); });
+
+            // Collect
+            const nodesTree = list.flatMap(node => node.getTree());
+            const nodes = nodesTree.map(node => !node.locked.delete ? node.serialize('transform') : null);
             const links = [...new Set(nodesTree.flatMap(node => node.links.get('out').map(link => link.serialize())).map(item => item.id))].map(linkId => metaviz.render.links.get(linkId).serialize());
 
             // Undo/Sync
             this.history.store({
                 action: 'del',
-                nodes: nodes,
+                nodes: nodes.filter(node => node !== null),
                 links: links
             });
 
             // Delete
             for (const node of nodesTree) {
-                metaviz.render.nodes.del(node);
+                if (!node.locked.delete) {
+                    metaviz.render.nodes.del(node);
+                }
+                else {
+                    node.animateIcon('<span class="mdi mdi-lock"></span>');
+                }
+
             }
         }
+
+        // Check empty board
         this.checkEmpty();
     }
+
+    /**
+     * Calculate snapping node to virtual grid
+     */
 
     snapToGrid(x, y, width = 16) {
         return {

@@ -116,6 +116,7 @@ class MetavizNode extends TotalDiagramNode {
         this.locked = {
             move: 'settings' in args && 'lockedMove' in args['settings'] ? args['settings']['lockedMove'] : false,
             content: 'settings' in args && 'lockedContent' in args['settings'] ? args['settings']['lockedContent'] : false,
+            delete: 'settings' in args && 'lockedDelete' in args['settings'] ? args['settings']['lockedDelete'] : false,
         };
 
         // Paperclip
@@ -448,6 +449,7 @@ class MetavizNode extends TotalDiagramNode {
         const settings = {};
         if (this.locked.move) settings['lockedMove'] = this.locked.move;
         if (this.locked.content) settings['lockedContent'] = this.locked.content;
+        if (this.locked.delete) settings['lockedDelete'] = this.locked.delete;
         return {
             id: this.id,
             parent: this.parent,
@@ -845,7 +847,7 @@ class MetavizNode extends TotalDiagramNode {
 
     /**
      * Lock all node actions (until unlocked)
-     * kind: what to lock 'move' | 'content'
+     * kind: what to lock 'move' | 'content' | 'delete'
      */
 
     lock(kind = 'move') {
@@ -858,11 +860,15 @@ class MetavizNode extends TotalDiagramNode {
             this.edit(false);
             metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedContent: true}});
         }
+        else if (kind == 'delete') {
+            this.locked.delete = true;
+            metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedDelete: true}});
+        }
     }
 
     /**
      * Unlock all node actions
-     * kind: what to unlock 'move' | 'content'
+     * kind: what to unlock 'move' | 'content' | 'delete'
      */
 
     unlock(kind = 'move') {
@@ -874,6 +880,10 @@ class MetavizNode extends TotalDiagramNode {
             this.locked.content = false;
             this.edit(true);
             metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedContent: false}});
+        }
+        else if (kind == 'delete') {
+            this.locked.delete = false;
+            metaviz.editor.history.store({action: 'settings', node: {id: this.id, lockedDelete: false}});
         }
     }
 
