@@ -307,7 +307,7 @@ class MetavizNode extends TotalDiagramNode {
     getPosition() {
         let x = this.transform.x;
         let y = this.transform.y;
-        if (this.parentNode.container) {
+        if (this.parentNode?.container) {
             const parentTransform = this.parentNode.getPosition();
             x += parentTransform.x;
             y += parentTransform.y;
