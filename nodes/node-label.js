@@ -236,7 +236,7 @@ class MetavizNodeLabel extends MetavizNode {
      * Short description of the contents
      */
 
-    synopsis(length = 20) {
+    synopsis(length = 25) {
         return this.params.text.synopsis(length);
     }
 

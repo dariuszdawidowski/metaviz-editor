@@ -1,5 +1,5 @@
 /**
- * JavaScript Language Extensions v 1.27.1
+ * JavaScript Language Extensions v 1.27.2
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -244,9 +244,8 @@ else console.error('String.prototype.pxArrToInt already exist');
 
 if (typeof String.prototype.synopsis != 'function')
 String.prototype.synopsis = function(length = 10) {
-    const cleanText = document.createElement('div');
-    cleanText.innerHTML = this.trim();
-    return cleanText.innerText.trim().slice(0, length).replace('<', '&lt;').replace('>', '&gt;');
+    const cleanText = this.trim().stripHTML('formatted');
+    return cleanText.trim().slice(0, length);
 };
 else console.error('String.prototype.synopsis already exist');
 
