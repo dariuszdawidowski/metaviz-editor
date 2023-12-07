@@ -251,6 +251,14 @@ class MetavizNodeText extends MetavizNode {
     }
 
     /**
+     * Short description of the contents
+     */
+
+    synopsis(length = 20) {
+        return this.getText(1).synopsis(length);
+    }
+
+    /**
      * Miniature version
      */
 

@@ -990,6 +990,15 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Short description of the contents
+     */
+
+    synopsis(length) {
+        /* Overload */
+        return '';
+    }
+
+    /**
      * Miniature version
      */
 

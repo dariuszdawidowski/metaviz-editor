@@ -233,6 +233,14 @@ class MetavizNodeLabel extends MetavizNode {
     }
 
     /**
+     * Short description of the contents
+     */
+
+    synopsis(length = 20) {
+        return this.params.text.synopsis(length);
+    }
+
+    /**
      * Make node elastic
      */
 

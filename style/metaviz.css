@@ -339,7 +339,7 @@ input, textarea, label {
 }
 
 .metaviz-node-icon .metaviz-control-icon {
-    font-size: 55px;
+    font-size: 66px;
     color: var(--node-icon);
 }
 
