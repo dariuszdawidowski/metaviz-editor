@@ -244,7 +244,7 @@ class MetavizNodeText extends MetavizNode {
     search(text) {
         for (const [key, value] of Object.entries(this.params)) {
             if (key.startsWith('page_')) {
-                return value.toLowerCase().includes(text.toLowerCase());
+                return value?.toLowerCase().includes(text.toLowerCase());
             }
         }
         return false;
