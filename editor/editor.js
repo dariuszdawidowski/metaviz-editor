@@ -1002,13 +1002,15 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // Copy to clipboard
             const data = JSON.stringify(json);
-            if (navigator.clipboard.writeText) {
+
+            // New Clipboard API (checking readText is ok because FF supports writeText only but should use legacy version)
+            if (navigator.clipboard.readText) {
                 await navigator.clipboard.writeText(data);
             }
             
             // Legacy version needs copy in internal clipboard
-            if (!navigator.clipboard.readText) {
-                this.clipboard.set(data);
+            else {
+                await this.clipboard.set(data);
             }
 
             // Store copy history
@@ -1083,10 +1085,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Duplicate
      */
 
-    duplicate() {
-        this.copy();
+    async duplicate() {
+        await this.copy();
         const bounds = this.arrange.align.getBounds(this.selection.get());
-        this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
+        await this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
     }
 
     /** DROP SYSTEM ITEM **********************************************************************************************************/
