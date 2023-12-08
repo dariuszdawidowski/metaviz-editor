@@ -50,6 +50,7 @@ class MetavizNodeClipart extends MetavizNode {
             if (key == 'name') {
                 this.params.name = value;
                 this.controls.icon.set(...this.getIconName());
+                this.controls.icon.element.style.fontSize = (this.transform.w * 0.76) + 'px';
             }
         };
 
@@ -124,6 +125,14 @@ class MetavizNodeClipart extends MetavizNode {
     edit(enable) {
         Object.values(this.options).forEach(option => enable ? option.enable() : option.disable());
         super.edit(enable);
+    }
+
+    /**
+     * No text edit in this control
+     */
+
+    getEditingControl() {
+        return null;
     }
 
     /**
