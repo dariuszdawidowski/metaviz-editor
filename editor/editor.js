@@ -1339,7 +1339,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Center view on node
      */
 
-    centerNode(node, animated = false, select = false) {
+    centerNode(args) {
+
+        const { node = null, animated = false, select = false, zoom = false } = args;
 
         // Parent folder and Target node
         let parent = null;
@@ -1353,7 +1355,11 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Clear
         this.selection.clear();
         this.menu.hide();
+        
+        // Reset zoom
+        if (zoom) metaviz.render.centerZoom();
 
+        // Center
         metaviz.render.center(nodeObj.getPosition(), 'none', animated ? 'smooth' : 'hard');
 
         // Select centered node (optional)
