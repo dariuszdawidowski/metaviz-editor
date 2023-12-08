@@ -32,6 +32,7 @@ class MetavizSelection {
 
         // Selection box
         this.box = {
+            started: false,
             element: null,
             startPos: {x: 0, y: 0},
             endPos: {x: 0, y: 0},
@@ -68,17 +69,21 @@ class MetavizSelection {
                 this.startPos.x = x;
                 this.startPos.y = y;
                 this.position(this.startPos.x, this.startPos.y, this.startPos.x, this.startPos.y);
+                this.started = true;
             },
             end: function(x, y) {
-                this.endPos.x = x;
-                this.endPos.y = y;
-                this.position(this.startPos.x, this.startPos.y, this.endPos.x, this.endPos.y);
+                if (this.started) {
+                    this.endPos.x = x;
+                    this.endPos.y = y;
+                    this.position(this.startPos.x, this.startPos.y, this.endPos.x, this.endPos.y);
+                }
             },
             clear: function() {
                 this.startPos.x = 0;
                 this.startPos.y = 0;
                 this.endPos.x = 0;
                 this.endPos.y = 0;
+                this.started = false;
             },
             leftTop: function() {
                 let left = 0;
@@ -243,6 +248,8 @@ class MetavizSelection {
             node.deselect();
         }
         this.nodes = [];
+        this.transform.clear();
+        this.box.clear();
     }
 
     /**

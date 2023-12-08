@@ -189,14 +189,17 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Mouse out of bounds
         metaviz.events.subscribe('window:out', window, 'mouseout', (event) => {
             if (event.relatedTarget == null || event.relatedTarget.nodeName == 'HTML') {
-                this.selection.box.clear();
-                this.selection.box.hide();
+                // Clear keyboard
                 this.keyboard.key.clear();
+                // Clear selection box
+                this.dragBoxCancel();
+                // Clear drag nodes
                 if (this.interaction.mode == 'drag' && this.interaction.object == 'node') {
                     this.dragSelectionCancel();
                     this.interaction.mode = 'idle';
                     this.interaction.object = null;
                 }
+                // Clear blossoming
                 else if (this.interaction.mode == 'drag' && this.interaction.object == 'blossom') {
                     this.dragBlossomCancel();
                     this.interaction.mode = 'idle';
@@ -805,6 +808,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragBoxCancel() {
+        this.selection.box.clear();
+        this.selection.box.hide();
     }
 
     /** ARRANGE ********************************************************************************************************************/
