@@ -763,6 +763,15 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     dragBlossomCancel() {
+        const endNode = this.interaction.link.end;
+
+        // Delete link
+        this.interaction.link.start.links.del(this.interaction.link);
+        this.interaction.link.element.remove();
+        this.interaction.clear();
+
+        // Delete node
+        metaviz.render.nodes.del(endNode);
     }
 
     /**
