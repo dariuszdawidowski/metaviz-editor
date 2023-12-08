@@ -34,7 +34,7 @@ class MetavizOutJSON {
                 id: n.id,
                 parent: n.parent,
                 type: n.type,
-                settings: {lockedMove: n.locked.move},
+                settings: n.settings,
                 params: n.params
             });
             json.layers[0].nodes.push({
