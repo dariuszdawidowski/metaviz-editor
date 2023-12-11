@@ -165,6 +165,23 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             event.stopPropagation();
             this.drop(event);
         });
+
+        // Stack offset for dropping multiple items
+        this.stack = {
+            x: 0,
+            y: 0,
+            add: function(pixels) {
+                this.x += pixels;
+                this.y += pixels;
+            },
+            get: function(offset) {
+                return {x: offset.x + this.x, y: offset.y + this.y};
+            },
+            clear: function() {
+                this.x = 0;
+                this.y = 0;
+            }
+        };
     }
 
     /**
@@ -1091,7 +1108,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         await this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
     }
 
-    /** DROP SYSTEM ITEM **********************************************************************************************************/
+    /** DROP SYSTEM ITEM/FILE ******************************************************************************************************/
 
     /**
      * Mouse drag & drop item (text) from OS to browser
@@ -1102,6 +1119,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Dropped position
         const offset = metaviz.render.screen2World({x: event.clientX, y: event.clientY});
 
+        // Start stack
+        this.stack.clear();
+
+        // Items
         for (const item of event.dataTransfer.items) {
 
             // Text
@@ -1110,7 +1131,16 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     metaviz.exchange.uploadText(text, offset);
                 });
             }
+        }
 
+        // Files
+        for (const file of event.dataTransfer.files) {
+
+            // File or Image
+            metaviz.exchange.uploadFile(file, this.stack.get(offset));
+
+            // Add to stack
+            this.stack.add(40);
         }
 
     }

@@ -29,14 +29,67 @@ class MetavizExchange {
     }
 
     /**
+     * Detect File type and advance to processing
+     * file: File object
+     */
+
+    uploadFile(file, offset = {x: 0, y: 0}) {
+
+        // Metaviz JSON file
+        if (file.name.ext('mv')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                // Detecting format
+                const data = this.detectFormat(event.target.result);
+
+                // Create whole diagram from json
+                if (data.mime == 'text/metaviz+json') {
+                    // Preserve IDs
+                    data.json.id = metaviz.editor.id;
+                    if (data.json.version > 13) data.json.views[0].id = metaviz.render.layers.getBaseLayerId();
+                    this.processMV(data.json, offset);
+                }
+            }
+            reader.readAsText(file);
+        }
+
+        // Regular file or image
+        else {
+            this.processBlob(file, offset);
+        }
+    }
+
+    /**
      * URL text -> Node URL | Node Image
      */
 
     processURL(url, position) {
 
-        // Node URL
-        const node = metaviz.render.nodes.add({id: crypto.randomUUID(), type: 'MetavizNodeURL', parent: metaviz.render.nodes.parent, x: position.x, y: position.y, params: {url: url}});
-        metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
+        // Image
+        if (this.detectExtension(url) == '*/image') {
+            const node = metaviz.render.nodes.add({
+                id: crypto.randomUUID(),
+                type: 'MetavizNodeImage',
+                parent: metaviz.render.nodes.parent,
+                x: position.x,
+                y: position.y,
+                params: {uri: url}
+            });
+            metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
+        }
+
+        // Generic URL
+        else {
+            const node = metaviz.render.nodes.add({
+                id: crypto.randomUUID(),
+                type: 'MetavizNodeURL',
+                parent: metaviz.render.nodes.parent,
+                x: position.x,
+                y: position.y,
+                params: {url: url}
+            });
+            metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
+        }
 
         // Check empty board/folder
         metaviz.editor.checkEmpty();
@@ -106,6 +159,59 @@ class MetavizExchange {
     }
 
     /**
+     * Generic file upload
+     * file: File object
+     */
+
+    processBlob(file, position) {
+
+        // Exceed max file size
+        if (file.size > global.cache['MetavizNodeFile']['maxSize']) {
+            alert(`Exceed maximum file size! Limit is ${global.cache['MetavizNodeFile']['maxSize'] / 1024 / 1024} MB.`);
+            return;
+        }
+
+        // Pick proper icon according to type
+        const fileIcon = this.detectIcon(file);
+
+        // Create Image Node
+        if (this.detectImage(file.type)) {
+
+            // New node
+            const node = metaviz.render.nodes.add({
+                id: crypto.randomUUID(),
+                parent: metaviz.render.nodes.parent,
+                type: 'MetavizNodeImage',
+                name: 'Image',
+                filename: file.name,
+                icon: fileIcon,
+                params: {style: 'minimal'},
+                ...position
+            });
+
+            // Read bitmap and convert to Base64
+            const reader = new FileReader();
+            reader.onload = (event) => {
+
+                // Set bitmap
+                node.controls.bitmap.set(event.target.result);
+                node.params.set('uri', event.target.result);
+
+                // Undo/Store
+                metaviz.editor.history.store({
+                    action: 'add',
+                    nodes: [{...node.serialize('transform'), ...position}]
+                });
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // Check empty board/folder
+        metaviz.editor.checkEmpty();
+
+    }
+
+    /**
      * Guess mimetype based on structure
      */
 
@@ -130,6 +236,33 @@ class MetavizExchange {
 
         // Unreckognized format returns plain text
         return {mime: 'text/plain', text: text};
+    }
+
+    /**
+     * Guess mimetype based on file extension
+     */
+
+    detectExtension(uri) {
+        if (global.cache['MetavizNodeImage']['extensions'].includes(uri.ext())) return '*/image';
+        return 'text/uri-list';
+    }
+
+    /**
+     * Is on settings.IMAGE_FORMATS list
+     */
+
+    detectImage(mimetype) {
+        return global.cache['MetavizNodeImage']['formats'].includes(mimetype);
+    }
+
+    /**
+     * Guess the best icon based on mimetype
+     */
+
+    detectIcon(file) {
+        let fileIcon = 'mdi-file';
+        if (this.detectImage(file.type)) fileIcon = 'mdi-file-image';
+        return fileIcon;
     }
 
     /**

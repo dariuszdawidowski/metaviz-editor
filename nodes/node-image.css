@@ -1,0 +1,118 @@
+/* Metaviz Node Image */
+
+.metaviz-node-image {
+    flex-direction: column;
+    background-color: rgb(247, 250, 250);
+}
+
+.metaviz-node-image.drag {
+    background-color: rgba(247, 250, 250, 0.69);
+}
+
+/* Bitmap */
+
+.metaviz-node-image .metaviz-control-bitmap {
+    background: linear-gradient(135deg, rgb(65,52,43) 0%, rgb(86,69,56) 49%, rgb(86,69,56) 49%, rgb(44,37,31) 50%, rgb(22,18,15) 100%);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.metaviz-node-image.drag .metaviz-control-bitmap {
+    background: linear-gradient(135deg, rgba(65,52,43,0.69) 0%, rgba(86,69,56,0.69) 49%, rgba(86,69,56,0.69) 49%, rgba(44,37,31,0.69) 50%, rgba(22,18,15,0.69) 100%);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.miniature.metaviz-control-bitmap {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0;
+}
+
+.metaviz-node-image .metaviz-control-bitmap img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Style minimal */
+
+.metaviz-node-image.style-minimal .metaviz-control-bitmap {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    margin: 4px;
+}
+
+.metaviz-node-image.style-minimal.drag .metaviz-control-bitmap {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    margin: 4px;
+    opacity: 0.69;
+}
+
+.metaviz-node-image.style-minimal .metaviz-control-input {
+    display: none;
+}
+
+/* Style instant */
+
+.metaviz-node-image.style-instant .metaviz-control-bitmap {
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
+    margin: 12px;
+}
+
+.metaviz-node-image.style-instant.drag .metaviz-control-bitmap {
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
+    margin: 12px;
+    opacity: 0.69;
+}
+
+/* Style postcard */
+
+.metaviz-node-image.style-postcard .metaviz-control-bitmap {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    margin: 4px;
+}
+
+.metaviz-node-image.style-postcard.drag .metaviz-control-bitmap {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    margin: 4px;
+    opacity: 0.69;
+}
+
+/* Name */
+
+.metaviz-node-image .metaviz-control-input {
+    border: none;
+    background: transparent;
+    margin: 0 5px 5px 5px;
+    text-align: center;
+    font-style: italic;
+    color: var(--font-color-2);
+}
+
+.metaviz-node-image .metaviz-control-input:placeholder-shown {
+    border: none;
+    border-bottom: 1px solid var(--font-color-1);
+}
+
+.metaviz-node-image .metaviz-control-input:focus {
+    outline: none;
+}
+
+/* Image in popup */
+
+.total-popup-window .slideshow-image {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

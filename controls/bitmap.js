@@ -20,7 +20,7 @@ class MetavizControlBitmap extends MetavizControl {
         this.name = name;
 
         // URI
-        this.uri = null;
+        this.uri = uri;
 
         // Element
         this.element = document.createElement('div');
@@ -28,32 +28,21 @@ class MetavizControlBitmap extends MetavizControl {
         this.element.classList.add('metaviz-control-bitmap');
         if (this.name) this.element.classList.add('metaviz-control-bitmap-' + this.name.slug());
 
+        // Img
+        this.img = document.createElement('img');
+        this.element.append(this.img);
+
         // Set bitmap image
         if (uri) this.set(uri);
     }
 
     /**
-     * Set image by url or File object
+     * Set image by uri string (http(s) URL | data:image/*)
      */
 
     set(uri) {
         this.element.style.backgroundColor = 'white';
-
-        // URI String
-        if (uri.constructor.name == 'String') {
-            this.element.style.backgroundImage = `url(${uri})`;
-            this.uri = uri;
-        }
-
-        // Encoded File
-        else if (uri.constructor.name == 'File') {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                this.set(event.target.result);
-            }
-            reader.readAsDataURL(uri);
-        }
-
+        this.img.src = uri;
     }
 
     /**
