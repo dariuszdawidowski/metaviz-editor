@@ -37,14 +37,17 @@ class MetavizControlInput extends MetavizControl {
         // Input
         this.element = document.createElement('div');
         if (value) this.set(value);
-        if (placeholder) this.element.placeholder = placeholder;
         this.element.setAttribute('contenteditable', 'true');
         this.element.setAttribute('spellcheck', 'false');
         this.element.setAttribute('autocomplete', 'off');
         this.element.setAttribute('name', 'notASearchField'); // Safari hack to prevent autofill
-        this.element.classList.add('metaviz-control');
-        this.element.classList.add('metaviz-control-input');
+        this.element.classList.add('metaviz-control', 'metaviz-control-input');
         if (this.name) this.element.classList.add('metaviz-control-input-' + this.name.slug());
+
+        // Placeholder
+        this.placeholder = null;
+        this.placeholderText = placeholder;
+        this.addPlaceholder();
 
         // Single line mode
         if (!multiline) this.element.classList.add('metaviz-control-input-single-line');
@@ -64,6 +67,7 @@ class MetavizControlInput extends MetavizControl {
             metaviz.events.disable('editor:paste');
             metaviz.events.disable('editor:keydown');
             metaviz.events.disable('editor:keyup');
+            this.delPlaceholder();
             this.edit(true);
         });
 
@@ -94,6 +98,8 @@ class MetavizControlInput extends MetavizControl {
             }
             // Update value
             this.value = this.get();
+            // Placeholder
+            this.addPlaceholder();
         });
 
         // Process Paste
@@ -105,14 +111,22 @@ class MetavizControlInput extends MetavizControl {
         });
     }
 
-    /* Input value */
+    /**
+     * Set text content
+     */
 
     set(text) {
         this.element.innerText = text;
     }
 
+    /**
+     * Get text content
+     */
+
     get() {
-        return this.element.innerText;
+        // Discard inner html (filter placeholder)
+        const textNodes = Array.from(this.element.childNodes).filter(child => child.nodeType === Node.TEXT_NODE);
+        return textNodes.map(child => child.textContent).join('');
     }
 
     /**
@@ -160,6 +174,30 @@ class MetavizControlInput extends MetavizControl {
         else {
             this.element.removeAttribute('contenteditable');
             this.element.classList.remove('editing');
+        }
+    }
+
+    /**
+     * Create placeholder element
+     */
+
+    addPlaceholder() {
+        if (this.placeholder == null && this.placeholderText && !this.get()) {
+            this.placeholder = document.createElement('div');
+            this.placeholder.classList.add('placeholder');
+            this.placeholder.innerText = this.placeholderText;
+            this.element.append(this.placeholder);
+        }
+    }
+
+    /**
+     * Remove placeholder element
+     */
+
+    delPlaceholder() {
+        if (this.placeholder) {
+            this.placeholder.remove();
+            this.placeholder = null;
         }
     }
 

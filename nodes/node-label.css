@@ -204,7 +204,6 @@
 
 .metaviz-node-label {
     border-radius: 5px;
-/*    overflow: hidden;*/
 }
 
 /* Input */
@@ -218,6 +217,37 @@
     background-color: transparent;
     text-align: center;
     font-size: 13px;
+}
+
+/* Placeholder */
+
+.metaviz-node-label .metaviz-control-input .placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.metaviz-node-label.color-0 .metaviz-control-input .placeholder {
+    color: #777;
+}
+
+.metaviz-node-label.color-1 .metaviz-control-input .placeholder {
+    color: #249cff;
+}
+
+.metaviz-node-label.color-2 .metaviz-control-input .placeholder {
+    color: #afbcdd;
+}
+
+.metaviz-node-label.color-3 .metaviz-control-input .placeholder {
+    color: #41e1c1;
+}
+
+.metaviz-node-label.color-4 .metaviz-control-input .placeholder {
+    color: #8c7639;
+}
+
+.metaviz-node-label.color-5 .metaviz-control-input .placeholder {
+    color: #b45757;
 }
 
 /* Miniature */

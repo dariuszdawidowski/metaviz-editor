@@ -28,6 +28,7 @@ class MetavizNodeLabel extends MetavizNode {
             input: new MetavizControlInput({
                 name: 'text',
                 value: this.params.text,
+                placeholder: 'Label',
                 onChange: (value) => {
                     metaviz.editor.history.store({
                         action: 'param',
