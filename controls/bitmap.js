@@ -30,6 +30,7 @@ class MetavizControlBitmap extends MetavizControl {
 
         // Img
         this.img = document.createElement('img');
+        this.img.draggable = false;
         this.element.append(this.img);
 
         // Set bitmap image
@@ -60,17 +61,19 @@ class MetavizControlBitmap extends MetavizControl {
      */
 
     getResolution(constraints) {
+        console.log('getResolution', constraints)
         return new Promise((resolve, reject) => {
-            const imgElement = document.createElement('img');
-            imgElement.src = this.uri;
+            // const imgElement = document.createElement('img');
+            // imgElement.src = this.uri;
             const image = new Image();
             image.addEventListener('load', () => {
                 const factor = (image.naturalWidth > constraints.maxWidth) ? constraints.maxWidth / image.naturalWidth : 1;
-                let width = image.naturalWidth * factor;
-                let height = image.naturalHeight * factor;
+                const width = image.naturalWidth * factor;
+                const height = image.naturalHeight * factor;
+                console.log('w,h:', {width, height})
                 resolve({width, height});
             });
-            image.src = imgElement.src;
+            image.src = this.img.src;
         });
     }
 
