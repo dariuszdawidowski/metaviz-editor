@@ -198,7 +198,10 @@ class Metaviz {
             data: null,
 
             // DB: 'file' (stored in file) | 'sql' (stored in relational database)
-            db: null
+            db: null,
+
+            // Static protocol: 'http' | 'https' | 'file'
+            protocol: null
 
         };
 
@@ -292,7 +295,8 @@ class Metaviz {
 
             // Browser features
             features: {
-                nativeFileSystemApi: false
+                nativeFileSystemApi: false,
+                clipboardApi: false
             },
 
             // Passed browser features compability
@@ -310,6 +314,7 @@ class Metaviz {
         this.agent.server = window.location.hostname;
         this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
         this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
+        this.agent.protocol = window.location.origin.split('://')[0];
 
         // Pseudo-user session for local standalone
         if (this.agent.client == 'browser' && this.agent.data == 'local') {
@@ -647,20 +652,27 @@ class Metaviz {
             }
 
             /**
-             * Features support
+             * Optional features support
              */
 
             // https://caniuse.com/#feat=native-filesystem-api
             this.system.features.nativeFileSystemApi = ('showOpenFilePicker' in window);
 
-            const features = [
+            // https://caniuse.com/async-clipboard (full read/write support)
+            this.system.features.clipboardApi = (this.agent.protocol != 'file') ? ('readText' in navigator.clipboard) && ('read' in navigator.clipboard) : false;
+
+            /**
+             * Mandatory features support
+             */
+
+            const requirements = [
                 Element.prototype.closest // https://caniuse.com/#feat=element-closest
             ];
-            if (this.system.browser.name == 'edge') features.push(
+            if (this.system.browser.name == 'edge') requirements.push(
                 window.PointerEvent,      // https://caniuse.com/#feat=mdn-api_pointerevent
             );
             this.system.compatible = true;
-            features.forEach((feature) => {
+            requirements.forEach((feature) => {
                 if (!feature) this.system.compatible = false;
             });
 

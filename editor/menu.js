@@ -637,12 +637,12 @@ class MetavizContextMenu extends TotalProMenu {
      */
 
     async checkClipboardToPaste() {
-        try {
+        if (metaviz.system.features.clipboardApi) {
             const items = await navigator.clipboard.read();
             const text = await navigator.clipboard.readText();
             if (items.length > 0 || text != '') this.panel.left.find('total-pro-menu-paste')?.enable();
         }
-        catch (err) {
+        else {
             if (metaviz.editor.clipboard?.count() > 0) {
                 this.panel.left.find('total-pro-menu-paste')?.enable();
             }

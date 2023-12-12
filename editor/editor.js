@@ -973,13 +973,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     async copyText(node, data, html) {
 
         // Copy to clipboard
-        if (navigator.clipboard.writeText) {
+        if (metaviz.system.features.clipboardApi) {
             await navigator.clipboard.writeText(data);
             this.clipboard.set(null, {html: html});
         }
 
         // Legacy version needs copy in internal clipboard
-        if (!navigator.clipboard.readText) {
+        else {
             this.clipboard.set(data, {html: html});
         }
 
@@ -1021,7 +1021,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             const data = JSON.stringify(json);
 
             // New Clipboard API (checking readText is ok because FF supports writeText only but should use legacy version)
-            if (navigator.clipboard.readText) {
+            if (metaviz.system.features.clipboardApi) {
                 await navigator.clipboard.writeText(data);
             }
             
@@ -1064,7 +1064,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
 
         // Text (Clipboard API)
-        if (navigator.clipboard.readText) {
+        if (metaviz.system.features.clipboardApi) {
             const text = await navigator.clipboard.readText();
             if (text != '') {
                 // If not sent anything yet
