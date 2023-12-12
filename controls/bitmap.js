@@ -61,16 +61,12 @@ class MetavizControlBitmap extends MetavizControl {
      */
 
     getResolution(constraints) {
-        console.log('getResolution', constraints)
         return new Promise((resolve, reject) => {
-            // const imgElement = document.createElement('img');
-            // imgElement.src = this.uri;
             const image = new Image();
             image.addEventListener('load', () => {
                 const factor = (image.naturalWidth > constraints.maxWidth) ? constraints.maxWidth / image.naturalWidth : 1;
                 const width = image.naturalWidth * factor;
                 const height = image.naturalHeight * factor;
-                console.log('w,h:', {width, height})
                 resolve({width, height});
             });
             image.src = this.img.src;
