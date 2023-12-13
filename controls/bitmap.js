@@ -36,11 +36,10 @@ class MetavizControlBitmap extends MetavizControl {
         this.element.append(this.img);
 
         // Callback
-        this.img.addEventListener('load', () => this.loaded());
-        this.onLoad = onLoad;
+        this.img.addEventListener('load', this.loaded.bind(this));
 
         // Set bitmap image
-        if (uri) this.set(uri);
+        if (uri) this.set(uri, onLoad);
     }
 
     /**

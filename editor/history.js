@@ -317,9 +317,9 @@ class MetavizHistory {
                     let newNodes = [];
                     for (const node of args.nodes) {
                         const newNode = metaviz.render.nodes.add(node);
-                        for (const [param, value] of Object.entries(node.params)) {
-                            newNode.params.set(param, value);
-                        }
+                        // for (const [param, value] of Object.entries(node.params)) {
+                        //     newNode.params.set(param, value);
+                        // }
                         newNode.render();
                         newNode.update();
                         newNodes.push(newNode);

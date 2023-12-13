@@ -16,9 +16,13 @@ class MetavizNodeImage extends MetavizNode {
         // Meta defaults
         if (!('uri' in this.params)) this.params['uri'] = '';
         if (!('name' in this.params)) this.params['name'] = '';
-        if (!('style' in this.params)) this.params['style'] = 'instant';
-        // if (!('resX' in this.params)) this.params['resX'] = 'w' in args ? args.w : 0;
-        // if (!('resY' in this.params)) this.params['resY'] = 'h' in args ? args.h : 0;
+        if (!('style' in this.params)) this.params['style'] = 'raw';
+
+        // Migration
+        if (this.params['style'] == 'minimal') this.params['style'] = 'raw';
+
+        // Image border
+        this.border = 8;
 
         // Map of mimetypes
         this.mimetypes = {
@@ -40,7 +44,7 @@ class MetavizNodeImage extends MetavizNode {
                 uri: this.fixURI(this.getResized(this.params.uri)),
                 onLoad: () => {
                     // Set initial style
-                    this.setImageAppearance(false);
+                    this.setImageAppearance();
                     this.update();
                 }
             }),
@@ -89,7 +93,7 @@ class MetavizNodeImage extends MetavizNode {
             style: new TotalProMenuSelect({
                 placeholder: 'Style',
                 options: {
-                    'minimal': {icon: '', text: 'Style: Raw'},
+                    'raw': {icon: '', text: 'Style: Raw'},
                     'instant': {icon: '', text: 'Style: Instant'},
                     'postcard': {icon: '', text: 'Style: Postcard'},
                 },
@@ -129,11 +133,12 @@ class MetavizNodeImage extends MetavizNode {
             // Properties
             if (key == 'uri' && value != '') {
                 this.controls.bitmap.set(this.fixURI(this.getResized(value)));
-                this.setImageAppearance(true);
+                this.setImageAppearance();
                 this.update();
+                metaviz.editor.cage.update();
             }
             else if (key == 'style') {
-                this.setImageAppearance(true);
+                this.setImageAppearance();
                 this.update();
                 metaviz.editor.cage.update();
             }
@@ -240,29 +245,19 @@ class MetavizNodeImage extends MetavizNode {
      * Choose theme
      */
 
-    setImageAppearance(save = false) {
-        this.element.classList.remove('style-minimal', 'style-instant', 'style-postcard');
+    setImageAppearance() {
+        this.element.classList.remove('style-raw', 'style-instant', 'style-postcard');
         this.element.classList.add(`style-${this.params.style}`);
         switch (this.params.style) {
-            case 'minimal':
-                // Guessing image resolution
-                if (this.params.uri && this.params.resX == 0) {
-                    const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
-                    this.params.resX = resolution.width;
-                    this.params.resY = resolution.height;
-                    if (save) this.setSize({width: this.params.resX + 8, height: this.params.resY + 8}, true);
-                }
-                else {
-                    if (save) this.setSize({width: this.params.resX, height: this.params.resY}, true);
-                }
+            case 'raw':
+                const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
+                this.setSize({width: resolution.width + this.border, height: resolution.height + this.border});
                 break;
             case 'instant':
-                if (save) this.setSize({width: 168, height: 200}, true);
-                else if (this.transform.w == 0) this.setSize({width: 168, height: 200}, false);
+                this.setSize({width: 168, height: 200});
                 break;
             case 'postcard':
-                if (save) this.setSize({width: 352, height: 256}, true);
-                else if (this.transform.w == 0) this.setSize({width: 352, height: 256}, false);
+                this.setSize({width: 352, height: 256});
                 break;
         }
     }
