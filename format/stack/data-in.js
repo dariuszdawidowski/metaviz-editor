@@ -14,7 +14,14 @@ class MetavizInStack {
         metaviz.editor.setBoardID(xml.querySelector('mv > id').textContent);
         metaviz.editor.setBoardName(xml.querySelector('mv > name').textContent);
 
-        // Version check 5..4
+        // Mimetype
+        const mimetype = xml.querySelector('mv > mimetype').textContent;
+        if (mimetype != 'text/mvstack+xml') {
+            alert('Unsupported file type!');
+            return;
+        }
+
+        // Version check 6..4
         const version = parseInt(xml.querySelector('mv > version').textContent);
         if (version > 6 || version < 4) {
             alert('Unsupported file version!');
@@ -134,6 +141,8 @@ class MetavizInStack {
 
         // Sort packets by timestamp
         packets.sort((a, b) => a.timestamp - b.timestamp);
+
+        // Recreate history
         metaviz.editor.history.set(packets);
         metaviz.editor.history.recreate();
     }

@@ -17,8 +17,8 @@ class MetavizNodeImage extends MetavizNode {
         if (!('uri' in this.params)) this.params['uri'] = '';
         if (!('name' in this.params)) this.params['name'] = '';
         if (!('style' in this.params)) this.params['style'] = 'instant';
-        if (!('resX' in this.params)) this.params['resX'] = 0;
-        if (!('resY' in this.params)) this.params['resY'] = 0;
+        // if (!('resX' in this.params)) this.params['resX'] = 'w' in args ? args.w : 0;
+        // if (!('resY' in this.params)) this.params['resY'] = 'h' in args ? args.h : 0;
 
         // Map of mimetypes
         this.mimetypes = {
@@ -34,9 +34,15 @@ class MetavizNodeImage extends MetavizNode {
 
         // Controls
         this.addControls({
+
             // Bitmap control
             bitmap: new MetavizControlBitmap({
-                uri: this.fixURI(this.getResized(this.params.uri))
+                uri: this.fixURI(this.getResized(this.params.uri)),
+                onLoad: () => {
+                    // Set initial style
+                    this.setImageAppearance(false);
+                    this.update();
+                }
             }),
 
             // Input control: Under Icon Name
@@ -58,9 +64,6 @@ class MetavizNodeImage extends MetavizNode {
             // Spinner control
             spinner: new MetavizControlSpinner(),
         });
-
-        // Set initial style
-        this.setImageAppearance(false);
 
         // Menu options
         this.addOptions({
@@ -244,11 +247,10 @@ class MetavizNodeImage extends MetavizNode {
             case 'minimal':
                 // Guessing image resolution
                 if (this.params.uri && this.params.resX == 0) {
-                    this.controls.bitmap.getResolution({maxWidth: 1000}).then((resolution) => {
-                        this.params.resX = resolution.width;
-                        this.params.resY = resolution.height;
-                        if (save) this.setSize({width: this.params.resX + 8, height: this.params.resY + 8}, true);
-                    });
+                    const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
+                    this.params.resX = resolution.width;
+                    this.params.resY = resolution.height;
+                    if (save) this.setSize({width: this.params.resX + 8, height: this.params.resY + 8}, true);
                 }
                 else {
                     if (save) this.setSize({width: this.params.resX, height: this.params.resY}, true);

@@ -24,7 +24,7 @@ class MetavizExchange {
 
         // Create whole diagram from json
         else if (data.mime == 'text/metaviz+json') {
-            this.processMV(data.json, offset);
+            this.processMetavizJSON(data.json, offset);
         }
     }
 
@@ -35,7 +35,7 @@ class MetavizExchange {
 
     uploadFile(file, offset = {x: 0, y: 0}) {
 
-        // Metaviz JSON file
+        // Metaviz JSON/XML file
         if (file.name.ext('mv')) {
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -47,7 +47,12 @@ class MetavizExchange {
                     // Preserve IDs
                     data.json.id = metaviz.editor.id;
                     if (data.json.version > 13) data.json.views[0].id = metaviz.render.layers.getBaseLayerId();
-                    this.processMV(data.json, offset);
+                    this.processMetavizJSON(data.json, offset);
+                }
+
+                // XML file should be loaded via menu
+                else if (data.mime == 'text/mvstack+xml') {
+                    alert('This file should be loaded via Menu -> File -> Open...');
                 }
             }
             reader.readAsText(file);
@@ -127,7 +132,7 @@ class MetavizExchange {
      * MetavizJSON -> Append diagram
      */
 
-    processMV(json, offset) {
+    processMetavizJSON(json, offset) {
 
         // Clean source board info (appending to current board)
         delete json.id;
@@ -193,15 +198,19 @@ class MetavizExchange {
             const reader = new FileReader();
             reader.onload = (event) => {
 
-                // Set bitmap
-                node.controls.bitmap.set(event.target.result);
-                node.params.set('uri', event.target.result);
+                // Set bitmap (and rescale optionally)
+                node.controls.bitmap.set(event.target.result, () => {
+                    const [width, height, rescaled] = node.controls.bitmap.rescale(global.cache['MetavizNodeImage']['minWidth']);
+                    node.params.set('uri', rescaled);
+                    node.setSize({width: width + 8, height: height + 8});
 
-                // Undo/Store
-                metaviz.editor.history.store({
-                    action: 'add',
-                    nodes: [{...node.serialize('transform'), ...position}]
+                    // Undo/Store
+                    metaviz.editor.history.store({
+                        action: 'add',
+                        nodes: [{...node.serialize('transform'), ...position}]
+                    });
                 });
+
             }
             reader.readAsDataURL(file);
         }
@@ -233,6 +242,15 @@ class MetavizExchange {
         let json = null;
         try { json = JSON.parse(text); } catch(error) {}
         if (json && json.format == 'MetavizJSON') return {mime: 'text/metaviz+json', json: json};
+
+        // Detecting 'text/mvstack+xml'
+        try {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(text, 'text/xml');
+            const errors = xmlDoc.getElementsByTagName('parsererror');
+            if (errors.length === 0 && xmlDoc.querySelector('mv > mimetype').textContent == 'text/mvstack+xml') return {mime: 'text/mvstack+xml', xml: xmlDoc};
+        } catch (e) {
+        }
 
         // Unreckognized format returns plain text
         return {mime: 'text/plain', text: text};

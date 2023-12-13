@@ -7,14 +7,16 @@ class MetavizControlBitmap extends MetavizControl {
 
     /**
      * Constructor
-     * @param arg.url: url to image bitmap
+     * @param arg.name: name of the image
+     * @param arg.uri: uri to image bitmap
+     * @param arg.onLoad: loaded callback
      */
 
     constructor(args = {}) {
         super();
 
         // Params
-        const { name = null, uri = null } = args;
+        const { name = null, uri = null, onLoad = null } = args;
 
         // Control name
         this.name = name;
@@ -29,9 +31,13 @@ class MetavizControlBitmap extends MetavizControl {
         if (this.name) this.element.classList.add('metaviz-control-bitmap-' + this.name.slug());
 
         // Img
-        this.img = document.createElement('img');
+        this.img = new Image();
         this.img.draggable = false;
         this.element.append(this.img);
+
+        // Callback
+        this.img.addEventListener('load', () => this.loaded());
+        this.onLoad = onLoad;
 
         // Set bitmap image
         if (uri) this.set(uri);
@@ -41,9 +47,21 @@ class MetavizControlBitmap extends MetavizControl {
      * Set image by uri string (http(s) URL | data:image/*)
      */
 
-    set(uri) {
+    set(uri, onLoad = null) {
+        this.onLoad = onLoad;
         this.element.style.backgroundColor = 'white';
         this.img.src = uri;
+    }
+
+    /**
+     * Callback manager
+     */
+
+    loaded() {
+        if (this.onLoad) {
+            this.onLoad();
+            this.onLoad = null;
+        }
     }
 
     /**
@@ -55,22 +73,41 @@ class MetavizControlBitmap extends MetavizControl {
     }
 
     /**
-     * Get resolution (async)
+     * Get resolution
+     * (onLoad depended)
      * @param constraints: {maxWidth: <Number>}
      * @returns: {width: <Number>, height: <Number>}
      */
 
     getResolution(constraints) {
-        return new Promise((resolve, reject) => {
-            const image = new Image();
-            image.addEventListener('load', () => {
-                const factor = (image.naturalWidth > constraints.maxWidth) ? constraints.maxWidth / image.naturalWidth : 1;
-                const width = image.naturalWidth * factor;
-                const height = image.naturalHeight * factor;
-                resolve({width, height});
-            });
-            image.src = this.img.src;
-        });
+        const factor = (this.img.naturalWidth > constraints.maxWidth) ? constraints.maxWidth / this.img.naturalWidth : 1;
+        return {width: this.img.naturalWidth * factor, height: this.img.naturalHeight * factor};
+    }
+
+    /**
+     * Resize image on client browser side
+     */
+
+    rescale(newWidth, newHeight = null, mimetype = 'image/jpeg') {
+        console.log('rescale', this.img.naturalWidth, '->', newWidth);
+        if (newHeight === null) {
+            const aspectRatio = this.img.naturalWidth / this.img.naturalHeight;
+            newHeight = Math.round(newWidth / aspectRatio);
+        }
+        if (newWidth < this.img.naturalWidth || newHeight < this.img.naturalHeight) {
+            console.log('processing...')
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            ctx.drawImage(this.img, 0, 0, newWidth, newHeight);
+
+            const resizedImageData = canvas.toDataURL(mimetype);
+            this.img.src = resizedImageData;
+            return [newWidth, newHeight, resizedImageData];
+        }
+        return [this.img.naturalWidth, this.img.naturalHeight, this.img.src];
     }
 
 }
