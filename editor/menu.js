@@ -46,9 +46,6 @@ class MetavizContextMenu extends TotalProMenu {
         // Node local options
         subEditSelection.add(new TotalProMenuGroup({ text: 'Node local options', widgets: []}));
 
-        // ----
-        // subEditSelection.add(new TotalProMenuSeparator());
-
         // Node edit
         subEditSelection.add(new TotalProMenuGroup({ text: 'Node functions', widgets: []}));
 
@@ -83,49 +80,74 @@ class MetavizContextMenu extends TotalProMenu {
         }));
 
         // Link / Unlink
-        subEditSelection.add(new TotalProMenuOption({ text: 'Link', shortcut: [17, 76], onChange: () => {
-            metaviz.editor.linkToggleSelected();
-            this.hide();
-        }}));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Link',
+            shortcut: [17, 76],
+            onChange: () => {
+                metaviz.editor.linkToggleSelected();
+                this.hide();
+            }
+        }));
 
         // Copy url of node
         if (!metaviz.agent.client == 'browser') {
-            subEditSelection.add(new TotalProMenuOption({ text: 'Copy url of node', onChange: () => {
-                let params = window.location.search.uriToDict();
-                params['node'] = metaviz.editor.selection.nodes[0].id;
-                metaviz.editor.clipboard.set(location.protocol + '//' + location.host + location.pathname + '?' + dictToUri(params));
-                this.hide();
-            }}));
+            subEditSelection.add(new TotalProMenuOption({
+                text: 'Copy url of node',
+                onChange: () => {
+                    let params = window.location.search.uriToDict();
+                    params['node'] = metaviz.editor.selection.nodes[0].id;
+                    metaviz.editor.clipboard.set(location.protocol + '//' + location.host + location.pathname + '?' + dictToUri(params));
+                    this.hide();
+                }
+            }));
         }
 
         // ----
         subEditSelection.add(new TotalProMenuSeparator());
 
         // Arrange
-        subEditSelection.add(new TotalProMenuOption({ text: 'Sort', onChange: () => {
-            metaviz.editor.arrangeSort();
-            this.hide();
-        }}));
-        subEditSelection.add(new TotalProMenuOption({ text: 'Align Horizontal', onChange: () => {
-            metaviz.editor.arrangeHorizontal();
-            this.hide();
-        }}));
-        subEditSelection.add(new TotalProMenuOption({ text: 'Align Vertical', onChange: () => {
-            metaviz.editor.arrangeVertical();
-            this.hide();
-        }}));
-        subEditSelection.add(new TotalProMenuOption({ text: 'Move to Foreground', onChange: () => {
-            metaviz.editor.arrangeZ(1);
-            this.hide();
-        }}));
-        subEditSelection.add(new TotalProMenuOption({ text: 'Move to Background', onChange: () => {
-            metaviz.editor.arrangeZ(-1);
-            this.hide();
-        }}));
-        subEditSelection.add(new TotalProMenuOption({ text: 'Reset Translations', onChange: () => {
-            metaviz.editor.arrangeReset();
-            this.hide();
-        }}));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Sort',
+            onChange: () => {
+                metaviz.editor.arrangeSort();
+                this.hide();
+            }
+        }));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Align Horizontal',
+            onChange: () => {
+                metaviz.editor.arrangeHorizontal();
+                this.hide();
+            }
+        }));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Align Vertical',
+            onChange: () => {
+                metaviz.editor.arrangeVertical();
+                this.hide();
+            }
+        }));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Move to Foreground',
+            onChange: () => {
+                metaviz.editor.arrangeZ(1);
+                this.hide();
+            }
+        }));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Move to Background',
+            onChange: () => {
+                metaviz.editor.arrangeZ(-1);
+                this.hide();
+            }
+        }));
+        subEditSelection.add(new TotalProMenuOption({
+            text: 'Reset Translations',
+            onChange: () => {
+                metaviz.editor.arrangeReset();
+                this.hide();
+            }
+        }));
 
         // File
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
@@ -137,7 +159,6 @@ class MetavizContextMenu extends TotalProMenu {
                 // New
                 new TotalProMenuOption({
                     text: 'New',
-                    shortcut: [17, 78],
                     onChange: () => {
                         this.hide();
                         let msg = 'Create new board?';
@@ -162,76 +183,78 @@ class MetavizContextMenu extends TotalProMenu {
                     shortcut: [17, 83],
                     onChange: () => {
                         this.hide();
-                        metaviz.editor.save();
+                        if (this.history.isDirty()) metaviz.editor.save();
                     }
                 })
 
             ] }));
 
-
-/*
-            // New
-            this.panel.left.add(new TotalProMenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
-                this.hide();
-                let msg = 'Create new board?';
-                if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
-                if (confirm(msg)) metaviz.editor.new();
-            }}));
-
-            // Open File
-            this.panel.left.add(new TotalProMenuOption({ text: 'Open File...', shortcut: [17, 79], onChange: () => {
-                this.hide();
-                metaviz.editor.open();
-            }}));
-
-            // Save
-            this.panel.left.add(new TotalProMenuOption({ text: 'Save', shortcut: [17, 83], onChange: () => {
-                this.hide();
-                metaviz.editor.save();
-            }}));
-*/
             // ----
             this.panel.left.add(new TotalProMenuSeparator());
         }
 
         // Undo
-        this.panel.left.add(new TotalProMenuOption({ text: 'Undo', shortcut: [17, 90], onChange: () => {
-            this.hide();
-            metaviz.editor.history.undo();
-        } }));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Undo',
+            shortcut: [17, 90],
+            onChange: () => {
+                this.hide();
+                metaviz.editor.history.undo();
+            }
+        }));
 
         // Redo
-        this.panel.left.add(new TotalProMenuOption({ text: 'Redo', shortcut: [17, 16, 90], onChange: () => {
-            this.hide();
-            metaviz.editor.history.redo();
-        } }));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Redo',
+            shortcut: [17, 16, 90],
+            onChange: () => {
+                this.hide();
+                metaviz.editor.history.redo();
+            }
+        }));
 
         // ----
         this.panel.left.add(new TotalProMenuSeparator());
 
         // Cut
-        this.panel.left.add(new TotalProMenuOption({ text: 'Cut', shortcut: [17, 88], onChange: () => {
-            metaviz.editor.cut();
-            this.hide();
-        }}));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Cut',
+            shortcut: [17, 88],
+            onChange: () => {
+                metaviz.editor.cut();
+                this.hide();
+            }
+        }));
 
         // Copy
-        this.panel.left.add(new TotalProMenuOption({ text: 'Copy', shortcut: [17, 67], onChange: () => {
-            metaviz.editor.copy();
-            this.hide();
-        }}));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Copy',
+            shortcut: [17, 67],
+            onChange: () => {
+                metaviz.editor.copy();
+                this.hide();
+            }
+        }));
 
         // Paste
-        this.panel.left.add(new TotalProMenuOption({ text: 'Paste', shortcut: [17, 86], onChange: () => {
-            metaviz.editor.paste();
-            this.hide();
-        }}));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Paste',
+            shortcut: [17, 86],
+            onChange: () => {
+                metaviz.editor.paste();
+                this.hide();
+            }
+        }));
 
         // Duplicate
-        this.panel.left.add(new TotalProMenuOption({ text: 'Duplicate', shortcut: [17, 68], onChange: () => {
-            metaviz.editor.duplicate();
-            this.hide();
-        }}));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Duplicate',
+            shortcut: [17, 68],
+            onChange: () => {
+                metaviz.editor.duplicate();
+                this.hide();
+            }
+        }));
 
         // Select All Nodes / Text
         this.panel.left.add(new TotalProMenuOption({
@@ -251,10 +274,13 @@ class MetavizContextMenu extends TotalProMenu {
         // ----
         this.panel.left.add(new TotalProMenuSeparator());
 
-        this.panel.left.add(new TotalProMenuOption({ text: 'Delete', onChange: () => {
-            metaviz.editor.nodeDeleteSelected();
-            this.hide();
-        }}));
+        this.panel.left.add(new TotalProMenuOption({
+            text: 'Delete',
+            onChange: () => {
+                metaviz.editor.nodeDeleteSelected();
+                this.hide();
+            }
+        }));
 
         // ----
         this.panel.left.add(new TotalProMenuSeparator());
@@ -265,6 +291,7 @@ class MetavizContextMenu extends TotalProMenu {
             subSettings = new TotalProSubMenu({ text: 'Settings' });
             this.panel.left.add(subSettings);
             subSettings.add(new TotalProMenuGroup({ text: 'Project settings', widgets: [
+
                 // Project name
                 new TotalProMenuInput({
                     id: 'total-pro-menu-project-name',
@@ -281,6 +308,7 @@ class MetavizContextMenu extends TotalProMenu {
                         metaviz.editor.setBoardName(event.target.value);
                     }
                 }),
+
             ] }));
 
             // On update project name
@@ -377,11 +405,19 @@ class MetavizContextMenu extends TotalProMenu {
         const subHelp = new TotalProSubMenu({ text: 'Help' });
         this.panel.left.add(subHelp);
         subHelp.add(new TotalProMenuGroup({ text: `Metaviz ${metaviz.version}`, widgets: [
+
             // Help: GitHub Page
-            new TotalProMenuOption({ text: 'GitHub page', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor') }),
+            new TotalProMenuOption({
+                text: 'GitHub page',
+                onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor')
+            }),
 
             // Help: Submit issue
-            new TotalProMenuOption({ text: 'Submit issue', onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor/issues') }),
+            new TotalProMenuOption({
+                text: 'Submit issue',
+                onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor/issues')
+            }),
+
         ] }));
 
         // Simulate scroll event

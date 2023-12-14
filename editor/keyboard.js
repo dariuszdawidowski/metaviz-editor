@@ -1,6 +1,6 @@
 /**
  * Metaviz Editor Keyboard
- * (c) 2009-2022 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizEditorKeyboard {
@@ -12,7 +12,7 @@ class MetavizEditorKeyboard {
         // Keys state machine
         this.key = {
             ctrl: false, // or cmd
-            alt: false,
+            alt: false, // option
             shift: false,
             clear: function()
             {
@@ -37,30 +37,43 @@ class MetavizEditorKeyboard {
         metaviz.events.subscribe('editor:textsafe:keydown', document, 'keydown', (event) => {
 
             // CTRL/CMD key global state
-            if (event.keyCode == 17 || (metaviz.system.os.name == 'macos' && (event.keyCode == 91 || event.keyCode == 93 || event.keyCode == 224))) {
+            if (event.key == 'Control' || (metaviz.system.os.name == 'macos' && event.key == 'Meta')) {
                 this.key.ctrl = true;
             }
 
             // ALT key global state
-            if (event.keyCode == 18) {
+            if (event.key == 'Alt') {
                 this.key.alt = true;
             }
 
             // SHIFT key global state
-            if (event.keyCode == 16) {
+            if (event.key == 'Shift') {
                 this.key.shift = true;
             }
 
+            // CTRL/CMD+O: Open
+            if (this.key.ctrl && !this.key.alt && event.code == 'KeyO') {
+                event.preventDefault();
+                metaviz.editor.open();
+            }
+
             // CTRL/CMD+S: Save
-            else if (this.key.ctrl && !this.key.alt && event.keyCode == 83) {
+            else if (this.key.ctrl && !this.key.alt && event.code == 'KeyS') {
                 event.preventDefault();
                 if (this.editor.history.isDirty()) this.editor.save();
             }
 
             // CTRL/CMD+L: Create/Delete Link
-            else if (this.key.ctrl && !this.key.alt && event.keyCode == 76) {
+            else if (this.key.ctrl && !this.key.alt && event.code == 'KeyL') {
                 event.preventDefault();
                 this.editor.linkToggleSelected();
+            }
+
+            // CTRL/CMD+F: Search
+            else if (this.key.ctrl && !this.key.alt && event.code == 'KeyF') {
+                event.preventDefault();
+                const field = metaviz.container.element.querySelector('input.search');
+                if (field) field.focus();
             }
 
         });
@@ -72,31 +85,13 @@ class MetavizEditorKeyboard {
             if (!this.editor.interaction.locked) {
 
                 // CTRL/CMD+A: Select All
-                if (this.key.ctrl && !this.key.alt && event.keyCode == 65) {
+                if (this.key.ctrl && !this.key.alt && event.code == 'KeyA') {
                     event.preventDefault();
                     this.editor.selection.all();
                 }
 
-                // CTRL/CMD+E: Export
-                /*else if (this.key.ctrl && !this.key.alt && event.keyCode == 69) {
-                    event.preventDefault();
-                    this.editor.export();
-                }*/
-
-                // CTRL/CMD+C: Copy (can't be native event 'copy')
-                /*else if (this.key.ctrl && !this.key.alt && event.keyCode == 67) {
-                    event.preventDefault();
-                    this.editor.copy();
-                }*/
-
-                // CTRL/CMD+R: Arrange Nodes
-                /*else if (this.key.ctrl && !this.key.alt && event.keyCode == 82) {
-                    event.preventDefault();
-                    this.arrangeSort();
-                }*/
-
                 // CTRL/CMD+Z: Undo
-                else if (this.key.ctrl && !this.key.alt && !this.key.shift && event.keyCode == 90) {
+                else if (this.key.ctrl && !this.key.alt && !this.key.shift && event.code == 'KeyZ') {
                     event.preventDefault();
                     if (this.editor.history.undo()) {
                         metaviz.editor.update();
@@ -104,7 +99,7 @@ class MetavizEditorKeyboard {
                 }
 
                 // CTRL/CMD+SHIFT+Z: Redo
-                else if (this.key.ctrl && !this.key.alt && this.key.shift && event.keyCode == 90) {
+                else if (this.key.ctrl && !this.key.alt && this.key.shift && event.code == 'KeyZ') {
                     event.preventDefault();
                     if (this.editor.history.redo()) {
                         metaviz.editor.update();
@@ -112,19 +107,19 @@ class MetavizEditorKeyboard {
                 }
 
                 // CTRL/CMD+Del: Delete instantly
-                else if (this.key.ctrl && !this.key.alt && event.keyCode == 46) {
+                else if (this.key.ctrl && !this.key.alt && event.key == 'Delete') {
                     event.preventDefault();
                     this.editor.nodeDeleteSelectedInstantly();
                 }
 
                 // Del: Delete
-                else if (event.keyCode == 46) {
+                else if (event.key == 'Delete') {
                     event.preventDefault();
                     this.editor.nodeDeleteSelected();
                 }
 
                 // Button 'ESC': Exit from several things
-                else if (event.keyCode == 27) {
+                else if (event.key == 'Escape') {
                     event.preventDefault();
                     // Hide menu
                     this.editor.menu.hide();
@@ -144,9 +139,9 @@ class MetavizEditorKeyboard {
         metaviz.events.subscribe('editor:textsafe:keyup', document, 'keyup', (event) => {
 
             // Clear
-            if (this.key.ctrl && (event.keyCode == 17 || (metaviz.system.os.name == 'macos' && (event.keyCode == 91 || event.keyCode == 93 || event.keyCode == 224)))) this.key.ctrl = false;
-            if (this.key.alt && event.keyCode == 18) this.key.alt = false;
-            if (this.key.shift && event.keyCode == 16) this.key.shift = false;
+            if (this.key.ctrl && (event.key == 'Control' || (metaviz.system.os.name == 'macos' && event.key == 'Meta'))) this.key.ctrl = false;
+            if (this.key.alt && event.key == 'Alt') this.key.alt = false;
+            if (this.key.shift && event.key == 'Shift') this.key.shift = false;
 
         });
 
