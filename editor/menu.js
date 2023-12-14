@@ -127,10 +127,49 @@ class MetavizContextMenu extends TotalProMenu {
             this.hide();
         }}));
 
-        // ----
-        this.panel.left.add(new TotalProMenuSeparator());
-
+        // File
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
+
+            const subFile = new TotalProSubMenu({ text: 'File' });
+            this.panel.left.add(subFile);
+            subFile.add(new TotalProMenuGroup({ text: 'File operations', widgets: [
+
+                // New
+                new TotalProMenuOption({
+                    text: 'New',
+                    shortcut: [17, 78],
+                    onChange: () => {
+                        this.hide();
+                        let msg = 'Create new board?';
+                        if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
+                        if (confirm(msg)) metaviz.editor.new();
+                    }
+                }),
+
+                // Open
+                new TotalProMenuOption({
+                    text: 'Open...',
+                    shortcut: [17, 79],
+                    onChange: () => {
+                        this.hide();
+                        metaviz.editor.open();
+                    }
+                }),
+
+                // Save
+                new TotalProMenuOption({
+                    text: 'Save',
+                    shortcut: [17, 83],
+                    onChange: () => {
+                        this.hide();
+                        metaviz.editor.save();
+                    }
+                })
+
+            ] }));
+
+
+/*
             // New
             this.panel.left.add(new TotalProMenuOption({ text: 'New', shortcut: [17, 78], onChange: () => {
                 this.hide();
@@ -150,7 +189,7 @@ class MetavizContextMenu extends TotalProMenu {
                 this.hide();
                 metaviz.editor.save();
             }}));
-
+*/
             // ----
             this.panel.left.add(new TotalProMenuSeparator());
         }
@@ -591,6 +630,9 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Enable Navigation (always)
             this.panel.left.find('total-pro-menu-navigation')?.enable();
+
+            // Enable File (always)
+            this.panel.left.find('total-pro-menu-file')?.enable();
 
             // Enable Toolbar (always)
             this.panel.left.find('total-pro-menu-toolbars')?.enable();
