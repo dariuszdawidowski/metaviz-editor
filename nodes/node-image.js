@@ -21,6 +21,10 @@ class MetavizNodeImage extends MetavizNode {
         // Migration
         if (this.params['style'] == 'minimal') this.params['style'] = 'raw';
 
+        // Size 0: get from image, N: override image (resized by hand)
+        this.transform.w = ('w' in args) ? args['w'] : 0;
+        this.transform.h = ('h' in args) ? args['h'] : 0;
+
         // Image border
         this.border = 8;
 
@@ -250,16 +254,31 @@ class MetavizNodeImage extends MetavizNode {
         this.element.classList.add(`style-${this.params.style}`);
         switch (this.params.style) {
             case 'raw':
-                const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
-                this.setSize({width: resolution.width + this.border, height: resolution.height + this.border});
+                // If not set then get dimensions from image size (just created node)
+                if (this.transform.w == 0) {
+                    const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
+                    this.transform.w = resolution.width + this.border;
+                    this.transform.h = resolution.height + this.border;
+                }
                 break;
             case 'instant':
-                this.setSize({width: 168, height: 200});
+                // If not set then get standard instant photo dimensions
+                if (this.transform.w == 0) {
+                    this.transform.w = 168;
+                    this.transform.h = 200;
+                }
                 break;
             case 'postcard':
-                this.setSize({width: 352, height: 256});
+                // If not set then get standard postcard dimensions
+                if (this.transform.w == 0) {
+                    this.transform.w = 352;
+                    this.transform.h = 256;
+                }
                 break;
         }
+
+        // Set size
+        this.setSize({width: this.transform.w, height: this.transform.h});
     }
 
     /**

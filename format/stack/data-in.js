@@ -30,6 +30,19 @@ class MetavizInStack {
 
         const packets = [];
 
+        const getPacket = (nodeID) => {
+            for (let p = 0; p < packets.length; p++) {
+                if (packets[p].action == 'add' && 'nodes' in packets[p]) {
+                    for (let n = 0; n < packets[p].nodes.length; n++) {
+                        if (packets[p].nodes[n].id == nodeID) {
+                            return packets[p].nodes[n];
+                        }
+                    }
+                }
+            }
+            return null;
+        };
+
         const history = xml.querySelector('mv > history');
 
         for (let i = 0; i < history.children.length; i++) {
@@ -105,14 +118,11 @@ class MetavizInStack {
                         break;
 
                     case 'resize':
-                        packets.push({
-                            action: 'resize',
-                            timestamp: element.getAttribute('timestamp'),
-                            session: session.id,
-                            nodes: element.getAttribute('nodes').split(','),
-                            size: {
-                                w: parseInt(element.getAttribute('w')),
-                                h: parseInt(element.getAttribute('h'))
+                        element.getAttribute('nodes').split(',').forEach((nodeID) => {
+                            const node = getPacket(nodeID);
+                            if (node) {
+                                node.w = parseInt(element.getAttribute('w'));
+                                node.h = parseInt(element.getAttribute('h'));
                             }
                         });
                         break;
