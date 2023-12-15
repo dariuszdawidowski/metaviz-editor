@@ -15,7 +15,7 @@ class MetavizNodeImage extends MetavizNode {
         // Meta defaults
         if (!('uri' in this.params)) this.params['uri'] = '';
         if (!('name' in this.params)) this.params['name'] = '';
-        if (!('style' in this.params)) this.params['style'] = 'raw';
+        if (!('style' in this.params)) this.params['style'] = 'instant';
         if (!('resX' in this.params)) this.params['resX'] = 0; // Natural image
         if (!('resY' in this.params)) this.params['resY'] = 0; // resolution (not miniature, not node)
 
@@ -137,10 +137,11 @@ class MetavizNodeImage extends MetavizNode {
             this.params[key] = value;
             // Properties
             if (key == 'uri' && value != '') {
-                this.controls.bitmap.set(this.fixURI(this.getResized(value)));
-                this.setImageAppearance();
-                this.update();
-                metaviz.editor.cage.update();
+                this.controls.bitmap.set(this.fixURI(this.getResized(value)), () => {
+                    this.setImageAppearance();
+                    this.update();
+                    metaviz.editor.cage.update();
+                });
             }
             else if (key == 'style') {
                 this.setImageAppearance();
@@ -156,8 +157,7 @@ class MetavizNodeImage extends MetavizNode {
         this.addSockets();
 
         // Set appearance for empty image
-        if (!this.fixURI(this.params.uri)) {
-            this.params['style'] = 'instant';
+        if (!('filename' in args) && this.params.uri == '') {
             this.setImageAppearance();
             this.update();
         }

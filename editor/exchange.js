@@ -190,7 +190,7 @@ class MetavizExchange {
                 name: 'Image',
                 filename: file.name,
                 icon: fileIcon,
-                params: {style: 'minimal'},
+                params: {style: 'raw'},
                 ...position
             });
 
