@@ -105,6 +105,8 @@ class MetavizNodeImage extends MetavizNode {
                 },
                 value: this.params.style,
                 onChange: (value) => {
+
+                    // Save new style
                     metaviz.editor.history.store({
                         action: 'param',
                         node: {id: this.id},
@@ -112,6 +114,9 @@ class MetavizNodeImage extends MetavizNode {
                         prev: {style: this.params.style}
                     });
                     this.params.set('style', value);
+
+                    // Save new size
+                    this.setSize({width: this.transform.w, height: this.transform.h}, true);
 
                     // Cage update
                     metaviz.editor.cage.update();
@@ -146,6 +151,7 @@ class MetavizNodeImage extends MetavizNode {
                 });
             }
             else if (key == 'style') {
+                this.transform.w = this.transform.h = 0;
                 this.setImageAppearance();
                 this.update();
                 metaviz.editor.cage.update();

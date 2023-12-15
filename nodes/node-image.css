@@ -76,13 +76,13 @@
 
 .metaviz-node-image.style-postcard .metaviz-control-bitmap {
     width: calc(100% - 8px);
-    height: calc(100% - 8px);
+    height: calc(100% - 30px);
     margin: 4px;
 }
 
 .metaviz-node-image.style-postcard.drag .metaviz-control-bitmap {
     width: calc(100% - 8px);
-    height: calc(100% - 8px);
+    height: calc(100% - 30px);
     margin: 4px;
     opacity: 0.69;
 }
