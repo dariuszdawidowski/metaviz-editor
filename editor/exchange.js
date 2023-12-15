@@ -295,27 +295,38 @@ class MetavizExchange {
 
     rescaleImage(args = {}) {
         return new Promise((resolve, reject) => {
-            let { data = null, width = null, height = null, mimetype = 'image/jpeg' } = args;
+            let { data = null, width = null, height = null } = args;
             const img = new Image();
             img.src = data;
             img.addEventListener('load', (event) => {
-                if (height === null) {
-                    const aspectRatio = img.naturalWidth / img.naturalHeight;
-                    height = Math.round(width / aspectRatio);
-                }
-                if (width < img.naturalWidth || height < img.naturalHeight) {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = width;
-                    canvas.height = height;
+                if (img.src.startsWith('data:image')) {
 
-                    ctx.drawImage(img, 0, 0, width, height);
+                    // Regex mimetype
+                    const mimetype = img.src.substring(img.src.indexOf(':') + 1, img.src.indexOf(';'));
 
-                    const resizedImageData = canvas.toDataURL(mimetype);
-                    resolve({width, height, data: resizedImageData});
-                }
-                else {
-                    resolve({width: img.naturalWidth, height: img.naturalHeight, data: img.src});
+                    // Guess height
+                    if (height === null) {
+                        const aspectRatio = img.naturalWidth / img.naturalHeight;
+                        height = Math.round(width / aspectRatio);
+                    }
+
+                    // Resize (if big enough and not SVG)
+                    if ((width < img.naturalWidth || height < img.naturalHeight) && mimetype != 'image/svg+xml') {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const resizedImageData = canvas.toDataURL(mimetype);
+                        resolve({width, height, data: resizedImageData});
+                    }
+                    // Don't resize (returns original)
+                    else {
+                        resolve({width: img.naturalWidth, height: img.naturalHeight, data: img.src});
+                    }
+
                 }
             });
         });
