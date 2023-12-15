@@ -197,13 +197,18 @@ class MetavizExchange {
             // Read bitmap and convert to Base64
             const reader = new FileReader();
             reader.onload = (event) => {
-                // Set bitmap (and rescale optionally)
-                node.controls.bitmap.set(event.target.result, () => {
-                    const [width, height, rescaled] = node.controls.bitmap.rescale(global.cache['MetavizNodeImage']['minWidth']);
-                    node.params.set('resX', width);
-                    node.params.set('resY', height);
-                    node.params.set('uri', rescaled);
-                    node.setSize({width: width + 8, height: height + 8});
+
+                // Rescale bitmap
+                this.rescaleImage({
+                    data: event.target.result,
+                    width: global.cache['MetavizNodeImage']['minWidth']
+                }).then((img) => {
+
+                    // Set image data
+                    node.params.set('resX', img.width);
+                    node.params.set('resY', img.height);
+                    node.params.set('uri', img.data);
+                    node.setSize({width: img.width + 8, height: img.height + 8});
 
                     // Undo/Store
                     metaviz.editor.history.store({
@@ -282,6 +287,38 @@ class MetavizExchange {
         let fileIcon = 'mdi-file';
         if (this.detectImage(file.type)) fileIcon = 'mdi-file-image';
         return fileIcon;
+    }
+
+    /**
+     * Resize bitmap
+     */
+
+    rescaleImage(args = {}) {
+        return new Promise((resolve, reject) => {
+            let { data = null, width = null, height = null, mimetype = 'image/jpeg' } = args;
+            const img = new Image();
+            img.src = data;
+            img.addEventListener('load', (event) => {
+                if (height === null) {
+                    const aspectRatio = img.naturalWidth / img.naturalHeight;
+                    height = Math.round(width / aspectRatio);
+                }
+                if (width < img.naturalWidth || height < img.naturalHeight) {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const resizedImageData = canvas.toDataURL(mimetype);
+                    resolve({width, height, data: resizedImageData});
+                }
+                else {
+                    resolve({width: img.naturalWidth, height: img.naturalHeight, data: img.src});
+                }
+            });
+        });
     }
 
     /**

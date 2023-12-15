@@ -48,9 +48,10 @@ class MetavizNodeImage extends MetavizNode {
             bitmap: new MetavizControlBitmap({
                 uri: this.fixURI(this.getResized(this.params.uri)),
                 onLoad: () => {
-                    // Set initial style
+                    // Set initial style (for old image from server)
                     this.setImageAppearance();
                     this.update();
+                    metaviz.editor.cage.update();
                 }
             }),
 
@@ -138,6 +139,7 @@ class MetavizNodeImage extends MetavizNode {
             // Properties
             if (key == 'uri' && value != '') {
                 this.controls.bitmap.set(this.fixURI(this.getResized(value)), () => {
+                    // Set style (for new image)
                     this.setImageAppearance();
                     this.update();
                     metaviz.editor.cage.update();

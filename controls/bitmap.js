@@ -86,28 +86,4 @@ class MetavizControlBitmap extends MetavizControl {
         return {width: this.img.naturalWidth, height: this.img.naturalHeight};
     }
 
-    /**
-     * Resize image on client browser side
-     */
-
-    rescale(newWidth, newHeight = null, mimetype = 'image/jpeg') {
-        if (newHeight === null) {
-            const aspectRatio = this.img.naturalWidth / this.img.naturalHeight;
-            newHeight = Math.round(newWidth / aspectRatio);
-        }
-        if (newWidth < this.img.naturalWidth || newHeight < this.img.naturalHeight) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = newWidth;
-            canvas.height = newHeight;
-
-            ctx.drawImage(this.img, 0, 0, newWidth, newHeight);
-
-            const resizedImageData = canvas.toDataURL(mimetype);
-            this.img.src = resizedImageData;
-            return [newWidth, newHeight, resizedImageData];
-        }
-        return [this.img.naturalWidth, this.img.naturalHeight, this.img.src];
-    }
-
 }
