@@ -52,6 +52,7 @@ class MetavizNodeImage extends MetavizNode {
                     this.setImageAppearance();
                     this.update();
                     metaviz.editor.cage.update();
+                    if (this.params['uri'].startsWith('data:image')) this.options.uri.hide();
                 }
             }),
 
@@ -148,6 +149,7 @@ class MetavizNodeImage extends MetavizNode {
                     this.setImageAppearance();
                     this.update();
                     metaviz.editor.cage.update();
+                    if (this.params['uri'].startsWith('data:image')) this.options.uri.hide();
                 });
             }
             else if (key == 'style') {
