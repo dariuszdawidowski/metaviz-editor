@@ -1,7 +1,6 @@
 /**
  * Metaviz Node Image
  * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- * (c) 2020-2023 Metaviz Sp. z o.o., All Rights Reserved.
  */
 
 class MetavizNodeImage extends MetavizNode {
@@ -17,6 +16,8 @@ class MetavizNodeImage extends MetavizNode {
         if (!('uri' in this.params)) this.params['uri'] = '';
         if (!('name' in this.params)) this.params['name'] = '';
         if (!('style' in this.params)) this.params['style'] = 'raw';
+        if (!('resX' in this.params)) this.params['resX'] = 0; // Natural image
+        if (!('resY' in this.params)) this.params['resY'] = 0; // resolution (not miniature, not node)
 
         // Migration
         if (this.params['style'] == 'minimal') this.params['style'] = 'raw';

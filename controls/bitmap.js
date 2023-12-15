@@ -91,13 +91,11 @@ class MetavizControlBitmap extends MetavizControl {
      */
 
     rescale(newWidth, newHeight = null, mimetype = 'image/jpeg') {
-        console.log('rescale', this.img.naturalWidth, '->', newWidth);
         if (newHeight === null) {
             const aspectRatio = this.img.naturalWidth / this.img.naturalHeight;
             newHeight = Math.round(newWidth / aspectRatio);
         }
         if (newWidth < this.img.naturalWidth || newHeight < this.img.naturalHeight) {
-            console.log('processing...')
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = newWidth;

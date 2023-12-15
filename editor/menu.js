@@ -183,7 +183,7 @@ class MetavizContextMenu extends TotalProMenu {
                     shortcut: [17, 83],
                     onChange: () => {
                         this.hide();
-                        if (this.history.isDirty()) metaviz.editor.save();
+                        if (metaviz.editor.history.isDirty()) metaviz.editor.save();
                     }
                 })
 

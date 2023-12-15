@@ -197,10 +197,11 @@ class MetavizExchange {
             // Read bitmap and convert to Base64
             const reader = new FileReader();
             reader.onload = (event) => {
-
                 // Set bitmap (and rescale optionally)
                 node.controls.bitmap.set(event.target.result, () => {
                     const [width, height, rescaled] = node.controls.bitmap.rescale(global.cache['MetavizNodeImage']['minWidth']);
+                    node.params.set('resX', width);
+                    node.params.set('resY', height);
                     node.params.set('uri', rescaled);
                     node.setSize({width: width + 8, height: height + 8});
 
