@@ -74,13 +74,16 @@ class MetavizControlBitmap extends MetavizControl {
     /**
      * Get resolution
      * (onLoad depended)
-     * @param constraints: {maxWidth: <Number>}
+     * @param args: {maxWidth: <Number>} get resolution but not higher than given one
      * @returns: {width: <Number>, height: <Number>}
      */
 
-    getResolution(constraints) {
-        const factor = (this.img.naturalWidth > constraints.maxWidth) ? constraints.maxWidth / this.img.naturalWidth : 1;
-        return {width: this.img.naturalWidth * factor, height: this.img.naturalHeight * factor};
+    getResolution(args = {}) {
+        if ('maxWidth' in args) {
+            const factor = (this.img.naturalWidth > args.maxWidth) ? args.maxWidth / this.img.naturalWidth : 1;
+            return {width: this.img.naturalWidth * factor, height: this.img.naturalHeight * factor};
+        }
+        return {width: this.img.naturalWidth, height: this.img.naturalHeight};
     }
 
     /**

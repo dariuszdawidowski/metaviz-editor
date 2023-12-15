@@ -153,6 +153,14 @@ class MetavizNodeImage extends MetavizNode {
 
         // Sockets
         this.addSockets();
+
+        // Set appearance for empty image
+        if (!this.fixURI(this.params.uri)) {
+            this.params['style'] = 'instant';
+            this.setImageAppearance();
+            this.update();
+        }
+
     }
 
     /**
@@ -174,8 +182,8 @@ class MetavizNodeImage extends MetavizNode {
         return {
             width: this.transform.w,
             height: this.transform.h,
-            minWidth: 64,
-            minHeight: 64,
+            minWidth: 128,
+            minHeight: 128,
             maxWidth: 8192,
             maxHeight: 8192,
             mode: 'ratio'
@@ -198,11 +206,16 @@ class MetavizNodeImage extends MetavizNode {
             metaviz.events.disable('editor:*');
             metaviz.events.enable('browser:prevent');
 
+            // Image original size
+            const img = this.controls.bitmap.getResolution();
+
             // Popup window
             const popup = new TotalPopupWindow({
                 container: metaviz.render.container,
-                width: 600, height: 600,
-                minWidth: 300, minHeight: 300,
+                width: Math.min(window.innerWidth * 0.9, img.width + 6 + 6),
+                height: Math.min(window.innerHeight * 0.9, img.height + 6 + 26 + 6),
+                minWidth: 320,
+                minHeight: 240,
                 margin: {top: 50},
                 side: metaviz.system.os.name == 'macos' ? 'left' : 'right',
                 content: div,
