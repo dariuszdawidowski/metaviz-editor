@@ -207,14 +207,11 @@ class MetavizNodeImage extends MetavizNode {
             metaviz.events.disable('editor:*');
             metaviz.events.enable('browser:prevent');
 
-            // Image original size
-            const img = this.controls.bitmap.getResolution();
-
             // Popup window
             const popup = new TotalPopupWindow({
                 container: metaviz.render.container,
-                width: Math.min(window.innerWidth * 0.9, img.width + 6 + 6),
-                height: Math.min(window.innerHeight * 0.9, img.height + 6 + 26 + 6),
+                width: Math.min(window.innerWidth * 0.9, this.params.resX + 6 + 6),
+                height: Math.min(window.innerHeight * 0.9, this.params.resY + 6 + 26 + 6),
                 minWidth: 320,
                 minHeight: 240,
                 margin: {top: 50},
