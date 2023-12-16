@@ -63,6 +63,7 @@
     width: calc(100% - 24px);
     height: calc(100% - 24px);
     margin: 12px;
+    overflow: hidden;
 }
 
 .metaviz-node-image.style-instant.drag .metaviz-control-bitmap {
