@@ -1,0 +1,83 @@
+/* Popup Window */
+
+.total-popup-window {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    z-index: var(--z-popup);
+}
+
+.total-popup-window .border.resize {
+    transition: background-color 0.5s;
+}
+
+.total-popup-window .border.resize:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.5s;
+}
+
+.total-popup-window .top-left.resize:hover {
+    cursor: nwse-resize;
+}
+
+.total-popup-window .top.resize:hover {
+    cursor: ns-resize;
+}
+
+.total-popup-window .top-right.resize:hover {
+    cursor: nesw-resize;
+}
+
+.total-popup-window .left.resize:hover {
+    cursor: ew-resize;
+}
+
+.total-popup-window .right.resize:hover {
+    cursor: ew-resize;
+}
+
+.total-popup-window .bottom-left.resize:hover {
+    cursor: nesw-resize;
+}
+
+.total-popup-window .bottom.resize:hover {
+    cursor: ns-resize;
+}
+
+.total-popup-window .bottom-right.resize:hover {
+    cursor: nwse-resize;
+}
+
+.total-popup-window .button {
+    margin: 0 6px 0 0;
+    transition: color 0.5s;
+    font-size: 18px;
+}
+
+.total-popup-window .button:hover {
+    cursor: pointer;
+    color: #999;
+    transition: color 0.5s;
+}
+
+.total-popup-window .content {
+    width: 100%;
+    height: 100%;
+}
+
+/* Popup Window Tabs */
+
+.total-popup-window .tabs .tabbar {
+    background: green;
+}
+
+.total-popup-window .tabs .content {
+    background: white;
+}
+
+.total-popup-window .tabs .tab {
+    background: red;
+    border: 1px solid white;
+}

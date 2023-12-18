@@ -26,9 +26,11 @@ If you want to start using the tool quickly - go to the distribution page https:
 
 Total Diagram: https://github.com/dariuszdawidowski/total-diagram
 
-Total Text: https://github.com/dariuszdawidowski/total-text
+Total Popup: https://github.com/dariuszdawidowski/total-popup
 
 Total Pro Menu: https://github.com/dariuszdawidowski/total-pro-menu
+
+Total Text: https://github.com/dariuszdawidowski/total-text
 
 # Third party libraries
 
@@ -39,6 +41,7 @@ Emoji Picker: https://github.com/nolanlawson/emoji-picker-element
 Clone these dependency repositories next to metaviz-editor project:
 ```bash
 git clone git@github.com:dariuszdawidowski/total-diagram.git
+git clone git@github.com:dariuszdawidowski/total-popup.git
 git clone git@github.com:dariuszdawidowski/total-pro-menu.git
 git clone git@github.com:dariuszdawidowski/total-text.git
 ```
@@ -48,6 +51,7 @@ Directory structure:
 metaviz/
 |-- metaviz-editor/
 |-- total-diagram/
+|-- total-popup/
 |-- total-pro-menu/
 |-- total-text/
 ```
