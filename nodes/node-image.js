@@ -18,6 +18,7 @@ class MetavizNodeImage extends MetavizNode {
         if (!('style' in this.params)) this.params['style'] = 'instant'; // minimal | raw | instant | postcard
         if (!('resX' in this.params)) this.params['resX'] = 0; // Natural image
         if (!('resY' in this.params)) this.params['resY'] = 0; // resolution (not miniature, not node)
+        if (!('rotate' in this.params)) this.params['rotate'] = 0; // should be rotated by angle
 
         // Size 0: get from image, N: override image (resized by hand)
         this.transform.w = ('w' in args) ? args['w'] : 0;
@@ -222,8 +223,14 @@ class MetavizNodeImage extends MetavizNode {
             let size_h = Math.min(Math.round(window.innerHeight * 0.95), this.params.resY + toolbar + (margin * 2));
 
             // Portrait
-            const aspect = this.params.resY / this.params.resX;
-            if (this.params.resY >= this.params.resX) size_w = Math.round(size_h / aspect);
+            if (this.params.resY >= this.params.resX) {
+                const aspect = this.params.resY / this.params.resX;
+                size_w = Math.round(size_h / aspect);
+            }
+            else if (this.params.rotate == 90 || this.params.rotate == 270) {
+                const aspect = this.params.resX / this.params.resY;
+                size_w = Math.round(size_h / aspect);
+            }
 
             // Popup window
             const popup = new TotalPopupWindow({
