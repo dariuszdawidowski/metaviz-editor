@@ -51,34 +51,9 @@ class MetavizEditorKeyboard {
                 this.key.shift = true;
             }
 
-            // CTRL/CMD+O: Open
-            if (this.key.ctrl && !this.key.alt && event.code == 'KeyO') {
-                event.preventDefault();
-                metaviz.editor.open();
-            }
-
-            // CTRL/CMD+S: Save
-            else if (this.key.ctrl && !this.key.alt && event.code == 'KeyS') {
-                event.preventDefault();
-                if (this.editor.history.isDirty()) this.editor.save();
-            }
-
-            // CTRL/CMD+L: Create/Delete Link
-            else if (this.key.ctrl && !this.key.alt && event.code == 'KeyL') {
-                event.preventDefault();
-                this.editor.linkToggleSelected();
-            }
-
-            // CTRL/CMD+F: Search
-            else if (this.key.ctrl && !this.key.alt && event.code == 'KeyF') {
-                event.preventDefault();
-                const field = metaviz.container.element.querySelector('input.search');
-                if (field) field.focus();
-            }
-
         });
 
-        // Key down
+        // Key down (disabled during text editing)
 
         metaviz.events.subscribe('editor:keydown', document, 'keydown', (event) => {
             // No node is selected and editing is not locked
@@ -88,6 +63,31 @@ class MetavizEditorKeyboard {
                 if (this.key.ctrl && !this.key.alt && event.code == 'KeyA') {
                     event.preventDefault();
                     this.editor.selection.all();
+                }
+
+                // CTRL/CMD+O: Open
+                else if (this.key.ctrl && !this.key.alt && event.code == 'KeyO') {
+                    event.preventDefault();
+                    metaviz.editor.open();
+                }
+
+                // CTRL/CMD+S: Save
+                else if (this.key.ctrl && !this.key.alt && event.code == 'KeyS') {
+                    event.preventDefault();
+                    if (this.editor.history.isDirty()) this.editor.save();
+                }
+
+                // CTRL/CMD+L: Create/Delete Link
+                else if (this.key.ctrl && !this.key.alt && event.code == 'KeyL') {
+                    event.preventDefault();
+                    this.editor.linkToggleSelected();
+                }
+
+                // CTRL/CMD+F: Search
+                else if (this.key.ctrl && !this.key.alt && event.code == 'KeyF') {
+                    event.preventDefault();
+                    const field = metaviz.container.element.querySelector('input.search');
+                    if (field) field.focus();
                 }
 
                 // CTRL/CMD+Z: Undo
