@@ -48,7 +48,7 @@ class MetavizControlBitmap extends MetavizControl {
 
     set(uri, onLoad = null) {
         this.onLoad = onLoad;
-        this.element.style.backgroundColor = 'white';
+        //this.element.style.backgroundColor = 'white';
         this.img.src = uri;
     }
 

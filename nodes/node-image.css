@@ -41,19 +41,43 @@
 /* Style raw */
 
 .metaviz-node-image.style-raw .metaviz-control-bitmap {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+.metaviz-node-image.style-raw.drag .metaviz-control-bitmap {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    opacity: 0.69;
+}
+
+.metaviz-node-image.style-raw .metaviz-control-input {
+    display: none;
+}
+
+.metaviz-node-image.style-raw,
+.metaviz-node-image.style-raw .metaviz-control-bitmap {
+    background: transparent;
+}
+
+/* Style minimalistic */
+
+.metaviz-node-image.style-minimal .metaviz-control-bitmap {
     width: calc(100% - 8px);
     height: calc(100% - 8px);
     margin: 4px;
 }
 
-.metaviz-node-image.style-raw.drag .metaviz-control-bitmap {
+.metaviz-node-image.style-minimal.drag .metaviz-control-bitmap {
     width: calc(100% - 8px);
     height: calc(100% - 8px);
     margin: 4px;
     opacity: 0.69;
 }
 
-.metaviz-node-image.style-raw .metaviz-control-input {
+.metaviz-node-image.style-minimal .metaviz-control-input {
     display: none;
 }
 

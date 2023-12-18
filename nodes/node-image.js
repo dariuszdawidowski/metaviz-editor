@@ -15,12 +15,9 @@ class MetavizNodeImage extends MetavizNode {
         // Meta defaults
         if (!('uri' in this.params)) this.params['uri'] = '';
         if (!('name' in this.params)) this.params['name'] = '';
-        if (!('style' in this.params)) this.params['style'] = 'instant';
+        if (!('style' in this.params)) this.params['style'] = 'instant'; // minimal | raw | instant | postcard
         if (!('resX' in this.params)) this.params['resX'] = 0; // Natural image
         if (!('resY' in this.params)) this.params['resY'] = 0; // resolution (not miniature, not node)
-
-        // Migration
-        if (this.params['style'] == 'minimal') this.params['style'] = 'raw';
 
         // Size 0: get from image, N: override image (resized by hand)
         this.transform.w = ('w' in args) ? args['w'] : 0;
@@ -101,6 +98,7 @@ class MetavizNodeImage extends MetavizNode {
                 placeholder: 'Style',
                 options: {
                     'raw': {icon: '', text: 'Style: Raw'},
+                    'minimal': {icon: '', text: 'Style: Minimalistic'},
                     'instant': {icon: '', text: 'Style: Instant'},
                     'postcard': {icon: '', text: 'Style: Postcard'},
                 },
@@ -281,10 +279,18 @@ class MetavizNodeImage extends MetavizNode {
      */
 
     setImageAppearance() {
-        this.element.classList.remove('style-raw', 'style-instant', 'style-postcard');
+        this.element.classList.remove('style-raw', 'style-minimal', 'style-instant', 'style-postcard');
         this.element.classList.add(`style-${this.params.style}`);
         switch (this.params.style) {
             case 'raw':
+                // If not set then get dimensions from image size (just created node)
+                if (this.transform.w == 0) {
+                    const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
+                    this.transform.w = resolution.width + this.border;
+                    this.transform.h = resolution.height + this.border;
+                }
+                break;
+            case 'minimal':
                 // If not set then get dimensions from image size (just created node)
                 if (this.transform.w == 0) {
                     const resolution = this.controls.bitmap.getResolution({maxWidth: 1000});
