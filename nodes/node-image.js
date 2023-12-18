@@ -225,7 +225,7 @@ class MetavizNodeImage extends MetavizNode {
 
             // Portrait
             const aspect = this.params.resY / this.params.resX;
-            if (this.params.resY > this.params.resX) size_w = Math.round(size_h / aspect);
+            if (this.params.resY >= this.params.resX) size_w = Math.round(size_h / aspect);
 
             // Popup window
             const popup = new TotalPopupWindow({
