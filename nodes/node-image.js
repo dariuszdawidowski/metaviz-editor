@@ -128,10 +128,20 @@ class MetavizNodeImage extends MetavizNode {
 
             // Download file
             download: new TotalProMenuOption({
-                icon: '<i class="fas fa-cloud-download-alt"></i>',
-                text: 'Download file',
+                icon: this.params.uri ? '<span class="mdi mdi-cloud-download"></span>' : '<span class="mdi mdi-cloud-upload"></span>',
+                text: this.params.uri ? 'Download file' : 'Upload file',
                 onChange: () => {
-                    metaviz.exchange.downloadFile({path: this.fixURI(this.params.uri), name: 'file'});
+                    // Download
+                    if (this.params.uri) {
+                        metaviz.exchange.downloadFile({
+                            path: this.fixURI(this.params.uri),
+                            name: this.params.filename || 'image'
+                        });
+                    }
+                    // Upload
+                    else {
+                        this.uploadFile();
+                    }
                 }
             }),
 
@@ -201,26 +211,37 @@ class MetavizNodeImage extends MetavizNode {
     }
 
     /**
+     * Upload image
+     */
+
+    async uploadFile() {
+
+        // File object
+        let file = null;
+
+        // Open file dialog
+        try {
+            const [fileHandle] = await window.showOpenFilePicker();
+            file = await fileHandle.getFile();
+        }
+        catch (error) {
+        }
+
+        // Send file
+        if (file && metaviz.exchange.detectImage(file.type)) {
+            metaviz.exchange.sendBlob(file, this, () => {
+                this.options.download.setIcon('<span class="mdi mdi-cloud-download"></span>');
+                this.options.download.setName('Download file');
+            });
+        }
+    }
+
+    /**
      * Click: upload image if empty
      */
 
-    async click() {
-        if (!this.fixURI(this.params.uri) && this.focused) {
-
-            // File object
-            let file = null;
-
-            // Open file dialog
-            try {
-                const [fileHandle] = await window.showOpenFilePicker();
-                file = await fileHandle.getFile();
-            }
-            catch (error) {
-            }
-
-            // Send file
-            if (file && metaviz.exchange.detectImage(file.type)) metaviz.exchange.sendBlob(file, this);
-        }
+    click() {
+        if (!this.fixURI(this.params.uri) && this.focused) this.uploadFile();
     }
 
     /**

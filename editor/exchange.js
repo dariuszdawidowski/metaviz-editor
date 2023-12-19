@@ -208,9 +208,10 @@ class MetavizExchange {
      * Read binary data and convert to Base64
      * file: File object
      * node: MetavizNode object
+     * onLoad: callback (optional)
      */
 
-    sendBlob(file, node = null) {
+    sendBlob(file, node, onLoad = null) {
         const reader = new FileReader();
         reader.onload = (event) => {
 
@@ -231,6 +232,9 @@ class MetavizExchange {
                     action: 'add',
                     nodes: [node.serialize('transform')]
                 });
+
+                // Callback
+                if (onLoad) onLoad();
             });
 
         }
