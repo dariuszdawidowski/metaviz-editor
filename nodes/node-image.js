@@ -206,6 +206,14 @@ class MetavizNodeImage extends MetavizNode {
 
     dblclick() {
         if (this.fixURI(this.params.uri)) {
+
+            // Compute resolution if not present
+            if (this.params.resX == 0 || this.params.resY == 0) {
+                const resolution = this.controls.bitmap.getResolution();
+                this.params.resX = resolution.width;
+                this.params.resY = resolution.height;
+            }
+
             // Div for image
             const div = document.createElement('div');
             div.style.backgroundImage = `url(${this.fixURI(this.params.uri)})`;
