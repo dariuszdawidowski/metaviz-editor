@@ -72,8 +72,10 @@ class MetavizExchange {
 
     processURL(url, position) {
 
+        const mimetype = this.detectExtension(url);
+
         // Image
-        if (this.detectExtension(url) == '*/image') {
+        if (mimetype == '*/image') {
             const node = metaviz.render.nodes.add({
                 id: crypto.randomUUID(),
                 type: 'MetavizNodeImage',
@@ -300,7 +302,11 @@ class MetavizExchange {
      */
 
     detectExtension(uri) {
-        if (global.cache['MetavizNodeImage']['extensions'].includes(uri.ext())) return '*/image';
+        const ext = uri.ext();
+        if (global.cache['MetavizNodeImage']['extensions'].includes(ext)) return '*/image';
+        else if (ext == 'pdf') return 'application/pdf';
+        else if (ext == 'json') return 'application/json';
+        else if (ext == 'xml') return 'text/xml';
         return 'text/uri-list';
     }
 
@@ -382,6 +388,7 @@ class MetavizExchange {
         // File from disk
         if (path) {
             a.href = path;
+            a.setAttribute('target', '_blank');
         }
 
         // Raw blob
