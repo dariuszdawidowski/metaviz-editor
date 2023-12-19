@@ -219,8 +219,8 @@ class MetavizNodeImage extends MetavizNode {
             // Window size
             const margin = 6;
             const toolbar = 26;
-            let size_w = 0; //Math.min(Math.round(window.innerWidth * 0.95), this.params.resX + (margin * 2));
-            let size_h = 0; //Math.min(Math.round(window.innerHeight * 0.95), this.params.resY + toolbar + (margin * 2));
+            let size_w = Math.min(Math.round(window.innerWidth * 0.95), this.params.resX + (margin * 2));
+            let size_h = Math.min(Math.round(window.innerHeight * 0.95), this.params.resY + toolbar + (margin * 2));
 
             // Portrait
             if (this.params.resY >= this.params.resX) {
