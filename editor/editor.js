@@ -1119,6 +1119,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Dropped position
         const offset = metaviz.render.screen2World({x: event.clientX, y: event.clientY});
 
+        // Collide with exising node?
+        const collision = metaviz.render.nodes.get(event.target)
+
         // Start stack
         this.stack.clear();
 
@@ -1137,7 +1140,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         for (const file of event.dataTransfer.files) {
 
             // File or Image
-            metaviz.exchange.uploadFile(file, this.stack.get(offset));
+            metaviz.exchange.uploadFile(file, this.stack.get(offset), collision);
 
             // Add to stack
             this.stack.add(40);

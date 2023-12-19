@@ -31,9 +31,11 @@ class MetavizExchange {
     /**
      * Detect File type and advance to processing
      * file: File object
+     * offset: position on board
+     * node: upload to existing node <MetavizNode object>
      */
 
-    uploadFile(file, offset = {x: 0, y: 0}) {
+    uploadFile(file, offset = {x: 0, y: 0}, node = null) {
 
         // Metaviz JSON/XML file
         if (file.name.ext('mv')) {
@@ -60,7 +62,7 @@ class MetavizExchange {
 
         // Regular file or image
         else {
-            this.processBlob(file, offset);
+            this.processBlob(file, offset, node);
         }
     }
 
@@ -167,9 +169,15 @@ class MetavizExchange {
      * Generic file upload
      * file: File object
      * position: {x,y} on board
+     * node: assign to exising node <MetavizNode object>
      */
 
-    processBlob(file, position) {
+    processBlob(file, position, node = null) {
+
+        if (!this.detectImage(file.type)) {
+            alert(`Not an image file! Accepted extensions: ${global.cache['MetavizNodeImage']['extensions'].join(', ')}`);
+            return;
+        }
 
         // Exceed max file size
         if (file.size > global.cache['MetavizNodeFile']['maxSize']) {
@@ -180,11 +188,20 @@ class MetavizExchange {
         // Pick proper icon according to type
         const fileIcon = this.detectIcon(file);
 
-        // Create Image Node
-        if (this.detectImage(file.type)) {
+        // Accept given node?
+        if (node) {
+            if (node.constructor.name == 'MetavizNodeImage') {
+                if (node.params.uri) node = null;
+            }
+            else {
+                node = null;
+            }
+        }
+        // Create new node
+        if (!node) {
 
             // New node
-            const node = metaviz.render.nodes.add({
+            node = metaviz.render.nodes.add({
                 id: crypto.randomUUID(),
                 parent: metaviz.render.nodes.parent,
                 type: 'MetavizNodeImage',
@@ -195,11 +212,12 @@ class MetavizExchange {
                 ...position
             });
 
-            // Read bitmap
-            this.sendBlob(file, node);
         }
 
-        // Check empty board/folder
+        // Read bitmap
+        this.sendBlob(file, node);
+
+        // Check empty/full board/folder
         metaviz.editor.checkEmpty();
 
     }
