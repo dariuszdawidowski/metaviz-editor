@@ -166,6 +166,7 @@ class MetavizExchange {
     /**
      * Generic file upload
      * file: File object
+     * position: {x,y} on board
      */
 
     processBlob(file, position) {
@@ -194,36 +195,46 @@ class MetavizExchange {
                 ...position
             });
 
-            // Read bitmap and convert to Base64
-            const reader = new FileReader();
-            reader.onload = (event) => {
-
-                // Rescale bitmap
-                this.rescaleImage({
-                    data: event.target.result,
-                    width: global.cache['MetavizNodeImage']['minWidth']
-                }).then((img) => {
-
-                    // Set image data
-                    node.params.set('resX', img.width);
-                    node.params.set('resY', img.height);
-                    node.params.set('uri', img.data);
-                    node.setSize({width: img.width + 8, height: img.height + 8});
-
-                    // Undo/Store
-                    metaviz.editor.history.store({
-                        action: 'add',
-                        nodes: [{...node.serialize('transform'), ...position}]
-                    });
-                });
-
-            }
-            reader.readAsDataURL(file);
+            // Read bitmap
+            this.sendBlob(file, node);
         }
 
         // Check empty board/folder
         metaviz.editor.checkEmpty();
 
+    }
+
+    /**
+     * Read binary data and convert to Base64
+     * file: File object
+     * node: MetavizNode object
+     */
+
+    sendBlob(file, node = null) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+
+            // Rescale bitmap
+            this.rescaleImage({
+                data: event.target.result,
+                width: global.cache['MetavizNodeImage']['minWidth']
+            }).then((img) => {
+
+                // Set image data
+                node.params.set('resX', img.width);
+                node.params.set('resY', img.height);
+                node.params.set('uri', img.data);
+                node.setSize({width: img.width + 8, height: img.height + 8});
+
+                // Undo/Store
+                metaviz.editor.history.store({
+                    action: 'add',
+                    nodes: [node.serialize('transform')]
+                });
+            });
+
+        }
+        reader.readAsDataURL(file);
     }
 
     /**

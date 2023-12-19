@@ -201,10 +201,34 @@ class MetavizNodeImage extends MetavizNode {
     }
 
     /**
-     * Click: show image on lightbox
+     * Click: upload image if empty
+     */
+
+    async click() {
+        if (!this.fixURI(this.params.uri) && this.focused) {
+
+            // File object
+            let file = null;
+
+            // Open file dialog
+            try {
+                const [fileHandle] = await window.showOpenFilePicker();
+                file = await fileHandle.getFile();
+            }
+            catch (error) {
+            }
+
+            // Send file
+            if (file && metaviz.exchange.detectImage(file.type)) metaviz.exchange.sendBlob(file, this);
+        }
+    }
+
+    /**
+     * Double Click: show image on lightbox
      */
 
     dblclick() {
+        // Has image
         if (this.fixURI(this.params.uri)) {
 
             // Compute resolution if not present
