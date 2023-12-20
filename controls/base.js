@@ -90,4 +90,11 @@ class MetavizControl {
         this.element.blur();
     }
 
+    /**
+     * Get selected text
+     */
+
+    getSelection() {
+        return '';
+    }
 }
