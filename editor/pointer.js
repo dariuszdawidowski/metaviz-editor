@@ -90,10 +90,6 @@ class MetavizEditorPointer {
                 if (event.button == 0) {
                     this.pointerEnd(event);
                 }
-                // Right button also selects with menu
-                /*else if (event.button == 2) {
-                    this.pointerEndForMenu(event);
-                }*/
             }
         });
 
@@ -296,117 +292,43 @@ class MetavizEditorPointer {
         // Drop element
         if (this.editor.interaction.mode == 'drag') {
 
-            // Drop Node
+            // Drop node(s)
             if (this.editor.interaction.object == 'node') {
 
-                // Dropping collision with targets
-                let parentFound = false;
+                let parentFound = null;
+
+                // Check elements that have been dropped on
                 for (const target of event.composedPath()) {
 
-                    // Div (on Node)
-                    if (target.nodeName == 'DIV') {
+                    if (target.nodeName == 'DIV' || target.nodeName == 'SPAN') {
 
-                        // Parent (Folder, Group, Frame)
-                        if (target.hasClass('metaviz-parent')) {
-                            const parent = metaviz.render.nodes.get(target);
-                            for (const child of this.editor.selection.get().filter(node => !node.locked.move)) {
-                                child.transform.clear();
-                                child.render();
-                                child.update();
-                                child.setStyle('pointer-events', 'auto');
-                                child.setStyle('z-index', 'var(--z-node)');
-                                child.edit(false);
-                                child.element.classList.remove('drag');
-                                parent.setChildren(
-                                    child,
-                                    target.dataset.slot,
-                                    this.offset.getCoords()
-                                );
-                            }
-                            this.editor.selection.clear();
-                            this.editor.update();
-                            parentFound = true;
+                        // Drop on node
+                        if (target.hasClass('metaviz-node')) {
+                            parentFound = metaviz.render.nodes.get(target.dataset.id);
                             break;
                         }
-                    }
 
-                    // Span (on Toolbar)
-                    else if (target.nodeName == 'SPAN') {
-
-                        // Toolbar Breadcrumb (and not current folder)
-                        if (target.hasClass('metaviz-breadcrumb') && target.dataset.folder != metaviz.render.nodes.parent) {
-                            const parent = target.dataset.folder != undefined ? metaviz.render.nodes.get(target.dataset.folder) : null;
-                            // Bind to root folder
-                            if (parent == null) {
-                                if (confirm('Move selected node(s) to the root folder?')) {
-                                    for (const node of this.editor.selection.get().filter(node => !node.locked.move)) {
-                                        const parentPrev = node.parent;
-                                        const positionPrev = {
-                                            x: node.transform.x - this.offset.getCoords().x,
-                                            y: node.transform.y - this.offset.getCoords().y
-                                        };
-                                        node.parent = null;
-                                        node.transform.clear();
-                                        node.render();
-                                        node.update();
-                                        node.setStyle('pointer-events', 'auto');
-                                        node.setStyle('z-index', 'var(--z-node)');
-                                        node.edit(false);
-                                        node.element.classList.remove('drag');
-                                        node.visible(false);
-                                        metaviz.editor.history.store({
-                                            action: 'parent',
-                                            node: {
-                                                id: node.id,
-                                                parent: null,
-                                                parentPrev: parentPrev,
-                                                position: {x: 0, y: 0},
-                                                positionPrev: positionPrev
-                                            }
-                                        });
-                                    }
-                                    this.editor.selection.clear();
-                                    this.editor.update();
-                                }
-                                else {
-                                    metaviz.editor.dragSelectionCancel();
-                                }
-                            }
-                            // Bind to new parent folder
-                            else {
-                                parent.setChildren(this.editor.selection.get(), target.dataset.slot);
-                            }
-                            parentFound = true;
-                            break;
-                        }
-                        // Cancel move animation
-                        metaviz.editor.dragSelectionCancel();
                     }
                 }
 
-                // End of dragging
-                if (!parentFound) {
-                    // Drop nodes
-                    this.editor.dragSelectionEnd();
-                }
+                // End of dragging node(s)
+                this.editor.dragSelectionEnd(parentFound);
 
             }
 
             // End drag link
             else if (this.editor.interaction.object == 'socket') {
 
-                let nodeFound = false;
+                let nodeFound = null;
 
+                // Check elements that have been dropped on
                 for (const target of event.composedPath()) {
 
-                    // Div
-                    if (target.nodeName == 'DIV') {
+                    if (target.nodeName == 'DIV' || target.nodeName == 'SPAN') {
 
                         // Link to Node
                         if (target.hasClass('metaviz-node')) {
-
-                            this.editor.dragLinkEnd(metaviz.render.nodes.get(target.dataset.id));
-                            nodeFound = true;
+                            nodeFound = metaviz.render.nodes.get(target.dataset.id);
                             break;
                         }
 
@@ -414,11 +336,8 @@ class MetavizEditorPointer {
 
                 }
 
-                // End of dragging
-                if (!nodeFound) {
-                    // Drop nodes
-                    this.editor.dragLinkEnd(null);
-                }
+                // End of dragging link
+                this.editor.dragLinkEnd(nodeFound);
             }
 
             // End blossoming
@@ -436,44 +355,11 @@ class MetavizEditorPointer {
 
         }
 
-        // Normal click-up
-        // else {
-
-            // Passtrough click
-            // this.clicked.click();
-
-        // }
-
         // Clear
         this.editor.interaction.mode = 'idle';
         this.editor.interaction.object = null;
         this.dragStarted = false;
     }
-
-    /**
-     * Mouse up: Drop/End (right button)
-     */
-
-    /*pointerEndForMenu(event) {
-
-        // If it's not during selection
-        if (!this.editor.keyboard.key.ctrl) {
-
-            // If any node is pointed
-            this.clicked = metaviz.render.nodes.get(event.target);
-            if (this.clicked) {
-
-                // Clear selection
-                this.editor.selection.clear();
-
-                // Select this node
-                this.editor.selection.set(this.clicked);
-
-                // Interacting on node
-                this.editor.interaction.object = 'node';
-            }
-        }
-    }*/
 
     /**
      * Doubleclick

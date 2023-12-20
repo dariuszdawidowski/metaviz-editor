@@ -544,49 +544,60 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     /**
      * Drop selected nodes
+     * parent: node dropped on
      */
 
-    dragSelectionEnd() {
+    dragSelectionEnd(parent = null) {
 
-        // Dragged node returns to normal z-index and events
-        for (const node of this.selection.get()) {
+        // Dropped on parent
+        if (parent) {
+            parent.setChildren(this.selection.get().filter(node => !node.locked.move));
+        }
 
-            // Unlocked only
-            if (!node.locked.move) {
+        // Dropped on board
+        else {
 
-                // Remove drag class
-                node.element.classList.remove('drag');
+            // Dragged node returns to normal z-index and events
+            for (const node of this.selection.get()) {
 
-                // Snap to grid if enabled
-                if (metaviz.config.snap.grid.enabled) {
-                    node.setPosition(this.snapToGrid(node.transform.x, node.transform.y));
-                    node.update();
-                    node.links.update();
-                }
+                // Unlocked only
+                if (!node.locked.move) {
 
-                // Regular Node
-                node.setStyle('pointer-events', 'auto');
-                node.setStyle('z-index', 'var(--z-node)');
-                node.edit(true);
+                    // Remove drag class
+                    node.element.classList.remove('drag');
 
-                // Update/Undo/Sync
-                if (this.selection.transform.total() != 0) {
+                    // Snap to grid if enabled
+                    if (metaviz.config.snap.grid.enabled) {
+                        node.setPosition(this.snapToGrid(node.transform.x, node.transform.y));
+                        node.update();
+                        node.links.update();
+                    }
 
-                    // Sync to undo
-                    this.history.store({
-                        action: 'move',
-                        nodes: [node.id],
-                        position: {x: node.transform.x, y: node.transform.y},
-                        positionPrev: {x: node.transform.prev.x, y: node.transform.prev.y}
-                    });
+                    // Regular Node
+                    node.setStyle('pointer-events', 'auto');
+                    node.setStyle('z-index', 'var(--z-node)');
+                    node.edit(true);
+
+                    // Update/Undo/Sync
+                    if (this.selection.transform.total() != 0) {
+
+                        // Sync to undo
+                        this.history.store({
+                            action: 'move',
+                            nodes: [node.id],
+                            position: {x: node.transform.x, y: node.transform.y},
+                            positionPrev: {x: node.transform.prev.x, y: node.transform.prev.y}
+                        });
+                    }
+
                 }
 
             }
 
-        }
+            // Show cage again
+            this.cage.show();
 
-        // Show cage again
-        this.cage.show();
+        }
 
     }
 
