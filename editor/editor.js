@@ -574,20 +574,27 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     }
 
                     // Regular Node
-                    node.setStyle('pointer-events', 'auto');
-                    node.setStyle('z-index', 'var(--z-node)');
-                    node.edit(true);
+                    if (!node.slot) {
+                        node.setStyle('pointer-events', 'auto');
+                        node.setStyle('z-index', 'var(--z-node)');
+                        node.edit(true);
 
-                    // Update/Undo/Sync
-                    if (this.selection.transform.total() != 0) {
+                        // Update/Undo/Sync
+                        if (this.selection.transform.total() != 0) {
 
-                        // Sync to undo
-                        this.history.store({
-                            action: 'move',
-                            nodes: [node.id],
-                            position: {x: node.transform.x, y: node.transform.y},
-                            positionPrev: {x: node.transform.prev.x, y: node.transform.prev.y}
-                        });
+                            // Sync to undo
+                            this.history.store({
+                                action: 'move',
+                                nodes: [node.id],
+                                position: {x: node.transform.x, y: node.transform.y},
+                                positionPrev: {x: node.transform.prev.x, y: node.transform.prev.y}
+                            });
+                        }
+                    }
+
+                    // Node in slot
+                    else {
+                        node.parentNode.dragSelectionEnd();
                     }
 
                 }

@@ -357,7 +357,7 @@ class MetavizNode extends TotalDiagramNode {
         return null;
     }
 
-    setChildren(node, slot, offset = null) {
+    setChildren(node, slot = null, offset = null) {
         node.setParent(this, slot);
     }
 
