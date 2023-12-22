@@ -303,7 +303,7 @@ class MetavizEditorPointer {
                     if (target.nodeName == 'DIV' || target.nodeName == 'SPAN') {
 
                         // Drop on node
-                        if (target.hasClass('metaviz-node')) {
+                        if (target.hasClass('metaviz-node') && metaviz.editor.selection.getFocused().id != target.dataset.id) {
                             parentFound = metaviz.render.nodes.get(target.dataset.id);
                             break;
                         }

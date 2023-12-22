@@ -338,12 +338,9 @@ class MetavizNode extends TotalDiagramNode {
             this.parent = node;
             this.parentNode = metaviz.render.nodes.get(node.id);
         }
-        // Record children
-        //this.parent.children.push(this);
     }
 
     unParent() {
-        //this.parent.children.remove(this);
         this.parent = null;
         this.parentNode = null;
         if (this.slot) this.slot = null;
