@@ -551,8 +551,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Dropped on parent
         if (parent) {
-            for (const node of this.selection.get().filter(node => !node.locked.move)) {
-                if (parent.id != node.id) parent.setChildren(node);
+            // Unparent
+            if (parent == 'unChildren') {
+                this.selection.getFocused().parentNode.unChildren(this.selection.get().filter(node => !node.locked.move));
+            }
+            // Parent to other node
+            else {
+                parent.setChildren(this.selection.get().filter(node => !node.locked.move));
             }
         }
 

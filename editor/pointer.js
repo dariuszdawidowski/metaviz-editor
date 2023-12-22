@@ -308,6 +308,12 @@ class MetavizEditorPointer {
                             break;
                         }
 
+                        // Drop on breadcrumb
+                        else if (target.hasClass('metaviz-breadcrumb') && target.dataset.folder != metaviz.render.nodes.parent) {
+                            parentFound = target.dataset.folder != undefined ? metaviz.render.nodes.get(target.dataset.folder) : 'unChildren';
+                            break;
+                        }
+
                     }
                 }
 
