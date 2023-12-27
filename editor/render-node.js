@@ -993,7 +993,7 @@ class MetavizNode extends TotalDiagramNode {
      * This is fallback method, usually node requires own implementation
      */
 
-    export(format) {
+    export(format, args = {}) {
 
         if (format == 'miniature') {
             return `<div class="miniature" data-id="${this.id}">${this.icon() || this.name}</div>`;

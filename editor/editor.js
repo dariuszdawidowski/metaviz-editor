@@ -963,7 +963,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         let html = null;
 
         // Any nodes selected?
-        if (this.selection.get().length > 0) {
+        if (this.selection.count() > 0) {
 
             // If currently editing text and text is selected then copy raw text not node json
             const control = this.selection.getFocused().getEditingControl();
@@ -1378,7 +1378,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     export(format) {
-        const svg = metaviz.format.serialize('image/svg+xml', metaviz.render.nodes.get('*'));
+        const nodes = this.selection.count() ? this.selection.get() : metaviz.render.nodes.get('*').filter(node => node.parent == metaviz.render.nodes.parent);
+        const svg = metaviz.format.serialize('image/svg+xml', nodes);
         metaviz.exchange.downloadFile({data: svg, name: 'metaviz-diagram.svg'});
     }
 

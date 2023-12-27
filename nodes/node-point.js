@@ -44,17 +44,19 @@ class MetavizNodePoint extends MetavizNode {
      * Export node to different format
      */
 
-    export(format) {
+    export(format, args = {}) {
+
+        const {offsetX = 0, offsetY = 0} = args;
 
         if (format == 'miniature') {
             return `<div class="miniature metaviz-node-point" data-id="${this.id}"></div>`;
         }
 
         else if (format == 'image/svg+xml') {
-            return `<rect width="100" height="100" rx="20" ry="20" style="fill:rgb(55,55,55);stroke-width:2;stroke:rgb(200,200,200)"></rect><text x="50" y="50" fill="white" text-anchor="middle" dominant-baseline="middle">${this.name}</text>`;
+            return `<circle cx="${this.transform.x - offsetX}" cy="${this.transform.y - offsetY}" r="${this.transform.w}" stroke="rgb(108, 121, 132)" stroke-width="4" fill="transparent" />`;
         }
 
-        return null;
+        return super.export(format);
     }
 
 }
