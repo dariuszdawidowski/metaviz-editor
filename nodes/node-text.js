@@ -57,8 +57,14 @@ class MetavizNodeText extends MetavizNode {
                 value: this.getText(),
                 spellcheck: this.params.spellcheck,
                 onChange: (value) => {
-                    // Store
-                    const packet = {action: 'param', node: {id: this.id}, params: {}, prev: {}};
+
+                    // Packet
+                    const packet = {
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {},
+                        prev: {}
+                    };
                     packet.params[`page_${this.page}`] = value;
                     packet.prev[`page_${this.page}`] = this.params[`page_${this.page}`];
                     metaviz.editor.history.store(packet);
@@ -75,31 +81,73 @@ class MetavizNodeText extends MetavizNode {
                 },
                 onPrevPage: () => {
                     if (this.page > 1) {
+
+                        // Packet
+                        const packet = {
+                            action: 'param',
+                            node: {id: this.id},
+                            params: {},
+                            prev: {}
+                        };
+
+                        // Store previous and current page
+                        packet.prev[`page_${this.page}`] = this.params[`page_${this.page}`];
+                        packet.params[`page_${this.page}`] = this.controls.textarea.get();
                         this.params[`page_${this.page}`] = this.controls.textarea.get();
+
+                        // Back to previous page
                         this.page --;
                         this.params.currpage = this.page;
                         this.controls.textarea.set(this.params[`page_${this.page}`]);
                         this.controls.textarea.page(this.params.currpage, this.params.lastpage);
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {currpage: this.params.currpage}, prev: {currpage: this.params.currpage + 1}});
+
+                        // Store current page
+                        packet.params['currpage'] = this.params.currpage;
+                        packet.prev['currpage'] = this.params.currpage + 1;
+
+                        // Store
+                        metaviz.editor.history.store(packet);
                         this.update();
                     }
                 },
                 onNextPage: () => {
+
+                    // Packet
+                    const packet = {
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {},
+                        prev: {}
+                    };
+
+                    // Store previous and current page
+                    packet.prev[`page_${this.page}`] = this.params[`page_${this.page}`];
+                    packet.params[`page_${this.page}`] = this.controls.textarea.get();
                     this.params[`page_${this.page}`] = this.controls.textarea.get();
+
+                    // Advance to next page
                     this.page ++;
                     this.params.currpage = this.page;
-                    // Create new page
+
+                    // Store current page
+                    packet.params['currpage'] = this.params.currpage;
+                    packet.prev['currpage'] = this.params.currpage - 1;
+
+                    // Create new page if needed
                     if (this.params.lastpage < this.page) {
                         this.params.lastpage ++;
                         this.controls.textarea.clear();
-                        metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {lastpage: this.params.lastpage}, prev: {lastpage: this.params.lastpage - 1}});
+                        packet.params['lastpage'] = this.params.lastpage;
+                        packet.prev['lastpage'] = this.params.lastpage - 1;
                     }
-                    // Switch to next page
+                    // Or switch to next page
                     else {
                         this.controls.textarea.set(this.params[`page_${this.page}`]);
                     }
                     this.controls.textarea.page(this.params.currpage, this.params.lastpage);
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {currpage: this.params.currpage}, prev: {currpage: this.params.currpage - 1}});
+
+                    // Store
+                    metaviz.editor.history.store(packet);
                     this.update();
                 },
             }),
@@ -118,7 +166,12 @@ class MetavizNodeText extends MetavizNode {
                 onChange: (value) => {
 
                     // Store value
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {look: value}, prev: {look: this.params.look}});
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {look: value},
+                        prev: {look: this.params.look}
+                    });
                     this.params.set('look', value);
 
                     // Change size
@@ -139,7 +192,12 @@ class MetavizNodeText extends MetavizNode {
                 options: this.colors,
                 value: this.params.palette,
                 onChange: (value) => {
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {palette: value}, prev: {palette: this.params.palette}});
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {palette: value},
+                        prev: {palette: this.params.palette}
+                    });
                     this.params.set('palette', value);
                     metaviz.editor.menu.hide();
                 }
@@ -150,7 +208,12 @@ class MetavizNodeText extends MetavizNode {
                 text: 'Spellcheck',
                 value: this.params.spellcheck,
                 onChange: (value) => {
-                    metaviz.editor.history.store({action: 'param', node: {id: this.id}, params: {spellcheck: value}, prev: {spellcheck: this.params.spellcheck}});
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {spellcheck: value},
+                        prev: {spellcheck: this.params.spellcheck}
+                    });
                     this.params.spellcheck = value;
                     this.controls.textarea.spellcheck(value);
                 }
@@ -158,7 +221,7 @@ class MetavizNodeText extends MetavizNode {
 
         });
 
-        // Second page
+        // Next page
         this.textblockRight = document.createElement('div');
         this.textblockRight.classList.add('nextpage', 'right');
         this.element.append(this.textblockRight);
@@ -273,12 +336,10 @@ class MetavizNodeText extends MetavizNode {
     select() {
         super.select();
         if (this.transform.w > 199 && this.transform.h > 199) this.controls.textarea.showToolbar();
-        if (!this.locked.content) this.controls.textarea.edit(true);
     }
 
     deselect() {
         super.deselect();
-        this.controls.textarea.edit(false);
         this.controls.textarea.hideToolbar();
     }
 
