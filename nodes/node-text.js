@@ -396,3 +396,6 @@ class MetavizNodeText extends MetavizNode {
 }
 
 global.registry.add({proto: MetavizNodeText, name: 'Text', icon: '<span class="mdi mdi-text-box"></span>'});
+
+i18n['pl']['text'] = 'tekst';
+i18n['eo']['text'] = 'teksto';

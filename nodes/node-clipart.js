@@ -179,3 +179,6 @@ class MetavizEmojiPicker extends TotalProMenuWidget {
     }
 
 }
+
+i18n['pl']['clipart'] = 'grafika';
+i18n['eo']['clipart'] = 'grafikaĵoj';

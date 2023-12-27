@@ -290,9 +290,6 @@ class Metaviz {
                 pinchFactor: null
             },
 
-            // Language e.g. 'pl-PL'
-            language: null,
-
             // Browser features
             features: {
                 nativeFileSystemApi: false,
@@ -611,12 +608,6 @@ class Metaviz {
                     break;
 
             }
-
-            /**
-             * Language
-             */
-
-            this.system.language = window.navigator.language.substring(0, 2);
 
             /**
              * Browser minumum version

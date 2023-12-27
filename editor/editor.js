@@ -1190,7 +1190,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     setBoardName(text) {
         this.name = text;
         document.title = this.name;
-        metaviz.events.call('update:projectname', text);
+        metaviz.events.call('update:boardname', text);
     }
 
     getBoardName() {

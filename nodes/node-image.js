@@ -454,3 +454,6 @@ class MetavizNodeImage extends MetavizNode {
 }
 
 global.registry.add({proto: MetavizNodeImage, name: 'Image', icon: '<span class="mdi mdi-image"></span>'});
+
+i18n['pl']['image'] = 'obraz';
+i18n['eo']['image'] = 'bildo';

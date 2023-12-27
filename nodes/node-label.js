@@ -267,3 +267,6 @@ class MetavizNodeLabel extends MetavizNode {
 }
 
 global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<span class="mdi mdi-label"></span>'});
+
+i18n['pl']['label'] = 'napis';
+i18n['eo']['label'] = 'etikedo';

@@ -51,3 +51,6 @@ class MetavizNodePoint extends MetavizNode {
 }
 
 global.registry.add({proto: MetavizNodePoint, name: 'Point', icon: '<span class="mdi mdi-record-circle-outline"></span>'});
+
+i18n['pl']['point'] = 'punkt';
+i18n['eo']['point'] = 'punkto';
