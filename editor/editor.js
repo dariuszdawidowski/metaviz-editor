@@ -883,8 +883,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     nodes: [node.id],
                     position: {x: positions[i].x, y: positions[i].y}
                 });
-                node.transform.x = positions[i].x;
-                node.transform.y = positions[i].y;
+                node.setPosition({x: positions[i].x, y: positions[i].y});
+                node.update();
             });
             this.update();
         }

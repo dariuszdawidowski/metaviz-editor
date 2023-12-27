@@ -1,5 +1,5 @@
 /**
- * Metaviz Arrange Sort v 1.2.3 for Javascript(ES8/2017)
+ * Metaviz Arrange Sort
  * (c) 2009-2022 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -8,14 +8,11 @@ class MetavizArrangeSort extends MetavizGeometry {
     generateLines(elements, maxWidth, margin) {
         const lines = [ [] ];
 
-        elements.forEach((el) =>
-        {
-            if (this.getTotalWidth(lines[lines.length - 1].concat(el), margin) > maxWidth)
-            {
+        elements.forEach((el) => {
+            if (this.getTotalWidth(lines[lines.length - 1].concat(el), margin) > maxWidth) {
                 lines.push([el]);
             }
-            else
-            {
+            else {
                 lines[lines.length - 1].push(el);
             }
         });
@@ -44,9 +41,15 @@ class MetavizArrangeSort extends MetavizGeometry {
 
             let widthCounter = 0;
             line.forEach(el => {
-                const c = { x: bounds.center.x + (widthCounter - (totalWidth / 2) + (this.getSize(el, margin).x / 2)), y: cy };
+                const c = {
+                    x: bounds.center.x + (widthCounter - (totalWidth / 2) + (this.getSize(el, margin).x / 2)),
+                    y: cy
+                };
 
-                positions.push({ x: c.x - (this.getSize(el, margin).x / 2), y: c.y - (this.getSize(el, margin).y / 2) });
+                positions.push({
+                    x: c.x - (this.getSize(el, margin).x / 2),
+                    y: c.y - (this.getSize(el, margin).y / 2)
+                });
 
                 widthCounter += this.getSize(el, margin).x;
             });

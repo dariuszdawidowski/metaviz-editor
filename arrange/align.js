@@ -1,6 +1,6 @@
 /**
  * Metaviz Arrange
- * (c) 2009-2022 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizArrangeAlign extends MetavizGeometry {
@@ -24,11 +24,11 @@ class MetavizArrangeAlign extends MetavizGeometry {
                 nodes: [node.id],
                 position: {x: cursorX, y: bounds.center.y}
             });
-            node.transform.x = cursorX;
-            node.transform.y = bounds.center.y;
+            node.setPosition({x: cursorX, y: bounds.center.y});
+            node.update();
             cursorX += node.transform.w + margin;
         });
-        metaviz.render.layers.update(nodes);
+        metaviz.editor.update();
     }
 
     arrangeVertical(nodes, args) {
@@ -41,11 +41,11 @@ class MetavizArrangeAlign extends MetavizGeometry {
                 nodes: [node.id],
                 position: {x: bounds.center.x, y: cursorY}
             });
-            node.transform.x = bounds.center.x;
-            node.transform.y = cursorY;
+            node.setPosition({x: bounds.center.x, y: cursorY});
+            node.update();
             cursorY += node.transform.h + margin;
         });
-        metaviz.render.layers.update(nodes);
+        metaviz.editor.update();
     }
 
 }
