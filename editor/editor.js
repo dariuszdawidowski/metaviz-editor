@@ -1009,7 +1009,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
 
         // Store copy history
-        metaviz.events.call('update:clipboard', {data: data, miniature: node.miniature()});
+        metaviz.events.call('update:clipboard', {data: data, miniature: node.export('miniature')});
     }
 
     /**
@@ -1056,7 +1056,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
 
             // Store copy history
-            metaviz.events.call('update:clipboard', {data: data, miniature: nodes[0].miniature()});
+            metaviz.events.call('update:clipboard', {data: data, miniature: nodes[0].export('miniature')});
 
         }
 
@@ -1371,6 +1371,15 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         await writable.close();
         this.history.dirty = false;
         this.idle();
+    }
+
+    /**
+     * Export diagram file
+     */
+
+    export(format) {
+        const svg = metaviz.format.serialize('image/svg+xml', metaviz.render.nodes.get('*'));
+        metaviz.exchange.downloadFile({data: svg, name: 'metaviz-diagram.svg'});
     }
 
     /** VIEWPORT ******************************************************************************************************************/

@@ -444,11 +444,20 @@ class MetavizNodeImage extends MetavizNode {
     }
 
     /**
-     * Miniature version
+     * Export node to different format
      */
 
-    miniature(content = false) {
-        return `<div class="miniature metaviz-control-bitmap" style="background-image: url(${this.fixURI(this.getResized(this.params.uri))});" data-id="${this.id}"></div>`;
+    export(format) {
+
+        if (format == 'miniature') {
+            return `<div class="miniature metaviz-control-bitmap" style="background-image: url(${this.fixURI(this.getResized(this.params.uri))});" data-id="${this.id}"></div>`;
+        }
+
+        else if (format == 'image/svg+xml') {
+            return ``;
+        }
+
+        return null;
     }
 
 }

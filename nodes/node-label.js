@@ -257,11 +257,20 @@ class MetavizNodeLabel extends MetavizNode {
     }
 
     /**
-     * Miniature version
+     * Export node to different format
      */
 
-    miniature(content=false) {
-        return `<div class="miniature metaviz-node-label color-${this.params.color}" data-id="${this.id}">${content ? this.params.text.synopsis(3) : 'Label'}</div>`;
+    export(format) {
+
+        if (format == 'miniature') {
+            return `<div class="miniature metaviz-node-label color-${this.params.color}" data-id="${this.id}">${content ? this.params.text.synopsis(3) : 'Label'}</div>`;
+        }
+
+        else if (format == 'image/svg+xml') {
+            return ``;
+        }
+
+        return null;
     }
 
 }

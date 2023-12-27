@@ -209,6 +209,16 @@ class MetavizContextMenu extends TotalProMenu {
                         this.hide();
                         if (metaviz.editor.history.isDirty()) metaviz.editor.save();
                     }
+                }),
+
+                // Export
+                new TotalProMenuOption({
+                    id: 'menu-file-export-svg',
+                    text: _('Export to SVG'),
+                    onChange: () => {
+                        this.hide();
+                        metaviz.editor.export('image/svg+xml');
+                    }
                 })
 
             ] }));

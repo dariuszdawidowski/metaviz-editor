@@ -348,6 +348,10 @@ class Metaviz {
             in: new MetavizInJSON(),
             out: new MetavizOutJSON()
         });
+        this.format.register('image/svg+xml', {
+            in: null,
+            out: new MetavizOutSVG()
+        });
         this.storage = {
             filesystem: new MetavizFilesystem(),
         };

@@ -144,11 +144,20 @@ class MetavizNodeClipart extends MetavizNode {
     }
 
     /**
-     * Miniature version
+     * Export node to different format
      */
 
-    miniature(content = false) {
-        return `<div class="miniature miniature-node-clipart" style="width: 100%; height: 100%;" data-id="${this.id}">${content ? this.control.icon.control.outerHTML : '<span class="mdi mdi-palette"></span>'}</div>`;
+    export(format) {
+
+        if (format == 'miniature') {
+            return `<div class="miniature miniature-node-clipart" style="width: 100%; height: 100%;" data-id="${this.id}">${content ? this.control.icon.control.outerHTML : '<span class="mdi mdi-palette"></span>'}</div>`;
+        }
+
+        else if (format == 'image/svg+xml') {
+            return ``;
+        }
+
+        return null;
     }
 
 }
