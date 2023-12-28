@@ -1507,7 +1507,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
             this.showInfoBubble({
                 icon: emojis[Math.randomRangeInt(0, emojis.length - 1)],
-                text: `This is empty ${metaviz.render.nodes.parent ? 'folder' : 'board'} - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...`
+                text: metaviz.render.nodes.parent ?
+                      _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') :
+                      _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...')
             });
         }
         else {

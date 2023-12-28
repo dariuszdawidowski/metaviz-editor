@@ -71,6 +71,8 @@ const i18n = {
         'color': 'kolor',
         'default': 'domyślny',
         'spellcheck': 'sprawdzanie pisowni',
+        'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'to jest pusty folder - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
+        'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'to jest pusta tablica - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
     },
 
     // Esperanto
@@ -136,6 +138,8 @@ const i18n = {
         'color': 'koloro',
         'default': 'defaŭlte',
         'spellcheck': 'literumkontrolo',
+        'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'Ĉi tio estas malplena dosierujo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
+        'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'Ĉi tio estas malplena tabulo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
     },
 
 };
