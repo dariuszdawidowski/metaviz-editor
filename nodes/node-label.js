@@ -28,7 +28,7 @@ class MetavizNodeLabel extends MetavizNode {
             input: new MetavizControlInput({
                 name: 'text',
                 value: this.params.text,
-                placeholder: 'Label',
+                placeholder: _('Label'),
                 onChange: (value) => {
                     metaviz.editor.history.store({
                         action: 'param',
@@ -47,11 +47,11 @@ class MetavizNodeLabel extends MetavizNode {
 
             // Style
             style: new TotalProMenuSelect({
-                placeholder: 'Style',
+                placeholder: _('Style'),
                 options: {
-                    'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Label'},
-                    'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Only text'},
-                    'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: 'Style: Underline'},
+                    'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style: Label')},
+                    'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style: Only text')},
+                    'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style: Underline')},
                 },
                 value: this.params.style,
                 onChange: (value) => {
@@ -67,7 +67,7 @@ class MetavizNodeLabel extends MetavizNode {
 
             // Color
             color: new TotalProMenuSelect({
-                placeholder: 'Color',
+                placeholder: _('Color'),
                 options: {
                     '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: 'Color: Default'},
                     '1': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: 'Color: Water'},
@@ -90,11 +90,11 @@ class MetavizNodeLabel extends MetavizNode {
 
             // Font
             font: new TotalProMenuSelect({
-                placeholder: 'Font',
+                placeholder: _('Font'),
                 options: {
-                    'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Roboto'},
-                    'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Allura'},
-                    'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: 'Font: Mansalva'},
+                    'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Roboto'},
+                    'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Allura'},
+                    'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Mansalva'},
                 },
                 value: this.params.font,
                 onChange: (value) => {
@@ -260,14 +260,18 @@ class MetavizNodeLabel extends MetavizNode {
      * Export node to different format
      */
 
-    export(format) {
+    export(format, args = {}) {
+
+        const {offsetX = 0, offsetY = 0} = args;
 
         if (format == 'miniature') {
             return `<div class="miniature metaviz-node-label color-${this.params.color}" data-id="${this.id}">${content ? this.params.text.synopsis(3) : 'Label'}</div>`;
         }
 
         else if (format == 'image/svg+xml') {
-            return ``;
+            let buffer = `<rect x="${this.transform.x - offsetX - (this.transform.w / 2)}" y="${this.transform.y - offsetY - (this.transform.h / 2)}" width="${this.transform.w}" height="${this.transform.h}" rx="5" ry="5" style="fill:rgb(235,236,237);stroke-width:0" />`;
+            buffer += `<text x="${this.transform.x - offsetX}" y="${this.transform.y - offsetY}" fill="rgb(12,12,12)" text-anchor="middle" dominant-baseline="middle">${this.params.text}</text>`;
+            return buffer;
         }
 
         return null;
@@ -277,5 +281,13 @@ class MetavizNodeLabel extends MetavizNode {
 
 global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<span class="mdi mdi-label"></span>'});
 
-i18n['pl']['label'] = 'napis';
+i18n['pl']['label'] = 'etykieta';
+i18n['pl']['style: label'] = 'styl: Etykieta';
+i18n['pl']['style: only text'] = 'styl: Czysty tekst';
+i18n['pl']['style: underline'] = 'styl: Podkreśliony';
+
 i18n['eo']['label'] = 'etikedo';
+i18n['eo']['style: label'] = 'stilo: Etikedo';
+i18n['eo']['style: only text'] = 'stilo: Nur teksto';
+i18n['eo']['style: underline'] = 'stilo: Substreki';
+ 

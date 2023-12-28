@@ -53,7 +53,7 @@ class MetavizNodePoint extends MetavizNode {
         }
 
         else if (format == 'image/svg+xml') {
-            return `<circle cx="${this.transform.x - offsetX}" cy="${this.transform.y - offsetY}" r="${this.transform.w}" stroke="rgb(108, 121, 132)" stroke-width="4" fill="transparent" />`;
+            return `<circle cx="${this.transform.x - offsetX}" cy="${this.transform.y - offsetY}" r="${this.transform.w - 4}" stroke="rgb(255, 255, 255)" stroke-width="4" fill="transparent" />`;
         }
 
         return super.export(format);

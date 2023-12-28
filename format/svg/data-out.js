@@ -15,7 +15,7 @@ class MetavizOutSVG {
         const bbox = metaviz.render.getBounds(nodes);
 
         // Buffer
-        let svg = `<svg width="${bbox.width}" height="${bbox.height}" xmlns="http://www.w3.org/2000/svg" style="background: #dddfe1;">\n`;
+        let svg = `<svg width="${bbox.width}" height="${bbox.height}" xmlns="http://www.w3.org/2000/svg" style="background: #dddfe1;font-family: Roboto;font-size: 16px;">\n`;
 
         // Nodes
         nodes.forEach(node => {

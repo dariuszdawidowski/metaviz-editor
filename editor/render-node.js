@@ -1000,7 +1000,7 @@ class MetavizNode extends TotalDiagramNode {
         }
 
         else if (format == 'image/svg+xml') {
-            return `<rect width="100" height="100" rx="20" ry="20" style="fill:rgb(55,55,55);stroke-width:2;stroke:rgb(200,200,200)"></rect><text x="50" y="50" fill="white" text-anchor="middle" dominant-baseline="middle">${this.name}</text>`;
+            return `<rect width="100" height="100" rx="20" ry="20" style="fill:rgb(55,55,55);stroke-width:2;stroke:rgb(200,200,200)" /><text x="50" y="50" fill="white" text-anchor="middle" dominant-baseline="middle">${this.name}</text>`;
         }
 
         return null;

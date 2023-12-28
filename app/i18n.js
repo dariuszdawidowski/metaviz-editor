@@ -66,6 +66,8 @@ const i18n = {
         'github page': 'strona GitHub',
         'submit issue': 'zgłoś problem',
         'default nodes': 'domyślne obiekty',
+        'style': 'styl',
+        'font': 'czcionka',
     },
 
     // Esperanto
@@ -126,6 +128,8 @@ const i18n = {
         'github page': 'GitHub-paĝo',
         'submit issue': 'raporti problemon',
         'default nodes': 'default nodes',
+        'style': 'stilo',
+        'font': 'tiparo',
     },
 
 };
