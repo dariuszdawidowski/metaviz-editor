@@ -274,7 +274,7 @@ class MetavizNodeLabel extends MetavizNode {
             return buffer;
         }
 
-        return null;
+        return super.export(format);
     }
 
 }

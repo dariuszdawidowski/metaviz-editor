@@ -16,7 +16,7 @@ class MetavizOutSVG {
         const margin = 10;
 
         // Buffer
-        let svg = `<svg width="${bbox.width + (margin * 2)}" height="${bbox.height + (margin * 2)}" xmlns="http://www.w3.org/2000/svg" style="background: #dddfe1;font-family: Roboto;">\n`;
+        let svg = `<svg width="${bbox.width + (margin * 2)}" height="${bbox.height + (margin * 2)}" xmlns="http://www.w3.org/2000/svg" style="background: #dddfe1;font-family: sans-serif;">\n`;
 
         // Nodes
         nodes.forEach(node => {

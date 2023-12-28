@@ -58,7 +58,7 @@ class MetavizNodeImage extends MetavizNode {
             name: new MetavizControlInput({
                 name: 'name',
                 value: this.params.name,
-                placeholder: 'Photo',
+                placeholder: _('Image'),
                 onChange: (value) => {
                     metaviz.editor.history.store({
                         action: 'param',
@@ -79,7 +79,7 @@ class MetavizNodeImage extends MetavizNode {
 
             // URI in menu
             uri: new TotalProMenuInput({
-                placeholder: 'Image URI',
+                placeholder: 'URI',
                 value: this.params.uri,
                 onChange: (value) => {
                     // Undo/Sync
@@ -96,12 +96,12 @@ class MetavizNodeImage extends MetavizNode {
 
             // Style
             style: new TotalProMenuSelect({
-                placeholder: 'Style',
+                placeholder: _('Style'),
                 options: {
-                    'raw': {icon: '', text: 'Style: Raw'},
-                    'minimal': {icon: '', text: 'Style: Minimalistic'},
-                    'instant': {icon: '', text: 'Style: Instant'},
-                    'postcard': {icon: '', text: 'Style: Postcard'},
+                    'raw': {icon: '', text: _('Style') + ': ' + _('Raw')},
+                    'minimal': {icon: '', text: _('Style') + ': ' + _('Minimalistic')},
+                    'instant': {icon: '', text: _('Style') + ': ' + _('Instant')},
+                    'postcard': {icon: '', text: _('Style') + ': ' + _('Postcard')},
                 },
                 value: this.params.style,
                 onChange: (value) => {
@@ -129,7 +129,7 @@ class MetavizNodeImage extends MetavizNode {
             // Download file
             download: new TotalProMenuOption({
                 icon: this.params.uri ? '<span class="mdi mdi-cloud-download"></span>' : '<span class="mdi mdi-cloud-upload"></span>',
-                text: this.params.uri ? 'Download file' : 'Upload file',
+                text: this.params.uri ? _('Download file') : _('Upload file'),
                 onChange: () => {
                     // Download
                     if (this.params.uri) {
@@ -231,7 +231,7 @@ class MetavizNodeImage extends MetavizNode {
         if (file && metaviz.exchange.detectImage(file.type)) {
             metaviz.exchange.sendBlob(file, this, () => {
                 this.options.download.setIcon('<span class="mdi mdi-cloud-download"></span>');
-                this.options.download.setName('Download file');
+                this.options.download.setName(_('Download file'));
             });
         }
     }
@@ -447,14 +447,22 @@ class MetavizNodeImage extends MetavizNode {
      * Export node to different format
      */
 
-    export(format) {
+    export(format, args = {}) {
+
+        const {offsetX = 0, offsetY = 0} = args;
 
         if (format == 'miniature') {
             return `<div class="miniature metaviz-control-bitmap" style="background-image: url(${this.fixURI(this.getResized(this.params.uri))});" data-id="${this.id}"></div>`;
         }
 
         else if (format == 'image/svg+xml') {
-            return ``;
+            let buffer = `<rect x="${this.transform.x - offsetX - (this.transform.w / 2)}" y="${this.transform.y - offsetY - (this.transform.h / 2)}" width="${this.transform.w}" height="${this.transform.h}" style="fill:rgb(247,250,250);stroke-width:0" />`;
+            if (this.params.uri != '')
+                buffer += `<image href="${this.params.uri}" x="${this.transform.x - offsetX - (this.transform.w / 2) + 12}" y="${this.transform.y - offsetY - (this.transform.h / 2) + 12}" width="${this.transform.w - 24}" height="${this.transform.h - 24 - 19}" preserveAspectRatio="xMidYMid slice" />`;
+            else
+                buffer += `<rect x="${this.transform.x - offsetX - (this.transform.w / 2) + 12}" y="${this.transform.y - offsetY - (this.transform.h / 2) + 12}" width="${this.transform.w - 24}" height="${this.transform.h - 24 - 19}" style="fill:rgb(65,52,43);stroke-width:0;" />`;
+            buffer += `<text x="${this.transform.x - offsetX}" y="${this.transform.y - offsetY + this.transform.h - 112}" fill="rgb(12,12,12)" text-anchor="middle" dominant-baseline="middle" style="font-size: 15px;font-style:italic">${this.params.name}</text>`;
+            return buffer;
         }
 
         return null;
@@ -465,4 +473,13 @@ class MetavizNodeImage extends MetavizNode {
 global.registry.add({proto: MetavizNodeImage, name: 'Image', icon: '<span class="mdi mdi-image"></span>'});
 
 i18n['pl']['image'] = 'obraz';
+i18n['pl']['raw'] = 'surowy';
+i18n['pl']['minimalistic'] = 'minimalistyczny';
+i18n['pl']['instant'] = 'zdjęcie';
+i18n['pl']['postcard'] = 'pocztówka';
+
 i18n['eo']['image'] = 'bildo';
+i18n['eo']['raw'] = 'kruda';
+i18n['eo']['minimalistic'] = 'minimumisma';
+i18n['eo']['instant'] = 'foto';
+i18n['eo']['postcard'] = 'poŝtkarto';
