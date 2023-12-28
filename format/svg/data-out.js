@@ -13,13 +13,14 @@ class MetavizOutSVG {
 
         // Compute sizes
         const bbox = metaviz.render.getBounds(nodes);
+        const margin = 10;
 
         // Buffer
-        let svg = `<svg width="${bbox.width}" height="${bbox.height}" xmlns="http://www.w3.org/2000/svg" style="background: #dddfe1;font-family: Roboto;font-size: 16px;">\n`;
+        let svg = `<svg width="${bbox.width + (margin * 2)}" height="${bbox.height + (margin * 2)}" xmlns="http://www.w3.org/2000/svg" style="background: #dddfe1;font-family: Roboto;">\n`;
 
         // Nodes
         nodes.forEach(node => {
-            svg += '  ' + node.export('image/svg+xml', {offsetX: bbox.left, offsetY: bbox.top}) + '\n';
+            svg += '  ' + node.export('image/svg+xml', {offsetX: bbox.left - margin, offsetY: bbox.top - margin}) + '\n';
         });
 
         // Links

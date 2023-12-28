@@ -69,12 +69,12 @@ class MetavizNodeLabel extends MetavizNode {
             color: new TotalProMenuSelect({
                 placeholder: _('Color'),
                 options: {
-                    '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: 'Color: Default'},
-                    '1': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: 'Color: Water'},
-                    '2': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 67, 136)"></div>', text: 'Color: Navy'},
-                    '3': {icon: '<div class="menu-icon-square" style="background-color: var(--color-jade)"></div>', text: 'Color: Jade'},
-                    '4': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: 'Color: Sunny'},
-                    '5': {icon: '<div class="menu-icon-square" style="background-color: #e89191"></div>', text: 'Color: Fire'}
+                    '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: _('Color') + ': ' + _('Default')},
+                    '1': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: _('Color') + ': ' + _('Water')},
+                    '2': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 67, 136)"></div>', text: _('Color') + ': ' + _('Navy')},
+                    '3': {icon: '<div class="menu-icon-square" style="background-color: var(--color-jade)"></div>', text: _('Color') + ': ' + _('Jade')},
+                    '4': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: _('Color') + ': ' + _('Sunny')},
+                    '5': {icon: '<div class="menu-icon-square" style="background-color: #e89191"></div>', text: _('Color') + ': ' + _('Fire')}
                 },
                 value: this.params.color,
                 onChange: (value) => {
@@ -270,7 +270,7 @@ class MetavizNodeLabel extends MetavizNode {
 
         else if (format == 'image/svg+xml') {
             let buffer = `<rect x="${this.transform.x - offsetX - (this.transform.w / 2)}" y="${this.transform.y - offsetY - (this.transform.h / 2)}" width="${this.transform.w}" height="${this.transform.h}" rx="5" ry="5" style="fill:rgb(235,236,237);stroke-width:0" />`;
-            buffer += `<text x="${this.transform.x - offsetX}" y="${this.transform.y - offsetY}" fill="rgb(12,12,12)" text-anchor="middle" dominant-baseline="middle">${this.params.text}</text>`;
+            buffer += `<text x="${this.transform.x - offsetX}" y="${this.transform.y - offsetY}" fill="rgb(12,12,12)" text-anchor="middle" dominant-baseline="middle" style="font-size: 16px;">${this.params.text}</text>`;
             return buffer;
         }
 
@@ -285,9 +285,21 @@ i18n['pl']['label'] = 'etykieta';
 i18n['pl']['style: label'] = 'styl: Etykieta';
 i18n['pl']['style: only text'] = 'styl: Czysty tekst';
 i18n['pl']['style: underline'] = 'styl: Podkreśliony';
+i18n['pl']['sky'] = 'niebo';
+i18n['pl']['water'] = 'woda';
+i18n['pl']['navy'] = 'żeglarski';
+i18n['pl']['jade'] = 'jadeitowy';
+i18n['pl']['sunny'] = 'słoneczny';
+i18n['pl']['fire'] = 'ognisty';
 
 i18n['eo']['label'] = 'etikedo';
 i18n['eo']['style: label'] = 'stilo: Etikedo';
 i18n['eo']['style: only text'] = 'stilo: Nur teksto';
 i18n['eo']['style: underline'] = 'stilo: Substreki';
+i18n['eo']['sky'] = 'ĉielo';
+i18n['eo']['water'] = 'akvo';
+i18n['eo']['navy'] = 'naŭtika';
+i18n['eo']['jade'] = 'jado';
+i18n['eo']['sunny'] = 'sunplena';
+i18n['eo']['fire'] = 'arda';
  

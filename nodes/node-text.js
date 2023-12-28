@@ -14,21 +14,21 @@ class MetavizNodeText extends MetavizNode {
 
         // Predefined style
         this.looks = {
-            'sticky': {name: 'Sticky Note', width: 168, height: 168},
-            'a6': {name: 'Page A6', width: 232, height: 328},
-            'a5': {name: 'Page A5', width: 400, height: 565},
-            'a4': {name: 'Page A4', width: 800, height: 1131},
-            'comic': {name: 'Comic Cloud', width: 180, height: 100},
+            'sticky': {name: _('Sticky Note'), width: 168, height: 168},
+            'a6': {name: _('Page A6'), width: 232, height: 328},
+            'a5': {name: _('Page A5'), width: 400, height: 565},
+            'a4': {name: _('Page A4'), width: 800, height: 1131},
+            'comic': {name: _('Comic Cloud'), width: 180, height: 100},
         };
 
         // Color palette
         this.colors = {
-            '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: 'Color Default', class: 'palette-0'},
-            '1': {icon: '<div class="menu-icon-square" style="background-color: var(--color-sky)"></div>', text: 'Color Sky', class: 'palette-1'},
-            '2': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: 'Color Water', class: 'palette-2'},
-            '3': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 67, 136)"></div>', text: 'Color Navy', class: 'palette-3'},
-            '4': {icon: '<div class="menu-icon-square" style="background-color: var(--color-jade)"></div>', text: 'Color Jade', class: 'palette-4'},
-            '5': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: 'Color Sunny', class: 'palette-5'}            
+            '0': {icon: '<div class="menu-icon-square" style="background-color: var(--paper-2)"></div>', text: _('Color') + ': ' + _('Default'), class: 'palette-0'},
+            '1': {icon: '<div class="menu-icon-square" style="background-color: var(--color-sky)"></div>', text: _('Color') + ': ' + _('Sky'), class: 'palette-1'},
+            '2': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 117, 188)"></div>', text: _('Color') + ': ' + _('Water'), class: 'palette-2'},
+            '3': {icon: '<div class="menu-icon-square" style="background-color: rgb(0, 67, 136)"></div>', text: _('Color') + ': ' + _('Navy'), class: 'palette-3'},
+            '4': {icon: '<div class="menu-icon-square" style="background-color: var(--color-jade)"></div>', text: _('Color') + ': ' + _('Jade'), class: 'palette-4'},
+            '5': {icon: '<div class="menu-icon-square" style="background-color: rgb(254, 192, 11)"></div>', text: _('Color') + ': ' + _('Sunny'), class: 'palette-5'}            
         };
 
         // Meta defaults
@@ -160,7 +160,7 @@ class MetavizNodeText extends MetavizNode {
 
             // Appearance preset
             look: new TotalProMenuSelect({
-                placeholder: 'Look',
+                placeholder: _('Look'),
                 options: this.genLookOptions(),
                 value: this.params.look,
                 onChange: (value) => {
@@ -188,7 +188,7 @@ class MetavizNodeText extends MetavizNode {
 
             // Colors
             palette: new TotalProMenuSelect({
-                placeholder: 'Color palette',
+                placeholder: _('Color palette'),
                 options: this.colors,
                 value: this.params.palette,
                 onChange: (value) => {
@@ -205,7 +205,7 @@ class MetavizNodeText extends MetavizNode {
 
             // Spellcheck turn on/off
             spellcheck: new TotalProMenuSwitch({
-                text: 'Spellcheck',
+                text: _('Spellcheck'),
                 value: this.params.spellcheck,
                 onChange: (value) => {
                     metaviz.editor.history.store({
@@ -325,14 +325,18 @@ class MetavizNodeText extends MetavizNode {
      * Export node to different format
      */
 
-    export(format) {
+    export(format, args = {}) {
+
+        const {offsetX = 0, offsetY = 0} = args;
 
         if (format == 'miniature') {
             return `<div class="miniature metaviz-node-text" data-id="${this.id}">${content ? `<h2>${this.getText(1).synopsis(10)}</h2>▬▬▬▬▬▬▬▬▬<br>▬▬▬▬▬▬▬▬<br>▬▬▬▬▬<br>▬▬▬▬▬▬▬▬<br>▬▬▬▬` : 'Page'}</div>`;
         }
 
         else if (format == 'image/svg+xml') {
-            return ``;
+            let buffer = `<rect x="${this.transform.x - offsetX - (this.transform.w / 2)}" y="${this.transform.y - offsetY - (this.transform.h / 2)}" width="${this.transform.w}" height="${this.transform.h}" style="fill:rgb(108,121,132);stroke-width:0" />`;
+            buffer += `<text x="${this.transform.x - offsetX - (this.transform.w / 2) + 8}" y="${this.transform.y - offsetY - (this.transform.h / 2) + 8 + 10}" fill="rgb(227,229,237)" style="font-size: 12px;">${this.params.page_1}</text>`;
+            return buffer;
         }
 
         return null;
@@ -407,4 +411,17 @@ class MetavizNodeText extends MetavizNode {
 global.registry.add({proto: MetavizNodeText, name: 'Text', icon: '<span class="mdi mdi-text-box"></span>'});
 
 i18n['pl']['text'] = 'tekst';
+i18n['pl']['sticky note'] = 'karteczka';
+i18n['pl']['page a6'] = 'strona A6';
+i18n['pl']['page a5'] = 'strona A5';
+i18n['pl']['page a4'] = 'strona A4';
+i18n['pl']['comic cloud'] = 'chmurka komiksowa';
+
 i18n['eo']['text'] = 'teksto';
+i18n['eo']['sticky note'] = 'notu';
+i18n['eo']['page a6'] = 'paĝo A6';
+i18n['eo']['page a5'] = 'paĝo A5';
+i18n['eo']['page a4'] = 'paĝo A4';
+i18n['eo']['comic cloud'] = 'komika nubo';
+
+

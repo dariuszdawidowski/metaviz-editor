@@ -68,6 +68,9 @@ const i18n = {
         'default nodes': 'domyślne obiekty',
         'style': 'styl',
         'font': 'czcionka',
+        'color': 'kolor',
+        'default': 'domyślny',
+        'spellcheck': 'sprawdzanie pisowni',
     },
 
     // Esperanto
@@ -130,6 +133,9 @@ const i18n = {
         'default nodes': 'default nodes',
         'style': 'stilo',
         'font': 'tiparo',
+        'color': 'koloro',
+        'default': 'defaŭlte',
+        'spellcheck': 'literumkontrolo',
     },
 
 };
