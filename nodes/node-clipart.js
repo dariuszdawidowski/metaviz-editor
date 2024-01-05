@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Clipart
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodeClipart extends MetavizNode {
@@ -9,7 +9,8 @@ class MetavizNodeClipart extends MetavizNode {
         super(args);
 
         // Emoji Picker https://github.com/nolanlawson/emoji-picker-element
-        this.require('emoji-picker-element', 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js');
+        this.require('emoji-picker-element-picker', 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/picker.js');
+        this.require('emoji-picker-element-database', 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/database.js');
 
         // Meta defaults
         if (!('name' in this.params)) this.params['name'] = '';
@@ -186,11 +187,21 @@ class MetavizEmojiPicker extends TotalProMenuWidget {
         // Element class
         this.element.classList.add('metaviz-emoji-picker');
 
-        // Picker
-        const picker = document.createElement('emoji-picker');
-        picker.classList.add('light');
-        picker.addEventListener('emoji-click', event => args.onClick(event.detail));
-        this.element.append(picker);
+        // Language (with supported list by Emoji Picker Element from https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/i18n/)
+        const lang = metaviz.system.language.get('code', ['ar', 'de', 'en', 'fr', 'hi', 'id', 'it', 'nl', 'pl', 'tr']);
+
+        import(`https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/i18n/${lang}.js`).then(trans => {
+
+            // Picker
+            const picker = document.createElement('emoji-picker');
+            picker.setAttribute('locale', lang);
+            picker.setAttribute('data-source', `https://cdn.jsdelivr.net/npm/emoji-picker-element-data@^1/${lang}/cldr/data.json`);
+            picker.i18n = trans.default;
+            picker.classList.add('light');
+            picker.addEventListener('emoji-click', event => args.onClick(event.detail));
+            this.element.append(picker);
+
+        });
 
     }
 

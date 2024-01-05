@@ -1,12 +1,9 @@
 /**
  * Internationalization
- * (c) 2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2023-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 const i18n = {
-
-    // Detect language
-    language: window.navigator.language.substring(0, 2),
 
     // Polski
     pl: {
@@ -76,6 +73,7 @@ const i18n = {
         'upload file': 'wyślij plik',
         'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'to jest pusty folder - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
         'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'to jest pusta tablica - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
+        'Unsupported browser version. Please update to the latest one.': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej.',
     },
 
     // Esperanto
@@ -135,7 +133,7 @@ const i18n = {
         'help': 'helpo',
         'github page': 'GitHub-paĝo',
         'submit issue': 'raporti problemon',
-        'default nodes': 'default nodes',
+        'default nodes': 'defaŭltaj nodoj',
         'style': 'stilo',
         'font': 'tiparo',
         'color': 'koloro',
@@ -146,6 +144,7 @@ const i18n = {
         'upload file': 'alŝutu dosieron',
         'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'Ĉi tio estas malplena dosierujo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
         'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'Ĉi tio estas malplena tabulo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
+        'Unsupported browser version. Please update to the latest one.': 'Nesubtenata retumila versio. Bonvolu ĝisdatigi al la plej nova.',
     },
 
 };
@@ -165,7 +164,8 @@ function _(src) {
     const capitalize = (capital.first && !capital.second) ? true : false;
 
     // Get text
-    const dst = (src.toLowerCase() in i18n[i18n.language]) ? i18n[i18n.language][src.toLowerCase()] : src
+    const lang = metaviz.system.language.get();
+    const dst = (src.toLowerCase() in i18n[lang]) ? i18n[lang][src.toLowerCase()] : src
 
     // Return transalted
     if (uppercase) return dst.toUpperCase();

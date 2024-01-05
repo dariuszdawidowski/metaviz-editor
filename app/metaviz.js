@@ -290,6 +290,28 @@ class Metaviz {
                 pinchFactor: null
             },
 
+            // Language detection
+            language: {
+
+                code: null,
+                iso: null,
+
+                /**
+                 * Get language symbol (if not supported then returns standard fallback)
+                 * @param type: null or 'code'=single code e.g. 'pl', 'iso'=ISO code e.g. 'pl-PL'
+                 * @param list: list of accepted languages if not then returns fallback
+                 */
+                get: function(type = null, list = null) {
+                    let symbol = (type === null || type == 'code') ? this.code : this.iso;
+                    if (list) {
+                        if (list.includes(symbol)) return symbol;
+                        else return (type === null || type == 'code') ? 'en' : 'en-US';
+                    }
+                    return symbol;
+                },
+
+            },
+
             // Browser features
             features: {
                 nativeFileSystemApi: false,
@@ -312,6 +334,10 @@ class Metaviz {
         this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
         this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
         this.agent.protocol = window.location.origin.split('://')[0];
+
+        // Language
+        this.system.language.iso = window.navigator.language;
+        this.system.language.code = window.navigator.language.split('-')[0];
 
         // Pseudo-user session for local standalone
         if (this.agent.client == 'browser' && this.agent.data == 'local') {
@@ -661,10 +687,11 @@ class Metaviz {
              */
 
             const requirements = [
-                Element.prototype.closest // https://caniuse.com/#feat=element-closest
+                (typeof BigInt !== 'undefined'), // Generic way to check ECMAScript 2020 (ES11)
+                Element.prototype.closest,       // https://caniuse.com/#feat=element-closest
             ];
             if (this.system.browser.name == 'edge') requirements.push(
-                window.PointerEvent,      // https://caniuse.com/#feat=mdn-api_pointerevent
+                window.PointerEvent,             // https://caniuse.com/#feat=mdn-api_pointerevent
             );
             this.system.compatible = true;
             requirements.forEach((feature) => {

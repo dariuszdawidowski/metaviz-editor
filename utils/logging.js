@@ -1,7 +1,7 @@
 /**
- * JavaScript Logging v 0.2.1
+ * JavaScript Logging v 0.2.2
  * Compatible with Python logging library
- * (c) 2022-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2022-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 const logging = {
@@ -87,7 +87,7 @@ const logging = {
     },
 
     _format: function(msg) {
-        return this._config.format.replace('%(asctime)', (new Date()).toLocaleTimeString(window.navigator.language)).replace('%(message)', msg);
+        return this._config.format.replace('%(asctime)', (new Date()).toLocaleTimeString(metaviz.system.language.get('iso'))).replace('%(message)', msg);
     },
 
 };
