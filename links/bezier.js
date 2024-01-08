@@ -1,6 +1,6 @@
 /**
  * Metaviz Bezier Default Link
- * (c) 2009-2022 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizLinkBezier extends MetavizLink {
@@ -49,21 +49,79 @@ class MetavizLinkBezier extends MetavizLink {
     }
 
     /**
+     * Export
+     */
+
+    export(type, args = {}) {
+
+        const {offsetX = 0, offsetY = 0} = args;
+
+        if (type == 'image/svg+xml') {
+
+            // {x: ..., y: ...}
+            let start = null;
+            let end = null;
+
+            // arrow direction
+            let dir = 0;
+
+            // Left->right
+            if (this.start.transform.x <= this.end.transform.x) {
+                start = this.start.sockets.get({x: this.end.transform.x, y: this.end.transform.y});
+                end = this.end.sockets.get({x: this.start.transform.x, y: this.start.transform.y});
+                dir = -6;
+            }
+            // Right->left
+            else {
+                start = this.end.sockets.get({x: this.start.transform.x, y: this.start.transform.y})
+                end = this.start.sockets.get({x: this.end.transform.x, y: this.end.transform.y})
+                dir = 6;
+            }
+
+            const {x1, y1, x2, y2, hx1, hx2, cx, cy, angle} = this.calculate(
+                {x: start.x - offsetX, y: start.y - offsetY},
+                {x: end.x - offsetX, y: end.y - offsetY}
+            );
+
+            const color = {
+                '--link-color': '#6c7984',
+            };
+
+            let buffer = '<g>';
+            buffer += `<path d="M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}" style="fill:none;stroke:${color['--link-color']};stroke-width:2" />`;
+            buffer += `<polyline points="${cx + dir}, ${cy - 4} ${cx - dir}, ${cy} ${cx + dir}, ${cy + 4} ${cx + dir}, ${cy - 4}" transform="rotate(${angle * (180 / Math.PI)} ${cx} ${cy})" style="fill:${color['--link-color']};stroke:${color['--link-color']};stroke-width:1" />`;
+            buffer += `<circle r="6" cx="${x1}" cy="${y1}" style="fill:${color['--link-color']};stroke:${color['--link-color']};stroke-width:1" />`;
+            buffer += `<circle r="6" cx="${x2}" cy="${y2}" style="fill:${color['--link-color']};stroke:${color['--link-color']};stroke-width:1" />`;
+            buffer += '</g>';
+            return buffer;
+        }
+        return super.export(type, args);
+    }
+
+    /**
+     * Calculate position
+     */
+
+    calculate(start, end) {
+        const hx1 = start.x + Math.abs(end.x - start.x) * this.curvature;
+        const hx2 = end.x - Math.abs(end.x - start.x) * this.curvature;
+        const cx = (start.x + end.x) / 2;
+        const cy = (start.y + end.y) / 2;
+        const angle = Math.atan2(end.y - start.y, ((end.x + hx2) / 2) - ((start.x + hx1) / 2));
+        return {x1: start.x, y1: start.y, x2: end.x, y2: end.y, hx1, hx2, cx, cy, angle};
+    }
+
+    /**
      * Update position
      */
 
     update() {
         // Left->right
         if (this.start.transform.x <= this.end.transform.x) {
-            // Get start socket closest to end node
-            const {x: x1, y: y1} = this.start.sockets.get({x: this.end.transform.x, y: this.end.transform.y});
-            // Get end socket closest to start node
-            const {x: x2, y: y2} = this.end.sockets.get({x: this.start.transform.x, y: this.start.transform.y});
-            const hx1 = x1 + Math.abs(x2 - x1) * this.curvature;
-            const hx2 = x2 - Math.abs(x2 - x1) * this.curvature;
-            const cx = (x1 + x2) / 2;
-            const cy = (y1 + y2) / 2;
-            const angle = Math.atan2(y2 - y1, ((x2 + hx2) / 2) - ((x1 + hx1) / 2));
+            const {x1, y1, x2, y2, hx1, hx2, cx, cy, angle} = this.calculate(
+                this.start.sockets.get({x: this.end.transform.x, y: this.end.transform.y}),
+                this.end.sockets.get({x: this.start.transform.x, y: this.start.transform.y})
+            );
             this.path.setAttribute('d', `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`);
             this.arrow.setAttribute('points', `${cx - 6}, ${cy - 4} ${cx + 6}, ${cy} ${cx - 6}, ${cy + 4} ${cx - 6}, ${cy - 4}`);
             this.arrow.setAttribute('transform', `rotate(${angle * (180 / Math.PI)} ${cx} ${cy})`);
@@ -74,22 +132,17 @@ class MetavizLinkBezier extends MetavizLink {
         }
         // Right->left
         else {
-            // Get end socket closest to start node
-            const {x: x1, y: y1} = this.end.sockets.get({x: this.start.transform.x, y: this.start.transform.y});
-            // Get start socket closest to end node
-            const {x: x2, y: y2} = this.start.sockets.get({x: this.end.transform.x, y: this.end.transform.y});
-            const hx1 = x1 + Math.abs(x2 - x1) * this.curvature;
-            const hx2 = x2 - Math.abs(x2 - x1) * this.curvature;
-            const cx = (x1 + x2) / 2;
-            const cy = (y1 + y2) / 2;
-            const angle = Math.atan2(y2 - y1, ((x2 + hx2) / 2) - ((x1 + hx1) / 2));
+            const {x1, y1, x2, y2, hx1, hx2, cx, cy, angle} = this.calculate(
+                this.end.sockets.get({x: this.start.transform.x, y: this.start.transform.y}),
+                this.start.sockets.get({x: this.end.transform.x, y: this.end.transform.y})
+            );
             this.path.setAttribute('d', `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`);
             this.arrow.setAttribute('points', `${cx + 6}, ${cy - 4} ${cx - 6}, ${cy} ${cx + 6}, ${cy + 4} ${cx + 6}, ${cy - 4}`);
             this.arrow.setAttribute('transform', `rotate(${angle * (180 / Math.PI)} ${cx} ${cy})`);
-            this.circleStart.setAttribute('cx', x2);
-            this.circleStart.setAttribute('cy', y2);
-            this.circleEnd.setAttribute('cx', x1);
-            this.circleEnd.setAttribute('cy', y1);
+            this.circleStart.setAttribute('cx', x1);
+            this.circleStart.setAttribute('cy', y1);
+            this.circleEnd.setAttribute('cx', x2);
+            this.circleEnd.setAttribute('cy', y2);
         }
     }
 
