@@ -3,7 +3,7 @@
  *        o  o  o             Metaviz Control Rich Text                                            *
  *       /^\/^\/^\            Replace of textarea.                                                 *
  *       \<-<@>->/            MIT License                                                          *
- *        \_*_*_/             (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *        \_*_*_/             (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -63,12 +63,12 @@ class MetavizControlRichText extends TotalText {
             style: new TotalProMenuSelect({
                 placeholder: 'Style',
                 options: {
-                    'div': {icon: '', text: 'Normal'},
-                    'h1': {icon: '', text: 'Title'},
-                    'h2': {icon: '', text: 'Subtitle'},
-                    'h3': {icon: '', text: 'Header 1'},
-                    'h4': {icon: '', text: 'Header 2'},
-                    'h5': {icon: '', text: 'Header 3'}
+                    'div': {icon: '', text: _('Normal')},
+                    'h1': {icon: '', text: _('Title')},
+                    'h2': {icon: '', text: _('Subtitle')},
+                    'h3': {icon: '', text: _('Header') + ' 1'},
+                    'h4': {icon: '', text: _('Header') + ' 2'},
+                    'h5': {icon: '', text: _('Header') + ' 3'}
                 },
                 side: 'top',
                 value: 'div',
