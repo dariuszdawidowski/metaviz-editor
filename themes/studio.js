@@ -15,7 +15,7 @@ global.registry.add({
         '--link-color': 'rgb(108, 121, 132)',
         '--menu-background-color': '#eceff4',
         '--menu-key-color': 'rgb(0, 214, 252)',
-        '--menu-key-color-head': 'rgb(0, 214, 252)',
+        '--menu-key-color-head': '#000',
         '--menu-key-color-hi': 'rgb(250, 176, 38)',
         '--menu-separator-color': '#d4d7dc',
         '--color-sky': 'rgb(234, 246, 254)',

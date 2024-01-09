@@ -180,7 +180,7 @@ class Metaviz {
     constructor() {
 
         // App version
-        this.version = '0.9.14';
+        this.version = '0.9.15';
 
         // Agent Information about client properties
         this.agent = {

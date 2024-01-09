@@ -5,7 +5,7 @@ Metaviz Editor
 Diagramming editor library for web browser.
 </p>
 <p align="center">
-v0.9.14
+v0.9.15
 </p>
 
 [![build](https://github.com/dariuszdawidowski/metaviz-editor/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/metaviz-editor/actions/workflows/build.yml)

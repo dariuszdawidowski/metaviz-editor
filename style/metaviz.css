@@ -61,7 +61,7 @@
     /* Menu */
     --menu-background-color: #eceff4;
     --menu-key-color: rgb(65, 192, 240);
-    --menu-key-color-head: rgb(65, 192, 240);
+    --menu-key-color-head: #000;
     --menu-key-color-hi: rgb(250, 176, 38);
     --menu-separator-color: #d4d7dc;
 
