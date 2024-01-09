@@ -2,6 +2,7 @@ let metaviz = null;
 <%- await minjs('utils/logging.js') %>
 <%- await minjs('app/config.js') %>
 <%- await minjs('app/metaviz.js') %>
+<%- await minjs('app/i18n.js') %>
 <%- await minjs('utils/jsext.js') %>
 <%- await minjs('utils/events.js') %>
 <%- await minjs('controls/base.js') %>
@@ -45,6 +46,7 @@ let metaviz = null;
 <%- await minjs('format/stack/data-out.js') %>
 <%- await minjs('format/json/data-in.js') %>
 <%- await minjs('format/json/data-out.js') %>
+<%- await minjs('format/svg/data-out.js') %>
 <%- await minjs('storage/filesystem/data-in-out.js') %>
 <%- await minjs('nodes/node-dummy.js') %>
 <%- await minjs('nodes/node-point.js') %>
