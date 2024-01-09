@@ -3,7 +3,7 @@
  *                            Metaviz Editor Context Menu                                          *
  *  (\(\   o ( (  o  (\__/)   Create menu and bind all options.                                    *
  *  (-.-) /   )))  \ ('.'=)   MIT License                                                          *
- * o(")(")  (()())  (")(")_)  (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ * o(")(")  (()())  (")(")_)  (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
  * ^^^^^^^^^^^^^^^^^^^^^^^^^                                                                       *
  **************************************************************************************************/
 
@@ -11,6 +11,11 @@ class MetavizContextMenu extends TotalProMenu {
 
     constructor(args) {
         super({ container: metaviz.render.container });
+        this.build(args);
+    }
+
+    build(args) {
+
         const {projectName = ''} = args;
 
         // Add node
@@ -784,13 +789,17 @@ class MetavizContextMenu extends TotalProMenu {
 
     async checkClipboardToPaste() {
         if (metaviz.system.features.clipboardApi) {
-            const items = await navigator.clipboard.read();
-            const text = await navigator.clipboard.readText();
-            if (items.length > 0 || text != '') this.panel.left.find('menu-paste')?.enable();
+            try {
+                const items = await navigator.clipboard.read();
+                const text = await navigator.clipboard.readText();
+                if (items.length > 0 || text != '') this.panel.left.find('total-pro-menu-paste')?.enable();
+            }
+            catch {
+            }
         }
         else {
             if (metaviz.editor.clipboard?.count() > 0) {
-                this.panel.left.find('menu-paste')?.enable();
+                this.panel.left.find('total-pro-menu-paste')?.enable();
             }
         }
     }
