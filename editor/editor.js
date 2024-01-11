@@ -1264,13 +1264,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     if (json) {
 
                         // Save handler in IndexedDB
-                        metaviz.storage.db.table['boards'].set({'id': json.id, 'handle': this.file.handle});
+                        metaviz.storage.db.table['boards'].put({'id': json.id, 'name': json.name, 'handle': this.file.handle});
 
                         // Set ?board=<id> in URL
-                        window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
+                        // window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
 
                         // Decode
-                        if (json.format == 'MetavizJSON') metaviz.format.deserialize('text/metaviz+json', json);
+                        if (json.format == 'MetavizJSON')
+                            metaviz.format.deserialize('text/metaviz+json', json);
 
                         // Empty folder?
                         metaviz.editor.checkEmpty();
@@ -1297,6 +1298,15 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         alert("Can't recognize Metaviz xml file.");
                     }
                     if (xml) {
+
+                        const xml_id = xml.querySelector('mv > id').textContent;
+                        const xml_name = xml.querySelector('mv > name').textContent;
+
+                        // Save handler in IndexedDB
+                        metaviz.storage.db.table['boards'].put({'id': xml_id, 'name': xml_name, 'handle': this.file.handle});
+
+                        // Set ?board=<id> in URL
+                        // window.history.replaceState(null, null, metaviz.state.url.param('board').set(xml_id));
 
                         // Decode
                         if (xml.querySelector('mv > format').textContent == 'MetavizStack')

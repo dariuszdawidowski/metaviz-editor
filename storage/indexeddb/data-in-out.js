@@ -114,13 +114,12 @@ class MetavizIndexedDBTable {
     }
 
     /**
-     * Set record
+     * Set record (if exists)
      * @param data e.g. {id: ..., anykey1: ..., anykey2: ...}
      */
 
     set(data) {
 
-        // Open database and table
         let transaction = this.db.transaction([this.name], 'readwrite');
         let store = transaction.objectStore(this.name);
         let request = store.get(data.id);
@@ -129,6 +128,28 @@ class MetavizIndexedDBTable {
             if (record) {
                 Object.assign(record, data);
                 let putRequest = store.put(record);
+            }
+        };
+    }
+
+    /**
+     * Put record (update or create)
+     * @param data e.g. {id: ..., anykey1: ..., anykey2: ...}
+     */
+
+    put(data) {
+
+        let transaction = this.db.transaction([this.name], 'readwrite');
+        let store = transaction.objectStore(this.name);
+        let request = store.get(data.id);
+        request.onsuccess = function(event) {
+            let record = request.result;
+            if (record) {
+                Object.assign(record, data);
+                let putRequest = store.put(record);
+            }
+            else {
+                let putRequest = store.put(data);
             }
         };
     }
