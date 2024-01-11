@@ -271,7 +271,32 @@
     margin-top: 3px;
 }
 
+.menu-select-option[data-value="Bangers"] .text {
+    font-family: "Bangers";
+    font-size: 13px;
+}
+
+.menu-select-option[data-value="Lemon"] .text {
+    font-family: "Lemon";
+    font-size: 13px;
+}
 .menu-select-option[data-value="Mansalva"] .text {
     font-family: "Mansalva";
+    font-size: 13px;
+}
+.menu-select-option[data-value="Oswald"] .text {
+    font-family: "Oswald";
+    font-size: 13px;
+}
+.menu-select-option[data-value="Playfair Display"] .text {
+    font-family: "Playfair Display";
+    font-size: 13px;
+}
+.menu-select-option[data-value="Roboto"] .text {
+    font-family: "Roboto";
+    font-size: 13px;
+}
+.menu-select-option[data-value="Source Code Pro"] .text {
+    font-family: "Source Code Pro";
     font-size: 13px;
 }

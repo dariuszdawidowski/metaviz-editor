@@ -94,8 +94,12 @@ class MetavizNodeLabel extends MetavizNode {
                 options: {
                     'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Roboto'},
                     'Playfair Display': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Playfair Display'},
+                    'Source Code Pro': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Source Code Pro'},
                     'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Allura'},
                     'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Mansalva'},
+                    'Oswald': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Oswald'},
+                    'Bangers': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Bangers'},
+                    'Lemon': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Lemon'},
                 },
                 value: this.params.font,
                 onChange: (value) => {
