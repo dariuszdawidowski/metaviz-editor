@@ -4,6 +4,10 @@
 
 /* Color 0 */
 
+.metaviz-node-label.style-label {
+    border: 1px solid #d3d3d3;
+}
+
 .metaviz-node-label.style-label.color-0 {
     background-color: var(--paper-1);
 }
@@ -92,7 +96,98 @@
     background-color: rgba(232, 145, 145, 0.69);
 }
 
-/*** Style: Text ***/
+/*** Style: Bubble ***/
+
+/* Color 0 */
+
+.metaviz-node-label.style-bubble {
+    border-radius: 20px;
+    border: 3px solid var(--paper-2);
+    background: transparent;
+    font-weight: bold;
+}
+
+.metaviz-node-label.style-bubble.color-0 .metaviz-control-input {
+    color: var(--paper-2);
+    caret-color: black;
+}
+
+/* Color 1 */
+
+.metaviz-node-label.style-bubble.color-1 {
+    border-color: var(--metaviz-color-sky);
+}
+
+.metaviz-node-label.style-bubble.color-1 .metaviz-control-input {
+    color: var(--metaviz-color-sky);
+    caret-color: var(--metaviz-color-sky);
+}
+
+.metaviz-node-label.style-bubble.color-1.drag {
+    border-color: var(--metaviz-color-sky-trans);
+}
+
+/* Color 2 */
+
+.metaviz-node-label.style-bubble.color-2 {
+    border-color: var(--metaviz-color-navy);
+}
+
+.metaviz-node-label.style-bubble.color-2 .metaviz-control-input {
+    color: var(--metaviz-color-navy);
+    caret-color: var(--metaviz-color-navy);
+}
+
+.metaviz-node-label.style-bubble.color-2.drag {
+    border-color: var(--metaviz-color-navy-trans);
+}
+
+/* Color 3 */
+
+.metaviz-node-label.style-bubble.color-3 {
+    border-color: var(--color-jade);
+}
+
+.metaviz-node-label.style-bubble.color-3 .metaviz-control-input {
+    color: var(--color-jade);
+    caret-color: var(--color-jade);
+}
+
+.metaviz-node-label.style-bubble.color-3.drag {
+    border-color: var(--color-jade-trans);
+}
+
+/* Color 4 */
+
+.metaviz-node-label.style-bubble.color-4 {
+    border-color: rgb(244, 201, 50);
+}
+
+.metaviz-node-label.style-bubble.color-4 .metaviz-control-input {
+    color: rgb(244, 201, 50);
+    caret-color: black;
+}
+
+.metaviz-node-label.style-bubble.color-4.drag {
+    border-color: rgba(244, 201, 50. 0.69);
+}
+
+/* Color 5 */
+
+.metaviz-node-label.style-bubble.color-5 {
+    border-color: rgb(232, 145, 145);
+}
+
+.metaviz-node-label.style-bubble.color-5 .metaviz-control-input {
+    color: rgb(232, 145, 145);
+    caret-color: black;
+}
+
+.metaviz-node-label.style-bubble.color-5.drag {
+    border-color: rgba(232, 145, 145, 0.69);
+}
+
+/*** Style: Only Text ***/
 
 .metaviz-node-label.style-text {
     background-color: transparent;

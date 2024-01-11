@@ -49,9 +49,10 @@ class MetavizNodeLabel extends MetavizNode {
             style: new TotalProMenuSelect({
                 placeholder: _('Style'),
                 options: {
-                    'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style: Label')},
-                    'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style: Only text')},
-                    'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style: Underline')},
+                    'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Label')},
+                    'bubble': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Bubble')},
+                    'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Only text')},
+                    'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Underline')},
                 },
                 value: this.params.style,
                 onChange: (value) => {
@@ -119,7 +120,7 @@ class MetavizNodeLabel extends MetavizNode {
         this.controls.input.element.style.fontFamily = this.params.font;
 
         // Size
-        this.setSize({width: 176, height: 24, minWidth: 176, minHeight: 24});
+        this.setSize({width: 176, height: 24, minWidth: 176, minHeight: 24, border: 3});
 
         // Classes
         this.element.classList.add('color-' + this.params.color);
@@ -287,9 +288,9 @@ class MetavizNodeLabel extends MetavizNode {
 global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<span class="mdi mdi-label"></span>'});
 
 i18n['pl']['label'] = 'etykieta';
-i18n['pl']['style: label'] = 'styl: Etykieta';
-i18n['pl']['style: only text'] = 'styl: Czysty tekst';
-i18n['pl']['style: underline'] = 'styl: Podkreśliony';
+i18n['pl']['bubble'] = 'bąbel';
+i18n['pl']['only text'] = 'czysty tekst';
+i18n['pl']['underline'] = 'podkreśliony';
 i18n['pl']['sky'] = 'niebo';
 i18n['pl']['water'] = 'woda';
 i18n['pl']['navy'] = 'żeglarski';
@@ -298,9 +299,9 @@ i18n['pl']['sunny'] = 'słoneczny';
 i18n['pl']['fire'] = 'ognisty';
 
 i18n['eo']['label'] = 'etikedo';
-i18n['eo']['style: label'] = 'stilo: Etikedo';
-i18n['eo']['style: only text'] = 'stilo: Nur teksto';
-i18n['eo']['style: underline'] = 'stilo: Substreki';
+i18n['eo']['bubble'] = 'veziko';
+i18n['eo']['only text'] = 'nur teksto';
+i18n['eo']['underline'] = 'substreki';
 i18n['eo']['sky'] = 'ĉielo';
 i18n['eo']['water'] = 'akvo';
 i18n['eo']['navy'] = 'naŭtika';
