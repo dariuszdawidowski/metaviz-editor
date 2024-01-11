@@ -380,6 +380,7 @@ class Metaviz {
         });
         this.storage = {
             filesystem: new MetavizFilesystem(),
+            db: new MetavizIndexedDB()
         };
         this.render = new TotalDiagramRenderHTML5({
             container: this.container.element,
@@ -414,27 +415,27 @@ class Metaviz {
             // Cookie info
             if (this.agent.server != '')
                 this.editor.showCookieBubble({
-                text: "The diagram data is not permanently stored anywhere until you save it to the downloaded file. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>Click here to read the Privacy Policy.</a>",
+                text: "The diagram data is not permanently stored anywhere until you save it to the downloaded file. Site does NOT use cookies. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>Click here to read the Privacy Policy.</a>",
                 position: "bottom-center"
             });
 
             // Load config from browser
-            //this.storage.db.init(this.storage.dbNames, this.storage.dbVersion)
-            //    .then(status => {
+            this.storage.db.open({tables: ['boards'], version: 5})
+            .then(status => {
 
-                    // Clear current diagram
-                    this.editor.new();
+                // Clear current diagram
+                this.editor.new();
 
-                    // Ready
-                    this.editor.idle();
+                // Ready
+                this.editor.idle();
 
-                    // Dispatch final event
-                    this.events.call('on:loaded');
+                // Dispatch final event
+                this.events.call('on:loaded');
 
-                // })
-                // .catch(error => {
-                //     logging.error('IDB: Initialization error (IndexedDB corrupted?)');
-                // });
+            })
+            .catch(error => {
+                logging.error('IDB: Initialization error');
+            });
 
         }
 

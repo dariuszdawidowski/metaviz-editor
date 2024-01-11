@@ -192,6 +192,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Prevent closing window/tab
         metaviz.events.subscribe('window:close', window, 'beforeunload', (event) => {
+            metaviz.storage.db.close();
             this.flush(true);
             const confirmationMessage = '\o/';
             if (this.history.isDirty()) {
@@ -1263,14 +1264,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     if (json) {
 
                         // Save handler in IndexedDB
-                        //metaviz.storage.db.table['boards'].set({'id': json.id, 'handle': this.file.handle});
+                        metaviz.storage.db.table['boards'].set({'id': json.id, 'handle': this.file.handle});
 
                         // Set ?board=<id> in URL
-                        //window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
+                        window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
 
                         // Decode
-                        if (json.format == 'MetavizJSON')
-                            metaviz.format.deserialize('text/metaviz+json', json);
+                        if (json.format == 'MetavizJSON') metaviz.format.deserialize('text/metaviz+json', json);
 
                         // Empty folder?
                         metaviz.editor.checkEmpty();

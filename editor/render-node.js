@@ -134,14 +134,14 @@ class MetavizNode extends TotalDiagramNode {
 
         // Options keep locally for all nodes of given type
         // IndexedDB: commonOptions: id = 'board_id-node_type', option = '...'
-        this.localOptions = {
-            set: (name, value) => {
-                metaviz.storage.db.table['localOptions'].set({ 'id': metaviz.editor.id + '-' + this.constructor.name, 'option': name, 'value': value });
-            },
-            get: async (name) => {
-                return await metaviz.storage.db.table['localOptions'].get({ 'id': metaviz.editor.id + '-' + this.constructor.name, 'option': name });
-            }
-        };
+        // this.localOptions = {
+        //     set: (name, value) => {
+        //         metaviz.storage.db.table['localOptions'].set({ 'id': metaviz.editor.id + '-' + this.constructor.name, 'option': name, 'value': value });
+        //     },
+        //     get: async (name) => {
+        //         return await metaviz.storage.db.table['localOptions'].get({ 'id': metaviz.editor.id + '-' + this.constructor.name, 'option': name });
+        //     }
+        // };
 
         // Selected
         this.selected = false;
