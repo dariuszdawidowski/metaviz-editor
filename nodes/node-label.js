@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Label
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodeLabel extends MetavizNode {
@@ -93,6 +93,7 @@ class MetavizNodeLabel extends MetavizNode {
                 placeholder: _('Font'),
                 options: {
                     'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Roboto'},
+                    'Playfair Display': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Playfair Display'},
                     'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Allura'},
                     'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Mansalva'},
                 },

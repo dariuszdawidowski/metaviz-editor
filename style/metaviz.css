@@ -1,8 +1,29 @@
 /* Metaviz Base Style */
 
-/* Fonts: Roboto 400 Regular+Italic, Allura 400 Regular, Mansalva 400 Regular */
+/*
+Fonts:
 
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Mansalva&family=Roboto:ital@0;1&display=swap');
+Allura 400 Regular
+Bangers 400 Regular
+Lemon 400 Regular
+Mansalva 400 Regular
+Oswald 500 Medium
+Playfair Display 400 Regular
+Roboto 400 Regular+Italic
+Source Code Pro 400 Regular
+
+font-family: 'Allura', cursive;
+font-family: 'Bangers', system-ui;
+font-family: 'Lemon', serif;
+font-family: 'Mansalva', sans-serif;
+font-family: 'Oswald', sans-serif;
+font-family: 'Playfair Display', serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Source Code Pro', monospace;
+*/
+
+/*@import url('https://fonts.googleapis.com/css2?family=Allura&family=Mansalva&family=Roboto:ital@0;1&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Bangers&family=Lemon&family=Mansalva&family=Oswald:wght@500&family=Playfair+Display&family=Roboto:ital@0;1&family=Source+Code+Pro&display=swap');
 
 /* Default theme variables */
 
