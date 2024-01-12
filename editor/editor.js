@@ -1256,7 +1256,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 try {
                     const handle = await window.showOpenFilePicker({
                         types: [{
-                                description: "Metaviz file .mv",
+                                description: 'Metaviz file .mv',
                                 accept: {
                                     'text/metaviz+json': ['.mv'],
                                 },
@@ -1639,7 +1639,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 const entry = document.createElement('span');
                 entry.classList.add('file');
                 entry.dataset.boardId = boardID;
-                entry.innerHTML = `${_('Click to open file')}: ${board.name || board.handle.name}`;
+                entry.innerHTML = `${_('Click here to open file')}: ${board.name || board.handle.name}`;
                 entry.onclick = async (event) => {
                     metaviz.editor.open(event.target.dataset.boardId);
                 };
