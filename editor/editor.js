@@ -1550,11 +1550,27 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     checkEmpty() {
         if (this.isEmpty()) {
+
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥', '🛸', '✨', '🎀', '💻', '😺', '🤖', '👾', '🐯', '🦊', '🐻', '🐨', '🐲', '🐳', '🐉'];
-            this.showInfoBubble({
-                icon: emojis[Math.randomRangeInt(0, emojis.length - 1)],
-                text: metaviz.render.nodes.parent ?
-                    _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') :
+            let emoji = emojis[Math.randomRangeInt(0, emojis.length - 1)];
+            let message = '';
+
+            // File from URL ?board=...
+            const params = window.location.search.uriToDict();
+            if ('board' in params) {
+                emoji = '💾';
+                message =
+                    '<div>' +
+                        '<div style="">' +
+                            '<span id="info-bubble-recent-files"></span>' +
+                        '</div>' +
+                    '</div>';
+                this.checkFile(params['board']);
+            }
+
+            // Info about empty board with recent files
+            else if (metaviz.render.nodes.parent == null) {
+                message =
                     '<div>' +
                         '<div style="padding: 15px 0 5px 5px">' +
                             _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
@@ -1563,8 +1579,18 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                             '<span id="info-bubble-recent-files"></span>' +
                         '</div>' +
                     '</div>'
+                this.checkRecentFiles();
+            }
+
+            // Info about empty folder
+            else {
+                message = _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...');
+            }
+
+            this.showInfoBubble({
+                icon: emoji,
+                text: message
             });
-            this.checkRecentFiles();
         }
         else {
             this.hideInfoBubble();
@@ -1597,6 +1623,27 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // No recent files
             else {
                 container.innerHTML += 'Recent files: -';
+            }
+        })();
+    }
+
+    /**
+     * Check file from ?board=...
+     */
+
+    checkFile(boardID) {
+        (async () => {
+            const board = await metaviz.storage.db.table['boards'].get({id: boardID});
+            if (board) {
+                const container = document.getElementById('info-bubble-recent-files');
+                const entry = document.createElement('span');
+                entry.classList.add('file');
+                entry.dataset.boardId = boardID;
+                entry.innerHTML = `${_('Click to open file')}: ${board.name || board.handle.name}`;
+                entry.onclick = async (event) => {
+                    metaviz.editor.open(event.target.dataset.boardId);
+                };
+                container.append(entry);
             }
         })();
     }
