@@ -22,11 +22,12 @@ class MetavizViewerState {
 
             state: () => {
                 const params = window.location.search.uriToDict();
+                console.log('params', params);
 
-                // Local: Load ?file=... or clear URL GET params
+                // Local: Load ?board=... or clear URL GET params
                 if (metaviz.agent.client == 'browser' && metaviz.agent.db == 'file') {
                     // Open file
-                    if ('diagram' in params) {
+                    if ('board' in params) {
                         const divbg = document.createElement('div');
                         divbg.classList.add('metaviz-load-bg');
                         const logo = document.createElement('img');
@@ -135,6 +136,7 @@ class MetavizViewerState {
      */
 
     initUrlStateEvents() {
+
         // Pop state <-
         window.addEventListener('popstate', (event) => {
             //Render

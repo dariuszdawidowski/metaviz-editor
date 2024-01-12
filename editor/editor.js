@@ -1250,14 +1250,26 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // Lock interaction
             this.interaction.lock();
-            // Open file dialog
-            try {
-                const handle = await window.showOpenFilePicker();
-                if (handle.length) this.file.handle = handle[0];
+
+            // If not boardID: open file dialog
+            if (!boardID) {
+                try {
+                    const handle = await window.showOpenFilePicker();
+                    if (handle.length) this.file.handle = handle[0];
+                }
+                catch(error) {
+                    logging.info(error);
+                }
             }
-            catch(error) {
-                logging.info(error);
+
+            // Or open file from stored handler
+            else {
+                const record = await metaviz.storage.db.table['boards'].get({'id': boardID});
+                this.file.handle = record.handle;
+                // console.log('handle', record, this.file.handle);
             }
+
+            // Open file
             if (this.file.handle) {
 
                 // Get file data

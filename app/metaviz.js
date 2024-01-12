@@ -428,6 +428,12 @@ class Metaviz {
                 // Clear current diagram
                 this.editor.new();
 
+                // Load ?board=...
+                if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
+                    const params = window.location.search.uriToDict();
+                    if ('board' in params) this.editor.open(params['board']);
+                }
+
                 // Ready
                 this.editor.idle();
 

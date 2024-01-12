@@ -157,25 +157,21 @@ class MetavizIndexedDBTable {
     /**
      * Get record
      * @param data id [dict] e.g. {id: '123'}
-     * @param callback for return value  e.g. result => console.log(result)
      */
 
-    get(data, callback)  {
-
+    async get(data)  {
         let transaction = this.db.transaction([this.name], 'readonly');
         let store = transaction.objectStore(this.name);
-        let result = new Promise((resolve, reject) => {
-            let request = store.get(data.id);
+        let result = await new Promise((resolve, reject) => {
+            let request = data == '*' ? store.getAll() : store.get(data.id);
             request.onsuccess = function(event) {
-                callback(request.result);
                 resolve(request.result);
             };
             request.onerror = function(event) {
                 reject(event.target.error);
-                callback(null);
             };
         });
-
+        return result;
     }
 
 }

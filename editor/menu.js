@@ -178,55 +178,68 @@ class MetavizContextMenu extends TotalProMenu {
         // File
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
 
-            const subFile = new TotalProSubMenu({ id: 'menu-file', text: _('File') });
+            const subFile = new TotalProSubMenu({
+                id: 'menu-file',
+                text: _('File')
+            });
             this.panel.left.add(subFile);
-            subFile.add(new TotalProMenuGroup({ text: _('File operations'), widgets: [
+            subFile.add(new TotalProMenuGroup({
+                text: _('File operations'),
+                widgets: [
 
-                // New
-                new TotalProMenuOption({
-                    id: 'menu-file-new',
-                    text: _('New'),
-                    onChange: () => {
-                        this.hide();
-                        let msg = 'Create new board?';
-                        if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
-                        if (confirm(msg)) metaviz.editor.new();
-                    }
-                }),
+                    // New
+                    new TotalProMenuOption({
+                        id: 'menu-file-new',
+                        text: _('New'),
+                        onChange: () => {
+                            this.hide();
+                            let msg = 'Create new board?';
+                            if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
+                            if (confirm(msg)) metaviz.editor.new();
+                        }
+                    }),
 
-                // Open
-                new TotalProMenuOption({
-                    id: 'menu-file-open',
-                    text: _('Open') + '...',
-                    shortcut: [17, 79],
-                    onChange: () => {
-                        this.hide();
-                        metaviz.editor.open();
-                    }
-                }),
+                    // Open
+                    new TotalProMenuOption({
+                        id: 'menu-file-open',
+                        text: _('Open') + '...',
+                        shortcut: [17, 79],
+                        onChange: () => {
+                            this.hide();
+                            metaviz.editor.open();
+                        }
+                    }),
 
-                // Save
-                new TotalProMenuOption({
-                    id: 'menu-file-save',
-                    text: _('Save'),
-                    shortcut: [17, 83],
-                    onChange: () => {
-                        this.hide();
-                        if (metaviz.editor.history.isDirty()) metaviz.editor.save();
-                    }
-                }),
+                    // Save
+                    new TotalProMenuOption({
+                        id: 'menu-file-save',
+                        text: _('Save'),
+                        shortcut: [17, 83],
+                        onChange: () => {
+                            this.hide();
+                            if (metaviz.editor.history.isDirty()) metaviz.editor.save();
+                        }
+                    }),
 
-                // Export
-                new TotalProMenuOption({
-                    id: 'menu-file-export-svg',
-                    text: _('Export to SVG'),
-                    onChange: () => {
-                        this.hide();
-                        metaviz.editor.export('image/svg+xml');
-                    }
-                })
+                    // Export
+                    new TotalProMenuOption({
+                        id: 'menu-file-export-svg',
+                        text: _('Export to SVG'),
+                        onChange: () => {
+                            this.hide();
+                            metaviz.editor.export('image/svg+xml');
+                        }
+                    })
 
-            ] }));
+                ]
+            }));
+
+            // Recent files
+            subFile.add(new TotalProMenuGroup({
+                id: 'menu-file-recent',
+                text: _('Recent files'),
+                widgets: []
+            }));
 
             // ----
             this.panel.left.add(new TotalProMenuSeparator());
@@ -742,6 +755,24 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Enable File (always)
             this.panel.left.find('menu-file')?.enable();
+
+            // Recent files
+            (async () => {
+                const menuRecentFiles = this.panel.left.find('menu-file-recent');
+                menuRecentFiles.del();
+                const record = await metaviz.storage.db.table['boards'].get('*');
+                for (const board of record) {
+                    menuRecentFiles.add(new TotalProMenuOption({
+                        text: board.name,
+                        value: board.id,
+                        onChange: (value) => {
+                            console.log('load', value)
+                            this.hide();
+                            if (value) metaviz.editor.open(value);
+                        }
+                    }));
+                }
+            })();
 
             // Enable Toolbar (always)
             this.panel.left.find('menu-toolbars')?.enable();
