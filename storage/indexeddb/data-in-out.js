@@ -38,8 +38,10 @@ class MetavizIndexedDB {
             request.onupgradeneeded = (event) => {
                 this.db = event.target.result;
                 for (const table of tables) {
-                    logging.info(`Create IndexedDB table "${table}"`);
-                    this.db.createObjectStore(table, { 'keyPath': 'id', 'autoIncrement': false });
+                    if (!this.db.objectStoreNames.contains(table)) {
+                        logging.info(`Create IndexedDB table "${table}"`);
+                        this.db.createObjectStore(table, { 'keyPath': 'id', 'autoIncrement': false });
+                    }
                 }
             };
 
