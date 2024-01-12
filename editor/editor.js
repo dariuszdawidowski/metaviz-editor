@@ -1254,7 +1254,17 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // If not boardID: open file dialog
             if (!boardID) {
                 try {
-                    const handle = await window.showOpenFilePicker();
+                    const handle = await window.showOpenFilePicker({
+                        types: [{
+                                description: "Metaviz file .mv",
+                                accept: {
+                                    'text/metaviz+json': ['.mv'],
+                                },
+                            },
+                        ],
+                        excludeAcceptAllOption: true,
+                        multiple: false,
+                    });
                     if (handle.length) this.file.handle = handle[0];
                 }
                 catch(error) {
@@ -1265,8 +1275,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Or open file from stored handler
             else {
                 const record = await metaviz.storage.db.table['boards'].get({'id': boardID});
-                this.file.handle = record.handle;
-                // console.log('handle', record, this.file.handle);
+                const allow = await this.filePermission(record.handle);
+                if (allow) this.file.handle = record.handle;
             }
 
             // Open file
@@ -1299,7 +1309,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                             metaviz.format.deserialize('text/metaviz+json', json);
 
                         // Empty folder?
-                        metaviz.editor.checkEmpty();
+                        this.checkEmpty();
 
                         // Centre
                         metaviz.render.focusBounds();
@@ -1339,7 +1349,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                             metaviz.format.deserialize('text/mvstack+xml', xml);
     
                         // Empty folder?
-                        metaviz.editor.checkEmpty();
+                        this.checkEmpty();
 
                         // Centre
                         metaviz.render.focusBounds();
@@ -1481,7 +1491,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     showInfoBubble(args) {
         if (!metaviz.render.board.querySelector('.info-bubble')) metaviz.render.board.append(this.info);
-        this.info.innerHTML = `<span style="font-size: 20px; margin-right: 12px">${args.icon}</span> ${args.text}`;
+        this.info.innerHTML = `<span style="font-size: 20px; margin: 12px 24px 12px 12px">${args.icon}</span> ${args.text}`;
         this.info.style.display = 'flex';
     }
 
@@ -1540,17 +1550,73 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     checkEmpty() {
         if (this.isEmpty()) {
-            const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥'];
+            const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥', '🛸', '✨', '🎀', '💻', '😺', '🤖', '👾', '🐯', '🦊', '🐻', '🐨', '🐲', '🐳', '🐉'];
             this.showInfoBubble({
                 icon: emojis[Math.randomRangeInt(0, emojis.length - 1)],
                 text: metaviz.render.nodes.parent ?
-                      _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') :
-                      _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...')
+                    _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') :
+                    '<div>' +
+                        '<div style="padding: 15px 0 5px 5px">' +
+                            _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
+                        '</div>' +
+                        '<div style="padding: 5px 0 15px 5px">' +
+                            '<span id="info-bubble-recent-files"></span>' +
+                        '</div>' +
+                    '</div>'
             });
+            this.checkRecentFiles();
         }
         else {
             this.hideInfoBubble();
         }
+    }
+
+    /**
+     * Check recent files
+     */
+
+    checkRecentFiles() {
+        (async () => {
+            const records = await metaviz.storage.db.table['boards'].get('*');
+            if (records.length) {
+                records.sort((a, b) => b.timestamp - a.timestamp);
+                const container = document.getElementById('info-bubble-recent-files');
+                container.innerHTML += `${_('Recent files')}: `;
+                for (let i = 0; i < Math.min(records.length, 3); i ++) {
+                    const board = records[i];
+                    const entry = document.createElement('span');
+                    entry.classList.add('file');
+                    entry.dataset.boardId = board.id;
+                    entry.innerHTML = `💾 ${board.name || board.handle.name}`;
+                    entry.onclick = async (event) => {
+                        metaviz.editor.open(event.target.dataset.boardId);
+                    };
+                    container.append(entry);
+                }
+            }
+            // No recent files
+            else {
+                container.innerHTML += 'Recent files: -';
+            }
+        })();
+    }
+
+    /**
+     * Check and optionally ask about file access permission
+     */
+
+    async filePermission(fileHandle) {
+        const options = {mode: 'readwrite'};
+        // Check if permission was already granted. If so, return true.
+        if ((await fileHandle.queryPermission(options)) === 'granted') {
+            return true;
+        }
+        // Request permission. If the user grants permission, return true.
+        if ((await fileHandle.requestPermission(options)) === 'granted') {
+            return true;
+        }
+        // The user didn't grant permission, so return false.
+        return false;
     }
 
     /**

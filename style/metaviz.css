@@ -178,7 +178,6 @@ input, textarea, label {
 
 .info-bubble {
     width: 640px;
-    height: 50px;
     background: rgba(255, 255, 255, 0.3);
     color: var(--front-color);
     transform: translate(-50%, -50%);
@@ -189,6 +188,15 @@ input, textarea, label {
     font-size: 14px;
     box-shadow: 0 0 10px rgba(0,0,0, 0.3) ;
 }
+
+.info-bubble .file {
+}
+
+.info-bubble .file:hover {
+    cursor: pointer;
+    color: rgb(0,200,0);
+}
+
 
 /* Cookie Bubble */
 
