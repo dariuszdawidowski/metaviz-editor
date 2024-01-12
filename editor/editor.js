@@ -1275,7 +1275,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Or open file from stored handler
             else {
                 const record = await metaviz.storage.db.table['boards'].get({'id': boardID});
-                const allow = await this.filePermission(record.handle);
+                const allow = await this.grantFile(record);
                 if (allow) this.file.handle = record.handle;
             }
 
@@ -1652,16 +1652,25 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Check and optionally ask about file access permission
      */
 
-    async filePermission(fileHandle) {
+    async grantFile(record) {
         const options = {mode: 'readwrite'};
-        // Check if permission was already granted. If so, return true.
-        if ((await fileHandle.queryPermission(options)) === 'granted') {
+
+        // Check stored permission in IndexedDB.
+        // if ('permission' in record && record.permission == true) {
+        //     return true;
+        // }
+
+        // Check stored permission in handle.
+        if ((await record.handle.queryPermission(options)) === 'granted') {
             return true;
         }
+
         // Request permission. If the user grants permission, return true.
-        if ((await fileHandle.requestPermission(options)) === 'granted') {
+        if ((await record.handle.requestPermission(options)) === 'granted') {
+            // metaviz.storage.db.table['boards'].set({'id': record.id, 'permission': true});
             return true;
         }
+
         // The user didn't grant permission, so return false.
         return false;
     }
