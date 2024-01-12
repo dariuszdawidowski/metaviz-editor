@@ -1194,7 +1194,19 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         metaviz.events.call('update:boardname', text);
     }
 
-    getBoardName() {
+    randomBoardName() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = today.getMonth() + 1;
+        const dd = today.getDate();
+        const startRange = 0x1F600;
+        const endRange = 0x1F64F;
+        const emoji = String.fromCodePoint(Math.floor(Math.random() * (endRange - startRange + 1) + startRange));
+        this.setBoardName(`Board-${yyyy}-${mm < 10 ? '0' : ''}${mm}-${dd} ${emoji}`);
+    }
+
+    getBoardName(method = null) {
+        if (method == 'safe') return this.name.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u2B55\u23E9-\u23FA\u3030\uA9\uAE\u200D\u200C]/g, '').trim().slug();
         return this.name;
     }
 
@@ -1217,10 +1229,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         metaviz.render.clear();
         // Centre board
         metaviz.render.center();
-        // Reset board name
-        this.setBoardName('');
         // Generate new board ID
         this.id = crypto.randomUUID();
+        // Generate name
+        this.randomBoardName();
         // Empty info
         this.checkEmpty();
     }
@@ -1365,7 +1377,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Fallback: download file
         else {
-            metaviz.exchange.downloadFile({data: json, name: 'metaviz-diagram.mv'});
+            metaviz.exchange.downloadFile({data: json, name: `${this.getBoardName('safe')}.mv`});
             this.history.dirty = false;
             this.idle();
         }
