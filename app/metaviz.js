@@ -269,6 +269,7 @@ class Metaviz {
         this.events = null;
         this.exchange = null;
         this.editor = null;
+        this.state = null;
         this.unittest = null;
 
         // Sysinfo
@@ -365,6 +366,7 @@ class Metaviz {
 
         // Contructors (order matters)
         this.config = new MetavizConfig();
+        this.state = new MetavizViewerState();
         this.format = new MetavizFormat();
         this.format.register('text/mvstack+xml', {
             in: new MetavizInStack(),

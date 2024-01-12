@@ -1267,7 +1267,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         metaviz.storage.db.table['boards'].put({'id': json.id, 'name': json.name, 'handle': this.file.handle});
 
                         // Set ?board=<id> in URL
-                        // window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
+                        window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
 
                         // Decode
                         if (json.format == 'MetavizJSON')
@@ -1306,7 +1306,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         metaviz.storage.db.table['boards'].put({'id': xml_id, 'name': xml_name, 'handle': this.file.handle});
 
                         // Set ?board=<id> in URL
-                        // window.history.replaceState(null, null, metaviz.state.url.param('board').set(xml_id));
+                        window.history.replaceState(null, null, metaviz.state.url.param('board').set(xml_id));
 
                         // Decode
                         if (xml.querySelector('mv > format').textContent == 'MetavizStack')
