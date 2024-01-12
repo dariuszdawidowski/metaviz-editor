@@ -1289,6 +1289,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                         // Save handler in IndexedDB
                         metaviz.storage.db.table['boards'].put({'id': json.id, 'name': json.name, 'handle': this.file.handle});
+                        metaviz.storage.db.table['boards'].set({'id': json_id, 'timestamp': new Date().getTime()});
 
                         // Set ?board=<id> in URL
                         window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
@@ -1328,6 +1329,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                         // Save handler in IndexedDB
                         metaviz.storage.db.table['boards'].put({'id': xml_id, 'name': xml_name, 'handle': this.file.handle});
+                        metaviz.storage.db.table['boards'].set({'id': xml_id, 'timestamp': new Date().getTime()});
 
                         // Set ?board=<id> in URL
                         window.history.replaceState(null, null, metaviz.state.url.param('board').set(xml_id));

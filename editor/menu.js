@@ -760,16 +760,25 @@ class MetavizContextMenu extends TotalProMenu {
             (async () => {
                 const menuRecentFiles = this.panel.left.find('menu-file-recent');
                 menuRecentFiles.del();
-                const record = await metaviz.storage.db.table['boards'].get('*');
-                for (const board of record) {
+                const records = await metaviz.storage.db.table['boards'].get('*');
+                if (records.length) {
+                    records.sort((a, b) => b.timestamp - a.timestamp);
+                    for (const board of records) {
+                        menuRecentFiles.add(new TotalProMenuOption({
+                            text: board.name || board.handle.name,
+                            value: board.id,
+                            onChange: (value) => {
+                                this.hide();
+                                if (value) metaviz.editor.open(value);
+                            }
+                        }));
+                    }
+                }
+                // No recent files
+                else {
                     menuRecentFiles.add(new TotalProMenuOption({
-                        text: board.name,
-                        value: board.id,
-                        onChange: (value) => {
-                            console.log('load', value)
-                            this.hide();
-                            if (value) metaviz.editor.open(value);
-                        }
+                        text: '- ' + _('No options') + ' -',
+                        disabled: true
                     }));
                 }
             })();
