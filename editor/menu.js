@@ -757,8 +757,8 @@ class MetavizContextMenu extends TotalProMenu {
             this.panel.left.find('menu-file')?.enable();
 
             // Recent files
-            (async () => {
-                const menuRecentFiles = this.panel.left.find('menu-file-recent');
+            const menuRecentFiles = this.panel.left.find('menu-file-recent');
+            if (menuRecentFiles) (async () => {
                 menuRecentFiles.del();
                 const records = await metaviz.storage.db.table['boards'].get('*');
                 if (records.length) {
