@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Point
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodePoint extends MetavizNode {
@@ -9,7 +9,7 @@ class MetavizNodePoint extends MetavizNode {
         super(args);
 
         // Set size
-        this.setSize({width: 12, height: 12, minWidth: 12, minHeight: 12, resize: 'none'});
+        this.setSize({width: 12, height: 12, minWidth: 12, minHeight: 12, resize: 'none', border: 4});
 
         // Add socket
         this.addSockets({
