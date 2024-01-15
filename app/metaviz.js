@@ -1,6 +1,6 @@
 /**
  * Metaviz
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 
@@ -180,7 +180,7 @@ class Metaviz {
     constructor() {
 
         // App version
-        this.version = '0.9.15';
+        this.version = '0.9.16';
 
         // Agent Information about client properties
         this.agent = {
