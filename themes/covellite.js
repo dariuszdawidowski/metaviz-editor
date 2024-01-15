@@ -5,6 +5,8 @@ global.registry.add({
     name: 'Covellite',
     vars: {
         '--metaviz-logo-save': 'rgb(234, 246, 254)',
+        '--metaviz-color-navy': 'rgb(106, 35, 226)',
+        '--metaviz-color-navy-trans': 'rgba(106, 35, 226, 0.69)',
         '--canvas-bg-color': '#332f56',
         '--front-color': 'rgb(240, 240, 240)',
         '--front-reverse': 'rgb(60, 75, 60)',
