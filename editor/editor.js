@@ -1205,8 +1205,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.setBoardName(`Board-${yyyy}-${mm < 10 ? '0' : ''}${mm}-${dd} ${emoji}`);
     }
 
-    getBoardName(method = null) {
-        if (method == 'safe') return this.name.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u2B55\u23E9-\u23FA\u3030\uA9\uAE\u200D\u200C]/g, '').trim().slug();
+    getBoardName() {
         return this.name;
     }
 
@@ -1401,7 +1400,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Fallback: download file
         else {
-            metaviz.exchange.downloadFile({data: json, name: `${this.getBoardName('safe')}.mv`});
+            metaviz.exchange.downloadFile({data: json, name: `${this.getBoardName().slug()}.mv`});
             this.history.dirty = false;
             this.idle();
         }
@@ -1426,7 +1425,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     export(format) {
         const nodes = this.selection.count() ? this.selection.get() : metaviz.render.nodes.get('*').filter(node => node.parent == metaviz.render.nodes.parent);
         const svg = metaviz.format.serialize('image/svg+xml', nodes);
-        metaviz.exchange.downloadFile({data: svg, name: 'metaviz-diagram.svg'});
+        metaviz.exchange.downloadFile({data: svg, name: `${this.getBoardName().slug()}.svg`});
     }
 
     /** VIEWPORT ******************************************************************************************************************/

@@ -1,6 +1,6 @@
 /**
- * JavaScript Language Extensions v 1.27.2
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * JavaScript Language Extensions v 1.27.3
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 
@@ -173,13 +173,14 @@ else console.error('String.prototype.ext already exist');
 if (typeof String.prototype.slug != 'function')
 String.prototype.slug = function() {
     return this
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // diacritic removal
     .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/--+/g, "-")
-    .trim();
+    .replace(/[^\w\s-]/g, '') // allow only standard alphanumeric
+    .replace(/\s+/g, '-') // whitespace to '-'
+    .replace(/--+/g, '-') // short multiple '---'
+    .trim()
+    .replace(/^-|-$/g, ''); // trim starting and ending '-'
 }
 else console.error('String.prototype.slug already exist');
 
