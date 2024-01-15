@@ -192,7 +192,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Prevent closing window/tab
         metaviz.events.subscribe('window:close', window, 'beforeunload', (event) => {
-            metaviz.storage.db.close();
+            if ('db' in metaviz.storage) metaviz.storage.db.close();
             this.flush(true);
             const confirmationMessage = '\o/';
             if (this.history.isDirty()) {
@@ -1483,10 +1483,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     }
 
+    /** INFO BUBBLE ***************************************************************************************************************/
+
     /**
      * Show empty board/folder information
      * @param icon: icon to display
-     * @param text: html to display
+     * @param text: html to display || element: html to display
      */
 
     showInfoBubble(args) {
@@ -1548,7 +1550,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Check if board/folder is empty and show/hide info
      */
 
-    checkEmpty() {
+    async checkEmpty() {
         if (this.isEmpty()) {
 
             const emojis = ['🎈', '🧨', '👓', '🧸', '🔔', '💡', '📐', '😎', '🙄', '🤠', '🙈', '🙉', '🙊', '🐸', '🐧', '🐌', '⚡', '💥', '🛸', '✨', '🎀', '💻', '😺', '🤖', '👾', '🐯', '🦊', '🐻', '🐨', '🐲', '🐳', '🐉'];
@@ -1557,36 +1559,45 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
             // File from URL ?board=...
             const params = window.location.search.uriToDict();
-            if ('board' in params) {
+            if (metaviz.agent.db == 'file' && 'board' in params) {
+                const recent = await this.checkFile(params['board']);
                 emoji = '💾';
-                message =
+                if (recent != '') message =
                     '<div>' +
                         '<div style="">' +
-                            '<span id="info-bubble-recent-files"></span>' +
+                            '<span id="info-bubble-recent-files">' + recent + '</span>' +
                         '</div>' +
                     '</div>';
-                this.checkFile(params['board']);
+                else message =
+                    '<div>' +
+                        _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
+                    '</div>'
             }
 
             // Info about empty board with recent files
-            else if (metaviz.render.nodes.parent == null) {
-                message =
+            else if (metaviz.agent.db == 'file' && metaviz.render.nodes.parent == null) {
+                const recent = await this.checkRecentFiles();
+                if (recent != '') message =
                     '<div>' +
                         '<div style="padding: 15px 0 5px 5px">' +
                             _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
                         '</div>' +
                         '<div style="padding: 5px 0 15px 5px">' +
-                            '<span id="info-bubble-recent-files"></span>' +
+                            '<span id="info-bubble-recent-files">' + recent + '</span>' +
                         '</div>' +
                     '</div>'
-                this.checkRecentFiles();
+                else message =
+                    '<div>' +
+                        _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
+                    '</div>'
             }
 
             // Info about empty folder
-            else {
+            else if (metaviz.render.nodes.parent != null) {
                 message = _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...');
             }
 
+            // Show bubble
             this.showInfoBubble({
                 icon: emoji,
                 text: message
@@ -1597,55 +1608,37 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         }
     }
 
+    /** FILES *********************************************************************************************************************/
+
     /**
      * Check recent files
      */
 
-    checkRecentFiles() {
-        (async () => {
-            const records = await metaviz.storage.db.table['boards'].get('*');
-            if (records.length) {
-                records.sort((a, b) => b.timestamp - a.timestamp);
-                const container = document.getElementById('info-bubble-recent-files');
-                container.innerHTML += `${_('Recent files')}: `;
-                for (let i = 0; i < Math.min(records.length, 3); i ++) {
-                    const board = records[i];
-                    const entry = document.createElement('span');
-                    entry.classList.add('file');
-                    entry.dataset.boardId = board.id;
-                    entry.innerHTML = `💾 ${board.name || board.handle.name}`;
-                    entry.onclick = async (event) => {
-                        metaviz.editor.open(event.target.dataset.boardId);
-                    };
-                    container.append(entry);
-                }
+    async checkRecentFiles() {
+        let buffer = '';
+        const records = await metaviz.storage.db.table['boards'].get('*');
+        if (records.length) {
+            records.sort((a, b) => b.timestamp - a.timestamp);
+            buffer += `${_('Recent files')}: `;
+            for (let i = 0; i < Math.min(records.length, 3); i ++) {
+                const board = records[i];
+                buffer += `<span class="file" onclick="metaviz.editor.open('${board.id}')">💾 ${board.name || board.handle.name}</span>`;
             }
-            // No recent files
-            else {
-                container.innerHTML += 'Recent files: -';
-            }
-        })();
+        }
+        return buffer;
     }
 
     /**
      * Check file from ?board=...
      */
 
-    checkFile(boardID) {
-        (async () => {
-            const board = await metaviz.storage.db.table['boards'].get({id: boardID});
-            if (board) {
-                const container = document.getElementById('info-bubble-recent-files');
-                const entry = document.createElement('span');
-                entry.classList.add('file');
-                entry.dataset.boardId = boardID;
-                entry.innerHTML = `${_('Click here to open file')}: ${board.name || board.handle.name}`;
-                entry.onclick = async (event) => {
-                    metaviz.editor.open(event.target.dataset.boardId);
-                };
-                container.append(entry);
-            }
-        })();
+    async checkFile(boardID) {
+        let buffer = '';
+        const board = await metaviz.storage.db.table['boards'].get({id: boardID});
+        if (board) {
+            buffer += `<span class="file" onclick="metaviz.editor.open('${board.id}')">${_('Click here to open file')}: ${board.name || board.handle.name}</span>`;
+        }
+        return buffer;
     }
 
     /**
@@ -1674,6 +1667,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // The user didn't grant permission, so return false.
         return false;
     }
+
+    /** RENDER ********************************************************************************************************************/
 
     /**
      * Set current folder and node
