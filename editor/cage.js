@@ -90,7 +90,7 @@ class MetavizCage {
 
             // Returns difference x,y before last mouse move
             delta: function(x, y) {
-                const result = {x: (x - this.prevX) * this.direction.x, y: (y - this.prevY) * this.direction.y};
+                const result = {x: (x - this.prevX) * this.direction.x * window.devicePixelRatio, y: (y - this.prevY) * this.direction.y * window.devicePixelRatio};
                 this.prevX = x;
                 this.prevY = y;
                 return result;
@@ -98,22 +98,16 @@ class MetavizCage {
 
             // Returns difference x,y before last mouse move in average scale
             deltaAvg: function(x, y) {
-                const factor = 2.0;
-                const result = {x: x - this.prevX, y: y - this.prevY};
-                this.prevX = x;
-                this.prevY = y;
-                const avg = ((result.x * this.direction.x) + (result.y * this.direction.y)) / 2;
-                return {x: avg * factor, y: avg * factor};
+                const result = this.delta(x, y);
+                const avg = (result.x + result.y) / 2;
+                return {x: avg, y: avg};
             },
 
             // Returns difference x,y before last mouse move in picture ratio rx, ry scale
             deltaRatio: function(x, y, rx, ry) {
-                const factor = 2.0;
-                const result = {x: (x - this.prevX) * this.direction.x, y: (y - this.prevY) * this.direction.y};
-                this.prevX = x;
-                this.prevY = y;
+                const result = this.delta(x, y);
                 const move = Math.abs(result.x) > Math.abs(result.y) ? result.x : result.y;
-                return {x: move * rx * factor, y: move * ry * factor};
+                return {x: move * rx, y: move * ry};
             }
         };
 
@@ -194,7 +188,9 @@ class MetavizCage {
         else if (event.target.hasClass('se')) this.offset.direction = {x: 1, y: 1};
         else if (event.target.hasClass('sw')) this.offset.direction = {x: -1, y: 1};
         const size = metaviz.editor.selection.getFocused().storeSize();
-        this.offset.init(event.x, event.y);
+        // this.offset.init(event.x, event.y);
+        const world = metaviz.render.screen2World({x: event.x, y: event.y});
+        this.offset.init(world.x, world.y);
         metaviz.render.container.addEventListener('pointermove', this.resizeDragEvent);
         metaviz.render.container.addEventListener('pointerup', this.resizeEndEvent);
         document.addEventListener('mouseout', this.resizeOutEvent);
@@ -206,17 +202,18 @@ class MetavizCage {
 
     resizeDrag(event) {
         const size = this.node.getSize();
+        const world = metaviz.render.screen2World({x: event.x, y: event.y});
         let offset = null;
         switch (size.resize) {
             case 'free':
-                offset = this.offset.delta(event.x, event.y);
+                offset = this.offset.delta(world.x, world.y);
                 break;
             case 'avg':
-                offset = this.offset.deltaAvg(event.x, event.y);
+                offset = this.offset.deltaAvg(world.x, world.y);
                 break;
             case 'ratio':
                 const ratio = (this.node.transform.w / this.node.transform.h).toFixed(2);
-                offset = this.offset.deltaRatio(event.x, event.y, ratio, 1);
+                offset = this.offset.deltaRatio(world.x, world.y, ratio, 1);
                 break;
         }
         this.node.setSize({
