@@ -171,6 +171,7 @@ class MetavizNavigatorBrowser {
 
         // Mouse Up
         this.mouseUp = () => {
+            if (metaviz.config.pointer.desktop.get() == 'pan') metaviz.render.damp();
             metaviz.container.element.style.cursor = 'auto';
             document.removeEventListener('mousemove', this.mouseMove);
             document.removeEventListener('mouseup', this.mouseUp);
