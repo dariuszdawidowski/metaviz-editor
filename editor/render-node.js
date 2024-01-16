@@ -3,7 +3,7 @@
  *                  _( )_     Metaviz Node (Editor)                                                *
  *      |\_/|      (_)@(_)    Extended node functionality.                                         *
  *     -(o.o)-      /(_)      MIT License                                                          *
- *      _(_)_    \\//         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *      _(_)_    \\//         (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -39,6 +39,7 @@ class MetavizNode extends TotalDiagramNode {
         this.slot = 'params' in args && 'slot' in args.params ? args.params.slot : null;
 
         // Extend transform
+        this.transform.resize = 'ratio';
         this.transform.prev = {
             x: 0,
             y: 0,
@@ -469,7 +470,15 @@ class MetavizNode extends TotalDiagramNode {
 
     /**
      * Size
-     * size: {width: .., height: ..}, save: [bool]
+     * @param size.width: <Number>
+     * @param size.height: <Number>
+     * @param size.minWidth: <Number>
+     * @param size.minHeight: <Number>
+     * @param size.maxWidth: <Number>
+     * @param size.maxHeight: <Number>
+     * @param size.border: [Number]
+     * @param size.resize: [string] ('none' = can't resize, 'avg' = average, 'free' = separate x,y, 'ratio' = proportional)
+     * @param save: [bool]
      */
 
     setSize(size, save = false) {
@@ -502,8 +511,8 @@ class MetavizNode extends TotalDiagramNode {
             minHeight: this.transform.hmin,
             maxWidth: this.transform.wmax,
             maxHeight: this.transform.hmax,
-            // Resize mode ('none' = can't resize, 'avg' = average, 'free' = separate x,y, 'ratio' = proportional)
-            mode: this.transform.resize == '' ? 'ratio' : this.transform.resize
+            border: this.transform.border,
+            resize: this.transform.resize
         };
     }
 

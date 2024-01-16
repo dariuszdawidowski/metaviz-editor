@@ -11,9 +11,6 @@ class MetavizCage {
 
     constructor(args) {
 
-        // Mode ('none' = can't resize, 'avg' = average proportional resizing, 'free' = separate x,y, 'ratio' = proportional)
-        this.mode = 'ratio';
-
         // Current node
         this.node = null;
 
@@ -146,7 +143,7 @@ class MetavizCage {
 
     show() {
         // Hide/show resizing squares
-        if (this.node.getSize().mode == 'none') {
+        if (this.node.getSize().resize == 'none') {
             this.nw.style.display = 'none';
             this.ne.style.display = 'none';
             this.se.style.display = 'none';
@@ -210,7 +207,7 @@ class MetavizCage {
     resizeDrag(event) {
         const size = this.node.getSize();
         let offset = null;
-        switch (size.mode) {
+        switch (size.resize) {
             case 'free':
                 offset = this.offset.delta(event.x, event.y);
                 break;
@@ -237,18 +234,11 @@ class MetavizCage {
 
     resizeEnd(event) {
 
-        // Snap size
+        // Save final size
         const size = this.node.getSize();
-        const offset = size.mode == 'avg' ? this.offset.deltaAvg(event.x, event.y) : this.offset.delta(event.x, event.y);
-        const snappedSize = metaviz.editor.snapToGrid(
-            Math.min(Math.max(size.width + offset.x, size.minWidth), size.maxWidth),
-            Math.min(Math.max(size.height + offset.y, size.minHeight), size.maxHeight)
-        );
-
-        // Set rendered node size
         this.node.setSize({
-            width: snappedSize.x,
-            height: snappedSize.y
+            width: size.width,
+            height: size.height
         }, true);
 
         // Remove events

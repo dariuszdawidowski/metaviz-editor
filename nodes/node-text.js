@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Text
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodeText extends MetavizNode {
@@ -296,7 +296,7 @@ class MetavizNodeText extends MetavizNode {
             minHeight: this.transform.hmin,
             maxWidth: this.transform.wmax,
             maxHeight: this.transform.hmax,
-            mode: 'free'
+            resize: 'free'
         };
     }
 

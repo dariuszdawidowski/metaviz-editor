@@ -304,14 +304,14 @@
 /* Input */
 
 .metaviz-node-label .metaviz-control-input {
-    padding: 0 4px;
+    padding: 0;
     border: none;
-    width: calc(100% - 8px);
+    width: 100%;
     height: 100%;
-    line-height: 1.4em;
+    line-height: 100cqh;
     background-color: transparent;
     text-align: center;
-    font-size: 13px;
+    font-size: min(80cqw, 80cqh);
 }
 
 /* Placeholder */

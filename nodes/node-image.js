@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Image
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodeImage extends MetavizNode {
@@ -195,7 +195,6 @@ class MetavizNodeImage extends MetavizNode {
 
     /**
      * Size
-     * {width: .., height: ..}
      */
 
     getSize() {
@@ -206,7 +205,7 @@ class MetavizNodeImage extends MetavizNode {
             minHeight: 128,
             maxWidth: 8192,
             maxHeight: 8192,
-            mode: 'ratio'
+            resize: 'ratio'
         };
     }
 

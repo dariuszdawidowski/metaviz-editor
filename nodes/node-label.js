@@ -21,6 +21,9 @@ class MetavizNodeLabel extends MetavizNode {
         // Migrate Meta
         if (typeof(this.params['color']) == 'number') this.params['color'] = this.params['color'].toString();
 
+        // CSS Container
+        this.element.style.container = 'textbox / size';
+
         // Controls
         this.addControls({
 
@@ -120,7 +123,7 @@ class MetavizNodeLabel extends MetavizNode {
         this.controls.input.element.style.fontFamily = this.params.font;
 
         // Size
-        this.setSize({width: 176, height: 24, minWidth: 176, minHeight: 24, border: 3});
+        this.setSize({resize: 'free', width: 176, height: 24, minWidth: 176, minHeight: 24, maxWidth: 2048, border: 3});
 
         // Classes
         this.element.classList.add('color-' + this.params.color);
@@ -207,28 +210,6 @@ class MetavizNodeLabel extends MetavizNode {
             calc: Number(this.controls.input.get().replace(/[^\d-\.]/g, ''))
         });
         return stream;
-    }
-
-    /**
-     * Size
-     * {width: .., height: ..}
-     */
-
-    setSize(size, save = false) {
-        super.setSize(size, save);
-        this.controls.input.element.style.fontSize = (size.height * 0.69) + 'px';
-    }
-
-    getSize() {
-        return {
-            width: this.transform.w,
-            height: this.transform.h,
-            minWidth: 64,
-            minHeight: 16,
-            maxWidth: 1024,
-            maxHeight: 1024,
-            mode: 'free'
-        };
     }
 
     /**
