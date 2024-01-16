@@ -588,10 +588,6 @@ class MetavizContextMenu extends TotalProMenu {
                     metaviz.editor.selection.add(clicked);
                 }
             }
-            // Clear selection if clicked on board background
-            else {
-                metaviz.editor.selection.clear();
-            }
 
             // Cancel piemenu
             for (const node of metaviz.editor.selection.get()) {
