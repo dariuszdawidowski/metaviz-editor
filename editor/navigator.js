@@ -36,6 +36,8 @@ class MetavizNavigatorBrowser {
             start: (x, y) => {
                 this.transform.x = x - metaviz.render.margin.left;
                 this.transform.y = y - metaviz.render.margin.top;
+                metaviz.render.offset.delta.x = 0;
+                metaviz.render.offset.delta.y = 0;
             },
 
             update: (x, y) => {
