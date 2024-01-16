@@ -650,27 +650,27 @@ class Metaviz {
 
                 // Safari
                 case 'safari':
-                    if (this.system.browser.major < 15) return false;
+                    if (this.system.browser.major < 16) return false;
                     break;
 
                 // Chrome
                 case 'chrome':
-                    if (this.system.browser.major < 105) return false;
+                    if (this.system.browser.major < 106) return false;
                     break;
 
                 // Firefox
                 case 'firefox':
-                    if (this.system.browser.major < 104) return false;
+                    if (this.system.browser.major < 110) return false;
                     break;
 
                 // Edge
                 case 'edge':
-                    if (this.system.browser.major < 105) return false;
+                    if (this.system.browser.major < 106) return false;
                     break;
 
                 // Opera
                 case 'opera':
-                    if (this.system.browser.major < 90) return false;
+                    if (this.system.browser.major < 94) return false;
                     break;
 
             }

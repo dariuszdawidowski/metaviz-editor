@@ -5,6 +5,13 @@
 
 const i18n = {
 
+    // English (for long messages only)
+    en: {
+        'unsupported browser version': 'Unsupported browser version. Please update to the latest one or change to another one.',
+        'this is empty folder': 'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...',
+        'this is empty board': 'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...',
+    },
+
     // Polski
     pl: {
         'add node': 'dodaj obiekt',
@@ -79,9 +86,9 @@ const i18n = {
         'search': 'szukaj',
         'clear': 'wyczyść',
         'click here to open file': 'kliknij tutaj aby otworzyć plik',
-        'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'to jest pusty folder - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
-        'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'to jest pusta tablica - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
-        'Unsupported browser version. Please update to the latest one.': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej.',
+        'this is empty folder': 'to jest pusty folder - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
+        'this is empty board': 'to jest pusta tablica - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
+        'unsupported browser version': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej lub zmienić na inną.',
     },
 
     // Esperanto
@@ -158,9 +165,9 @@ const i18n = {
         'search': 'serĉi',
         'clear': 'klara',
         'click here to open file': 'klaku ĉi tie por malfermi dosieron',
-        'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'Ĉi tio estas malplena dosierujo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
-        'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...': 'Ĉi tio estas malplena tabulo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
-        'Unsupported browser version. Please update to the latest one.': 'Nesubtenata retumila versio. Bonvolu ĝisdatigi al la plej nova.',
+        'this is empty folder': 'Ĉi tio estas malplena dosierujo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
+        'this is empty board': 'Ĉi tio estas malplena tabulo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
+        'unsupported browser version': 'nesubtenata retumila versio. bonvolu ĝisdatigi al pli nova aŭ ŝanĝi al alia',
     },
 
 };
