@@ -301,11 +301,6 @@ class MetavizNodeText extends MetavizNode {
                 toolbar: 'top'
             });
 
-            // Disable all events
-            // metaviz.events.disable('viewer:*');
-            // metaviz.events.disable('editor:*');
-            // metaviz.events.enable('browser:prevent');
-
             // Popup window
             this.popup = new TotalPopupWindow({
                 container: metaviz.render.container,
@@ -318,12 +313,24 @@ class MetavizNodeText extends MetavizNode {
                 content: textarea.element,
                 borderWidth: 6,
                 callback: {
-                    onClose: () => {
-                        this.popup = null;
+                    onClick: () => {
+                        textarea.edit(true);
+                    },
+                    onMaximize: () => {
+                        // Disable all events
+                        metaviz.events.disable('viewer:*');
+                        metaviz.events.disable('editor:*');
+                        metaviz.events.enable('browser:prevent');
+                    },
+                    onMinimize: () => {
                         // Enable all events again
-                        // metaviz.events.disable('browser:prevent');
-                        // metaviz.events.enable('viewer:*');
-                        // metaviz.events.enable('editor:*');
+                        metaviz.events.disable('browser:prevent');
+                        metaviz.events.enable('viewer:*');
+                        metaviz.events.enable('editor:*');
+                    },
+                    onClose: () => {
+                        textarea.edit(false);
+                        this.popup = null;
                     }
                 }
             });
