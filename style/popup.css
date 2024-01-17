@@ -50,13 +50,13 @@
     cursor: nwse-resize;
 }
 
-.total-popup-window .button {
+.total-popup-window .window-button {
     margin: 0 6px 0 0;
     transition: color 0.5s;
     font-size: 18px;
 }
 
-.total-popup-window .button:hover {
+.total-popup-window .window-button:hover {
     cursor: pointer;
     color: #999;
     transition: color 0.5s;

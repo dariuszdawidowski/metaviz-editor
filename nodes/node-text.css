@@ -624,12 +624,54 @@
 
 /* Rich text editor on popup */
 
+.total-popup-window .close.window-button {
+    margin-left: 6px;
+}
+
+.total-popup-window .metaviz-control-richtext {
+    height: calc(100% - 115px);
+}
+
 .total-popup-window .metaviz-control-richtext .toolbar {
-    width: 100%;
+    width: calc(100% - 50px);
     height: 30px;
+    padding: 0 4px;
     border-top: 1px solid silver;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    margin: 5px 20px 20px 20px;
+}
+
+.total-popup-window .metaviz-control-richtext .toolbar .button {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.total-popup-window .metaviz-control-richtext .toolbar .button:hover {
+    cursor: pointer;
+    background-color: #eee;
+}
+
+.total-popup-window .metaviz-control-richtext .toolbar .menu-select {
+    width: 100px !important;
+    margin: 0 8px;
+}
+
+.total-popup-window .total-text .editor {
+    background: white;
+    outline: 1px solid #c7c7c7;
+    margin: 20px;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
 }
