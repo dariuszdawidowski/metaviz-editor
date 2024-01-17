@@ -9,6 +9,18 @@
 
 class MetavizControlRichText extends TotalText {
 
+    /**
+     * Constructor
+     * @param args.name: identifier for this component
+     * @param args.container: HTMLElement to attach to
+     * @param args.value: inital text fill
+     * @param args.spellcheck: hilight language mistakes
+     * @param args.toolbar: position of toolbar 'none' | 'top' | 'bottom'
+     * @param args.onChange: callback on content change
+     * @param args.onPrevPage: callback on previous page switch
+     * @param args.onNextPage: callback on next page switch
+     */
+
     constructor(args) {
         super(args);
 
@@ -19,7 +31,7 @@ class MetavizControlRichText extends TotalText {
         this.editing = false;
 
         // Params
-        const { name = null, onPrevPage = null, onNextPage = null } = args;
+        const { name = null, toolbar = 'bottom', onPrevPage = null, onNextPage = null } = args;
 
         // Control name
         this.name = name;
@@ -35,7 +47,8 @@ class MetavizControlRichText extends TotalText {
         // Toolbar
         this.toolbar = document.createElement('div');
         this.toolbar.classList.add('toolbar');
-        this.element.append(this.toolbar);
+        if (toolbar == 'top') this.element.prepend(this.toolbar);
+        else if (toolbar == 'bottom') this.element.append(this.toolbar);
 
         // Toolbar icons
         this.icons = {

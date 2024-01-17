@@ -621,3 +621,15 @@
 .metaviz-node-text.comic {
     background-color: white;
 }
+
+/* Rich text editor on popup */
+
+.total-popup-window .metaviz-control-richtext .toolbar {
+    width: 100%;
+    height: 30px;
+    border-top: 1px solid silver;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}

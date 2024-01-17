@@ -39,6 +39,9 @@ class MetavizNodeImage extends MetavizNode {
             'svg': 'image/svg+xml'
         };
 
+        // Size
+        this.setSize({minWidth: 128, minHeight: 128, maxWidth: 8192, maxHeight: 8192, resize: 'ratio'});
+
         // Controls
         this.addControls({
 
@@ -197,17 +200,17 @@ class MetavizNodeImage extends MetavizNode {
      * Size
      */
 
-    getSize() {
-        return {
-            width: this.transform.w,
-            height: this.transform.h,
-            minWidth: 128,
-            minHeight: 128,
-            maxWidth: 8192,
-            maxHeight: 8192,
-            resize: 'ratio'
-        };
-    }
+    // getSize() {
+    //     return {
+    //         width: this.transform.w,
+    //         height: this.transform.h,
+    //         minWidth: 128,
+    //         minHeight: 128,
+    //         maxWidth: 8192,
+    //         maxHeight: 8192,
+    //         resize: 'ratio'
+    //     };
+    // }
 
     /**
      * Upload image

@@ -45,7 +45,11 @@ class MetavizNodeText extends MetavizNode {
         // Current color scheme
         this.element.classList.add('palette-' + this.params.palette);
 
+        // Popup handler
+        this.popup = null;
+
         // Initial size
+        this.setSize({resize: 'free'});
         if (this.transform.w == 0) this.setSize({width: this.looks[this.params.look].width, height: this.looks[this.params.look].height});
 
         // Controls
@@ -285,20 +289,65 @@ class MetavizNodeText extends MetavizNode {
     }
 
     /**
+     * Double Click: show text editor window
+     */
+
+    dblclick() {
+        if (!this.popup) {
+            const page = document.createElement('div');
+            page.classList.add('page');
+            const textarea = new MetavizControlRichText({
+                name: `page_${this.page}`,
+                value: this.getText(),
+                spellcheck: this.params.spellcheck,
+                toolbar: 'top'
+            });
+            page.append(textarea.element);;
+
+            // Disable all events
+            // metaviz.events.disable('viewer:*');
+            // metaviz.events.disable('editor:*');
+            // metaviz.events.enable('browser:prevent');
+
+            // Popup window
+            this.popup = new TotalPopupWindow({
+                container: metaviz.render.container,
+                minWidth: 320,
+                minHeight: 240,
+                margin: {top: 50},
+                side: metaviz.system.os.name == 'macos' ? 'left' : 'right',
+                content: page,
+                borderWidth: 6,
+                callback: {
+                    onClose: () => {
+                        this.popup = null;
+                        // Enable all events again
+                        // metaviz.events.disable('browser:prevent');
+                        // metaviz.events.enable('viewer:*');
+                        // metaviz.events.enable('editor:*');
+                    }
+                }
+            });
+        }
+    }
+
+
+    /**
      * Get Size
      */
 
-    getSize() {
-        return {
-            width: this.transform.w,
-            height: this.transform.h,
-            minWidth: this.transform.wmin,
-            minHeight: this.transform.hmin,
-            maxWidth: this.transform.wmax,
-            maxHeight: this.transform.hmax,
-            resize: 'free'
-        };
-    }
+    // getSize() {
+    //     return {
+    //         width: this.transform.w,
+    //         height: this.transform.h,
+    //         minWidth: this.transform.wmin,
+    //         minHeight: this.transform.hmin,
+    //         maxWidth: this.transform.wmax,
+    //         maxHeight: this.transform.hmax,
+    //         border: this.transform.border,
+    //         resize: 'free'
+    //     };
+    // }
 
     /**
      * Search meta data for given text
