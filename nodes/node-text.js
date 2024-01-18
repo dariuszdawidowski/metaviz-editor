@@ -320,13 +320,18 @@ class MetavizNodeText extends MetavizNode {
                         metaviz.events.disable('editor:*');
                         metaviz.events.enable('browser:prevent');
                     },
-                    onMinimize: () => {
+                    onDemaximize: () => {
                         // Enable all events again
                         metaviz.events.disable('browser:prevent');
                         metaviz.events.enable('viewer:*');
                         metaviz.events.enable('editor:*');
                     },
                     onClose: () => {
+                        // Enable all events again
+                        metaviz.events.disable('browser:prevent');
+                        metaviz.events.enable('viewer:*');
+                        metaviz.events.enable('editor:*');
+                        // Exit
                         this.popupTextarea.edit(false);
                         this.popup = null;
                     }
