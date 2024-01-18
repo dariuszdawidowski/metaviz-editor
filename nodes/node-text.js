@@ -299,7 +299,17 @@ class MetavizNodeText extends MetavizNode {
                 name: `page_${this.page}`,
                 value: this.getText(),
                 spellcheck: this.params.spellcheck,
-                toolbar: 'top'
+                toolbar: 'top',
+                icons: {bold: true, italic: true, underline: true, style: true, del: true, superscript: true, subscript: true, hr: true, prev: true, page: true, next: true},
+                onChange: (value) => {
+                    console.log('onChange')
+                },
+                onPrevPage: () => {
+                    console.log('onPrevPage')
+                },
+                onNextPage: () => {
+                    console.log('onNextPage')
+                }
             });
 
             // Popup window

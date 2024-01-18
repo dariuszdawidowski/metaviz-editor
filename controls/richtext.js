@@ -16,6 +16,7 @@ class MetavizControlRichText extends TotalText {
      * @param args.value: inital text fill
      * @param args.spellcheck: hilight language mistakes
      * @param args.toolbar: position of toolbar 'none' | 'top' | 'bottom'
+     * @param args.icons: list of icons on toolbar {bold: true, italic: true, underline: true, ...}
      * @param args.onChange: callback on content change
      * @param args.onPrevPage: callback on previous page switch
      * @param args.onNextPage: callback on next page switch
@@ -31,7 +32,7 @@ class MetavizControlRichText extends TotalText {
         this.editing = false;
 
         // Params
-        const { name = null, toolbar = 'bottom', onPrevPage = null, onNextPage = null } = args;
+        const { name = null, toolbar = 'bottom', onPrevPage = null, onNextPage = null, icons = {bold: true, italic: true, underline: true, style: true, hr: true, prev: true, page: true, next: true}} = args;
 
         // Control name
         this.name = name;
@@ -51,29 +52,35 @@ class MetavizControlRichText extends TotalText {
         else if (toolbar == 'bottom') this.element.append(this.toolbar);
 
         // Toolbar icons
-        this.icons = {
-            bold: new MetavizControlRichTextButton({
+        this.icons = {};
+        Object.assign(this.icons, icons);
+
+        if ('bold' in this.icons)
+            this.icons.bold = new MetavizControlRichTextButton({
                 content: '<b>B</b>',
                 onClick: () => {
                     document.execCommand('bold', false, null);
                     this.editor.focus();
                 }
-            }),
-            italic: new MetavizControlRichTextButton({
+            });
+        if ('italic' in this.icons)
+            this.icons.italic = new MetavizControlRichTextButton({
                 content: '<i>I</i>',
                 onClick: () => {
                     document.execCommand('italic', false, null);
                     this.editor.focus();
                 }
-            }),
-            underline: new MetavizControlRichTextButton({
+            });
+        if ('underline' in this.icons)
+            this.icons.underline = new MetavizControlRichTextButton({
                 content: '<u>U</u>',
                 onClick: () => {
                     document.execCommand('underline', false, null);
                     this.editor.focus();
                 }
-            }),
-            style: new TotalProMenuSelect({
+            });
+        if ('style' in this.icons)
+            this.icons.style = new TotalProMenuSelect({
                 placeholder: 'Style',
                 options: {
                     'div': {icon: '', text: _('Normal')},
@@ -83,7 +90,7 @@ class MetavizControlRichText extends TotalText {
                     'h4': {icon: '', text: _('Header') + ' 2'},
                     'h5': {icon: '', text: _('Header') + ' 3'}
                 },
-                side: 'top',
+                side: toolbar == 'bottom' ? 'top' : 'bottom',
                 value: 'div',
                 onShow: () => {
                     this.editor.focus();
@@ -92,61 +99,72 @@ class MetavizControlRichText extends TotalText {
                     document.execCommand('formatBlock', false, value);
                     this.editor.focus();
                 }
-            }),
-            /*del: new MetavizControlRichTextButton({
+            });
+        if ('del' in this.icons)
+            this.icons.del = new MetavizControlRichTextButton({
                 content: '<i class="fa-solid fa-text-slash"></i>',
                 onClick: () => {
                     document.execCommand('strikethrough', false, null);
                     this.element.focus();
                 }
-            }),
-            superscript: new MetavizControlRichTextButton({
+            });
+        if ('superscript' in this.icons)
+            this.icons.superscript = new MetavizControlRichTextButton({
                 content: '<i class="fa-solid fa-superscript"></i>',
                 onClick: () => {
                     document.execCommand('superscript', false, null);
                     this.element.focus();
                 }
-            }),
-            subscript: new MetavizControlRichTextButton({
+            });
+        if ('subscript' in this.icons)
+            this.icons.subscript = new MetavizControlRichTextButton({
                 content: '<i class="fa-solid fa-subscript"></i>',
                 onClick: () => {
                     document.execCommand('subscript', false, null);
                     this.element.focus();
                 }
-            }),*/
-            hr: new MetavizControlRichTextButton({
+            });
+        if ('hr' in this.icons)
+            this.icons.hr = new MetavizControlRichTextButton({
                 content: '&#9473;',
                 onClick: () => {
                     document.execCommand('insertHorizontalRule', false, null);
                     this.element.focus();
                 }
-            }),
-            prev: new MetavizControlRichTextButton({
+            });
+        if ('prev' in this.icons)
+            this.icons.prev = new MetavizControlRichTextButton({
                 content: '&#8678;',
                 onClick: () => {
                     if (onPrevPage) onPrevPage();
                 }
-            }),
-            page: new MetavizControlRichTextLabel({
+            });
+        if ('page' in this.icons)
+            this.icons.page = new MetavizControlRichTextLabel({
                 content: '1/1'
-            }),
-            next: new MetavizControlRichTextButton({
+            });
+        if ('next' in this.icons)
+            this.icons.next = new MetavizControlRichTextButton({
                 content: '&#8680;',
                 onClick: () => {
                     if (onNextPage) onNextPage();
                 }
-            }),
-        };
+            });
+
         // Css tweaks
-        this.icons.style.element.style.width = '70px';
-        this.icons.style.element.style.height = '20px';
-        this.icons.style.element.style.borderRadius = '10px';
-        const menuSelectCurrent = this.icons.style.element.querySelector('.menu-select-current');
-        menuSelectCurrent.style.marginLeft = '7px';
-        menuSelectCurrent.style.color = '#666';
-        const menuSelectCloud = this.icons.style.element.querySelector('.menu-select-cloud');
-        menuSelectCloud.style.width = '116px';
-        this.icons.prev.element.style.marginLeft = 'auto';
+        if ('style' in this.icons) {
+            this.icons.style.element.style.width = '70px';
+            this.icons.style.element.style.height = '20px';
+            this.icons.style.element.style.borderRadius = '10px';
+            const menuSelectCurrent = this.icons.style.element.querySelector('.menu-select-current');
+            menuSelectCurrent.style.marginLeft = '7px';
+            menuSelectCurrent.style.color = '#666';
+            const menuSelectCloud = this.icons.style.element.querySelector('.menu-select-cloud');
+            menuSelectCloud.style.width = '116px';
+        }
+        if ('prev' in this.icons) {
+            this.icons.prev.element.style.marginLeft = 'auto';
+        }
         // Add to toolbar
         for (const [key, icon] of Object.entries(this.icons)) {
             this.toolbar.append(icon.element);
@@ -331,7 +349,7 @@ class MetavizControlRichText extends TotalText {
      */
 
     page(nr, total) {
-        this.icons.page.set(`${nr}/${total}`);
+        if ('page' in this.icons) this.icons.page.set(`${nr}/${total}`);
         this.pageBadge.innerText = `${nr}/${total}`;
     }
 
@@ -344,7 +362,7 @@ class MetavizControlRichText extends TotalText {
         if (caret.element && !(caret.element.hasClass('editor') && caret.element.parentNode.hasClass('total-text'))) {
             let style = caret.element.nodeName;
             if (!['DIV', 'H1', 'H2', 'H3', 'H4', 'H5'].includes(style)) style = 'div';
-            this.icons.style.set(style.toLowerCase());
+            if ('style' in this.icons) this.icons.style.set(style.toLowerCase());
         }
     }
 
