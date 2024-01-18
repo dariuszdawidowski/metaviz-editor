@@ -303,7 +303,7 @@ class MetavizNodeText extends MetavizNode {
             });
 
             // Popup window
-            this.popup = new TotalPopupWindow({
+            const params = {
                 container: metaviz.render.container,
                 width: metaviz.render.container.offsetWidth * 0.6,
                 height: metaviz.render.container.offsetHeight * 0.8,
@@ -331,7 +331,17 @@ class MetavizNodeText extends MetavizNode {
                         this.popup = null;
                     }
                 }
-            });
+            };
+            if (metaviz.system.os.name == 'windows') {
+                params['icons'] = {
+                    minimize: '&#11451;',
+                    maximize: '&#9723;',
+                    demaximize: '&#10064;',
+                    close: '&#215;',
+                    locked: '&#129181;'
+                };
+            }
+            this.popup = new TotalPopupWindow(params);
         }
         this.popup.maximize();
         this.popupTextarea.edit(true);

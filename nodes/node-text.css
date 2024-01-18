@@ -624,8 +624,12 @@
 
 /* Rich text editor on popup */
 
-.total-popup-window .close.window-button {
-    margin-left: 6px;
+.total-popup-window .window-button {
+    padding: 0 6px;
+}
+
+.total-popup-window .close.window-button:hover {
+    color: red;
 }
 
 .total-popup-window .metaviz-control-richtext {
