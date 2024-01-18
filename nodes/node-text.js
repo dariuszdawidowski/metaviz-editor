@@ -47,6 +47,7 @@ class MetavizNodeText extends MetavizNode {
 
         // Popup handler
         this.popup = null;
+        this.popupTextarea = null;
 
         // Initial size
         this.setSize({resize: 'free'});
@@ -294,7 +295,7 @@ class MetavizNodeText extends MetavizNode {
 
     dblclick() {
         if (!this.popup) {
-            const textarea = new MetavizControlRichText({
+            this.popupTextarea = new MetavizControlRichText({
                 name: `page_${this.page}`,
                 value: this.getText(),
                 spellcheck: this.params.spellcheck,
@@ -310,12 +311,9 @@ class MetavizNodeText extends MetavizNode {
                 minHeight: 400,
                 margin: {top: 50},
                 side: metaviz.system.os.name == 'macos' ? 'left' : 'right',
-                content: textarea.element,
+                content: this.popupTextarea.element,
                 borderWidth: 6,
                 callback: {
-                    onClick: () => {
-                        textarea.edit(true);
-                    },
                     onMaximize: () => {
                         // Disable all events
                         metaviz.events.disable('viewer:*');
@@ -329,13 +327,14 @@ class MetavizNodeText extends MetavizNode {
                         metaviz.events.enable('editor:*');
                     },
                     onClose: () => {
-                        textarea.edit(false);
+                        this.popupTextarea.edit(false);
                         this.popup = null;
                     }
                 }
             });
         }
         this.popup.maximize();
+        this.popupTextarea.edit(true);
     }
 
     /**

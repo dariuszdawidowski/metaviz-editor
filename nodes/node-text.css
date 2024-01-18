@@ -629,12 +629,17 @@
 }
 
 .total-popup-window .metaviz-control-richtext {
-    height: calc(100% - 115px);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;    
 }
 
 .total-popup-window .metaviz-control-richtext .toolbar {
     width: calc(100% - 50px);
-    height: 30px;
+    height: 40px;
     padding: 0 4px;
     border-top: 1px solid silver;
     display: flex;
@@ -644,6 +649,7 @@
     background-color: white;
     border-radius: 8px;
     margin: 5px 20px 20px 20px;
+    box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
 }
 
 .total-popup-window .metaviz-control-richtext .toolbar .button {
@@ -671,7 +677,10 @@
     background: white;
     outline: 1px solid #c7c7c7;
     margin: 20px;
-    padding: 20px;
+    padding: 40px;
+    width: calc(100% - 120px);
+    max-width: 800px;
     height: 100%;
     overflow-y: auto;
+    box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
