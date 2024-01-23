@@ -249,7 +249,7 @@ class MetavizNodeLabel extends MetavizNode {
 
     export(format, args = {}) {
 
-        const {offsetX = 0, offsetY = 0} = args;
+        const {offsetX = 0, offsetY = 0, content = null} = args;
 
         if (format == 'miniature') {
             return `<div class="miniature metaviz-node-label color-${this.params.color}" data-id="${this.id}">${content ? this.params.text.synopsis(3) : 'Label'}</div>`;

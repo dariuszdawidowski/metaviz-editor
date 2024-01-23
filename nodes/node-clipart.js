@@ -153,7 +153,7 @@ class MetavizNodeClipart extends MetavizNode {
 
     export(format, args = {}) {
 
-        const {offsetX = 0, offsetY = 0} = args;
+        const {offsetX = 0, offsetY = 0, content = null} = args;
 
         if (format == 'miniature') {
             return `<div class="miniature miniature-node-clipart" style="width: 100%; height: 100%;" data-id="${this.id}">${content ? this.control.icon.control.outerHTML : '<span class="mdi mdi-palette"></span>'}</div>`;
