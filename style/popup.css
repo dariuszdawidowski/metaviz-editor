@@ -50,6 +50,16 @@
     cursor: nwse-resize;
 }
 
+.total-popup-window .titlebar .title {
+    width: 100%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 24px;
+    margin-left: 4px;
+}
+
 .total-popup-window .window-button {
     margin: 0 6px 0 0;
     transition: color 0.5s;
@@ -80,4 +90,24 @@
 .total-popup-window .tabs .tab {
     background: red;
     border: 1px solid white;
+}
+
+/* Miniature */
+
+.total-popup-miniature {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    z-index: var(--z-popup);
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    border: 1px solid darkgrey;
+}
+
+.total-popup-miniature .mdi {
+    margin: 4px;
+    font-size: 21px;
 }

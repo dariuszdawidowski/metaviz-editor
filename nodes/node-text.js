@@ -324,6 +324,20 @@ class MetavizNodeText extends MetavizNode {
                 content: this.popupTextarea.element,
                 borderWidth: 6,
                 callback: {
+                    onMinimize: () => {
+                        // Enable all events again
+                        metaviz.events.disable('browser:prevent');
+                        metaviz.events.enable('viewer:*');
+                        metaviz.events.enable('editor:*');
+                        // Switch to miniature
+                        this.popup.miniaturize({
+                            width: 160,
+                            height: 36,
+                            left: 10,
+                            bottom: 50,
+                            title: this.synopsis(10)
+                        });
+                    },
                     onMaximize: () => {
                         // Disable all events
                         metaviz.events.disable('viewer:*');

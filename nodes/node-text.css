@@ -628,6 +628,10 @@
     padding: 0 6px;
 }
 
+.total-popup-window.miniature .window-button {
+    padding: 0;
+}
+
 .total-popup-window .close.window-button:hover {
     color: red;
 }
