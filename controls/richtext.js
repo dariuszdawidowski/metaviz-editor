@@ -37,6 +37,10 @@ class MetavizControlRichText extends TotalText {
         // Control name
         this.name = name;
 
+        // Callbacks
+        this.onPrevPage = onPrevPage;
+        this.onNextPage = onNextPage;
+
         // Main element
         this.element.classList.add('metaviz-control');
         this.element.classList.add('metaviz-control-richtext');

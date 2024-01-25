@@ -302,13 +302,15 @@ class MetavizNodeText extends MetavizNode {
                 toolbar: 'top',
                 icons: {bold: true, italic: true, underline: true, style: true, del: true, superscript: true, subscript: true, hr: true, prev: true, page: true, next: true},
                 onChange: (value) => {
-                    console.log('onChange')
+                    this.controls.textarea.set(value);
                 },
                 onPrevPage: () => {
-                    console.log('onPrevPage')
+                    this.controls.textarea.onPrevPage();
+                    this.popupTextarea.set(this.params[`page_${this.page}`]);
                 },
                 onNextPage: () => {
-                    console.log('onNextPage')
+                    this.controls.textarea.onNextPage();
+                    this.popupTextarea.set(this.params[`page_${this.page}`]);
                 }
             });
 
