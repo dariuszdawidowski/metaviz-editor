@@ -313,13 +313,14 @@ class MetavizNodeText extends MetavizNode {
             });
 
             // Popup window
+            const viewport = metaviz.editor.getDimensions();
             const params = {
                 container: metaviz.render.container,
                 width: metaviz.render.container.offsetWidth * 0.6,
                 height: metaviz.render.container.offsetHeight * 0.8,
                 minWidth: 400,
                 minHeight: 400,
-                margin: {top: 50},
+                margin: {top: viewport.margin.top + 15, bottom: viewport.margin.bottom + 15, left: viewport.margin.left + 15, right: viewport.margin.right + 15},
                 side: metaviz.system.os.name == 'macos' ? 'left' : 'right',
                 content: this.popupTextarea.element,
                 borderWidth: 6,
@@ -333,9 +334,9 @@ class MetavizNodeText extends MetavizNode {
                         this.popup.miniaturize({
                             width: 160,
                             height: 36,
-                            left: 10,
-                            bottom: 50,
-                            title: this.synopsis(10)
+                            left: 0,
+                            bottom: 0,
+                            title: this.synopsis(25)
                         });
                     },
                     onMaximize: () => {

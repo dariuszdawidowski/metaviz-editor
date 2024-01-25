@@ -1482,6 +1482,15 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     }
 
+    /**
+     * Get view dimensions
+     */
+
+    getDimensions() {
+        const dim = metaviz.render.container.getBoundingClientRect();
+        return {x: dim.x, y: dim.y, width: dim.width, height: dim.height, margin: {left: 0, right: 0, top: 0, bottom: 0}};
+    }
+
     /** INFO BUBBLE ***************************************************************************************************************/
 
     /**
