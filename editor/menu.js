@@ -556,242 +556,238 @@ class MetavizContextMenu extends TotalProMenu {
 
     show(args) {
 
-        // Not when overlay is visible or locked
-        if (!metaviz.editor.interaction.locked && !metaviz.editor.popup?.visible) {
+        // Disable conflicting events
+        metaviz.events.disable('viewer:*');
+        metaviz.events.disable('editor:copy');
+        metaviz.events.disable('editor:paste');
+        metaviz.events.disable('editor:keydown');
+        metaviz.events.disable('editor:keyup');
+        metaviz.events.disable('editor:wheel');
+        metaviz.events.disable('editor:pointerdown');
+        metaviz.events.disable('editor:pointermove');
+        metaviz.events.disable('editor:pointerup');
+        metaviz.events.enable('browser:prevent');
 
-            // Disable conflicting events
-            metaviz.events.disable('viewer:*');
-            metaviz.events.disable('editor:copy');
-            metaviz.events.disable('editor:paste');
-            metaviz.events.disable('editor:keydown');
-            metaviz.events.disable('editor:keyup');
-            metaviz.events.disable('editor:wheel');
-            metaviz.events.disable('editor:pointerdown');
-            metaviz.events.disable('editor:pointermove');
-            metaviz.events.disable('editor:pointerup');
-            metaviz.events.enable('browser:prevent');
-            
-            // Disable all options
-            this.panel.left.deselect();
-            this.panel.left.disable();
+        // Disable all options
+        this.panel.left.deselect();
+        this.panel.left.disable();
 
-            // If node is pointed then open Edit Selection section
-            const clicked = metaviz.render.nodes.get(args.target);
-            if (clicked) {
-                // Interaction object: node
-                metaviz.editor.interaction.object = 'node';
-                // If not part of selection
-                if (!metaviz.editor.selection.get(clicked)) {
-                    // If multiselection then clear others
-                    if (metaviz.editor.selection.count() > 0) metaviz.editor.selection.clear();
-                    // Add to selection
-                    metaviz.editor.selection.add(clicked);
-                }
+        // If node is pointed then open Edit Selection section
+        const clicked = metaviz.render.nodes.get(args.target);
+        if (clicked) {
+            // Interaction object: node
+            metaviz.editor.interaction.object = 'node';
+            // If not part of selection
+            if (!metaviz.editor.selection.get(clicked)) {
+                // If multiselection then clear others
+                if (metaviz.editor.selection.count() > 0) metaviz.editor.selection.clear();
+                // Add to selection
+                metaviz.editor.selection.add(clicked);
             }
+        }
 
-            // Cancel piemenu
-            for (const node of metaviz.editor.selection.get()) {
-                node.piemenu?.hide();
-            }
+        // If only one node is selected and not clicked on node then deselect all
+        else if (metaviz.editor.selection.count() == 1) {
+            metaviz.editor.selection.clear();
+        }
 
-            // Enable Add node (only for no selection)
-            if (metaviz.editor.selection.count() == 0) {
-                this.panel.left.find('menu-add-node')?.enable().select();
-            }
+        // Enable Add node (only for no selection)
+        if (metaviz.editor.selection.count() == 0) {
+            this.panel.left.find('menu-add-node')?.enable().select();
+        }
 
-            // Activate Edit Selection (only for 1+ node)
-            if (metaviz.editor.selection.count() > 0) {
+        // Activate Edit Selection (only for 1+ node)
+        else {
 
-                // Enable Edit Selection
-                this.panel.left.find('menu-edit-selection')?.enable();
+            // Enable Edit Selection
+            this.panel.left.find('menu-edit-selection')?.enable();
 
-                // Activate
-                this.panel.left.find('menu-edit-selection')?.select();
+            // Activate
+            this.panel.left.find('menu-edit-selection')?.select();
 
-                // Node Menu Options {options: [TotalProMenuOption, ...], localOptions: [TotalProMenuOption, ...]}
-                const data = metaviz.editor.selection.getFocused().menu();
-                // Node options
-                const options = this.panel.left.find('menu-node-options');
-                options.del();
-                options.hide();
-                // Node local options
-                const localOptions = this.panel.left.find('menu-node-local-options');
-                localOptions.del();
-                localOptions.hide();
-                // Show options (only for 1 node)
-                if (metaviz.editor.selection.count() == 1) {
-                    // Has options
-                    if ('options' in data && Object.keys(data.options).length) {
-                        // Options given as array
-                        if (Array.isArray(data.options)) for (const option of data.options) {
+            // Node Menu Options {options: [TotalProMenuOption, ...], localOptions: [TotalProMenuOption, ...]}
+            const data = metaviz.editor.selection.getFocused().menu();
+            // Node options
+            const options = this.panel.left.find('menu-node-options');
+            options.del();
+            options.hide();
+            // Node local options
+            const localOptions = this.panel.left.find('menu-node-local-options');
+            localOptions.del();
+            localOptions.hide();
+            // Show options (only for 1 node)
+            if (metaviz.editor.selection.count() == 1) {
+                // Has options
+                if ('options' in data && Object.keys(data.options).length) {
+                    // Options given as array
+                    if (Array.isArray(data.options)) for (const option of data.options) {
+                        options.add(option);
+                    }
+                    // Options given as dict
+                    else {
+                        for (const option of Object.values(data.options)) {
                             options.add(option);
                         }
-                        // Options given as dict
-                        else {
-                            for (const option of Object.values(data.options)) {
-                                options.add(option);
-                            }
-                        }
-                    }
-                    // No options
-                    else {
-                        options.add(new TotalProMenuOption({
-                            text: '- ' + _('No options') + ' -',
-                            disabled: true
-                        }));
-                    }
-                    options.show();
-
-                    // Has local options
-                    if ('localOptions' in data && data.localOptions.length) {
-                        for (const option of data.localOptions) {
-                            localOptions.add(option);
-                        }
-                        localOptions.show();
                     }
                 }
-
-                // Menu callback
-                if (clicked) clicked.contextmenu();
-
-            } // Edit Selection
-
-            // Lock
-            if (metaviz.editor.selection.count() > 0) {
-                this.panel.left.find('menu-node-lock-movement').set(metaviz.editor.selection.getFocused().locked.move);
-                this.panel.left.find('menu-node-lock-content').set(metaviz.editor.selection.getFocused().locked.content);
-                this.panel.left.find('menu-node-lock-delete').set(metaviz.editor.selection.getFocused().locked.delete);
-            }
-
-            // Arrange
-            if (metaviz.editor.selection.count() > 1) {
-                this.panel.left.find('menu-node-sort')?.enable();
-                this.panel.left.find('menu-node-align-horizontal')?.enable();
-                this.panel.left.find('menu-node-align-vertical')?.enable();
-            }
-            else {
-                this.panel.left.find('menu-node-sort')?.disable();
-                this.panel.left.find('menu-node-align-horizontal')?.disable();
-                this.panel.left.find('menu-node-align-vertical')?.disable();
-            }
-
-            // Unanchor
-            if (metaviz.editor.selection.count() == 1 && metaviz.editor.selection.getFocused().parentNode?.element.hasClass('metaviz-anchor')) this.panel.left.find('menu-unanchor')?.enable();
-            else this.panel.left.find('menu-unanchor')?.disable();
-
-            // Link / Unlink (only for two)
-            if (metaviz.editor.selection.count() == 2) {
-                // Unlink
-                if (metaviz.render.links.get(metaviz.editor.selection.nodes[0], metaviz.editor.selection.nodes[1])) {
-                    this.panel.left.find('menu-node-link')?.enable().setName(_('Unlink'));
-                }
-                // Link
+                // No options
                 else {
-                    this.panel.left.find('menu-node-link')?.enable().setName(_('Link'));
-                }
-            }
-            // Inactive
-            else if (metaviz.editor.selection.count() != 2) {
-                this.panel.left.find('menu-node-link')?.disable();
-            }
-
-            // Delete
-            if (metaviz.editor.selection.count() > 0)
-            {
-                this.panel.left.find('menu-delete')?.setName(_('Delete') + ` (${metaviz.editor.selection.count()})`);
-                this.panel.left.find('menu-delete')?.enable();
-            }
-            else
-            {
-                this.panel.left.find('menu-delete')?.setName(_('Delete'));
-                this.panel.left.find('menu-delete')?.disable();
-            }
-
-            // File functions
-            if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
-                // Enable New
-                this.panel.left.find('menu-file-new')?.enable();
-
-                // Enable Open File...
-                this.panel.left.find('menu-file-open')?.enable();
-
-                // Enable Save/Export
-                if (metaviz.editor.history.isDirty()) {
-                    this.panel.left.find('menu-file-save')?.enable();
-                }
-            }
-
-            // Enable Undo/Redo
-            if (metaviz.editor.history.hasUndo()) this.panel.left.find('menu-undo')?.enable();
-            if (metaviz.editor.history.hasRedo()) this.panel.left.find('menu-redo')?.enable();
-            
-            // Enable Cut/Copy/Duplicate
-            if (metaviz.editor.selection.count() > 0) {
-                this.panel.left.find('menu-cut')?.enable();
-                this.panel.left.find('menu-copy')?.enable();
-                this.panel.left.find('menu-duplicate')?.enable();
-            }
-
-            // Enable Paste
-            this.checkClipboardToPaste();
-
-            // Select All
-            if (metaviz.editor.selection.count() == 0) {
-                this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Nodes'));
-            }
-            else {
-                if (metaviz.editor.selection.getFocused().getEditingControl())
-                    this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Text'));
-                else
-                    this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Nodes'));
-            }
-
-            // Enable Navigation (always)
-            this.panel.left.find('menu-navigation')?.enable();
-
-            // Enable File (always)
-            this.panel.left.find('menu-file')?.enable();
-
-            // Recent files
-            const menuRecentFiles = this.panel.left.find('menu-file-recent');
-            if (menuRecentFiles) (async () => {
-                menuRecentFiles.del();
-                const records = await metaviz.storage.db.table['boards'].get('*');
-                if (records.length) {
-                    records.sort((a, b) => b.timestamp - a.timestamp);
-                    for (const board of records) {
-                        menuRecentFiles.add(new TotalProMenuOption({
-                            text: board.name || board.handle.name,
-                            value: board.id,
-                            onChange: (value) => {
-                                this.hide();
-                                if (value) metaviz.editor.open(value);
-                            }
-                        }));
-                    }
-                }
-                // No recent files
-                else {
-                    menuRecentFiles.add(new TotalProMenuOption({
+                    options.add(new TotalProMenuOption({
                         text: '- ' + _('No options') + ' -',
                         disabled: true
                     }));
                 }
-            })();
+                options.show();
 
-            // Enable Toolbar (always)
-            this.panel.left.find('menu-toolbars')?.enable();
+                // Has local options
+                if ('localOptions' in data && data.localOptions.length) {
+                    for (const option of data.localOptions) {
+                        localOptions.add(option);
+                    }
+                    localOptions.show();
+                }
+            }
 
-            // Enable Project settings (always)
-            this.panel.left.find('menu-settings')?.enable();
+            // Menu callback
+            if (clicked) clicked.contextmenu();
 
-            // Enable Help (always)
-            this.panel.left.find('menu-help')?.enable();
+        } // Edit Selection
 
-            // Show menu at pointer coords
-            const container = metaviz.container.getOffset();
-            super.show({left: args.x - container.x, top: args.y - container.y});
+        // Lock
+        if (metaviz.editor.selection.count() > 0) {
+            this.panel.left.find('menu-node-lock-movement').set(metaviz.editor.selection.getFocused().locked.move);
+            this.panel.left.find('menu-node-lock-content').set(metaviz.editor.selection.getFocused().locked.content);
+            this.panel.left.find('menu-node-lock-delete').set(metaviz.editor.selection.getFocused().locked.delete);
         }
+
+        // Arrange
+        if (metaviz.editor.selection.count() > 1) {
+            this.panel.left.find('menu-node-sort')?.enable();
+            this.panel.left.find('menu-node-align-horizontal')?.enable();
+            this.panel.left.find('menu-node-align-vertical')?.enable();
+        }
+        else {
+            this.panel.left.find('menu-node-sort')?.disable();
+            this.panel.left.find('menu-node-align-horizontal')?.disable();
+            this.panel.left.find('menu-node-align-vertical')?.disable();
+        }
+
+        // Unanchor
+        if (metaviz.editor.selection.count() == 1 && metaviz.editor.selection.getFocused().parentNode?.element.hasClass('metaviz-anchor')) this.panel.left.find('menu-unanchor')?.enable();
+        else this.panel.left.find('menu-unanchor')?.disable();
+
+        // Link / Unlink (only for two)
+        if (metaviz.editor.selection.count() == 2) {
+            // Unlink
+            if (metaviz.render.links.get(metaviz.editor.selection.nodes[0], metaviz.editor.selection.nodes[1])) {
+                this.panel.left.find('menu-node-link')?.enable().setName(_('Unlink'));
+            }
+            // Link
+            else {
+                this.panel.left.find('menu-node-link')?.enable().setName(_('Link'));
+            }
+        }
+        // Inactive
+        else if (metaviz.editor.selection.count() != 2) {
+            this.panel.left.find('menu-node-link')?.disable();
+        }
+
+        // Delete
+        if (metaviz.editor.selection.count() > 0)
+        {
+            this.panel.left.find('menu-delete')?.setName(_('Delete') + ` (${metaviz.editor.selection.count()})`);
+            this.panel.left.find('menu-delete')?.enable();
+        }
+        else
+        {
+            this.panel.left.find('menu-delete')?.setName(_('Delete'));
+            this.panel.left.find('menu-delete')?.disable();
+        }
+
+        // File functions
+        if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
+            // Enable New
+            this.panel.left.find('menu-file-new')?.enable();
+
+            // Enable Open File...
+            this.panel.left.find('menu-file-open')?.enable();
+
+            // Enable Save/Export
+            if (metaviz.editor.history.isDirty()) {
+                this.panel.left.find('menu-file-save')?.enable();
+            }
+        }
+
+        // Enable Undo/Redo
+        if (metaviz.editor.history.hasUndo()) this.panel.left.find('menu-undo')?.enable();
+        if (metaviz.editor.history.hasRedo()) this.panel.left.find('menu-redo')?.enable();
+        
+        // Enable Cut/Copy/Duplicate
+        if (metaviz.editor.selection.count() > 0) {
+            this.panel.left.find('menu-cut')?.enable();
+            this.panel.left.find('menu-copy')?.enable();
+            this.panel.left.find('menu-duplicate')?.enable();
+        }
+
+        // Enable Paste
+        this.checkClipboardToPaste();
+
+        // Select All
+        if (metaviz.editor.selection.count() == 0) {
+            this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Nodes'));
+        }
+        else {
+            if (metaviz.editor.selection.getFocused().getEditingControl())
+                this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Text'));
+            else
+                this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Nodes'));
+        }
+
+        // Enable Navigation (always)
+        this.panel.left.find('menu-navigation')?.enable();
+
+        // Enable File (always)
+        this.panel.left.find('menu-file')?.enable();
+
+        // Recent files
+        const menuRecentFiles = this.panel.left.find('menu-file-recent');
+        if (menuRecentFiles) (async () => {
+            menuRecentFiles.del();
+            const records = await metaviz.storage.db.table['boards'].get('*');
+            if (records.length) {
+                records.sort((a, b) => b.timestamp - a.timestamp);
+                for (const board of records) {
+                    menuRecentFiles.add(new TotalProMenuOption({
+                        text: board.name || board.handle.name,
+                        value: board.id,
+                        onChange: (value) => {
+                            this.hide();
+                            if (value) metaviz.editor.open(value);
+                        }
+                    }));
+                }
+            }
+            // No recent files
+            else {
+                menuRecentFiles.add(new TotalProMenuOption({
+                    text: '- ' + _('No options') + ' -',
+                    disabled: true
+                }));
+            }
+        })();
+
+        // Enable Toolbar (always)
+        this.panel.left.find('menu-toolbars')?.enable();
+
+        // Enable Project settings (always)
+        this.panel.left.find('menu-settings')?.enable();
+
+        // Enable Help (always)
+        this.panel.left.find('menu-help')?.enable();
+
+        // Show menu at pointer coords
+        const container = metaviz.container.getOffset();
+        super.show({left: args.x - container.x, top: args.y - container.y});
     }
 
     /**

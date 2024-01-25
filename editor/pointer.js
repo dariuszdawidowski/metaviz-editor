@@ -303,7 +303,7 @@ class MetavizEditorPointer {
                     if (target.nodeName == 'DIV' || target.nodeName == 'SPAN') {
 
                         // Drop on node
-                        if (target.hasClass('metaviz-node') && metaviz.editor.selection.getFocused().id != target.dataset.id) {
+                        if (target.hasClass('metaviz-node') && this.editor.selection.getFocused().id != target.dataset.id) {
                             parentFound = metaviz.render.nodes.get(target.dataset.id);
                             break;
                         }
@@ -375,7 +375,7 @@ class MetavizEditorPointer {
 
         // Clicked on background - create new node
         if (!this.clicked && this.editor.keyboard.key.ctrl) {
-            metaviz.editor.nodeAdd(this.editor.history.last.type || 'MetavizNodeText', {x: event.offsetX, y: event.offsetY});
+            this.editor.nodeAdd(this.editor.history.last.type || 'MetavizNodeText', {x: event.offsetX, y: event.offsetY});
         }
 
         // Send dblclick event to node
