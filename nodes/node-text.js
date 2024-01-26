@@ -159,6 +159,7 @@ class MetavizNodeText extends MetavizNode {
 
         });
         this.controls.textarea.hideToolbar();
+        this.controls.textarea.showPageBadge();
 
         // Menu options
         this.addOptions({
@@ -285,8 +286,14 @@ class MetavizNodeText extends MetavizNode {
         else this.element.classList.remove('singlepage')
 
         // Toolbar
-        if (this.transform.w < 200 || this.transform.h < 200) this.controls.textarea.hideToolbar();
-        else if (this.selected) this.controls.textarea.showToolbar();
+        if (this.transform.w < 200 || this.transform.h < 200) {
+            this.controls.textarea.hideToolbar();
+            this.controls.textarea.showPageBadge();
+        }
+        else if (this.selected) {
+            this.controls.textarea.showToolbar();
+            this.controls.textarea.hidePageBadge();
+        }
     }
 
     /**
@@ -328,6 +335,7 @@ class MetavizNodeText extends MetavizNode {
                     this.popupTextarea.set(this.params[`page_${this.page}`]);
                 }
             });
+            this.popupTextarea.hidePageBadge();
 
             // Popup window
             const viewport = metaviz.editor.getDimensions();
@@ -445,12 +453,16 @@ class MetavizNodeText extends MetavizNode {
 
     select() {
         super.select();
-        if (this.transform.w > 199 && this.transform.h > 199) this.controls.textarea.showToolbar();
+        if (this.transform.w > 199 && this.transform.h > 199) {
+            this.controls.textarea.showToolbar();
+            this.controls.textarea.hidePageBadge();
+        }
     }
 
     deselect() {
         super.deselect();
         this.controls.textarea.hideToolbar();
+        this.controls.textarea.showPageBadge();
     }
 
     /**

@@ -336,16 +336,26 @@ class MetavizControlRichText extends TotalText {
 
     showToolbar() {
         this.toolbar.style.display = 'flex';
-        this.pageBadge.style.display = 'none';
         this.editor.classList.remove('without-toolbar');
         this.editor.classList.add('with-toolbar');
     }
 
     hideToolbar() {
         this.toolbar.style.display = 'none';
-        this.pageBadge.style.display = 'flex';
         this.editor.classList.remove('with-toolbar');
         this.editor.classList.add('without-toolbar');
+    }
+
+    /**
+     * Page Badge
+     */
+
+    showPageBadge() {
+        this.pageBadge.style.display = 'flex';
+    }
+
+    hidePageBadge() {
+        this.pageBadge.style.display = 'none';
     }
 
     /**
