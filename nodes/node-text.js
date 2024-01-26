@@ -328,11 +328,13 @@ class MetavizNodeText extends MetavizNode {
                     this.controls.textarea.set(value);
                 },
                 onPrevPage: () => {
+                    this.controls.textarea.set(this.popupTextarea.get())
                     this.controls.textarea.onPrevPage();
                     this.popupTextarea.set(this.params[`page_${this.page}`]);
                     this.popupTextarea.page(this.params.currpage, this.params.lastpage);
                 },
                 onNextPage: () => {
+                    this.controls.textarea.set(this.popupTextarea.get())
                     this.controls.textarea.onNextPage();
                     this.popupTextarea.set(this.params[`page_${this.page}`]);
                     this.popupTextarea.page(this.params.currpage, this.params.lastpage);
