@@ -294,6 +294,21 @@ class MetavizNodeText extends MetavizNode {
      */
 
     dblclick() {
+
+        // Packet will be sent if changed
+        const packet = {
+            action: 'param',
+            node: {id: this.id},
+            params: {},
+            prev: {}
+        };
+        packet.params[`page_${this.page}`] = this.controls.textarea.get();
+        packet.prev[`page_${this.page}`] = this.params[`page_${this.page}`];
+        metaviz.editor.history.store(packet);
+        // Store value
+        this.params[`page_${this.page}`] = this.controls.textarea.get();
+
+        // Create popup
         if (!this.popup) {
             this.popupTextarea = new MetavizControlRichText({
                 name: `page_${this.page}`,
