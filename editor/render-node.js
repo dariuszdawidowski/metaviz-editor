@@ -173,9 +173,6 @@ class MetavizNode extends TotalDiagramNode {
         // Elastic mode as children
         this.isElastic = false;
 
-        // Resizing mode scenario
-        this.transform.resize = '';
-
     }
 
     /**
