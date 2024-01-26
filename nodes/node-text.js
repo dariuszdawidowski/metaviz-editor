@@ -142,6 +142,7 @@ class MetavizNodeText extends MetavizNode {
                     if (this.params.lastpage < this.page) {
                         this.params.lastpage ++;
                         this.controls.textarea.clear();
+                        this.params[`page_${this.page}`] = '';
                         packet.params['lastpage'] = this.params.lastpage;
                         packet.prev['lastpage'] = this.params.lastpage - 1;
                     }
@@ -329,13 +330,16 @@ class MetavizNodeText extends MetavizNode {
                 onPrevPage: () => {
                     this.controls.textarea.onPrevPage();
                     this.popupTextarea.set(this.params[`page_${this.page}`]);
+                    this.popupTextarea.page(this.params.currpage, this.params.lastpage);
                 },
                 onNextPage: () => {
                     this.controls.textarea.onNextPage();
                     this.popupTextarea.set(this.params[`page_${this.page}`]);
+                    this.popupTextarea.page(this.params.currpage, this.params.lastpage);
                 }
             });
             this.popupTextarea.hidePageBadge();
+            this.popupTextarea.page(this.params.currpage, this.params.lastpage);
 
             // Popup window
             const viewport = metaviz.editor.getDimensions();
