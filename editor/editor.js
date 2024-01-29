@@ -551,6 +551,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     dragSelectionEnd(parent = null) {
 
         // Dropped on parent
+        let mounted = false;
         if (parent) {
             // Unparent
             if (parent == 'unChildren') {
@@ -558,12 +559,12 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
             // Parent to other node
             else {
-                parent.setChildren(this.selection.get().filter(node => !node.locked.move));
+                mounted = parent.setChildren(this.selection.get().filter(node => !node.locked.move));
             }
         }
 
         // Dropped on board
-        else {
+        if (!mounted) {
 
             // Dragged node returns to normal z-index and events
             for (const node of this.selection.get()) {

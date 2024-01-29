@@ -311,6 +311,7 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     setParent(node, slot) {
+        /*
         // Root
         if (node == null) {
             this.parent = null;
@@ -327,13 +328,15 @@ class MetavizNode extends TotalDiagramNode {
         else {
             this.parent = node;
             this.parentNode = metaviz.render.nodes.get(node.id);
-        }
+        }*/
     }
 
     unParent() {
+        /*
         this.parent = null;
         this.parentNode = null;
         if (this.slot) this.slot = null;
+        */
     }
 
     getParentFolder() {
@@ -344,12 +347,21 @@ class MetavizNode extends TotalDiagramNode {
         return null;
     }
 
+    /**
+     * Attach given nodes as childrens
+     * returns true if childrens were attached
+     */
+
     setChildren(nodes, slot = null, offset = null) {
-        for (const node of nodes) node.setParent(this, slot);
+        //for (const node of nodes) node.setParent(this, slot);
+        return false;
     }
 
     unChildren(node) {
-        node.unParent(this);
+        //node.unParent(this);
+        node.parent = null;
+        node.parentNode = null;
+        node.slot = null;
     }
 
     /**
