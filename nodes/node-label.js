@@ -66,6 +66,7 @@ class MetavizNodeLabel extends MetavizNode {
                         prev: {style: this.params.style}
                     });
                     this.params.set('style', value);
+                    this.setSize({border: this.getBorder()});
                 }
             }),
 
@@ -123,7 +124,7 @@ class MetavizNodeLabel extends MetavizNode {
         this.controls.input.element.style.fontFamily = this.params.font;
 
         // Size
-        this.setSize({resize: 'free', width: 176, height: 24, minWidth: 176, minHeight: 24, maxWidth: 2048, border: 3});
+        this.setSize({resize: 'free', width: 176, height: 24, minWidth: 176, minHeight: 24, maxWidth: 2048, border: this.getBorder()});
 
         // Classes
         this.element.classList.add('color-' + this.params.color);
@@ -180,6 +181,28 @@ class MetavizNodeLabel extends MetavizNode {
                 }
             })
         });
+    }
+
+    /**
+     * Return border width
+     */
+
+    getBorder() {
+        switch (this.params.style) {
+            case 'label':
+                return 1;
+                break;
+            case 'bubble':
+                return 3;
+                break;
+            case 'text':
+                return 0;
+                break;
+            case 'underline':
+                return 0;
+                break;
+        }
+        return 0;
     }
 
     /**
@@ -271,7 +294,7 @@ global.registry.add({proto: MetavizNodeLabel, name: 'Label', icon: '<span class=
 i18n['pl']['label'] = 'etykieta';
 i18n['pl']['bubble'] = 'bąbel';
 i18n['pl']['only text'] = 'czysty tekst';
-i18n['pl']['underline'] = 'podkreśliony';
+i18n['pl']['underline'] = 'podkreślony';
 i18n['pl']['sky'] = 'niebo';
 i18n['pl']['water'] = 'woda';
 i18n['pl']['navy'] = 'żeglarski';
