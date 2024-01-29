@@ -1578,7 +1578,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     '</div>';
                 else message =
                     '<div>' +
-                        _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
+                        _('This is empty board') +
                     '</div>'
             }
 
@@ -1588,7 +1588,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 if (recent != '') message =
                     '<div>' +
                         '<div style="padding: 15px 0 5px 5px">' +
-                            _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
+                            _('This is empty board') +
                         '</div>' +
                         '<div style="padding: 5px 0 15px 5px">' +
                             '<span id="info-bubble-recent-files">' + recent + '</span>' +
@@ -1596,13 +1596,13 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     '</div>'
                 else message =
                     '<div>' +
-                        _('This is empty board - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...') +
+                        _('This is empty board') +
                     '</div>'
             }
 
             // Info about empty folder
             else if (metaviz.render.nodes.parent != null) {
-                message = _('This is empty folder - click &nbsp;<b>Right Mouse Button &rarr; Add Node</b>&nbsp; to start...');
+                message = _('This is empty folder');
             }
 
             // Show bubble
