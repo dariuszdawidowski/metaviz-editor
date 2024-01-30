@@ -172,8 +172,11 @@ class MetavizNavigatorBrowser {
         };
 
         // Mouse Up
-        this.mouseUp = () => {
-            if (metaviz.config.pointer.desktop.get() == 'pan') metaviz.render.damp();
+        this.mouseUp = (event) => {
+            if (event) {
+                if (metaviz.config.pointer.desktop.get() == 'pan' && (event.button == 0 || event.button == 1)) metaviz.render.damp();
+                else if (event.button == 1) metaviz.render.damp();
+            }
             metaviz.container.element.style.cursor = 'auto';
             document.removeEventListener('mousemove', this.mouseMove);
             document.removeEventListener('mouseup', this.mouseUp);
@@ -242,7 +245,7 @@ class MetavizNavigatorBrowser {
         metaviz.events.subscribe('viewer:mouseleave', document, 'mouseout', (event) => {
             const from = event.relatedTarget || event.toElement;
             if (!from || from.nodeName == 'HTML') {
-                this.mouseUp();
+                this.mouseUp(null);
             }
         });
 
