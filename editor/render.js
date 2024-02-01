@@ -9,7 +9,9 @@ class MetavizEditorRender extends TotalDiagramRenderHTML5 {
      * Perform pan damping
      */
 
-    damp(factor = 0.97, minSpeed = 250) {
+    damp(factor = 0.97, minSpeed = 300) {
+
+        this.offset.calcSpeed();
 
         const dampAnimation = () => {
             this.offset.delta.x *= factor;
