@@ -384,7 +384,7 @@ class Metaviz {
             filesystem: new MetavizFilesystem(),
             db: new MetavizIndexedDB()
         };
-        this.render = new TotalDiagramRenderHTML5({
+        this.render = new MetavizEditorRender({
             container: this.container.element,
             nodes: new MetavizNodesManager(),
             links: new MetavizLinksManager()
