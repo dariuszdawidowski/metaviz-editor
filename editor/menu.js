@@ -485,7 +485,7 @@ class MetavizContextMenu extends TotalProMenu {
         });
         this.panel.left.add(subHelp);
         subHelp.add(new TotalProMenuGroup({
-            text: `Metaviz ${metaviz.version}`,
+            text: `Metaviz ${metaviz.version}\nBuild ${metaviz.build}`,
             widgets: [
 
                 // Help: GitHub Page
