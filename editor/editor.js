@@ -1614,7 +1614,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 else message =
                     '<div>' +
                         '<div>' + _('Empty board') + '</div>' +
-                        (metaviz.agent.server == '' ? '<div style="margin-top: 5px">' + _('Infile data') + '</div>' : '') +
+                        (metaviz.agent.server != '' ? '<div style="margin-top: 5px">' + _('Infile data') + '</div>' : '') +
                     '</div>'
             }
 

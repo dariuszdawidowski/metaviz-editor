@@ -410,6 +410,15 @@ class Metaviz {
         // For browser
         if (this.agent.client == 'browser') {
 
+            // Clean tracking params
+            if (this.agent.server == '') {
+                const getParams = window.location.search.uriToDict();
+                if ('utm_source' in getParams) delete getParams['utm_source'];
+                if ('utm_medium' in getParams) delete getParams['utm_medium'];
+                if ('utm_content' in getParams) delete getParams['utm_content'];
+                window.history.replaceState(null, null, Object.keys(getParams).length ? `?${dictToUri(getParams)}` : '');
+            }
+
             // Theme
             const theme = localStorage.getItem('metaviz.config.theme') || 'Iron';
             this.container.element.classList.add('theme-' + theme.toLowerCase());
@@ -418,11 +427,12 @@ class Metaviz {
             }
 
             // Cookie info
-            if (this.agent.server != '')
-                this.editor.showCookieBubble({
-                text: `${_('Site does NOT use cookies')}. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a>`,
-                position: 'bottom-center'
-            });
+            if (this.agent.server != '') {
+                    this.editor.showCookieBubble({
+                    text: `${_('Site does NOT use cookies')}. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a>`,
+                    position: 'bottom-center'
+                });
+            }
 
             // Load config from browser
             this.storage.db.open({tables: ['boards'], version: 5})

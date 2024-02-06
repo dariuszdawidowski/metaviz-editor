@@ -22,7 +22,6 @@ class MetavizViewerState {
 
             state: () => {
                 const params = window.location.search.uriToDict();
-                console.log('params', params);
 
                 // Local: Load ?board=... or clear URL GET params
                 if (metaviz.agent.client == 'browser' && metaviz.agent.db == 'file') {
