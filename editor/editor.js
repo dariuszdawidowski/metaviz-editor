@@ -1283,8 +1283,19 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Open file
             if (this.file.handle) {
 
+                // Read file
+                let f = null;
+                try {
+                    f = await this.file.handle.getFile();
+                }
+                catch (error) {
+                    if (error instanceof DOMException && error.name === 'NotFoundError') {
+                        alert(_('File not found') + '!');
+                    }
+                    return;
+                }
+
                 // Get file data
-                const f = await this.file.handle.getFile();
                 const text = await f.text();
 
                 // JSON
