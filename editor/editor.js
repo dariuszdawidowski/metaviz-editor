@@ -1203,7 +1203,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         const startRange = 0x1F600;
         const endRange = 0x1F64F;
         const emoji = String.fromCodePoint(Math.floor(Math.random() * (endRange - startRange + 1) + startRange));
-        this.setBoardName(`Board-${yyyy}-${mm < 10 ? '0' : ''}${mm}-${dd} ${emoji}`);
+        this.setBoardName(`Board-${yyyy}-${mm < 10 ? '0' : ''}${mm}-${dd < 10 ? '0' : ''}${dd} ${emoji}`);
     }
 
     getBoardName() {
@@ -1256,9 +1256,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 try {
                     const handle = await window.showOpenFilePicker({
                         types: [{
-                                description: 'Metaviz file .mv',
+                                description: 'Metaviz file .mv/.xml',
                                 accept: {
                                     'text/metaviz+json': ['.mv'],
+                                    'text/mvstack+xml': ['.xml']
                                 },
                             },
                         ],
