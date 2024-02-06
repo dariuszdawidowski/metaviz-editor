@@ -14,18 +14,20 @@ class MetavizInStack {
         metaviz.editor.setBoardID(xml.querySelector('mv > id').textContent);
         metaviz.editor.setBoardName(xml.querySelector('mv > name').textContent);
 
-        // Mimetype
-        const mimetype = xml.querySelector('mv > mimetype').textContent;
-        if (mimetype != 'text/mvstack+xml') {
-            alert('Unsupported file type!');
-            return;
-        }
-
-        // Version check 6..4
+        // Version check v6..v4
         const version = parseInt(xml.querySelector('mv > version').textContent);
         if (version > 6 || version < 4) {
             alert('Unsupported file version!');
             return;
+        }
+
+        // Mimetype v5+
+        if (version >= 5) {
+            const mimetype = xml.querySelector('mv > mimetype')?.textContent;
+            if (mimetype && mimetype != 'text/mvstack+xml') {
+                alert('Unsupported file type!');
+                return;
+            }
         }
 
         const packets = [];
