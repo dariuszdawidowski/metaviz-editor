@@ -750,31 +750,7 @@ class MetavizContextMenu extends TotalProMenu {
         this.panel.left.find('menu-file')?.enable();
 
         // Recent files
-        const menuRecentFiles = this.panel.left.find('menu-file-recent');
-        if (menuRecentFiles) (async () => {
-            menuRecentFiles.del();
-            const records = await metaviz.storage.db.table['boards'].get('*');
-            if (records.length) {
-                records.sort((a, b) => b.timestamp - a.timestamp);
-                for (const board of records) {
-                    menuRecentFiles.add(new TotalProMenuOption({
-                        text: board.name || board.handle.name,
-                        value: board.id,
-                        onChange: (value) => {
-                            this.hide();
-                            if (value) metaviz.editor.open(value);
-                        }
-                    }));
-                }
-            }
-            // No recent files
-            else {
-                menuRecentFiles.add(new TotalProMenuOption({
-                    text: '- ' + _('No options') + ' -',
-                    disabled: true
-                }));
-            }
-        })();
+        this.updateRecentFiles();
 
         // Enable Toolbar (always)
         this.panel.left.find('menu-toolbars')?.enable();
@@ -813,6 +789,38 @@ class MetavizContextMenu extends TotalProMenu {
         metaviz.events.enable('editor:pointerdown');
         metaviz.events.enable('editor:pointermove');
         metaviz.events.enable('editor:pointerup');
+    }
+
+    /**
+     * Fill file menu with recently opened files
+     */
+
+    async updateRecentFiles() {
+        const menuRecentFiles = this.panel.left.find('menu-file-recent');
+        if (menuRecentFiles) {
+            menuRecentFiles.del();
+            const records = await metaviz.storage.db.table['boards'].get('*');
+            if (records.length) {
+                records.sort((a, b) => b.timestamp - a.timestamp);
+                for (const board of records) {
+                    menuRecentFiles.add(new TotalProMenuOption({
+                        text: board.name || board.handle.name,
+                        value: board.id,
+                        onChange: (value) => {
+                            this.hide();
+                            if (value) metaviz.editor.open(value);
+                        }
+                    }));
+                }
+            }
+            // No recent files
+            else {
+                menuRecentFiles.add(new TotalProMenuOption({
+                    text: '- ' + _('No options') + ' -',
+                    disabled: true
+                }));
+            }
+        }
     }
 
     /**

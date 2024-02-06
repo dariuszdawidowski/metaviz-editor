@@ -1291,6 +1291,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 catch (error) {
                     if (error instanceof DOMException && error.name === 'NotFoundError') {
                         alert(_('File not found') + '!');
+                        metaviz.storage.db.table['boards'].del({'id': boardID});
+                        this.menu.updateRecentFiles();
+                        this.checkEmpty();
                     }
                     return;
                 }
