@@ -420,8 +420,8 @@ class Metaviz {
             // Cookie info
             if (this.agent.server != '')
                 this.editor.showCookieBubble({
-                text: "The diagram data is not permanently stored anywhere until you save it to the downloaded file. Site does NOT use cookies. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>Click here to read the Privacy Policy.</a>",
-                position: "bottom-center"
+                text: `${_('Site does NOT use cookies')}. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a>`,
+                position: 'bottom-center'
             });
 
             // Load config from browser

@@ -7,9 +7,10 @@ const i18n = {
 
     // English (for long messages only)
     en: {
-        'unsupported browser version': 'Unsupported browser version. Please update to the latest one or change to another one.',
-        'this is empty folder': 'this is empty folder - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...',
-        'this is empty board': 'this is empty board - click &nbsp;<b>right mouse button &rarr; add node</b>&nbsp; to start...',
+        'unsupported browser': 'Unsupported browser version. Please update to the latest one or change to another one.',
+        'empty folder': 'Empty folder',
+        'empty board': 'Empty board - click <b>right mouse button &rarr; add node</b> to start.',
+        'infile data': 'The data is not stored online. Download to your disk - <b>File &rarr; Save</b>.',
     },
 
     // Polski
@@ -89,9 +90,12 @@ const i18n = {
         'search': 'szukaj',
         'clear': 'wyczyść',
         'click here to open file': 'kliknij tutaj aby otworzyć plik',
-        'this is empty folder': 'to jest pusty folder - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
-        'this is empty board': 'to jest pusta tablica - kliknij &nbsp;<b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b>&nbsp; aby zacząć...',
-        'unsupported browser version': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej lub zmienić na inną.',
+        'empty folder': 'Pusty folder',
+        'empty board': 'Pusta tablica - kliknij <b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b> aby zacząć.',
+        'infile data': 'Dane nie są przechowywane online. Pobierz na swój dysk - <b>Plik &rarr; Zapisz</b>.',
+        'unsupported browser': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej lub zmienić na inną.',
+        'site does not use cookies': 'Strona NIE używa ciasteczek',
+        'click here to read the privacy policy': 'Kliknij tutaj aby przeczytać Politykę Prywatności',
     },
 
     // Esperanto
@@ -171,9 +175,12 @@ const i18n = {
         'search': 'serĉi',
         'clear': 'klara',
         'click here to open file': 'klaku ĉi tie por malfermi dosieron',
-        'this is empty folder': 'Ĉi tio estas malplena dosierujo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
-        'this is empty board': 'Ĉi tio estas malplena tabulo - alklaku &nbsp;<b>Dekstra Musbutono &rarr; Aldoni Nodon</b>&nbsp; por komenci...',
-        'unsupported browser version': 'nesubtenata retumila versio. bonvolu ĝisdatigi al pli nova aŭ ŝanĝi al alia',
+        'empty folder': 'Malplena dosierujo',
+        'empty board': 'Malplena tabulo - klaku <b>dekstra musbutono &rarr; aldonu nodon</b> komenci.',
+        'infile data': 'La datumoj ne estas konservitaj interrete. Elŝutu al via disko - <b>Dosiero &rarr; Savi</b>.',
+        'unsupported browser': 'nesubtenata retumila versio. bonvolu ĝisdatigi al pli nova aŭ ŝanĝi al alia',
+        'site does not use cookies': 'retejo NE uzas kuketojn',
+        'click here to read the privacy policy': 'klaku ĉi tie por legi la privatecan politikon',
     },
 
 };

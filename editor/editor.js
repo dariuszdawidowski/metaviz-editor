@@ -1594,7 +1594,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     '</div>';
                 else message =
                     '<div>' +
-                        _('This is empty board') +
+                        '<div>' + _('Empty board') + '</div>' +
+                        (metaviz.agent.server != '' ? '<div style="margin-top: 5px">' + _('Infile data') + '</div>' : '') +
                     '</div>'
             }
 
@@ -1604,7 +1605,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 if (recent != '') message =
                     '<div>' +
                         '<div style="padding: 15px 0 5px 5px">' +
-                            _('This is empty board') +
+                            _('Empty board') +
                         '</div>' +
                         '<div style="padding: 5px 0 15px 5px">' +
                             '<span id="info-bubble-recent-files">' + recent + '</span>' +
@@ -1612,13 +1613,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     '</div>'
                 else message =
                     '<div>' +
-                        _('This is empty board') +
+                        '<div>' + _('Empty board') + '</div>' +
+                        (metaviz.agent.server == '' ? '<div style="margin-top: 5px">' + _('Infile data') + '</div>' : '') +
                     '</div>'
             }
 
             // Info about empty folder
             else if (metaviz.render.nodes.parent != null) {
-                message = _('This is empty folder');
+                message = _('Empty folder');
             }
 
             // Show bubble
