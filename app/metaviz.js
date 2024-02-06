@@ -411,7 +411,7 @@ class Metaviz {
         if (this.agent.client == 'browser') {
 
             // Clean tracking params
-            if (this.agent.server == '') {
+            if (this.agent.server != '') {
                 const getParams = window.location.search.uriToDict();
                 if ('utm_source' in getParams) delete getParams['utm_source'];
                 if ('utm_medium' in getParams) delete getParams['utm_medium'];
