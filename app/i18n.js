@@ -11,6 +11,7 @@ const i18n = {
         'empty folder': 'Empty folder',
         'empty board': 'Empty board - click <b>right mouse button &rarr; add node</b> to start.',
         'infile data': 'The data is not stored online. Download to your disk - <b>File &rarr; Save</b>.',
+        'site does not use cookies': 'This site does NOT use cookies, however server logs access activity as standard.',
     },
 
     // Polski
@@ -94,7 +95,7 @@ const i18n = {
         'empty board': 'Pusta tablica - kliknij <b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b> aby zacząć.',
         'infile data': 'Dane nie są przechowywane online. Pobierz na swój dysk - <b>Plik &rarr; Zapisz</b>.',
         'unsupported browser': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej lub zmienić na inną.',
-        'site does not use cookies': 'Strona NIE używa ciasteczek',
+        'site does not use cookies': 'Strona NIE używa ciasteczek, lecz serwer standardowo rejestruje dziennik dostępu.',
         'click here to read the privacy policy': 'Kliknij tutaj aby przeczytać Politykę Prywatności',
     },
 
@@ -179,7 +180,7 @@ const i18n = {
         'empty board': 'Malplena tabulo - klaku <b>dekstra musbutono &rarr; aldonu nodon</b> komenci.',
         'infile data': 'La datumoj ne estas konservitaj interrete. Elŝutu al via disko - <b>Dosiero &rarr; Savi</b>.',
         'unsupported browser': 'nesubtenata retumila versio. bonvolu ĝisdatigi al pli nova aŭ ŝanĝi al alia',
-        'site does not use cookies': 'retejo NE uzas kuketojn',
+        'site does not use cookies': 'Ĉi tiu retejo NE uzas kuketojn, tamen servilo stokas alir-agadon kiel normo.',
         'click here to read the privacy policy': 'klaku ĉi tie por legi la privatecan politikon',
     },
 
