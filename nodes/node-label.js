@@ -136,14 +136,18 @@ class MetavizNodeLabel extends MetavizNode {
 
             // Color
             if (key == 'color') {
-                this.element.classList.remove('color-0', 'color-1', 'color-2', 'color-3', 'color-4', 'color-5');
+                Object.keys(this.options.color.options).forEach(optionKey => {
+                    this.element.classList.remove(`color-${optionKey}`);
+                });
                 this.element.classList.add('color-' + this.params.color);
                 this.update();
             }
 
             // Style
             else if (key == 'style') {
-                this.element.classList.remove('style-label', 'style-text', 'style-underline');
+                Object.keys(this.options.style.options).forEach(optionKey => {
+                    this.element.classList.remove(`style-${optionKey}`);
+                });
                 this.element.classList.add('style-' + this.params.style);
                 this.update();
             }

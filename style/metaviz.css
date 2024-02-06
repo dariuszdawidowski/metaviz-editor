@@ -190,6 +190,7 @@ input, textarea, label {
 }
 
 .info-bubble .file {
+    margin: 0px 2px;
 }
 
 .info-bubble .file:hover {
