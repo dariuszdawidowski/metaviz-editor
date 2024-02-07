@@ -1532,29 +1532,36 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      */
 
     showCookieBubble(args) {
-        const { text = '', position = 'bottom-center' } = args;
-        const element = document.createElement('div');
-        element.classList.add('cookie-bubble');
-        element.innerHTML = text;
-        const x = document.createElement('div');
-        x.classList.add('x');
-        x.innerHTML = '&#215;';
-        x.addEventListener('click', () => { element.remove(); });
-        element.append(x);
-        document.body.append(element);
-        const transform = element.getBoundingClientRect();
-        if (position == 'bottom-left') {
-            element.style.left = '0px';
-            element.style.bottom = '0px';
+        if (metaviz.config.cookies.show) {
+            const { text = '', position = 'bottom-center' } = args;
+            const element = document.createElement('div');
+            element.classList.add('cookie-bubble');
+            element.innerHTML = text;
+            const x = document.createElement('div');
+            x.classList.add('x');
+            x.innerHTML = '&#215;';
+            x.addEventListener('click', () => { element.remove(); });
+            element.append(x);
+            document.body.append(element);
+            const transform = element.getBoundingClientRect();
+            if (position == 'bottom-left') {
+                element.style.left = '0px';
+                element.style.bottom = '0px';
+            }
+            else if (position == 'bottom-center') {
+                element.style.left = `calc(50% - ${transform.width / 2}px)`;
+                element.style.bottom = '0px';
+            }
+            else if (position == 'bottom-right') {
+                element.style.right = '0px';
+                element.style.bottom = '0px';
+            }
         }
-        else if (position == 'bottom-center') {
-            element.style.left = `calc(50% - ${transform.width / 2}px)`;
-            element.style.bottom = '0px';
-        }
-        else if (position == 'bottom-right') {
-            element.style.right = '0px';
-            element.style.bottom = '0px';
-        }
+    }
+
+    hideCookieBubbleForever(checkbox) {
+        metaviz.config.cookies.show = !checkbox.checked;
+        metaviz.config.save();
     }
 
     /**

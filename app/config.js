@@ -174,6 +174,12 @@ class MetavizConfig {
             }
         };
 
+        // Cookies
+        this.cookies = {
+            //allowed: 'none', // Level of allowed cookies 'none' | 'essential' | 'all' (not used yet - for future releases)
+            show: true, // Display cookie info bar
+        };
+
         // Helpers
         this.snap = {
 
@@ -196,6 +202,7 @@ class MetavizConfig {
         this.theme.set(localStorage.getItem('metaviz.config.theme') || 'Iron');
         this.notifications.set(localStorage.getItem('metaviz.config.notifications') || 'minimal');
         this.snap.grid.enabled = (localStorage.getItem('metaviz.config.snap.grid.enabled') == 'false') ? false : true;
+        this.cookies.show = (localStorage.getItem('metaviz.config.cookies.show') == 'false') ? false : true;
     }
 
     save() {
@@ -204,6 +211,7 @@ class MetavizConfig {
         localStorage.setItem('metaviz.config.theme', this.theme.get());
         localStorage.setItem('metaviz.config.notifications', this.notifications.get());
         localStorage.setItem('metaviz.config.snap.grid.enabled', this.snap.grid.enabled);
+        localStorage.setItem('metaviz.config.cookies.show', this.cookies.show);
     }
 
 }

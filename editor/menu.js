@@ -476,6 +476,24 @@ class MetavizContextMenu extends TotalProMenu {
                 ]
             }));
 
+            // Notifications
+            subSettings.add(new TotalProMenuGroup({
+                text: _('Notifications'),
+                widgets: [
+
+                    // Allow cookie info bar
+                    new TotalProMenuSwitch({
+                        text: _('Show cookie info'),
+                        value: metaviz.config.cookies.show,
+                        onChange: (value) => {
+                            metaviz.config.cookies.show = value;
+                            metaviz.config.save();
+                        }
+                    }),
+
+                ]
+            }));
+
         } // Project Settings
 
         // Help selection

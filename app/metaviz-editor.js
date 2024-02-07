@@ -429,7 +429,7 @@ class Metaviz {
             // Cookie info
             if (this.agent.server != '') {
                 this.editor.showCookieBubble({
-                    text: `${_('Site does NOT use cookies')}. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a>`,
+                    text: `${_('Site does NOT use cookies')}. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a> <input type="checkbox" onchange="metaviz.editor.hideCookieBubbleForever(this)"> ${_("Don't show again")}`,
                     position: 'bottom-center'
                 });
             }
