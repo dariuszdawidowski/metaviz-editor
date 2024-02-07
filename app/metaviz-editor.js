@@ -256,6 +256,14 @@ class Metaviz {
 
         };
 
+        // URLs info
+        this.url = {
+
+            // Update info url
+            update: null
+
+        };
+
         // Pseudo user
         this.user = {
 
@@ -338,6 +346,9 @@ class Metaviz {
         this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
         this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
         this.agent.protocol = window.location.origin.split('://')[0];
+
+        // URL info
+        this.url.update = document.querySelector('meta[name="metaviz:url:update"]')?.content;
 
         // Language
         this.system.language.iso = window.navigator.language;
@@ -429,9 +440,14 @@ class Metaviz {
             // Cookie info
             if (this.agent.server != '') {
                 this.editor.showCookieBubble({
-                    text: `${_('Site does NOT use cookies')}. <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a> <input type="checkbox" onchange="metaviz.editor.hideCookieBubbleForever(this)"> ${_("Don't show again")}`,
+                    text: `${_('Site does NOT use cookies')} <a href='https://www.metaviz.net/privacy-policy/webapp/' target='_blank'>${_('Click here to read the Privacy Policy')}.</a> <input type="checkbox" onchange="metaviz.editor.hideCookieBubbleForever(this)"> ${_('Dont show again')}`,
                     position: 'bottom-center'
                 });
+            }
+
+            // Check for updates
+            if (this.url.update != '') {
+                console.log('Check for updates...');
             }
 
             // Load config from browser

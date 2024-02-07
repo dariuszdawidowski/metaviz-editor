@@ -7,11 +7,13 @@ const i18n = {
 
     // English (for long messages only)
     en: {
+        'dont show again': "Don't show again",
         'unsupported browser': 'Unsupported browser version. Please update to the latest one or change to another one.',
         'empty folder': 'Empty folder',
         'empty board': 'Empty board - click <b>right mouse button &rarr; add node</b> to start.',
         'infile data': 'The data is not stored online. Download to your disk - <b>File &rarr; Save</b>.',
-        'site does not use cookies': 'This site does NOT use cookies, however server logs access activity as standard.',
+        'site use cookies': 'This site uses only essential login cookies. Server logs access activity as standard.',
+        'site does not use cookies': 'This site does NOT use cookies. Server logs access activity as standard.',
     },
 
     // Polski
@@ -91,14 +93,15 @@ const i18n = {
         'search': 'szukaj',
         'clear': 'wyczyść',
         'notifications': 'powiadomienia',
-        "Don't show again": 'Nie pokazuj więcej',
-        'Show cookie info': 'Pokaż informację cookies',
+        'dont show again': 'Nie pokazuj więcej',
+        'dhow cookie info': 'Pokaż informację cookies',
         'click here to open file': 'kliknij tutaj aby otworzyć plik',
         'empty folder': 'Pusty folder',
         'empty board': 'Pusta tablica - kliknij <b>Prawy Klawisz Myszy &rarr; Dodaj Obiekt</b> aby zacząć.',
         'infile data': 'Dane nie są przechowywane online. Pobierz na swój dysk - <b>Plik &rarr; Zapisz</b>.',
         'unsupported browser': 'Nieobsługiwana wersja przeglądarki. Proszę zauktualizować do najnowszej lub zmienić na inną.',
-        'site does not use cookies': 'Strona NIE używa ciasteczek, lecz serwer standardowo rejestruje dziennik dostępu',
+        'site use cookies': 'Strona używa tylko niezbędnych ciasteczek do loginu. Serwer standardowo rejestruje dziennik dostępu.',
+        'site does not use cookies': 'Strona NIE używa ciasteczek. Serwer standardowo rejestruje dziennik dostępu.',
         'click here to read the privacy policy': 'Kliknij tutaj aby przeczytać Politykę Prywatności',
     },
 
@@ -179,14 +182,15 @@ const i18n = {
         'search': 'serĉi',
         'clear': 'klara',
         'notifications': 'sciigoj',
-        "Don't show again": 'Ne montru denove',
-        'Show cookie info': 'Montri informojn pri kuketoj',
+        'dont show again': 'Ne montru denove',
+        'show cookie info': 'Montri informojn pri kuketoj',
         'click here to open file': 'klaku ĉi tie por malfermi dosieron',
         'empty folder': 'Malplena dosierujo',
         'empty board': 'Malplena tabulo - klaku <b>dekstra musbutono &rarr; aldonu nodon</b> komenci.',
         'infile data': 'La datumoj ne estas konservitaj interrete. Elŝutu al via disko - <b>Dosiero &rarr; Savi</b>.',
         'unsupported browser': 'nesubtenata retumila versio. bonvolu ĝisdatigi al pli nova aŭ ŝanĝi al alia',
-        'site does not use cookies': 'Ĉi tiu retejo NE uzas kuketojn, tamen servilo stokas alir-agadon kiel normo',
+        'site use cookies': 'La retejo uzas nur esencajn kuketojn por ensaluto. La servilo registras alirprotokolo defaŭlte.',
+        'site does not use cookies': 'La retejo NE UZAS kuketojn. La servilo registras alirprotokolo defaŭlte.',
         'click here to read the privacy policy': 'klaku ĉi tie por legi la privatecan politikon',
     },
 
