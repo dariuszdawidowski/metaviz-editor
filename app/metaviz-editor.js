@@ -403,6 +403,9 @@ class Metaviz {
             nodes: new MetavizNodesManager(),
             links: new MetavizLinksManager()
         });
+        this.ajax = {
+            in: new MetavizInAjax()
+        };
         this.exchange = new MetavizExchange();
         this.events = new MetavizEventManager();
         this.editor = new MetavizEditorBrowser();
@@ -447,7 +450,18 @@ class Metaviz {
 
             // Check for updates
             if (this.url.update != '') {
-                console.log('Check for updates...');
+                metaviz.ajax.in.recv({server: this.url.update + '/check/', params: {version: metaviz.version, build: metaviz.build}, cors: true}).then(
+                    response => {
+                        if (response != 'error') {
+                            const json = JSON.parse(response);
+                            if ('update' in json && 'url' in json && json.update == true) {
+                                if (confirm(_('Update available'))) window.open(json.url);
+                            }
+                        }
+                    },
+                    error => {
+                    }
+                );
             }
 
             // Load config from browser

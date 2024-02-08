@@ -88,6 +88,9 @@
         <script type="text/javascript" src="utils/events.js"></script>
         <script type="text/javascript" src="utils/validators.js"></script>
 
+        <!-- Networking -->
+        <script type="text/javascript" src="net/ajax-in.js"></script>
+
         <!-- GUI -->
         <script type="text/javascript" src="../total-text/render.js"></script>
         <script type="text/javascript" src="controls/base.js"></script>
@@ -179,7 +182,7 @@
         <script type="text/javascript">
             window.addEventListener('load', function() {
                 metaviz = new Metaviz();
-                metaviz.build = 'editor localtest';
+                metaviz.build = 'localtest.0.1970-01-01';
                 global.cache['MetavizNodeImage'] = {
                     formats: ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'image/x-icon', 'image/svg+xml'],
                     extensions: ['jpg', 'jpeg', 'png', 'apng', 'gif', 'webp', 'ico', 'svg'],
