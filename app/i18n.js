@@ -14,6 +14,7 @@ const i18n = {
         'infile data': 'The data is not stored online. Download to your disk - <b>File &rarr; Save</b>.',
         'site use cookies': 'This site uses only essential login cookies. Server logs access activity as standard.',
         'site does not use cookies': 'This site does NOT use cookies. Server logs access activity as standard.',
+        'update available': 'There is a new software update available.\nClick OK to open new window.',
     },
 
     // Polski
@@ -103,6 +104,7 @@ const i18n = {
         'site use cookies': 'Strona używa tylko niezbędnych ciasteczek do loginu. Serwer standardowo rejestruje dziennik dostępu.',
         'site does not use cookies': 'Strona NIE używa ciasteczek. Serwer standardowo rejestruje dziennik dostępu.',
         'click here to read the privacy policy': 'Kliknij tutaj aby przeczytać Politykę Prywatności',
+        'update available': 'Dostępna jest nowa aktualizacja oprogramowania.\nNaciśnij OK, aby otworzyć nowe okno.',
     },
 
     // Esperanto
@@ -192,6 +194,7 @@ const i18n = {
         'site use cookies': 'La retejo uzas nur esencajn kuketojn por ensaluto. La servilo registras alirprotokolo defaŭlte.',
         'site does not use cookies': 'La retejo NE UZAS kuketojn. La servilo registras alirprotokolo defaŭlte.',
         'click here to read the privacy policy': 'klaku ĉi tie por legi la privatecan politikon',
+        'update available': 'Estas disponebla nova programaro ĝisdatigo.\nAlklaku OK por malfermi novan fenestron.',
     },
 
 };
