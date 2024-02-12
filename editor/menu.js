@@ -476,10 +476,23 @@ class MetavizContextMenu extends TotalProMenu {
                 ]
             }));
 
-            // Notifications
+            // Permissions
             subSettings.add(new TotalProMenuGroup({
-                text: _('Notifications'),
+                text: _('Permissions'),
                 widgets: [
+
+                    // Allow system clipboard
+                    (metaviz.system.features.clipboardApi ?
+                    new TotalProMenuSwitch({
+                        id: 'menu-settings-allow-clipboard',
+                        text: _('Allow system clipboard'),
+                        value: false,
+                        onChange: (value) => {
+                            if (value == true) navigator.clipboard.readText();
+                            else alert(_('Disable clipboard'));
+                            this.hide();
+                        }
+                    }) : null),
 
                     // Allow cookie info bar
                     new TotalProMenuSwitch({
@@ -491,27 +504,22 @@ class MetavizContextMenu extends TotalProMenu {
                         }
                     }),
 
+                    // Check for updates
+                    ((metaviz.url.update != '') ?
+                    new TotalProMenuSwitch({
+                        text: _('Check for updates'),
+                        value: metaviz.config.updates.check,
+                        onChange: (value) => {
+                            metaviz.config.updates.check = value;
+                            metaviz.config.save();
+                        }
+                    }) : null),
+
                 ]
             }));
 
             // Updates
             if (metaviz.url.update != '') {
-                subSettings.add(new TotalProMenuGroup({
-                    text: _('Updates'),
-                    widgets: [
-
-                        // Check for updates
-                        new TotalProMenuSwitch({
-                            text: _('Check for updates'),
-                            value: metaviz.config.updates.check,
-                            onChange: (value) => {
-                                metaviz.config.updates.check = value;
-                                metaviz.config.save();
-                            }
-                        }),
-
-                    ]
-                }));
             }
 
         } // Project Settings
@@ -802,6 +810,23 @@ class MetavizContextMenu extends TotalProMenu {
         // Show menu at pointer coords
         const container = metaviz.container.getOffset();
         super.show({left: args.x - container.x, top: args.y - container.y});
+
+        // Permissions: Clipboard
+        if (metaviz.system.features.clipboardApi) {
+            const compare = crypto.randomUUID();
+            navigator.clipboard.writeText(compare).then(() => {
+                navigator.clipboard.readText().then((text) => {
+                    if (text === compare) this.panel.left.find('menu-settings-allow-clipboard')?.set(true);
+                    navigator.clipboard.writeText('');
+                }).catch((err) => {
+                    this.panel.left.find('menu-settings-allow-clipboard')?.set(false);
+                    navigator.clipboard.writeText('');
+                });
+            }).catch((err) => {
+                this.panel.left.find('menu-settings-allow-clipboard')?.set(false);
+            });
+        }
+
     }
 
     /**

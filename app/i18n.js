@@ -15,6 +15,8 @@ const i18n = {
         'site use cookies': 'This site uses only essential login cookies. Server logs access activity as standard.',
         'site does not use cookies': 'This site does NOT use cookies. Server logs access activity as standard.',
         'update available': 'There is a new software update available.\nClick OK to open new window.',
+        'disable notifications': 'You can disable notifications at the browser level by clicking the appropriate option next to the address bar.',
+        'disable clipboard': 'You can disable clipboard access at the browser level by clicking the appropriate option next to the address bar.',
     },
 
     // Polski
@@ -93,12 +95,13 @@ const i18n = {
         'header': 'nagłówek',
         'search': 'szukaj',
         'clear': 'wyczyść',
-        'notifications': 'powiadomienia',
+        'permissions': 'zezwolenia',
         'allow notifications': 'zezwól na powiadomienia',
         'play sound only': 'tylko odtwórz dźwięk',
         'display notification': 'wyświetl powiadomienie',
         'notification with user name': 'powiadomienie z nazwą użytkownika',
         'notification with message': 'powiadomienie z wiadomością',
+        'check for updates': 'sprawdzaj aktualizacje',
         'dont show again': 'Nie pokazuj więcej',
         'show cookie info': 'Pokaż informację cookies',
         'click here to open file': 'kliknij tutaj aby otworzyć plik',
@@ -110,6 +113,8 @@ const i18n = {
         'site does not use cookies': 'Strona NIE używa ciasteczek. Serwer standardowo rejestruje dziennik dostępu.',
         'click here to read the privacy policy': 'Kliknij tutaj aby przeczytać Politykę Prywatności',
         'update available': 'Dostępna jest nowa aktualizacja oprogramowania.\nNaciśnij OK, aby otworzyć nowe okno.',
+        'disable notifications': 'Możesz wyłączyć powiadomienia z poziomu przeglądarki klikając odpowiednią opcję obok paska adresu.',
+        'disable clipboard': 'Możesz wyłączyć dostęp do schowka z poziomu przeglądarki klikając odpowiednią opcję obok paska adresu.',
     },
 
     // Esperanto
@@ -188,12 +193,13 @@ const i18n = {
         'header': 'kaplinio',
         'search': 'serĉi',
         'clear': 'klara',
-        'notifications': 'sciigoj',
+        'permissions': 'permesoj',
         'allow notifications': 'permesi sciigojn',
         'play sound only': 'ludi nur sonon',
         'display notification': 'montri sciigon',
         'notification with user name': 'sciigo kun uzantnomo',
         'notification with message': 'sciigo kun mesaĝo',
+        'check for updates': 'kontrolu ĝisdatigojn',
         'dont show again': 'ne montru denove',
         'show cookie info': 'montri informojn pri kuketoj',
         'click here to open file': 'klaku ĉi tie por malfermi dosieron',
@@ -205,6 +211,8 @@ const i18n = {
         'site does not use cookies': 'La retejo NE UZAS kuketojn. La servilo registras alirprotokolo defaŭlte.',
         'click here to read the privacy policy': 'klaku ĉi tie por legi la privatecan politikon',
         'update available': 'Estas disponebla nova programaro ĝisdatigo.\nAlklaku OK por malfermi novan fenestron.',
+        'disable notifications': 'Vi povas malŝalti sciigojn ĉe la retumila nivelo alklakante la taŭgan opcion apud la adresbreto.',
+        'disable clipboard': 'Vi povas malŝalti aliron al tondujo ĉe la retumila nivelo alklakante la taŭgan opcion apud la adresbreto.',
     },
 
 };
