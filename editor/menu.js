@@ -388,7 +388,7 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Browser Settings
             subSettings.add(new TotalProMenuGroup({
-                text: _('Local settings'),
+                text: _('Local settings') + ':',
                 widgets: []
             }));
 
@@ -493,6 +493,26 @@ class MetavizContextMenu extends TotalProMenu {
 
                 ]
             }));
+
+            // Updates
+            if (metaviz.url.update != '') {
+                subSettings.add(new TotalProMenuGroup({
+                    text: _('Updates'),
+                    widgets: [
+
+                        // Check for updates
+                        new TotalProMenuSwitch({
+                            text: _('Check for updates'),
+                            value: metaviz.config.updates.check,
+                            onChange: (value) => {
+                                metaviz.config.updates.check = value;
+                                metaviz.config.save();
+                            }
+                        }),
+
+                    ]
+                }));
+            }
 
         } // Project Settings
 

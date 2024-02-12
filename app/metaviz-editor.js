@@ -449,7 +449,7 @@ class Metaviz {
             }
 
             // Check for updates
-            if (this.url.update != '') {
+            if (this.url.update != '' && metaviz.config.updates.check) {
                 metaviz.ajax.in.recv({server: this.url.update + '/check/', params: {version: metaviz.version, build: metaviz.build}, cors: true}).then(
                     response => {
                         if (response != 'error') {
@@ -686,7 +686,7 @@ class Metaviz {
             }
 
             /**
-             * Browser minumum version
+             * Browser minimum version
              */
 
             switch(this.system.browser.name) {

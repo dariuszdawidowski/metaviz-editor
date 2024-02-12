@@ -193,6 +193,11 @@ class MetavizConfig {
 
         };
 
+        // Updates
+        this.updates = {
+            check: true, // Check for udpates
+        };
+
         this.load();
     }
 
@@ -203,6 +208,7 @@ class MetavizConfig {
         this.notifications.set(localStorage.getItem('metaviz.config.notifications') || 'minimal');
         this.snap.grid.enabled = (localStorage.getItem('metaviz.config.snap.grid.enabled') == 'false') ? false : true;
         this.cookies.show = (localStorage.getItem('metaviz.config.cookies.show') == 'false') ? false : true;
+        this.updates.check = (localStorage.getItem('metaviz.config.updates.check') == 'false') ? false : true;
     }
 
     save() {
@@ -212,6 +218,7 @@ class MetavizConfig {
         localStorage.setItem('metaviz.config.notifications', this.notifications.get());
         localStorage.setItem('metaviz.config.snap.grid.enabled', this.snap.grid.enabled);
         localStorage.setItem('metaviz.config.cookies.show', this.cookies.show);
+        localStorage.setItem('metaviz.config.updates.check', this.updates.check);
     }
 
 }
