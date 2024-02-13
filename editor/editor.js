@@ -1314,7 +1314,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
                         // Save handler in IndexedDB
                         metaviz.storage.db.table['boards'].put({'id': json.id, 'name': json.name, 'handle': this.file.handle});
-                        metaviz.storage.db.table['boards'].set({'id': json_id, 'timestamp': new Date().getTime()});
+                        metaviz.storage.db.table['boards'].set({'id': json.id, 'timestamp': new Date().getTime()});
 
                         // Set ?board=<id> in URL
                         window.history.replaceState(null, null, metaviz.state.url.param('board').set(json.id));
@@ -1401,7 +1401,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Save diagram file
      */
 
-    save() {
+    async save() {
 
         // Spinner
         this.busy();
@@ -1409,7 +1409,33 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Collect JSON data
         const json = metaviz.format.serialize('text/mvstack+xml', this.history.get());
 
-        // Save to disk using File System API
+        // First time trying to create file using File System API
+        if (!this.file.handle) {
+
+            // Save file dialog
+            this.file.handle = await window.showSaveFilePicker({
+                types: [{
+                        description: 'Metaviz file .mv/.xml',
+                        accept: {
+                            'text/metaviz+json': ['.mv'],
+                            'text/mvstack+xml': ['.xml']
+                        },
+                    },
+                ],
+                suggestedName: `${this.getBoardName().slug()}.mv`,
+            });
+
+            if (this.file.handle) {
+                // Save handler in IndexedDB
+                metaviz.storage.db.table['boards'].put({'id': this.id, 'name': this.name, 'handle': this.file.handle});
+                metaviz.storage.db.table['boards'].set({'id': this.id, 'timestamp': new Date().getTime()});
+
+                // Set ?board=<id> in URL
+                window.history.replaceState(null, null, metaviz.state.url.param('board').set(this.id));
+            }
+        }
+
+        // Second time just save to disk using File System API
         if (this.file.handle) {
             this.saveLocalFile(json);
         }
