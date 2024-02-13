@@ -1228,7 +1228,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Clear DOM on board
         metaviz.render.clear();
         // Centre board
-        metaviz.render.center();
+        metaviz.render.center({x: 0, y: 0}, 'reset');
         // Generate new board ID
         this.id = crypto.randomUUID();
         // Generate name

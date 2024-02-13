@@ -195,7 +195,14 @@ class MetavizContextMenu extends TotalProMenu {
                             this.hide();
                             let msg = 'Create new board?';
                             if (metaviz.editor.history.isDirty()) msg += '\nUnsaved changes will be lost.';
-                            if (confirm(msg)) metaviz.editor.new();
+                            if (confirm(msg)) {
+                                // URL clear
+                                let url = new URL(window.location.href);
+                                url.search = '';
+                                window.history.replaceState({}, document.title, url.toString());
+                                // New board
+                                metaviz.editor.new();
+                            }
                         }
                     }),
 
