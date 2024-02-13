@@ -203,6 +203,9 @@ class Metaviz {
             // DB: 'file' (stored in file) | 'sql' (stored in relational database)
             db: null,
 
+            // Ext: extension of the file stored on disk
+            ext: null,
+
             // Static protocol: 'http' | 'https' | 'file'
             protocol: null
 
@@ -345,6 +348,7 @@ class Metaviz {
         this.agent.server = window.location.hostname;
         this.agent.data = document.querySelector('meta[name="metaviz:agent:data"]')?.content;
         this.agent.db = document.querySelector('meta[name="metaviz:agent:db"]')?.content;
+        this.agent.ext = document.querySelector('meta[name="metaviz:agent:ext"]')?.content;
         this.agent.protocol = window.location.origin.split('://')[0];
 
         // URL info

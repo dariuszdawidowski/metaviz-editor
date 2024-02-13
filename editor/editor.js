@@ -1422,7 +1422,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         },
                     },
                 ],
-                suggestedName: `${this.getBoardName().slug()}.mv`,
+                suggestedName: `${this.getBoardName().slug()}.${metaviz.agent.ext}`,
             });
 
             if (this.file.handle) {
@@ -1442,7 +1442,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Fallback: download file
         else {
-            metaviz.exchange.downloadFile({data: json, name: `${this.getBoardName().slug()}.mv`});
+            metaviz.exchange.downloadFile({data: json, name: `${this.getBoardName().slug()}.${metaviz.agent.ext}`});
             this.history.dirty = false;
             this.idle();
         }
