@@ -752,6 +752,10 @@ class MetavizContextMenu extends TotalProMenu {
 
         // File functions
         if (metaviz.agent.data == 'local' && metaviz.agent.db == 'file') {
+
+            // Enable main file option
+            this.panel.left.find('menu-file')?.enable();
+
             // Enable New
             this.panel.left.find('menu-file-new')?.enable();
 
@@ -761,6 +765,11 @@ class MetavizContextMenu extends TotalProMenu {
             // Enable Save/Export
             if (metaviz.editor.history.isDirty()) {
                 this.panel.left.find('menu-file-save')?.enable();
+                this.panel.left.find('menu-file-export-svg')?.enable();
+            }
+            else {
+                this.panel.left.find('menu-file-save')?.disable();
+                this.panel.left.find('menu-file-export-svg')?.disable();
             }
         }
 
@@ -791,9 +800,6 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Enable Navigation (always)
         this.panel.left.find('menu-navigation')?.enable();
-
-        // Enable File (always)
-        this.panel.left.find('menu-file')?.enable();
 
         // Recent files
         this.updateRecentFiles();
