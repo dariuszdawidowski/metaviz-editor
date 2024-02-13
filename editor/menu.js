@@ -762,15 +762,22 @@ class MetavizContextMenu extends TotalProMenu {
             // Enable Open File...
             this.panel.left.find('menu-file-open')?.enable();
 
-            // Enable Save/Export
+            // Enable Save
             if (metaviz.editor.history.isDirty()) {
                 this.panel.left.find('menu-file-save')?.enable();
-                this.panel.left.find('menu-file-export-svg')?.enable();
             }
             else {
                 this.panel.left.find('menu-file-save')?.disable();
+            }
+
+            // Enable Export
+            if (metaviz.render.nodes.list.length) {
+                this.panel.left.find('menu-file-export-svg')?.enable();
+            }
+            else {
                 this.panel.left.find('menu-file-export-svg')?.disable();
             }
+
         }
 
         // Enable Undo/Redo
