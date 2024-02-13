@@ -1625,9 +1625,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     '</div>'
             }
 
+            // Info about empty board (without files)
+            else if (metaviz.render.nodes.parent == null) {
+                message = '<div>' + _('Empty board') + '</div>';
+            }
+
             // Info about empty folder
-            else if (metaviz.render.nodes.parent != null) {
-                message = _('Empty folder');
+            else {
+                message = '<div>' + _('Empty folder') + '</div>';
             }
 
             // Show bubble
