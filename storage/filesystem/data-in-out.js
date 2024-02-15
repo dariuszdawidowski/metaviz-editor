@@ -3,7 +3,7 @@
  *       |o| ==== |o|         Metaviz Filesystem                                                   *
  *       | |______| |         Interface for Native Filesystem API.                                 *
  *       |  ______  |         MIT License                                                          *
- *       | |[]    | |         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *       | |[]    | |         (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
  *       \_|[]____|_|                                                                              *
  **************************************************************************************************/
 
@@ -42,7 +42,7 @@ class MetavizFilesystem {
                         json = JSON.parse(await f.text());
                     }
                     catch(error) {
-                        alert("Error: Can't recognize Metaviz file.");
+                        alert(_('Not mv file'));
                     }
 
                     // Decode
@@ -52,7 +52,7 @@ class MetavizFilesystem {
                             metaviz.render.layers.current.update();
                         }
                         else {
-                            alert("Error: Unknown version or not a Metaviz file.");
+                            alert(_('Not mv file'));
                         }
                     }
 
@@ -62,7 +62,7 @@ class MetavizFilesystem {
             }
         }
         else {
-            alert('Native File System API not supported!')
+            alert(_('File system api not found'))
         }
     }
 

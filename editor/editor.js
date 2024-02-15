@@ -1308,7 +1308,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         json = JSON.parse(text);
                     }
                     catch(error) {
-                        alert("Can't recognize Metaviz json file.");
+                        alert(_('Not mv file'));
                     }
                     if (json) {
 
@@ -1345,7 +1345,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                         xml = parser.parseFromString(text, 'text/xml');
                     }
                     catch(error) {
-                        alert("Can't recognize Metaviz xml file.");
+                        alert(_('Not mv file'));
                     }
                     if (xml) {
 
@@ -1383,7 +1383,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             this.interaction.unlock();
         }
         else {
-            alert('Native File System API not supported!');
+            alert(_('File system api not found'));
         }
     }
 
