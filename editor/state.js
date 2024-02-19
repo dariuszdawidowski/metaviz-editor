@@ -35,7 +35,7 @@ class MetavizViewerState {
                         divbg.appendChild(logo);
                         const button = document.createElement('button');
                         button.classList.add('metaviz-load-button');
-                        button.innerHTML = '<i class="fas fa-box-open"></i> Click to open diagram from file';
+                        button.innerHTML = '<span class="mdi mdi-folder-open"></span> Click to open diagram from file';
                         divbg.appendChild(button);
                         metaviz.render.container.appendChild(divbg);
                         button.addEventListener('click', (event) => {
