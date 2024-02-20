@@ -729,7 +729,7 @@ class Metaviz {
             // https://caniuse.com/#feat=native-filesystem-api
             this.system.features.nativeFileSystemApi = ('showOpenFilePicker' in window);
 
-            // https://caniuse.com/async-clipboard (full read/write support)
+            // https://caniuse.com/async-clipboard (full read/write support) Note: local file supports api but always ask about permission which is unacceptable
             this.system.features.clipboardApi = (this.agent.protocol != 'file') ? ('readText' in navigator.clipboard) && ('read' in navigator.clipboard) : false;
 
             /**

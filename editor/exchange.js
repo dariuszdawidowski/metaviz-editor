@@ -87,19 +87,6 @@ class MetavizExchange {
             metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
         }
 
-        // Generic URL
-        else {
-            const node = metaviz.render.nodes.add({
-                id: crypto.randomUUID(),
-                type: 'MetavizNodeURL',
-                parent: metaviz.render.nodes.parent,
-                x: position.x,
-                y: position.y,
-                params: {url: url}
-            });
-            metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
-        }
-
         // Check empty board/folder
         metaviz.editor.checkEmpty();
 
@@ -268,15 +255,7 @@ class MetavizExchange {
     detectFormat(text) {
 
         // Detecting 'text/url'
-        const patternURL = new RegExp(
-            "^(https?:\\/\\/)?" + // protocol
-            "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-            "((\\d{1,3}\\.){3}\\d{1,3}))" + // or ipv4 address
-            "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-            "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-            "(\\#[-a-z\\d_]*)?$",
-            "i"
-        );
+        const patternURL = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
         if (patternURL.test(text)) return {mime: 'text/url', url: text};
 
         // Detecting 'text/metaviz+json'
