@@ -3,7 +3,7 @@
  *         (\___/)            Metaviz Editor Interface                                             *
  *        -(o . o)-           Add, delete, move, copy, paste links and nodes.                      *
  *        (       )/\         MIT License                                                          *
- *        (_______)_/         (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *        (_______)_/         (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -275,16 +275,17 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Create node
      * nodeType: <string> class name
      * transform: {x: ..., y: ...}
+     * params: {param1: ..., param2: ...} [optional]
      */
 
-    nodeAdd(nodeType, transform) {
+    nodeAdd(nodeType, transform, params = {}) {
 
         // Position
         let position = metaviz.render.screen2World(transform);
         if (metaviz.config.snap.grid.enabled) position = this.snapToGrid(position.x, position.y);
 
         // Create node
-        const newNode = metaviz.render.nodes.add({id: crypto.randomUUID(), parent: metaviz.render.nodes.parent, type: nodeType, ...position});
+        const newNode = metaviz.render.nodes.add({id: crypto.randomUUID(), parent: metaviz.render.nodes.parent, type: nodeType, ...position, params});
 
         // Update
         newNode.render();
@@ -303,6 +304,9 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Show info
         this.checkEmpty();
+
+        // Return fres created node
+        return newNode;
     }
 
     /**
@@ -1085,13 +1089,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Compute offset (if present then it comes from Duplicate Node):
         if (!offset) {
             // From system event (CTRL/CMD+V)
-            if (event) offset = metaviz.render.screen2World({x: this.transform.x, y: this.transform.y});
+            if (event) offset = {x: this.transform.x, y: this.transform.y};
             // From internal clipboard (Menu Paste)
-            else offset = metaviz.render.screen2World(this.menu.position());
+            else offset = this.menu.position();
         }
 
         // Text (Clipboard API)
         if (metaviz.system.features.clipboardApi) {
+
             const text = await navigator.clipboard.readText();
             if (text != '') {
                 // If not sent anything yet

@@ -1,7 +1,11 @@
-/**
- * Metaviz Data Exchange and File Download
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- */
+/***************************************************************************************************
+ *                                                                                                 *
+ *                      _     Metaviz Data Exchange and File Download                              *
+ *      _      _       (o)-   Transfer data between system and browser.                            *
+ *   __(o)< __(o)> \___||     MIT License                                                          *
+ *   \___)  \___)  \_/__)     (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
+ *                                                                                                 *
+ **************************************************************************************************/
 
 class MetavizExchange {
         
@@ -76,15 +80,7 @@ class MetavizExchange {
 
         // Image
         if (mimetype == '*/image') {
-            const node = metaviz.render.nodes.add({
-                id: crypto.randomUUID(),
-                type: 'MetavizNodeImage',
-                parent: metaviz.render.nodes.parent,
-                x: position.x,
-                y: position.y,
-                params: {uri: url}
-            });
-            metaviz.editor.history.store({action: 'add', nodes: [{...node.serialize('transform'), ...position}]});
+             metaviz.editor.nodeAdd('MetavizNodeImage', position, {'uri': url});
         }
 
         // Check empty board/folder
@@ -99,23 +95,7 @@ class MetavizExchange {
     processText(text, position) {
 
         // Create Sticky Note (generic text)
-        const node = metaviz.render.nodes.add({
-            id: crypto.randomUUID(),
-            type: 'MetavizNodeText',
-            parent: metaviz.render.nodes.parent,
-            x: position.x,
-            y: position.y,
-            params: {
-                'page_1': text
-            }
-        });
-        metaviz.editor.history.store({
-            action: 'add',
-            nodes: [{...node.serialize('transform'), ...position}]
-        });
-
-        // Check empty board/folder
-        metaviz.editor.checkEmpty();
+        metaviz.editor.nodeAdd('MetavizNodeText', position, {'page_1': text});
 
     }
 
@@ -189,7 +169,7 @@ class MetavizExchange {
         // Create new node
         if (!node) {
 
-            // New node
+            // New node (manual add)
             node = metaviz.render.nodes.add({
                 id: crypto.randomUUID(),
                 parent: metaviz.render.nodes.parent,
