@@ -80,7 +80,7 @@ class MetavizExchange {
 
         // Image
         if (mimetype == '*/image') {
-             metaviz.editor.nodeAdd('MetavizNodeImage', position, {'uri': url});
+            metaviz.editor.nodeAdd('MetavizNodeImage', position, {uri: url});
         }
 
         // Check empty board/folder
@@ -95,7 +95,7 @@ class MetavizExchange {
     processText(text, position) {
 
         // Create Sticky Note (generic text)
-        metaviz.editor.nodeAdd('MetavizNodeText', position, {'page_1': text});
+        metaviz.editor.nodeAdd('MetavizNodeText', position, {page_1: text});
 
     }
 
