@@ -318,34 +318,35 @@ class MetavizExchange {
     /**
      * Download file
      *
-     * @param args.data: raw blob data
-     * @param args.path: path to file
-     * @param atgs.name: file name
+     * @param args.data: download from raw blob buffer
+     * @param args.path: or download from url path
+     * @param args.name: file name
      */
 
-    downloadFile(args) {
-        const { data = null, path = null, name = null } = args;
+    async downloadFile(args) {
 
-        // Create link element
-        const a = document.createElement('a');
+        // Blob data
+        let blob = null;
 
-        // File from disk
-        if (path) {
-            a.href = path;
-            a.setAttribute('target', '_blank');
+        // Download data from url path (allows to set file name)
+        if ('path' in args) {
+            const response = await fetch(args.path);
+            blob = await response.blob();
+        }
+        // Or download from buffer
+        else if ('data' in args) {
+            blob = args.data;
         }
 
-        // Raw blob
-        else if (data) {
-            const blob = new Blob([data]);
-            a.href = URL.createObjectURL(blob);
-        }
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'name' in args ? args.name : 'downloaded.file';
 
-        // File name
-        if (name) a.download = name;
+        document.body.appendChild(link);
+        link.click();
 
-        // Start download hack
-        a.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
     }
 
 }
