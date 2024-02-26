@@ -1149,7 +1149,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     drop(event) {
 
         // Dropped position
-        const offset = metaviz.render.screen2World({x: event.clientX, y: event.clientY});
+        const offset = {x: event.clientX, y: event.clientY};
 
         // Collide with exising node?
         const collision = metaviz.render.nodes.get(event.target)

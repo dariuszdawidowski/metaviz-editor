@@ -168,26 +168,11 @@ class MetavizExchange {
         }
         // Create new node
         if (!node) {
-
-            // New node (manual add)
-            node = metaviz.render.nodes.add({
-                id: crypto.randomUUID(),
-                parent: metaviz.render.nodes.parent,
-                type: 'MetavizNodeImage',
-                name: 'Image',
-                filename: file.name,
-                icon: fileIcon,
-                params: {style: 'minimal'},
-                ...position
-            });
-
+            node = metaviz.editor.nodeAdd('MetavizNodeImage', position, {style: 'minimal'});
         }
 
         // Read bitmap
-        this.sendBlob(file, node);
-
-        // Check empty/full board/folder
-        metaviz.editor.checkEmpty();
+        if (node) this.sendBlob(file, node);
 
     }
 
