@@ -1083,8 +1083,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     async paste(event = false, offset = null) {
 
-        // Table of sent items {'size:type': <bool sent>, ...}
-        const items = {};
+        // Dict of sent items {'size:type': <bool sent>, ...}
+        const sent = {};
 
         // Compute offset (if present then it comes from Duplicate Node):
         if (!offset) {
@@ -1094,17 +1094,45 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             else offset = this.menu.position();
         }
 
+        // Files (order matters - legacy clipboard should be first)
+        if (event) {
+            const itemsLegacyClipboard = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (const item of itemsLegacyClipboard) {
+                if (item.kind === 'file') {
+                    const blob = item.getAsFile();
+                    metaviz.exchange.uploadFile(blob, offset);
+                    sent[`${blob.size}:${blob.type}`] = true;
+                }
+            }
+        }
+
         // Text (Clipboard API)
         if (metaviz.system.features.clipboardApi) {
+
+            // Images
+            const itemsClipboardAPI = await navigator.clipboard.read();
+            for (const item of itemsClipboardAPI) {
+                for (const type of item.types) {
+                    // Image only because this method doesn't support File
+                    if (type.startsWith('image/')) {
+                        const blob = await item.getType(type);
+                        // If not sent already
+                        if (!(`${blob.size}:${blob.type}` in sent)) {
+                            const file = new File([blob], 'image.' + metaviz.exchange.mimetype2ext(type), {type: type});
+                            metaviz.exchange.uploadFile(file, offset);
+                            sent[`${file.size}:${file.type}`] = true;
+                        }
+                    }
+                }
+            }
 
             const text = await navigator.clipboard.readText();
             if (text != '') {
                 // If not sent anything yet
-                if (Object.keys(items).length == 0) {
+                if (Object.keys(sent).length == 0) {
                     metaviz.exchange.uploadText(text, offset);
                 }
             }
-
         }
 
         // Text (Legacy clipboard)
