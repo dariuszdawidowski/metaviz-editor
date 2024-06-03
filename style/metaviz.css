@@ -456,6 +456,9 @@ input, textarea, label {
     animation: spin-baby-spin 2.0s linear infinite;
     transition: fill-opacity 2s;
     pointer-events: none;
+    fill-opacity: 1;
+    fill-rule: nonzero;
+    stroke: none;
 }
 
 @keyframes spin-baby-spin {
