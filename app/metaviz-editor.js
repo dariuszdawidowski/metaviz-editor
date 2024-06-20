@@ -468,10 +468,28 @@ class Metaviz {
                 );
             }
 
-            // Load config from browser
-            this.storage.db.open({tables: ['boards'], version: 5})
-            .then(status => {
+            // IndexedDB for file handlers
+            if (this.agent.db != '') {
+                this.storage.db.open({tables: ['boards'], version: 5})
+                .then(status => {
 
+                    // Clear current diagram
+                    this.editor.new();
+
+                    // Ready
+                    this.editor.idle();
+
+                    // Dispatch final event
+                    this.events.call('on:loaded');
+
+                })
+                .catch(error => {
+                    logging.error('IDB: Initialization error');
+                });
+            }
+
+            // Start
+            else {
                 // Clear current diagram
                 this.editor.new();
 
@@ -480,11 +498,7 @@ class Metaviz {
 
                 // Dispatch final event
                 this.events.call('on:loaded');
-
-            })
-            .catch(error => {
-                logging.error('IDB: Initialization error');
-            });
+            }
 
         }
 

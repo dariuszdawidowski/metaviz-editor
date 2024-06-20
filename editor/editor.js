@@ -72,7 +72,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         this.history = new MetavizHistory();
 
         // Create menu
-        this.menu = new MetavizContextMenu({projectName: this.name});
+        this.menu = (typeof MetavizContextMenu === 'function') ? new MetavizContextMenu({projectName: this.name}) : null;
 
         // Keyboard
         this.keyboard = new MetavizEditorKeyboard(this);
@@ -1265,7 +1265,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Generate new board ID
         this.id = crypto.randomUUID();
         // Generate name
-        this.randomBoardName();
+        if (metaviz.agent.name != 'embeded') this.randomBoardName();
         // Empty info
         this.checkEmpty();
     }
@@ -1511,8 +1511,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     busy() {
         metaviz.render.container.style.cursor = 'progress';
-        this.spinner.style.fillOpacity = '1';
-        this.spinner.style.display = 'block';
+        if (this.spinner) {
+            this.spinner.style.fillOpacity = '1';
+            this.spinner.style.display = 'block';
+        }
     }
 
     /**
@@ -1521,8 +1523,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
     idle() {
         metaviz.render.container.style.cursor = 'default';
-        this.spinner.style.fillOpacity = '0';
-        setTimeout(() => { this.spinner.style.display = 'none'; }, 2000);
+        if (this.spinner) {
+            this.spinner.style.fillOpacity = '0';
+            setTimeout(() => { this.spinner.style.display = 'none'; }, 2000);
+        }
     }
 
     /**
