@@ -372,10 +372,10 @@ class Metaviz {
     /**
      * Init everything
      * @param containerID: string with id of main container
-     * @param spinnerID: string with id of logo
+     * @param spinnerID: string with id of logo (optional)
      */
 
-    init(containerID, spinnerID) {
+    init(containerID, spinnerID = null) {
 
         // Container
         this.container.id = containerID;
