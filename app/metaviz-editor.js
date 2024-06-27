@@ -3,7 +3,6 @@
  * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
-
 // Global
 const global = {
 
@@ -278,7 +277,8 @@ class Metaviz {
         // Global instances of main components
         this.config = null;
         this.format = null;
-        this.storage = {};
+        this.storage = null;
+        this.ajax = null;
         this.render = null;
         this.events = null;
         this.exchange = null;
