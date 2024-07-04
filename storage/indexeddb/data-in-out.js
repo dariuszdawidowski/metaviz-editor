@@ -70,7 +70,7 @@ class MetavizIndexedDB {
      */
 
     close() {
-        this.db.close();
+        if (this.db) this.db.close();
     }
 
 }
