@@ -175,37 +175,35 @@ global.registry.add({proto: MetavizNodeClipart, name: 'Clipart', icon: '<span cl
 
 /*** Emoji Picker ***/
 
-if (typeof TotalProMenuWidget === 'function') {
+const TotalProMenuWidgetDetect = typeof TotalProMenuWidget !== 'undefined' ? TotalProMenuWidget : class {};
 
-    class MetavizEmojiPicker extends TotalProMenuWidget {
+class MetavizEmojiPicker extends TotalProMenuWidgetDetect {
 
-        /**
-         * Constructor
-         */
+    /**
+     * Constructor
+     */
 
-        constructor(args) {
-            super(args);
+    constructor(args) {
+        super(args);
 
-            // Element class
-            this.element.classList.add('metaviz-emoji-picker');
+        // Element class
+        this.element.classList.add('metaviz-emoji-picker');
 
-            // Language (with supported list by Emoji Picker Element from https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/i18n/)
-            const lang = metaviz.system.language.get('code', ['ar', 'de', 'en', 'fr', 'hi', 'id', 'it', 'nl', 'pl', 'tr']);
+        // Language (with supported list by Emoji Picker Element from https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/i18n/)
+        const lang = metaviz.system.language.get('code', ['ar', 'de', 'en', 'fr', 'hi', 'id', 'it', 'nl', 'pl', 'tr']);
 
-            import(`https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/i18n/${lang}.js`).then(trans => {
+        import(`https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/i18n/${lang}.js`).then(trans => {
 
-                // Picker
-                const picker = document.createElement('emoji-picker');
-                picker.setAttribute('locale', lang);
-                picker.setAttribute('data-source', `https://cdn.jsdelivr.net/npm/emoji-picker-element-data@^1/${lang}/cldr/data.json`);
-                picker.i18n = trans.default;
-                picker.classList.add('light');
-                picker.addEventListener('emoji-click', event => args.onClick(event.detail));
-                this.element.append(picker);
+            // Picker
+            const picker = document.createElement('emoji-picker');
+            picker.setAttribute('locale', lang);
+            picker.setAttribute('data-source', `https://cdn.jsdelivr.net/npm/emoji-picker-element-data@^1/${lang}/cldr/data.json`);
+            picker.i18n = trans.default;
+            picker.classList.add('light');
+            picker.addEventListener('emoji-click', event => args.onClick(event.detail));
+            this.element.append(picker);
 
-            });
-
-        }
+        });
 
     }
 
