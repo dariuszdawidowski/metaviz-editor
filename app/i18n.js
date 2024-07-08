@@ -238,7 +238,8 @@ function _(src) {
     const capitalize = (capital.first && !capital.second) ? true : false;
 
     // Get text
-    const lang = metaviz.system.language.get();
+    let lang = metaviz.system.language.get();
+    if (!(lang in i18n)) lang = 'en';
     const dst = (src.toLowerCase() in i18n[lang]) ? i18n[lang][src.toLowerCase()] : src
 
     // Return transalted
