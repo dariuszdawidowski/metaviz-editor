@@ -612,9 +612,9 @@ class Metaviz {
                     this.system.browser.name = 'ie';
                     this.system.browser.version = navigator.userAgent.substring(verOffset + 5);
                 }
-                // Chrome
+                // Chrome & Brave
                 else if ((verOffset = navigator.userAgent.indexOf('Chrome')) != -1) {
-                    this.system.browser.name = 'chrome';
+                    this.system.browser.name = (navigator.brave && navigator.brave.isBrave) ? 'brave' : 'chrome';
                     this.system.browser.version = navigator.userAgent.substring(verOffset + 7);
                 }
                 // Safari
