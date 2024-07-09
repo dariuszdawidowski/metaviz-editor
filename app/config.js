@@ -239,8 +239,8 @@ class MetavizConfig {
     }
 
     load() {
-        this.pointer.desktop.set(localStorage.getItem('metaviz.config.pointer.desktop') || metaviz.system.os.name == 'macos' ? 'box' : 'pan');
-        this.touchpad.swipe.set(localStorage.getItem('metaviz.config.touchpad.swipe') || metaviz.system.os.name == 'macos' ? 'pan' : 'zoom');
+        this.pointer.desktop.set(localStorage.getItem('metaviz.config.pointer.desktop') || (metaviz.system.os.name == 'macos' ? 'box' : 'pan'));
+        this.touchpad.swipe.set(localStorage.getItem('metaviz.config.touchpad.swipe') || (metaviz.system.os.name == 'macos' ? 'pan' : 'zoom'));
         this.theme.set(localStorage.getItem('metaviz.config.theme') || 'Iron');
         this.notifications.set(localStorage.getItem('metaviz.config.notifications') || 'minimal');
         this.snap.grid.enabled = (localStorage.getItem('metaviz.config.snap.grid.enabled') == 'false') ? false : true;
