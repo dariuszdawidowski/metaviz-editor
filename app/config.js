@@ -1,7 +1,44 @@
 /**
  * Metaviz Config
- * (c) 2009-2022 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
+
+/*
+
+Entries in localStorage:
+
+metaviz.config.pointer.desktop: Left click on board
+    'pan': dragging viewport (default)
+    'box': box selection
+
+metaviz.config.touchpad.swipe: Touchpad gestures
+    'pan': using two-finger two-way panning on modern touchpads, so touchpad is a primary device (default for a Mac)
+    'zoom': only pna up-down for older touchpads, do mouse is a primary device (default for a PC)
+
+metaviz.config.theme: Name of a theme
+    'Iron': grey (default)
+    'Covellite': purple
+    'Studio': dark
+
+metaviz.config.notifications: Level of notifications
+    'sound': play sound only
+    'minimal': display box only
+    'user': display box with a user name
+    'message': display box with user name and one line of a message
+
+metaviz.config.snap.grid.enabled: Magnetic snap to grid enabled
+    true: snap to grid (default)
+    false: free movement
+
+metaviz.config.cookies.show: Show cookie info bar
+    true: show (default)
+    false: don't show
+
+metaviz.config.updates.check: Check for updated (default is platform depended)
+    true: check
+    false: don't check
+
+*/
 
 class MetavizConfig {
 
@@ -202,8 +239,8 @@ class MetavizConfig {
     }
 
     load() {
-        this.pointer.desktop.set(localStorage.getItem('metaviz.config.pointer.desktop') || 'pan');
-        this.touchpad.swipe.set(localStorage.getItem('metaviz.config.touchpad.swipe') || 'zoom');
+        this.pointer.desktop.set(localStorage.getItem('metaviz.config.pointer.desktop') || metaviz.system.os.name == 'macos' ? 'box' : 'pan');
+        this.touchpad.swipe.set(localStorage.getItem('metaviz.config.touchpad.swipe') || metaviz.system.os.name == 'macos' ? 'pan' : 'zoom');
         this.theme.set(localStorage.getItem('metaviz.config.theme') || 'Iron');
         this.notifications.set(localStorage.getItem('metaviz.config.notifications') || 'minimal');
         this.snap.grid.enabled = (localStorage.getItem('metaviz.config.snap.grid.enabled') == 'false') ? false : true;
