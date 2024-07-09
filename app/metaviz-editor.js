@@ -655,7 +655,7 @@ class Metaviz {
                     this.system.browser.major = parseInt(navigator.appVersion, 10);
                 }
 
-                // mobile version
+                // Mobile version
                 this.system.browser.mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(navigator.appVersion);
             }
 
@@ -673,6 +673,12 @@ class Metaviz {
 
                 // Chrome
                 case 'chrome':
+                    this.system.browser.zoomFactor = 1000;
+                    this.system.browser.pinchFactor = 100;
+                    break;
+
+                // Brave
+                case 'brave':
                     this.system.browser.zoomFactor = 1000;
                     this.system.browser.pinchFactor = 100;
                     break;
@@ -719,7 +725,12 @@ class Metaviz {
                     if (this.system.browser.major < 106) return false;
                     break;
 
-                // Firefox
+                // Brave
+                case 'brave':
+                    if (this.system.browser.major < 106) return false;
+                    break;
+
+                    // Firefox
                 case 'firefox':
                     if (this.system.browser.major < 110) return false;
                     break;
