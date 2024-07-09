@@ -192,7 +192,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
 
         // Prevent closing window/tab
         metaviz.events.subscribe('window:close', window, 'beforeunload', (event) => {
-            if ('db' in metaviz.storage && metaviz.storage.db) metaviz.storage.db.close();
+            if (('storage' in metaviz) && metaviz.storage && ('db' in metaviz.storage) && metaviz.storage.db) metaviz.storage.db.close();
             this.flush(true);
             const confirmationMessage = '\o/';
             if (this.history.isDirty()) {
