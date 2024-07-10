@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Control base class
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizControl {
@@ -12,6 +12,14 @@ class MetavizControl {
         this.display = null;
         // Editing state
         this.editing = false;
+    }
+
+    /**
+     * DOM mount moment
+     */
+
+    awake() {
+        /* Override */
     }
 
     /**

@@ -255,6 +255,14 @@ class MetavizControlRichText extends TotalText {
     }
 
     /**
+     * DOM mount moment
+     */
+
+    awake() {
+        /* Override */
+    }
+
+    /**
      * Show
      */
 

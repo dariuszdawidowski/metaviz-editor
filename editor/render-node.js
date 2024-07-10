@@ -176,6 +176,16 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Init after node is added into DOM tree
+     */
+
+    awake() {
+        for (const [name, control] of Object.entries(this.controls)) {
+            control.awake();
+        }
+    }
+
+    /**
      * Style
      */
 
@@ -195,7 +205,8 @@ class MetavizNode extends TotalDiagramNode {
 
     addControl(obj) {
         this.controls[obj.name] = obj;
-        this.element.append(obj.control);
+        this.element.append(obj.element);
+        obj.awake();
     }
 
     /**
@@ -204,7 +215,7 @@ class MetavizNode extends TotalDiagramNode {
      */
 
     delControl(obj) {
-        this.element.remove(obj.control);
+        this.element.remove(obj.element);
         delete this.controls[obj.name];
     }
 
