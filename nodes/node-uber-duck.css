@@ -1,0 +1,116 @@
+/**
+ * Metaviz Style Über Duck
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
+ */
+
+/* Duck */
+
+.metaviz-node-uber-duck .metaviz-control-bitmap {
+    width: 128px;
+    height: 128px;
+}
+
+.metaviz-node-uber-duck .metaviz-control-bitmap img {
+    width: 128px;
+    height: 128px;
+}
+
+/* Chat */
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat {
+    position: absolute;
+    right: -278px;
+    top: 0px;
+    width: 256px;
+    max-height: 500px;
+    overflow: hidden;
+    background-color: var(--glass);
+    border-radius: 23px;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid #fff;
+}
+
+.metaviz-node-uber-duck .comic-dot {
+    position: absolute;
+    right: -20px;
+    top: 10px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--glass);
+    border: 2px solid #fff;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .bubble {
+    position: relative;
+    border-radius: 18px;
+    margin: 5px;
+    font-size: 12px;
+    min-height: 14px;
+    background-color: white;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .bubble.user {
+    padding: 15px;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .bubble.duck {
+    padding: 15px;
+    color:white;
+    background-color: var(--metaviz-color-cyan);
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .bubble:hover {
+    cursor: text;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .bubble .editable {
+    padding: 15px;
+    color: black;
+    outline: none;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .bubble .placeholder {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* Bumping dots */
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .typing-indicator {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 40px;
+    height: 18px;
+    margin: 6px 8px 12px 8px;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .dot {
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.metaviz-node-uber-duck .metaviz-control-uber-duck-chat .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+}

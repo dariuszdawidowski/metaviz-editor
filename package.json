@@ -1,6 +1,6 @@
 {
 	"name": "metaviz-editor",
-	"version": "0.9.20",
+	"version": "0.9.21",
 	"description": "Diagramming editor library for web browser.",
 	"license": "MIT",
 	"scripts": {
