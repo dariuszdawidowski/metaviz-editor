@@ -268,4 +268,8 @@ class MetavizControlUberDuckChat extends MetavizControl {
 
 }
 
-global.registry.add({proto: MetavizNodeUberDuck, menu: 'Productivity', name: 'Über Duck', icon: '<span class="mdi mdi-duck"></span>'});
+global.registry.add({proto: MetavizNodeUberDuck, menu: 'Productivity', name: 'Uber Duck', icon: '<span class="mdi mdi-duck"></span>'});
+
+i18n['en']['uber duck'] = 'Über Duck';
+i18n['pl']['uber duck'] = 'Über Kaczka';
+i18n['eo']['uber duck'] = 'Über Anaso';

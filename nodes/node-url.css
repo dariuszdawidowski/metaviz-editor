@@ -1,0 +1,26 @@
+/* Metaviz Node URL */
+
+.metaviz-node-url {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.metaviz-node-url .metaviz-control-icon {
+    font-size: 40px;
+    color: var(--node-icon);
+}
+
+.metaviz-node-url .metaviz-control-input {
+    width: 120px;
+    margin-top: 4px;
+    border: none;
+    color: var(--node-icon-subtitle);
+    background-color: transparent;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-weight: var(--node-icon-subtitle-weight);
+}

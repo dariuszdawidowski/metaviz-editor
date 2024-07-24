@@ -179,7 +179,7 @@ class Metaviz {
     constructor() {
 
         // App version
-        this.version = '0.9.21';
+        this.version = '0.9.22';
 
         // Build version
         this.build = null;
