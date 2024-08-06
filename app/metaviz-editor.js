@@ -3,6 +3,8 @@
  * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
+const METAVIZ_VERSION = '0.9.23';
+
 // Global
 const global = {
 
@@ -179,7 +181,7 @@ class Metaviz {
     constructor() {
 
         // App version
-        this.version = '0.9.22';
+        this.version = METAVIZ_VERSION;
 
         // Build version
         this.build = null;
