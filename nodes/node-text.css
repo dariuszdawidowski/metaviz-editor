@@ -10,9 +10,6 @@
 
 /* Looks */
 
-.metaviz-node-text.sticky {
-}
-
 .metaviz-node-text.a6 {
     box-shadow: 8px 8px #000;
 }
@@ -52,11 +49,6 @@
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 14px;
     color: #444;
-}
-
-/* Miniature */
-
-.metaviz-node-text.miniature {
 }
 
 /* Rich text editor */
@@ -158,12 +150,12 @@
     cursor: text;
 }
 
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor p:first-of-type,
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h1:first-of-type,
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h2:first-of-type,
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h3:first-of-type,
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h4:first-of-type,
-.metaviz-node-text .metaviz-control.metaviz-control-richtext .editor h5:first-of-type {
+.metaviz-control.metaviz-control-richtext .editor p:first-child,
+.metaviz-control.metaviz-control-richtext .editor h1:first-child,
+.metaviz-control.metaviz-control-richtext .editor h2:first-child,
+.metaviz-control.metaviz-control-richtext .editor h3:first-child,
+.metaviz-control.metaviz-control-richtext .editor h4:first-child,
+.metaviz-control.metaviz-control-richtext .editor h5:first-child {
     margin-top: 0;
 }
 
