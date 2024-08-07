@@ -62,7 +62,7 @@ class MetavizFilesystem {
             }
         }
         else {
-            alert(_('File system api not found'))
+            alert(_('Save file not supported'))
         }
     }
 

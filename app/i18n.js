@@ -17,7 +17,7 @@ const i18n = {
         'update available': 'There is a new software update available.\nClick OK to open new window.',
         'disable notifications': 'You can disable notifications at the browser level by clicking the appropriate option next to the address bar.',
         'disable clipboard': 'You can disable clipboard access at the browser level by clicking the appropriate option next to the address bar.',
-        'file system api not found': 'Native File System API not found. Change your browser to a compatible one.',
+        'save file not supported': 'This browser does not support saving files to disk.',
         'not mv file': 'Metaviz format not recognized.',
     },
 
@@ -120,7 +120,7 @@ const i18n = {
         'update available': 'Dostępna jest nowa aktualizacja oprogramowania.\nNaciśnij OK, aby otworzyć nowe okno.',
         'disable notifications': 'Możesz wyłączyć powiadomienia z poziomu przeglądarki klikając odpowiednią opcję obok paska adresu.',
         'disable clipboard': 'Możesz wyłączyć dostęp do schowka z poziomu przeglądarki klikając odpowiednią opcję obok paska adresu.',
-        'file system api not found': 'Native File System API nie znalezione. Zmień przeglądarkę na zgodną.',
+        'save file not supported': 'Ta przeglądarka nie wspiera nagrywania plików na dysk.',
         'not mv file': 'Nie rozpoznano formatu Metaviz.',
     },
 
@@ -223,7 +223,7 @@ const i18n = {
         'update available': 'Estas disponebla nova programaro ĝisdatigo.\nAlklaku OK por malfermi novan fenestron.',
         'disable notifications': 'Vi povas malŝalti sciigojn ĉe la retumila nivelo alklakante la taŭgan opcion apud la adresbreto.',
         'disable clipboard': 'Vi povas malŝalti aliron al tondujo ĉe la retumila nivelo alklakante la taŭgan opcion apud la adresbreto.',
-        'file system api not found': 'Native File System API ne trovita. Ŝanĝu vian retumilon al kongrua.',
+        'save file not supported': 'Ĉi tiu retumilo ne subtenas bruligi dosierojn al disko.',
         'not mv file': 'Metaviz-formato ne rekonita.',
     },
 

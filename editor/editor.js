@@ -1416,7 +1416,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             this.interaction.unlock();
         }
         else {
-            alert(_('File system api not found'));
+            alert(_('Save file not supported'));
         }
     }
 
@@ -1442,43 +1442,45 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Collect JSON data
         const json = metaviz.format.serialize('text/mvstack+xml', this.history.get());
 
-        // First time trying to create file using File System API
-        if (!this.file.handle) {
+        // Some browsers doesn't support this especially in file:// protocol
+        if (!('showSaveFilePicker' in window)) {
+            this.idle();
+            alert(_('Save file not supported'));
+        }
+        else {
 
-            // Save file dialog
-            this.file.handle = await window.showSaveFilePicker({
-                types: [{
-                        description: 'Metaviz file .mv/.xml',
-                        accept: {
-                            'text/metaviz+json': ['.mv'],
-                            'text/mvstack+xml': ['.xml']
+            // First time trying to create file using File System API
+            if (!this.file.handle) {
+
+                // Save file dialog
+                this.file.handle = await window.showSaveFilePicker({
+                    types: [{
+                            description: 'Metaviz file .mv/.xml',
+                            accept: {
+                                'text/metaviz+json': ['.mv'],
+                                'text/mvstack+xml': ['.xml']
+                            },
                         },
-                    },
-                ],
-                suggestedName: `${this.getBoardName().slug()}.${metaviz.agent.ext}`,
-            });
+                    ],
+                    suggestedName: `${this.getBoardName().slug()}.${metaviz.agent.ext}`,
+                });
 
+                if (this.file.handle) {
+                    // Save handler in IndexedDB
+                    metaviz.storage.db.table['boards'].put({'id': this.id, 'name': this.name, 'handle': this.file.handle});
+                    metaviz.storage.db.table['boards'].set({'id': this.id, 'timestamp': new Date().getTime()});
+
+                    // Set ?board=<id> in URL
+                    window.history.replaceState(null, null, metaviz.state.url.param('board').set(this.id));
+                }
+            }
+
+            // Second time just save to disk using File System API
             if (this.file.handle) {
-                // Save handler in IndexedDB
-                metaviz.storage.db.table['boards'].put({'id': this.id, 'name': this.name, 'handle': this.file.handle});
-                metaviz.storage.db.table['boards'].set({'id': this.id, 'timestamp': new Date().getTime()});
-
-                // Set ?board=<id> in URL
-                window.history.replaceState(null, null, metaviz.state.url.param('board').set(this.id));
+                this.saveLocalFile(json);
             }
         }
 
-        // Second time just save to disk using File System API
-        if (this.file.handle) {
-            this.saveLocalFile(json);
-        }
-
-        // Fallback: download file
-        else {
-            metaviz.exchange.downloadFile({data: json, name: `${this.getBoardName().slug()}.${metaviz.agent.ext}`});
-            this.history.dirty = false;
-            this.idle();
-        }
     }
 
     /**
