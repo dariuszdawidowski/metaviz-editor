@@ -129,10 +129,10 @@ class MetavizNodeImage extends MetavizNode {
                 }
             }),
 
-            // Download file
+            // Upload/Download file
             download: new TotalProMenuOption({
-                icon: this.params.uri ? '<span class="mdi mdi-cloud-download"></span>' : '<span class="mdi mdi-cloud-upload"></span>',
-                text: this.params.uri ? _('Download file') : _('Upload file'),
+                icon: () => this.params.uri ? '<span class="mdi mdi-cloud-download"></span>' : '<span class="mdi mdi-cloud-upload"></span>',
+                text: () => this.params.uri ? _('Download file') : _('Upload file'),
                 onChange: () => {
                     // Download
                     if (this.params.uri) {
@@ -145,6 +145,8 @@ class MetavizNodeImage extends MetavizNode {
                     else {
                         this.uploadFile();
                     }
+                    // Close menu
+                    metaviz.editor.menu.hide();
                 }
             }),
 
