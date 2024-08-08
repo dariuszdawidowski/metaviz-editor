@@ -47,6 +47,7 @@ class MetavizContextMenu extends TotalProMenu {
 
                 // Navigation: Centre Board
                 new TotalProMenuOption({
+                    icon: '<span class="mdi mdi-image-filter-center-focus"></span>',
                     text: _('Centre'),
                     onChange: () => {
                         this.hide();
@@ -113,6 +114,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Link / Unlink
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-link-variant"></span>',
             id: 'menu-node-link',
             text: _('Link'),
             shortcut: [17, 76],
@@ -127,6 +129,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Arrange
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-arrange-bring-to-front"></span>',
             id: 'menu-node-sort',
             text: _('Sort'),
             onChange: () => {
@@ -135,6 +138,7 @@ class MetavizContextMenu extends TotalProMenu {
             }
         }));
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-focus-field-horizontal"></span>',
             id: 'menu-node-align-horizontal',
             text: _('Align Horizontal'),
             onChange: () => {
@@ -143,6 +147,7 @@ class MetavizContextMenu extends TotalProMenu {
             }
         }));
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-focus-field-vertical"></span>',
             id: 'menu-node-align-vertical',
             text: _('Align Vertical'),
             onChange: () => {
@@ -151,6 +156,7 @@ class MetavizContextMenu extends TotalProMenu {
             }
         }));
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-chevron-up"></span>',
             id: 'menu-node-move-foreground',
             text: _('Move to Foreground'),
             onChange: () => {
@@ -159,6 +165,7 @@ class MetavizContextMenu extends TotalProMenu {
             }
         }));
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-chevron-down"></span>',
             id: 'menu-node-move-background',
             text: _('Move to Background'),
             onChange: () => {
@@ -167,6 +174,7 @@ class MetavizContextMenu extends TotalProMenu {
             }
         }));
         subEditSelection.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-circle-off-outline"></span>',
             id: 'menu-node-reset-translations',
             text: _('Reset Translations'),
             onChange: () => {
@@ -189,6 +197,7 @@ class MetavizContextMenu extends TotalProMenu {
 
                     // New
                     new TotalProMenuOption({
+                        icon: '<span class="mdi mdi-file-plus"></span>',
                         id: 'menu-file-new',
                         text: _('New'),
                         onChange: () => {
@@ -208,6 +217,7 @@ class MetavizContextMenu extends TotalProMenu {
 
                     // Open
                     new TotalProMenuOption({
+                        icon: '<span class="mdi mdi-file-edit"></span>',
                         id: 'menu-file-open',
                         text: _('Open') + '...',
                         shortcut: [17, 79],
@@ -219,6 +229,7 @@ class MetavizContextMenu extends TotalProMenu {
 
                     // Save
                     new TotalProMenuOption({
+                        icon: '<span class="mdi mdi-content-save"></span>',
                         id: 'menu-file-save',
                         text: _('Save'),
                         shortcut: [17, 83],
@@ -230,6 +241,7 @@ class MetavizContextMenu extends TotalProMenu {
 
                     // Export
                     new TotalProMenuOption({
+                        icon: '<span class="mdi mdi-file-export"></span>',
                         id: 'menu-file-export-svg',
                         text: _('Export to SVG'),
                         onChange: () => {
@@ -254,6 +266,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Undo
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-undo"></span>',
             id: 'menu-undo',
             text: _('Undo'),
             shortcut: [17, 90],
@@ -265,6 +278,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Redo
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-redo"></span>',
             id: 'menu-redo',
             text: _('Redo'),
             shortcut: [17, 16, 90],
@@ -279,6 +293,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Cut
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-content-cut"></span>',
             id: 'menu-cut',
             text: _('Cut'),
             shortcut: [17, 88],
@@ -290,6 +305,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Copy
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-content-copy"></span>',
             id: 'menu-copy',
             text: _('Copy'),
             shortcut: [17, 67],
@@ -301,6 +317,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Paste
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-content-paste"></span>',
             id: 'menu-paste',
             text: _('Paste'),
             shortcut: [17, 86],
@@ -312,6 +329,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Duplicate
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-content-duplicate"></span>',
             id: 'menu-duplicate',
             text: _('Duplicate'),
             shortcut: [17, 68],
@@ -323,6 +341,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Select All Nodes / Text
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-select-all"></span>',
             id: 'menu-select-all',
             text: _('Select All'),
             shortcut: [17, 65],
@@ -341,6 +360,7 @@ class MetavizContextMenu extends TotalProMenu {
         this.panel.left.add(new TotalProMenuSeparator());
 
         this.panel.left.add(new TotalProMenuOption({
+            icon: '<span class="mdi mdi-delete-forever"></span>',
             id: 'menu-delete',
             text: _('Delete'),
             onChange: () => {
@@ -543,12 +563,14 @@ class MetavizContextMenu extends TotalProMenu {
 
                 // Help: GitHub Page
                 new TotalProMenuOption({
+                    icon: '<span class="mdi mdi-open-in-new"></span>',
                     text: _('GitHub page'),
                     onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor')
                 }),
 
                 // Help: Submit issue
                 new TotalProMenuOption({
+                    icon: '<span class="mdi mdi-bug"></span>',
                     text: _('Submit issue'),
                     onChange: () => window.open('https://github.com/dariuszdawidowski/metaviz-editor/issues')
                 }),
@@ -578,6 +600,7 @@ class MetavizContextMenu extends TotalProMenu {
             if (!(menuName in menuAddNode)) menuAddNode[menuName] = [];
             menuAddNode[menuName].push(new TotalProMenuOption({
                 id: `total-pro-menu-node-${args.name.slug()}`,
+                icon: args.icon || '<span class="mdi mdi-atom"></span>',
                 text: _(args.name),
                 onChange: () => {
                     metaviz.editor.nodeAdd(className, this.position('first click'));
@@ -586,7 +609,7 @@ class MetavizContextMenu extends TotalProMenu {
             }));
         }
         for (const [menuName, menuNodes] of Object.entries(menuAddNode)) {
-            this.subAddNode.add(new TotalProMenuGroup({ text: _(menuName), widgets: menuNodes }));
+            this.subAddNode.add(new TotalProMenuGroup({ text: menuName, widgets: menuNodes }));
         }
     }
 
@@ -733,11 +756,11 @@ class MetavizContextMenu extends TotalProMenu {
         if (metaviz.editor.selection.count() == 2) {
             // Unlink
             if (metaviz.render.links.get(metaviz.editor.selection.nodes[0], metaviz.editor.selection.nodes[1])) {
-                this.panel.left.find('menu-node-link')?.enable().setName(_('Unlink'));
+                this.panel.left.find('menu-node-link')?.enable().setIcon('<span class="mdi mdi-link-variant-off"></span>').setName(_('Unlink'));
             }
             // Link
             else {
-                this.panel.left.find('menu-node-link')?.enable().setName(_('Link'));
+                this.panel.left.find('menu-node-link')?.enable().setIcon('<span class="mdi mdi-link-variant"></span>').setName(_('Link'));
             }
         }
         // Inactive
@@ -887,6 +910,7 @@ class MetavizContextMenu extends TotalProMenu {
                 records.sort((a, b) => b.timestamp - a.timestamp);
                 for (const board of records) {
                     menuRecentFiles.add(new TotalProMenuOption({
+                        icon: '<span class="mdi mdi-file-clock"></span>',
                         text: board.name || board.handle.name,
                         value: board.id,
                         onChange: (value) => {
