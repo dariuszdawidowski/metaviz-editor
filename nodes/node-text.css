@@ -150,12 +150,12 @@
     cursor: text;
 }
 
-.metaviz-control.metaviz-control-richtext .editor p:first-child,
-.metaviz-control.metaviz-control-richtext .editor h1:first-child,
-.metaviz-control.metaviz-control-richtext .editor h2:first-child,
-.metaviz-control.metaviz-control-richtext .editor h3:first-child,
-.metaviz-control.metaviz-control-richtext .editor h4:first-child,
-.metaviz-control.metaviz-control-richtext .editor h5:first-child {
+.metaviz-control.metaviz-control-richtext .editor > p:first-child,
+.metaviz-control.metaviz-control-richtext .editor > h1:first-child,
+.metaviz-control.metaviz-control-richtext .editor > h2:first-child,
+.metaviz-control.metaviz-control-richtext .editor > h3:first-child,
+.metaviz-control.metaviz-control-richtext .editor > h4:first-child,
+.metaviz-control.metaviz-control-richtext .editor > h5:first-child {
     margin-top: 0;
 }
 
