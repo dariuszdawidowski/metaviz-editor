@@ -55,9 +55,20 @@ class MetavizControlInput extends MetavizControl {
         // View mode
         if (metaviz.editor.interaction == 'view') this.edit(false);
 
-        // Enter blurs
-        this.element.addEventListener('keyup', (event) => {
-            if (event.key == 'Enter') this.element.blur();
+        // Shift
+        this.element.addEventListener('keydown', (event) => {
+            if (event.key == 'Enter') {
+                // Multiline: SHIFT+ENTER
+                if (multiline) {
+                    if (!event.shiftKey) {
+                        event.preventDefault();
+                    }
+                }
+                // Singleline: blur
+                else {
+                    this.element.blur();
+                }
+            }
         });
 
         // Disable editor events on Focus

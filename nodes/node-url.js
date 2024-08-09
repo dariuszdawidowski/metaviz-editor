@@ -1,7 +1,6 @@
 /**
  * Metaviz Node URL
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
- * (c) 2020-2023 Metaviz Sp. z o.o., All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodeURL extends MetavizNode {
@@ -11,7 +10,7 @@ class MetavizNodeURL extends MetavizNode {
 
         // Meta defaults
         if (!('url' in this.params)) this.params['url'] = '';
-        if (!('name' in this.params)) this.params['name'] = 'URL';
+        if (!('name' in this.params)) this.params['name'] = '';
 
         // Size
         this.setSize({width: 64, height: 64, minWidth: 64, minHeight: 64, resize: 'none'});
@@ -26,6 +25,7 @@ class MetavizNodeURL extends MetavizNode {
             name: new MetavizControlInput({
                 name: 'name',
                 value: this.params.name,
+                placeholder: 'URL',
                 multiline: true,
                 onChange: (value) => {
                     metaviz.editor.history.store({

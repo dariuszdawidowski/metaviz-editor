@@ -21,6 +21,7 @@
     color: var(--node-icon-subtitle);
     background-color: transparent;
     text-align: center;
+    overflow-x: clip;
     text-overflow: ellipsis;
     font-weight: var(--node-icon-subtitle-weight);
 }
