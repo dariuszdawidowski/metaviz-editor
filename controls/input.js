@@ -3,7 +3,7 @@
  *    ><(((o>    .            Metaviz Control Input Renderer                                       *
  *               .            Input text in line.                                                  *
  *                >°))))><    MIT License                                                          *
- *   ) ) )                    (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.               *
+ *   ) ) )                    (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
  *  ( ( (  .    >+++o>                                                                             *
  **************************************************************************************************/
 
