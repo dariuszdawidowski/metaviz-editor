@@ -385,6 +385,12 @@ input, textarea, label {
     font-weight: var(--node-icon-subtitle-weight);
 }
 
+/* Input */
+
+.metaviz-control-input .placeholder {
+    pointer-events: none;
+}
+
 /* Single line input */
 
 .metaviz-control-input.metaviz-control-input-single-line {

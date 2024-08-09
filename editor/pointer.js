@@ -188,6 +188,7 @@ class MetavizEditorPointer {
 
             // Clicked on Node: Select node
             this.clicked = metaviz.render.nodes.get(event.target);
+
             if (this.clicked) {
 
                 // Interaction with node
@@ -195,7 +196,7 @@ class MetavizEditorPointer {
 
                 // If not already in selection
                 if (!this.editor.selection.get(this.clicked)) {
-    
+
                     // Add to selection
                     if (this.editor.keyboard.key.ctrl) {
                         this.editor.selection.add(this.clicked);

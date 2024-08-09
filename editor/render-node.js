@@ -769,6 +769,9 @@ class MetavizNode extends TotalDiagramNode {
 
         // Render
         this.render();
+
+        // Focus controls
+        this.getEditingControl()?.focus();
     }
 
     blur() {

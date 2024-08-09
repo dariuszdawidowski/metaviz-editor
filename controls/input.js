@@ -181,6 +181,7 @@ class MetavizControlInput extends MetavizControl {
         if (enable) {
             this.element.classList.add('editing');
             this.element.setAttribute('contenteditable', true);
+            this.focus();
         }
         // Finish editing
         else {

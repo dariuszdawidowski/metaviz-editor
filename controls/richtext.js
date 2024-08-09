@@ -292,7 +292,7 @@ class MetavizControlRichText extends TotalText {
      */
 
     focus() {
-        this.element.focus();
+        this.editor.focus();
     }
 
     /**
@@ -301,7 +301,7 @@ class MetavizControlRichText extends TotalText {
 
     blur() {
         this.cleanUpHtml();
-        this.element.blur();
+        this.editor.blur();
     }
 
     /**
@@ -320,6 +320,7 @@ class MetavizControlRichText extends TotalText {
             metaviz.events.disable('editor:keyup');
             this.editor.classList.add('editing');
             this.editor.setAttribute('contenteditable', true);
+            this.focus();
         }
         // Finish editing
         else {

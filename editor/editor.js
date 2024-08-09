@@ -305,6 +305,10 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Show info
         this.checkEmpty();
 
+        // Focus on the new node
+        newNode.focus();
+        this.selection.set(newNode);
+
         // Return fres created node
         return newNode;
     }
