@@ -34,7 +34,7 @@ class MetavizNodeURL extends MetavizNode {
                         params: {name: value},
                         prev: {name: this.params.name}
                     });
-                    this.params.name = value;
+                    this.params.set('name', value);
                 }
             }),
 
@@ -42,6 +42,21 @@ class MetavizNodeURL extends MetavizNode {
 
         // Options
         this.addOptions({
+
+            // Name menu Control
+            name: new TotalProMenuInput({
+                placeholder: 'Name',
+                value: this.params.name,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {name: value},
+                        prev: {name: this.params.name}
+                    });
+                    this.params.set('name', value);
+                }
+            }),
 
             // Path menu Control
             url: new TotalProMenuInput({
@@ -65,6 +80,8 @@ class MetavizNodeURL extends MetavizNode {
             this.params[key] = value;
             if (key == 'name') {
                 this.controls.name.set(value);
+                this.options.name.set(value);
+                this.update();
             }
             else if (key == 'url') {
                 this.options.url.set(value);
