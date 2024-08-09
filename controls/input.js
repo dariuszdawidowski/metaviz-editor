@@ -62,6 +62,7 @@ class MetavizControlInput extends MetavizControl {
                 if (multiline) {
                     if (!event.shiftKey) {
                         event.preventDefault();
+                        this.element.blur();
                     }
                 }
                 // Singleline: blur
