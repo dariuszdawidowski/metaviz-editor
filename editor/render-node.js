@@ -724,8 +724,6 @@ class MetavizNode extends TotalDiagramNode {
         // Show highlight frame
         this.highlight.style.display = 'block';
 
-        // Enable editing in all controls
-        this.edit(true);
     }
 
     deselect() {
@@ -739,8 +737,6 @@ class MetavizNode extends TotalDiagramNode {
         // Switch
         this.selected = false;
 
-        // Disable editing in all controls
-        this.edit(false);
     }
 
     /**
@@ -772,9 +768,15 @@ class MetavizNode extends TotalDiagramNode {
 
         // Focus controls
         this.getEditingControl()?.focus();
+
+        // Enable editing in all controls
+        this.edit(true);
     }
 
     blur() {
+
+        // Disable editing in all controls
+        this.edit(false);
 
         // Class
         this.element.classList.remove('focused');

@@ -163,7 +163,7 @@ class MetavizSelection {
         });
 
         // Focus current node: show cage and disable highlight
-        node.focus();
+        if (this.nodes.length == 1) node.focus();
 
         // Cancel all piemenus if > 1
         if (this.nodes.length > 1) {
@@ -182,7 +182,6 @@ class MetavizSelection {
             n.blur();
         });
         node.deselect();
-        //this.nodes.remove(node);
         arrayRemove(this.nodes, node);
     }
 
