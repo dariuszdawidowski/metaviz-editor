@@ -83,6 +83,11 @@ class MetavizExchange {
             metaviz.editor.nodeAdd('MetavizNodeImage', position, {uri: url});
         }
 
+        // Generic URL
+        else {
+            metaviz.editor.nodeAdd('MetavizNodeURL', position, {url: url});
+        }
+
         // Check empty board/folder
         metaviz.editor.checkEmpty();
 

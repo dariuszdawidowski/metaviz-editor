@@ -975,12 +975,18 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Any nodes selected?
         if (this.selection.count() > 0) {
 
-            // If currently editing text and text is selected then copy raw text not node json
-            const control = this.selection.getFocused().getEditingControl();
-            if (control) {
-                html = control.getSelection('html');
-                data = html.stripHTML('formatted');
-                if (data) copy = 'text';
+            // Any node focused?
+            const focused = this.selection.getFocused();
+            if (focused) {
+
+                // If currently editing text and text is selected then copy raw text not node json
+                const control = this.selection.getFocused().getEditingControl();
+                if (control) {
+                    html = control.getSelection('html');
+                    data = html.stripHTML('formatted');
+                    if (data) copy = 'text';
+                }
+
             }
 
             // Copy inner contents (RAW)
