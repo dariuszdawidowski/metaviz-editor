@@ -332,7 +332,8 @@ class Metaviz {
             // Browser features
             features: {
                 nativeFileSystemApi: false,
-                clipboardApi: false
+                clipboardApi: false,
+                clipboardAllowed: false
             },
 
             // Passed browser features compability
@@ -753,13 +754,28 @@ class Metaviz {
              * Optional features support
              */
 
-            // https://caniuse.com/#feat=native-filesystem-api
+            // Filesystem API: https://caniuse.com/#feat=native-filesystem-api
             this.system.features.nativeFileSystemApi = ('showOpenFilePicker' in window);
 
-            // https://caniuse.com/async-clipboard (full read/write support) Note: local file supports api but always ask about permission which is unacceptable
-            this.system.features.clipboardApi = (this.agent.protocol != 'file' && this.agent.protocol != 'http') ? ('readText' in navigator.clipboard) && ('read' in navigator.clipboard) : false;
-            if (!this.system.features.clipboardApi) console.warn('Feature clipboardApi require a https protocol.')
-
+            // Clipboard API: https://caniuse.com/async-clipboard (full read/write support) Note: local file supports api but always ask about permission which is unacceptable
+            this.system.features.clipboardApi = (this.agent.protocol != 'file') ? ('readText' in navigator.clipboard) && ('read' in navigator.clipboard) : false;
+            if (this.system.features.clipboardApi) {
+                let remember = '';
+                navigator.clipboard.readText().then((text) => {
+                    remember = text;
+                    const compare = crypto.randomUUID();
+                    navigator.clipboard.writeText(compare).then(() => {
+                        navigator.clipboard.readText().then((text) => {
+                            if (text === compare) this.system.features.clipboardAllowed = true;
+                        });
+                        navigator.clipboard.writeText(remember);
+                    });
+                });
+            }
+            else if (this.agent.protocol == 'file') {
+                console.warn('Feature clipboardApi require a http(s) protocol.');
+            }
+                
             /**
              * Mandatory features support
              */

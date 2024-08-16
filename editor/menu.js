@@ -855,19 +855,11 @@ class MetavizContextMenu extends TotalProMenu {
         super.show({left: args.x - container.x, top: args.y - container.y});
 
         // Permissions: Clipboard
-        if (metaviz.system.features.clipboardApi) {
-            const compare = crypto.randomUUID();
-            navigator.clipboard.writeText(compare).then(() => {
-                navigator.clipboard.readText().then((text) => {
-                    if (text === compare) this.panel.left.find('menu-settings-allow-clipboard')?.set(true);
-                    navigator.clipboard.writeText('');
-                }).catch((err) => {
-                    this.panel.left.find('menu-settings-allow-clipboard')?.set(false);
-                    navigator.clipboard.writeText('');
-                });
-            }).catch((err) => {
-                this.panel.left.find('menu-settings-allow-clipboard')?.set(false);
-            });
+        if (metaviz.system.features.clipboardApi && metaviz.system.features.clipboardAllowed) {
+            this.panel.left.find('menu-settings-allow-clipboard')?.set(true);
+        }
+        else {
+            this.panel.left.find('menu-settings-allow-clipboard')?.set(false);
         }
 
     }
@@ -935,7 +927,7 @@ class MetavizContextMenu extends TotalProMenu {
      */
 
     async checkClipboardToPaste() {
-        if (metaviz.system.features.clipboardApi) {
+        if (metaviz.system.features.clipboardApi && metaviz.system.features.clipboardAllowed) {
             try {
                 const items = await navigator.clipboard.read();
                 const text = await navigator.clipboard.readText();
