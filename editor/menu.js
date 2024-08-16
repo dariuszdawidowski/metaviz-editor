@@ -599,7 +599,7 @@ class MetavizContextMenu extends TotalProMenu {
             const menuName = (('menu' in args) ? args.menu : 'Default Nodes');
             if (!(menuName in menuAddNode)) menuAddNode[menuName] = [];
             menuAddNode[menuName].push(new TotalProMenuOption({
-                id: `total-pro-menu-node-${args.name.slug()}`,
+                id: `menu-node-${args.name.slug()}`,
                 icon: args.icon || '<span class="mdi mdi-atom"></span>',
                 text: _(args.name),
                 onChange: () => {
@@ -939,14 +939,14 @@ class MetavizContextMenu extends TotalProMenu {
             try {
                 const items = await navigator.clipboard.read();
                 const text = await navigator.clipboard.readText();
-                if (items.length > 0 || text != '') this.panel.left.find('total-pro-menu-paste')?.enable();
+                if (items.length > 0 || text != '') this.panel.left.find('menu-paste')?.enable();
             }
             catch {
             }
         }
         else {
             if (metaviz.editor.clipboard?.count() > 0) {
-                this.panel.left.find('total-pro-menu-paste')?.enable();
+                this.panel.left.find('menu-paste')?.enable();
             }
         }
     }

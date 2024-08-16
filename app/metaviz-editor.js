@@ -757,7 +757,8 @@ class Metaviz {
             this.system.features.nativeFileSystemApi = ('showOpenFilePicker' in window);
 
             // https://caniuse.com/async-clipboard (full read/write support) Note: local file supports api but always ask about permission which is unacceptable
-            this.system.features.clipboardApi = (this.agent.protocol != 'file') ? ('readText' in navigator.clipboard) && ('read' in navigator.clipboard) : false;
+            this.system.features.clipboardApi = (this.agent.protocol != 'file' && this.agent.protocol != 'http') ? ('readText' in navigator.clipboard) && ('read' in navigator.clipboard) : false;
+            if (!this.system.features.clipboardApi) console.warn('Feature clipboardApi require a https protocol.')
 
             /**
              * Mandatory features support

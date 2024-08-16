@@ -578,14 +578,14 @@ input, textarea, label {
     flex-grow: 2;
 }
 
-#total-pro-menu-local-settings .menu-group-text {
+#menu-local-settings .menu-group-text {
     margin-bottom: 4px;
 }
 
-#total-pro-menu-naviagtion .menu-group-text,
-#total-pro-menu-helpers .menu-group-text,
-#total-pro-menu-look-feel .menu-group-text,
-#total-pro-menu-notifications .menu-group-text {
+#menu-naviagtion .menu-group-text,
+#menu-helpers .menu-group-text,
+#menu-look-feel .menu-group-text,
+#menu-notifications .menu-group-text {
     font-size: 10px;
 }
 
