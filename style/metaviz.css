@@ -271,7 +271,7 @@ input, textarea, label {
     position: absolute;
     left: -12px;
     top: -12px;
-    border: 2px solid rgba(200, 200, 255, 0.7);
+    border: 2px solid var(--highlight-color);
     border-radius: 4px;
     background-color: transparent;
     width: calc(100% + 20px);

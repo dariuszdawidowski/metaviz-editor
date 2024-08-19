@@ -594,7 +594,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     if (!node.slot) {
                         node.setStyle('pointer-events', 'auto');
                         node.setStyle('z-index', 'var(--z-node)');
-                        node.edit(true);
+                        if (this.selection.count() == 1) node.edit(true);
 
                         // Update/Undo/Sync
                         if (this.selection.transform.total() != 0) {
@@ -619,7 +619,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             }
 
             // Show cage again
-            this.cage.show();
+            if (this.selection.count() == 1) this.cage.show();
 
         }
 
