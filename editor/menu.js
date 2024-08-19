@@ -672,8 +672,8 @@ class MetavizContextMenu extends TotalProMenu {
             this.panel.left.find('menu-add-node')?.enable().select();
         }
 
-        // Activate Edit Selection (only for 1+ node)
-        else {
+        // Activate Edit Selection (only for 1 node)
+        else if (metaviz.editor.selection.count() == 1) {
 
             // Enable Edit Selection
             this.panel.left.find('menu-edit-selection')?.enable();
@@ -691,37 +691,34 @@ class MetavizContextMenu extends TotalProMenu {
             const localOptions = this.panel.left.find('menu-node-local-options');
             localOptions.del();
             localOptions.hide();
-            // Show options (only for 1 node)
-            if (metaviz.editor.selection.count() == 1) {
-                // Has options
-                if ('options' in data && Object.keys(data.options).length) {
-                    // Options given as array
-                    if (Array.isArray(data.options)) for (const option of data.options) {
+            // Has options
+            if ('options' in data && Object.keys(data.options).length) {
+                // Options given as array
+                if (Array.isArray(data.options)) for (const option of data.options) {
+                    options.add(option);
+                }
+                // Options given as dict
+                else {
+                    for (const option of Object.values(data.options)) {
                         options.add(option);
                     }
-                    // Options given as dict
-                    else {
-                        for (const option of Object.values(data.options)) {
-                            options.add(option);
-                        }
-                    }
                 }
-                // No options
-                else {
-                    options.add(new TotalProMenuOption({
-                        text: '- ' + _('No options') + ' -',
-                        disabled: true
-                    }));
-                }
-                options.show();
+            }
+            // No options
+            else {
+                options.add(new TotalProMenuOption({
+                    text: '- ' + _('No options') + ' -',
+                    disabled: true
+                }));
+            }
+            options.show();
 
-                // Has local options
-                if ('localOptions' in data && data.localOptions.length) {
-                    for (const option of data.localOptions) {
-                        localOptions.add(option);
-                    }
-                    localOptions.show();
+            // Has local options
+            if ('localOptions' in data && data.localOptions.length) {
+                for (const option of data.localOptions) {
+                    localOptions.add(option);
                 }
+                localOptions.show();
             }
 
             // Menu callback
@@ -729,8 +726,33 @@ class MetavizContextMenu extends TotalProMenu {
 
         } // Edit Selection
 
+        // Multiple selection
+        else if (metaviz.editor.selection.count() > 1) {
+            // Enable Edit Selection
+            this.panel.left.find('menu-edit-selection')?.enable();
+
+            // Activate
+            this.panel.left.find('menu-edit-selection')?.select();
+
+            // Node options
+            const options = this.panel.left.find('menu-node-options');
+            options.del();
+            options.hide();
+
+            // Node local options
+            const localOptions = this.panel.left.find('menu-node-local-options');
+            localOptions.del();
+            localOptions.hide();
+
+            // No options
+            options.add(new TotalProMenuOption({
+                text: '- ' + _('No options') + ' -',
+                disabled: true
+            }));
+        }
+
         // Lock
-        if (metaviz.editor.selection.count() > 0) {
+        if (metaviz.editor.selection.count() == 1) {
             this.panel.left.find('menu-node-lock-movement').set(metaviz.editor.selection.getFocused().locked.move);
             this.panel.left.find('menu-node-lock-content').set(metaviz.editor.selection.getFocused().locked.content);
             this.panel.left.find('menu-node-lock-delete').set(metaviz.editor.selection.getFocused().locked.delete);
@@ -828,11 +850,13 @@ class MetavizContextMenu extends TotalProMenu {
         if (metaviz.editor.selection.count() == 0) {
             this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Nodes'));
         }
-        else {
-            if (metaviz.editor.selection.getFocused().getEditingControl())
+        else if (metaviz.editor.selection.count() == 1) {
+            if (metaviz.editor.selection.getFocused().getEditingControl()) {
                 this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Text'));
-            else
+            }
+            else {
                 this.panel.left.find('menu-select-all')?.enable().setName(_('Select All Nodes'));
+            }
         }
 
         // Enable Navigation (always)
