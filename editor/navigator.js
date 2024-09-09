@@ -34,17 +34,17 @@ class MetavizNavigatorBrowser {
             },
 
             start: (x, y) => {
-                this.transform.x = x - metaviz.render.margin.left;
-                this.transform.y = y - metaviz.render.margin.top;
-                metaviz.render.offset.delta.x = 0;
-                metaviz.render.offset.delta.y = 0;
+                this.transform.x = x - metaviz.render.size.left;
+                this.transform.y = y - metaviz.render.size.top;
+                metaviz.render.transform.delta.x = 0;
+                metaviz.render.transform.delta.y = 0;
             },
 
             update: (x, y) => {
-                this.transform.delta.x = x - metaviz.render.margin.left - this.transform.x;
-                this.transform.delta.y = y - metaviz.render.margin.top - this.transform.y;
-                this.transform.x = x - metaviz.render.margin.left;
-                this.transform.y = y - metaviz.render.margin.top;
+                this.transform.delta.x = x - metaviz.render.size.left - this.transform.x;
+                this.transform.delta.y = y - metaviz.render.size.top - this.transform.y;
+                this.transform.x = x - metaviz.render.size.left;
+                this.transform.y = y - metaviz.render.size.top;
             },
 
             end: () => {

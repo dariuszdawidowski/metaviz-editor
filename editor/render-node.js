@@ -104,7 +104,7 @@ class MetavizNode extends TotalDiagramNode {
 
             hide: () => {
                 this.sockets.list.forEach((socket) => {
-                    socket.visualize(false);
+                    socket.hide();
                 });
             }
 
@@ -1112,7 +1112,8 @@ class MetavizNode extends TotalDiagramNode {
 
             // Visualize sockets if visible
             this.sockets.list.forEach((socket) => {
-                socket.visualize(directionsWorld[socket.name]);
+                socket.update(directionsWorld[socket.name]);
+                socket.show();
             });
         }
     }

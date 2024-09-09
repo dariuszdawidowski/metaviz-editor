@@ -70,19 +70,29 @@ class MetavizSocket {
     }
 
     /**
+     * Show
+     */
+
+    show() {
+        this.circle.style.display = 'block';
+    }
+
+    /**
+     * Hide
+     */
+
+    hide() {
+        this.circle.style.display = 'none';
+    }
+
+    /**
      * Visualization (different than this.element)
      * coords {x,y} or false to hide
      */
 
-    visualize(coords) {
-        if (typeof(coords) == 'object') {
-            const container = metaviz.container.getOffset();
-            this.circle.style.transform = `translate(${coords.x - 6 + this.transform.border + container.left + window.scrollX}px, ${coords.y - 6 + this.transform.border + container.top + window.scrollY}px)`;
-            this.circle.style.display = 'block';
-        }
-        else if (typeof(coords) == 'boolean' && coords == false) {
-            this.circle.style.display = 'none';
-        }
+    update(coords) {
+        const container = metaviz.container.getOffset();
+        this.circle.style.transform = `translate(${coords.x - 6 + this.transform.border + container.left + window.scrollX}px, ${coords.y - 6 + this.transform.border + container.top + window.scrollY}px)`;
     }
 
 }

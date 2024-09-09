@@ -514,8 +514,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     dragSelectionMove() {
 
         // Selection offset
-        this.selection.transform.update({x: this.transform.delta.x / metaviz.render.offset.z,
-                                         y: this.transform.delta.y / metaviz.render.offset.z});
+        this.selection.transform.update({x: this.transform.delta.x / metaviz.render.transform.z,
+                                         y: this.transform.delta.y / metaviz.render.transform.z});
 
         // Update all nodes
         for (const node of this.selection.get()) {
@@ -530,8 +530,8 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                     node.setStyle('pointer-events', 'none');
 
                     // Move selected nodes
-                    node.addPosition({x: this.transform.delta.x / metaviz.render.offset.z,
-                                      y: this.transform.delta.y / metaviz.render.offset.z});
+                    node.addPosition({x: this.transform.delta.x / metaviz.render.transform.z,
+                                      y: this.transform.delta.y / metaviz.render.transform.z});
 
                     // Update position
                     node.update();

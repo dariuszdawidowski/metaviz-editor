@@ -277,12 +277,12 @@ class MetavizCage {
         if (this.node) {
             const container = metaviz.container.getOffset();
             const leftTop = metaviz.render.world2Screen({
-                x: this.node.transform.x - this.node.transform.ox - this.margin + container.x - this.node.transform.border + window.scrollX,
-                y: this.node.transform.y - this.node.transform.oy - this.margin + container.y - this.node.transform.border + window.scrollY
+                x: this.node.transform.x - this.node.transform.ox - this.margin - this.node.transform.border,
+                y: this.node.transform.y - this.node.transform.oy - this.margin - this.node.transform.border
             });
             const rightBottom = metaviz.render.world2Screen({
-                x: this.node.transform.x - this.node.transform.ox + this.node.transform.w + this.margin + container.left + this.node.transform.border + window.scrollX,
-                y: this.node.transform.y - this.node.transform.oy + this.node.transform.h + this.margin + container.top + this.node.transform.border + window.scrollY
+                x: this.node.transform.x - this.node.transform.ox + this.node.transform.w + this.margin + this.node.transform.border,
+                y: this.node.transform.y - this.node.transform.oy + this.node.transform.h + this.margin + this.node.transform.border
             });
             const width = rightBottom.x - leftTop.x;
             const height = rightBottom.y - leftTop.y;
