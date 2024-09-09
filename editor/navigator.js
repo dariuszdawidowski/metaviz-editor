@@ -188,7 +188,7 @@ class MetavizNavigatorBrowser {
             // Pan if not SHIFT (for native text scrolling)
             if (!metaviz.editor.keyboard.key.shift) {
                 event.preventDefault();
-                metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.zoomFactor);
+                metaviz.render.zoom(event.pageX - window.scrollX, event.pageY - window.scrollY, event.deltaY, metaviz.system.browser.zoomFactor);
                 metaviz.editor.cage.update();
             }
         };
@@ -200,7 +200,7 @@ class MetavizNavigatorBrowser {
                 event.preventDefault();
                 // Pinch
                 if (event.ctrlKey) {
-                    metaviz.render.zoom(event.pageX, event.pageY, event.deltaY, metaviz.system.browser.pinchFactor);
+                    metaviz.render.zoom(event.pageX - window.scrollX, event.pageY - window.scrollY, event.deltaY, metaviz.system.browser.pinchFactor);
                     metaviz.editor.cage.update();
                 }
                 // Swipe
