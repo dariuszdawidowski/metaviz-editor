@@ -1,6 +1,6 @@
 /**
  * Metaviz Socket
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizSocket {
@@ -77,7 +77,7 @@ class MetavizSocket {
     visualize(coords) {
         if (typeof(coords) == 'object') {
             const container = metaviz.container.getOffset();
-            this.circle.style.transform = `translate(${coords.x - 6 + this.transform.border + container.left}px, ${coords.y - 6 + this.transform.border + container.top}px)`;
+            this.circle.style.transform = `translate(${coords.x - 6 + this.transform.border + container.left + window.scrollX}px, ${coords.y - 6 + this.transform.border + container.top + window.scrollY}px)`;
             this.circle.style.display = 'block';
         }
         else if (typeof(coords) == 'boolean' && coords == false) {

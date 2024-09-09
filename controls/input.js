@@ -121,6 +121,13 @@ class MetavizControlInput extends MetavizControl {
             const pastedText = clipboardData.getData('text/plain');
             this.element.innerText = pastedText;
         });
+
+        /*document.addEventListener('selectionchange', () => {
+            const text = window.getSelection().toString();
+            if (text) {
+                console.log('Zaznaczony tekst:', text);
+            }
+        });*/
     }
 
     /**
@@ -157,7 +164,7 @@ class MetavizControlInput extends MetavizControl {
      * Get selected text
      */
 
-    getSelection() {
+    /*getSelection() {
         const selection = window.getSelection();
         let selectedText = '';
 
@@ -169,7 +176,27 @@ class MetavizControlInput extends MetavizControl {
         }
 
         return selectedText;
+    }*/
+
+    getSelection(type = 'text') {
+        const selection = window.getSelection();
+        //console.log('selection', selection, selection.toString(), selection.rangeCount)
+        let selectedText = '';
+
+        if (selection.rangeCount > 0) { // tu jest zero zawsze o dziwo
+            const range = selection.getRangeAt(0);
+            //console.log('AA', range.toString());
+            const container = document.createElement('div');
+            container.appendChild(range.cloneContents());
+            if (type == 'text')
+                selectedText = container.textContent || container.innerText;
+            else if (type == 'html')
+                selectedText = container.innerHTML;
+        }
+
+        return selectedText;
     }
+
 
     /**
      * Edit mode
@@ -179,12 +206,14 @@ class MetavizControlInput extends MetavizControl {
         this.editing = enable;
         // Start editing
         if (enable) {
+            // Edit mode
             this.element.classList.add('editing');
             this.element.setAttribute('contenteditable', true);
             this.focus();
         }
         // Finish editing
         else {
+            // Non-edit mode
             this.element.removeAttribute('contenteditable');
             this.element.classList.remove('editing');
         }

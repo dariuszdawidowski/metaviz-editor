@@ -318,14 +318,17 @@ class MetavizControlRichText extends TotalText {
             metaviz.events.disable('editor:paste');
             metaviz.events.disable('editor:keydown');
             metaviz.events.disable('editor:keyup');
+            // Edit mode
             this.editor.classList.add('editing');
             this.editor.setAttribute('contenteditable', true);
             this.focus();
         }
         // Finish editing
         else {
+            // Non-edit mode
             this.editor.setAttribute('contenteditable', false);
             this.editor.classList.remove('editing');
+            // Resubscribe conflicting events
             metaviz.events.enable('viewer:keydown');
             metaviz.events.enable('viewer:keyup');
             metaviz.events.enable('editor:paste');
