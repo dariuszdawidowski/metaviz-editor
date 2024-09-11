@@ -638,6 +638,15 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Generate options for a cloud menu
+     */
+
+    getCloudOptions() {
+        /*** Overload ***/
+        return [];
+    }
+
+    /**
      * Collect connected nodes traversing up to tree
      */
 
