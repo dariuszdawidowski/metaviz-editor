@@ -253,7 +253,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             event.stopPropagation();
 
             // Open menu
-            this.menu.show({x: event.clientX, y: event.clientY, target: event.target});
+            if (this.menu) this.menu.show({x: event.clientX, y: event.clientY, target: event.target});
 
         });
 
