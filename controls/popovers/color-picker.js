@@ -16,12 +16,12 @@ class MetavizPopoverColorPicker {
 
     constructor(args) {
 
-        const { options = [], value = 0, onChange = null } = args;
+        const { options = ['var(--paper-2)'], value = 0, onChange = null } = args;
 
         // Icon
         this.element = document.createElement('span');
         this.element.classList.add('toolbar-action', 'circle');
-        this.element.style.background = 'var(--paper-2)';
+        this.element.style.background = options[value];
 
         // Cloud
         const cloud = document.createElement('div');
@@ -42,7 +42,9 @@ class MetavizPopoverColorPicker {
             color.style.background = option;
             color.dataset.value = nr;
             if (onChange) color.addEventListener('click', () => {
-                onChange(parseInt(color.dataset.value));
+                const val = parseInt(color.dataset.value);
+                this.element.style.background = options[val];
+                onChange(val);
             });
             cloud.append(color);
             nr ++;
