@@ -8,7 +8,6 @@ class MetavizPopoverColorPicker {
     /**
      * Constructor
      * args:
-     *    placeholder: ignored in this particular popover
      *    options: array of string colors e.g. ['#fff', 'red', 'var(--color-1)']
      *    value: current value
      *    onChange: callback on change providing value nr
@@ -25,12 +24,7 @@ class MetavizPopoverColorPicker {
 
         // Cloud
         const cloud = document.createElement('div');
-        cloud.classList.add('menu-select-cloud', 'top', 'toolbar-cloud');
-        cloud.style.pointerEvents = 'auto';
-        cloud.style.left = 'calc((160px / -2) - 10px)';
-        cloud.style.top = '-111px';
-        cloud.style.width = '160px';
-        cloud.style.height = '50px';
+        cloud.classList.add('menu-select-cloud', 'top', 'toolbar-cloud', 'popover-cloud');
         cloud.style.flexDirection = 'row';
         this.element.append(cloud);
        

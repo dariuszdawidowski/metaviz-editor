@@ -14,11 +14,11 @@ class MetavizNodeText extends MetavizNode {
 
         // Predefined style
         this.looks = {
-            'sticky': {name: _('Sticky Note'), width: 168, height: 168},
-            'a6': {name: _('Page A6'), width: 232, height: 328},
-            'a5': {name: _('Page A5'), width: 400, height: 565},
-            'a4': {name: _('Page A4'), width: 800, height: 1131},
-            'comic': {name: _('Comic Cloud'), width: 180, height: 100},
+            'sticky': {icon: '<div class="popover-icon popover-icon-stickynote"></div>', name: _('Sticky Note'), width: 168, height: 168},
+            'a6': {icon: '<div style="background-color: blue;">A6</div>', name: _('Page A6'), width: 232, height: 328},
+            'a5': {icon: '<div style="background-color: yellow;">A5</div>', name: _('Page A5'), width: 400, height: 565},
+            'a4': {icon: '<div style="background-color: green;">A4</div>', name: _('Page A4'), width: 800, height: 1131},
+            'comic': {icon: '<div style="background-color: white;">C</div>', name: _('Comic Cloud'), width: 180, height: 100},
         };
 
         // Color palette
@@ -168,7 +168,7 @@ class MetavizNodeText extends MetavizNode {
             // Appearance preset
             look: new TotalProMenuSelect({
                 placeholder: _('Look'),
-                options: this.genLookOptions(),
+                options: Object.fromEntries(Object.entries(this.looks).map(([key, look]) => [key, {icon: '', text: look.name}])),
                 value: this.params.look,
                 onChange: (value) => {
 
@@ -231,9 +231,33 @@ class MetavizNodeText extends MetavizNode {
         // Popover options
         this.addPopovers({
 
+            // Appearance preset
+            look: new MetavizPopoverTextSelect({
+                options: Object.fromEntries(Object.entries(this.looks).map(([key, look]) => [key, {icon: look.icon, text: look.name}])),
+                value: this.params.look,
+                onChange: (value) => {
+
+                    // Store value
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {look: value},
+                        prev: {look: this.params.look}
+                    });
+                    this.params.set('look', value);
+
+                    // Change size
+                    this.setSize(this.looks[this.params.look], true);
+                    this.setLook(value);
+
+                    // Cage update
+                    metaviz.editor.cage.update();
+
+                }
+            }),
+
             // Color picker
             colors: new MetavizPopoverColorPicker({
-                placeholder: _('Color palette'),
                 options: ['var(--paper-2)', 'var(--color-sky)', 'rgb(0, 117, 188)', 'rgb(0, 67, 136)', 'var(--color-jade)', 'rgb(254, 192, 11)'],
                 value: this.params.palette,
                 onChange: (value) => {
@@ -244,7 +268,6 @@ class MetavizNodeText extends MetavizNode {
                         prev: {palette: this.params.palette}
                     });
                     this.params.set('palette', value);
-                    //metaviz.editor.menu.hide();
                 }
             }),
     
@@ -492,18 +515,6 @@ class MetavizNodeText extends MetavizNode {
         super.deselect();
         this.controls.textarea.hideToolbar();
         this.controls.textarea.showPageBadge();
-    }
-
-    /**
-     * Generate options for menu
-     */
-
-    genLookOptions() {
-        const options = {};
-        for (const [key, look] of Object.entries(this.looks)) {
-            options[key] = {icon: '', text: look.name};
-        }
-        return options;
     }
 
     /**
