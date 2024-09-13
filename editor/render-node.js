@@ -144,6 +144,9 @@ class MetavizNode extends TotalDiagramNode {
         //     }
         // };
 
+        // Popovers options
+        this.popovers = {};
+        
         // Selected
         this.selected = false;
 
@@ -638,12 +641,22 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
+     * Add popover options
+     * dict of options to add to this.popovers
+     */
+
+    addPopovers(dict) {
+        for (const [name, option] of Object.entries(dict)) {
+            this.popovers[name] = option;
+        }
+    }
+
+    /**
      * Generate options for a cloud menu
      */
 
-    getCloudOptions() {
-        /*** Overload ***/
-        return [];
+    getPopovers() {
+        return Object.values(this.popovers);
     }
 
     /**

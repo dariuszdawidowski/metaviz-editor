@@ -228,6 +228,29 @@ class MetavizNodeText extends MetavizNode {
 
         });
 
+        // Popover options
+        this.addPopovers({
+
+            // Color picker
+            colors: new MetavizPopoverColorPicker({
+                placeholder: _('Color palette'),
+                options: ['var(--paper-2)', 'var(--color-sky)', 'rgb(0, 117, 188)', 'rgb(0, 67, 136)', 'var(--color-jade)', 'rgb(254, 192, 11)'],
+                value: this.params.palette,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {palette: value},
+                        prev: {palette: this.params.palette}
+                    });
+                    this.params.set('palette', value);
+                    //metaviz.editor.menu.hide();
+                }
+            }),
+    
+        });
+
+
         // Next page
         this.textblockRight = document.createElement('div');
         this.textblockRight.classList.add('nextpage', 'right');
@@ -481,51 +504,6 @@ class MetavizNodeText extends MetavizNode {
             options[key] = {icon: '', text: look.name};
         }
         return options;
-    }
-
-    /**
-     * Generate options for a cloud menu
-     */
-
-    getCloudOptions() {
-        const optionColors = document.createElement('span');
-        optionColors.classList.add('toolbar-action', 'circle');
-        optionColors.style.background = 'var(--paper-2)';
-        const cloudColors = document.createElement('div');
-        cloudColors.classList.add('menu-select-cloud', 'top', 'toolbar-cloud');
-        cloudColors.style.pointerEvents = 'auto';
-        cloudColors.style.left = 'calc((160px / -2) - 10px)';
-        cloudColors.style.top = '-111px';
-        cloudColors.style.width = '160px';
-        cloudColors.style.height = '50px';
-        cloudColors.style.flexDirection = 'row';
-        optionColors.append(cloudColors);
-        const color1 = document.createElement('span');
-        color1.classList.add('circle', 'outline');
-        color1.style.background = 'var(--paper-2)';
-        cloudColors.append(color1);
-        const color2 = document.createElement('span');
-        color2.classList.add('circle', 'outline');
-        color2.style.background = 'var(--color-sky)';
-        cloudColors.append(color2);
-        const color3 = document.createElement('span');
-        color3.classList.add('circle', 'outline');
-        color3.style.background = 'rgb(0, 117, 188)';
-        cloudColors.append(color3);
-        const color4 = document.createElement('span');
-        color4.classList.add('circle', 'outline');
-        color4.style.background = 'rgb(0, 67, 136)';
-        cloudColors.append(color4);
-        const color5 = document.createElement('span');
-        color5.classList.add('circle', 'outline');
-        color5.style.background = 'var(--color-jade)';
-        cloudColors.append(color5);
-        const color6 = document.createElement('span');
-        color6.classList.add('circle', 'outline');
-        color6.style.background = 'rgb(254, 192, 11)';
-        cloudColors.append(color6);
-
-        return [optionColors];
     }
 
     /**
