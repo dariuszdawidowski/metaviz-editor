@@ -38,12 +38,36 @@ class MetavizPopoverColorPicker {
             if (onChange) color.addEventListener('click', () => {
                 const val = parseInt(color.dataset.value);
                 this.element.style.background = options[val];
+                this.clear();
+                this.select(val);
                 onChange(val);
             });
             cloud.append(color);
             nr ++;
         });
 
+        // Select current
+        this.select(value);
+    }
+
+    /**
+     * Select
+     */
+
+    select(nr) {
+        this.element.querySelectorAll('.popover-option').forEach((color, index) => {
+            if (index == nr) color.classList.add('selected');
+        });
+    }
+
+    /**
+     * Clear all selection
+     */
+
+    clear() {
+        this.element.querySelectorAll('.popover-option').forEach(color => {
+            color.classList.remove('selected');
+        });
     }
 
 }
