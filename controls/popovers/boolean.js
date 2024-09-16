@@ -8,10 +8,28 @@ class MetavizPopoverBoolean {
     /**
      * Constructor
      * args:
+     *    text: label
+     *    value: current value (bool)
+     *    onChange: callback on change providing value bool
      */
 
     constructor(args) {
 
+        const { text = '', value = false, onChange = null } = args;
+
+        // Icon
+        this.element = document.createElement('span');
+        this.element.classList.add('toolbar-action');
+        this.element.innerHTML = '<svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="var(--paper-2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" rx="3" ry="3" stroke="var(--paper-2)" fill="none"/><path d="M5 10l3 3l7-7" /></svg>';
+
+        // Cloud
+        const cloud = document.createElement('div');
+        cloud.classList.add('menu-select-cloud', 'top', 'toolbar-cloud', 'popover-cloud');
+        this.element.append(cloud);
+
+        // Switcher
+        const switcher = new TotalProMenuSwitch({text, value, onChange});
+        cloud.append(switcher.element);
     }
 
 }

@@ -634,3 +634,7 @@ input, textarea, label {
 .popover-option-content {
     margin-left: 4px;
 }
+
+.popover-cloud .menu-switch {
+    font-size: 13px;
+}

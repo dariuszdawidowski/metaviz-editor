@@ -271,8 +271,23 @@ class MetavizNodeText extends MetavizNode {
                 }
             }),
     
-        });
+            // Spellcheck turn on/off
+            spellcheck: new MetavizPopoverBoolean({
+                text: _('Spellcheck'),
+                value: this.params.spellcheck,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {spellcheck: value},
+                        prev: {spellcheck: this.params.spellcheck}
+                    });
+                    this.params.spellcheck = value;
+                    this.controls.textarea.spellcheck(value);
+                }
+            }),
 
+        });
 
         // Next page
         this.textblockRight = document.createElement('div');
