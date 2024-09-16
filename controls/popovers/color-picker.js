@@ -38,7 +38,7 @@ class MetavizPopoverColorPicker {
             if (onChange) color.addEventListener('click', () => {
                 const val = parseInt(color.dataset.value);
                 this.element.style.background = options[val];
-                this.clear();
+                this.deselectAll();
                 this.select(val);
                 onChange(val);
             });
@@ -64,7 +64,7 @@ class MetavizPopoverColorPicker {
      * Clear all selection
      */
 
-    clear() {
+    deselectAll() {
         this.element.querySelectorAll('.popover-option').forEach(color => {
             color.classList.remove('selected');
         });

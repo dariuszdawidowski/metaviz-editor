@@ -617,7 +617,7 @@ input, textarea, label {
 }
 
 .popover-option-text.selected {
-
+    background-color: var(--menu-key-color);
 }
 
 .popover-option-text:hover {

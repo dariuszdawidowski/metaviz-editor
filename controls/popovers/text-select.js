@@ -35,11 +35,35 @@ class MetavizPopoverTextSelect {
             label.innerText = option.text;
             label.dataset.value = value;
             if (onChange) label.addEventListener('click', () => {
+                this.deselectAll();
+                this.select(label.dataset.value);
                 onChange(label.dataset.value);
             });
             cloud.append(label);
         });
 
+        // Select current
+        this.select(value);
+    }
+
+    /**
+     * Select
+     */
+
+    select(value) {
+        this.element.querySelectorAll('.popover-option').forEach(text => {
+            if (text.dataset.value == value) text.classList.add('selected');
+        });
+    }
+
+    /**
+     * Clear all selection
+     */
+
+    deselectAll() {
+        this.element.querySelectorAll('.popover-option').forEach(text => {
+            text.classList.remove('selected');
+        });
     }
 
 }
