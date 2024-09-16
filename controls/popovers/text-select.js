@@ -17,10 +17,17 @@ class MetavizPopoverTextSelect {
 
         const { options = {}, value = null, onChange = null } = args;
 
-        // Icon
+        // Options
+        this.options = options;
+
+        // Container
         this.element = document.createElement('span');
         this.element.classList.add('toolbar-action');
-        this.element.innerHTML = options[value].icon;
+
+        // Icon
+        this.icon = document.createElement('span');
+        this.icon.classList.add('popover-icon');
+        this.element.append(this.icon);
 
         // Cloud
         const cloud = document.createElement('div');
@@ -32,8 +39,12 @@ class MetavizPopoverTextSelect {
         Object.entries(options).forEach(([value, option]) => {
             const label = document.createElement('div');
             label.classList.add('popover-option', 'popover-option-text');
-            label.innerText = option.text;
             label.dataset.value = value;
+            label.insertAdjacentHTML('afterbegin', option.icon);
+            const text = document.createElement('div');
+            text.innerText = option.text;
+            text.classList.add('popover-option-content')
+            label.append(text);
             if (onChange) label.addEventListener('click', () => {
                 this.deselectAll();
                 this.select(label.dataset.value);
@@ -51,6 +62,7 @@ class MetavizPopoverTextSelect {
      */
 
     select(value) {
+        this.icon.innerHTML = this.options[value].icon;
         this.element.querySelectorAll('.popover-option').forEach(text => {
             if (text.dataset.value == value) text.classList.add('selected');
         });

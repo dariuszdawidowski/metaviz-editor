@@ -610,8 +610,10 @@ input, textarea, label {
 }
 
 .popover-option-text {
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    height: 12px;
+    height: 16px;
     padding: 4px 0;
     font-size: 13px;
 }
@@ -622,4 +624,13 @@ input, textarea, label {
 
 .popover-option-text:hover {
     background-color: white;
+}
+
+.popover-option-text .popover-icon {
+    margin: -2px 4px;
+    width: 20px;
+}
+
+.popover-option-content {
+    margin-left: 4px;
 }
