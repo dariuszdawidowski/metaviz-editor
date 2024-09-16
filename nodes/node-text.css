@@ -10,6 +10,10 @@
 
 /* Looks */
 
+.metaviz-node-text.sticky {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+}
+
 .metaviz-node-text.a6 {
     box-shadow: 8px 8px #000;
 }
@@ -25,6 +29,28 @@
 .metaviz-node-text.comic {
     border-radius: 10px;
     border: 2px solid #555;
+}
+
+.metaviz-node-text.comic:before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0 8px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.metaviz-node-text.comic:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0 8px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
 }
 
 /* Fonts */
@@ -688,7 +714,65 @@
 /* Popover options */
 
 .popover-icon-stickynote {
+    position: relative;
     width: 20px;
     height: 20px;
     background-color: rgb(254, 192, 11);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%);
+}
+
+.popover-icon-stickynote:before {
+    border-bottom: 5px solid #8f6307;
+    border-right: 5px solid #8f6307;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+}
+
+.popover-icon-page {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    box-shadow: 1px 1px #0004;
+}
+
+.popover-icon-page hr {
+    width: 80%;
+    border: none;
+    height: 1px;
+    background-color: #3335;
+    margin: 4px auto;
+}
+
+.popover-icon-comic {
+    position: relative;
+    background-color: white;
+    width: 20px;
+    height: 14px;
+    box-shadow: 1px 1px #0004;
+    border-radius: 6px;
+}
+
+.popover-icon-comic:before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0 4px;
+    border-style: solid;
+    border-color: #0004 transparent transparent transparent;
+}
+
+.popover-icon-comic:after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0 4px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
 }

@@ -15,10 +15,10 @@ class MetavizNodeText extends MetavizNode {
         // Predefined style
         this.looks = {
             'sticky': {icon: '<div class="popover-icon popover-icon-stickynote"></div>', name: _('Sticky Note'), width: 168, height: 168},
-            'a6': {icon: '<div class="popover-icon" style="background-color: blue;">A6</div>', name: _('Page A6'), width: 232, height: 328},
-            'a5': {icon: '<div class="popover-icon" style="background-color: red;">A5</div>', name: _('Page A5'), width: 400, height: 565},
-            'a4': {icon: '<div class="popover-icon" style="background-color: green;">A4</div>', name: _('Page A4'), width: 800, height: 1131},
-            'comic': {icon: '<div class="popover-icon" style="background-color: white;">C</div>', name: _('Comic Cloud'), width: 180, height: 100},
+            'a6': {icon: '<div class="popover-icon popover-icon-page"><hr><hr><hr style="width: 50%"></div>', name: _('Page A6'), width: 232, height: 328},
+            'a5': {icon: '<div class="popover-icon popover-icon-page"><hr><hr><hr style="width: 50%"></div>', name: _('Page A5'), width: 400, height: 565},
+            'a4': {icon: '<div class="popover-icon popover-icon-page"><hr><hr><hr style="width: 50%"></div>', name: _('Page A4'), width: 800, height: 1131},
+            'comic': {icon: '<div class="popover-icon popover-icon-comic"></div>', name: _('Comic Cloud'), width: 180, height: 100},
         };
 
         // Color palette
