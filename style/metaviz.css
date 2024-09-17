@@ -616,6 +616,8 @@ input, textarea, label {
     height: 16px;
     padding: 4px 0;
     font-size: 13px;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .popover-option-text.selected {
@@ -633,6 +635,10 @@ input, textarea, label {
 
 .popover-option-content {
     margin-left: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
 }
 
 .popover-cloud .menu-switch {

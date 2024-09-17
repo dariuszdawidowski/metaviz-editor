@@ -120,6 +120,8 @@ class MetavizNodeLabel extends MetavizNode {
 
         });
 
+        const fontIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="var(--paper-2)" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><line x1="5" y1="5" x2="15" y2="5" /><line x1="5" y1="5" x2="5" y2="6.5" /><line x1="15" y1="5" x2="15" y2="6.5" /><line x1="10" y1="5" x2="10" y2="16" /><line x1="9" y1="16" x2="11" y2="16" /></svg>`;
+
         // Popover options
         this.addPopovers({
 
@@ -141,6 +143,51 @@ class MetavizNodeLabel extends MetavizNode {
                     });
                     this.params.set('style', value);
                     this.setSize({border: this.getBorder()});
+                }
+            }),
+
+            color: new MetavizPopoverColorPicker({
+                options: [
+                    'var(--paper-2)',
+                    'rgb(0, 117, 188)',
+                    'rgb(0, 67, 136)',
+                    'var(--color-jade)',
+                    'rgb(254, 192, 11)',
+                    '#e89191'
+                ],
+                value: this.params.color,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {color: value},
+                        prev: {color: this.params.color}
+                    });
+                    this.params.set('color', value.toString());
+                }
+            }),
+
+            // Font
+            font: new MetavizPopoverTextSelect({
+                options: {
+                    'Roboto': {icon: fontIcon, text: _('Font') + ': Roboto'},
+                    'Playfair Display': {icon: fontIcon, text: _('Font') + ': Playfair Display'},
+                    'Source Code Pro': {icon: fontIcon, text: _('Font') + ': Source Code Pro'},
+                    'Allura': {icon: fontIcon, text: _('Font') + ': Allura'},
+                    'Mansalva': {icon: fontIcon, text: _('Font') + ': Mansalva'},
+                    'Oswald': {icon: fontIcon, text: _('Font') + ': Oswald'},
+                    'Bangers': {icon: fontIcon, text: _('Font') + ': Bangers'},
+                    'Lemon': {icon: fontIcon, text: _('Font') + ': Lemon'},
+                },
+                value: this.params.font,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {font: value},
+                        prev: {font: this.params.font}
+                    });
+                    this.params.set('font', value);
                 }
             }),
 
