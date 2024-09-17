@@ -638,3 +638,8 @@ input, textarea, label {
 .popover-cloud .menu-switch {
     font-size: 13px;
 }
+
+.popover-boolean {
+    width: 20px;
+    height: 20px;
+}
