@@ -52,10 +52,10 @@ class MetavizNodeLabel extends MetavizNode {
             style: new TotalProMenuSelect({
                 placeholder: _('Style'),
                 options: {
-                    'label': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Label')},
-                    'bubble': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Bubble')},
-                    'text': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Only text')},
-                    'underline': {icon: '<i class="fa-solid fa-user-tie"></i>', text: _('Style') + ': ' + _('Underline')},
+                    'label': {text: _('Style') + ': ' + _('Label')},
+                    'bubble': {text: _('Style') + ': ' + _('Bubble')},
+                    'text': {text: _('Style') + ': ' + _('Only text')},
+                    'underline': {text: _('Style') + ': ' + _('Underline')},
                 },
                 value: this.params.style,
                 onChange: (value) => {
@@ -97,14 +97,14 @@ class MetavizNodeLabel extends MetavizNode {
             font: new TotalProMenuSelect({
                 placeholder: _('Font'),
                 options: {
-                    'Roboto': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Roboto'},
-                    'Playfair Display': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Playfair Display'},
-                    'Source Code Pro': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Source Code Pro'},
-                    'Allura': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Allura'},
-                    'Mansalva': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Mansalva'},
-                    'Oswald': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Oswald'},
-                    'Bangers': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Bangers'},
-                    'Lemon': {icon: '<i class="fa-solid fa-font"></i>', text: _('Font') + ': Lemon'},
+                    'Roboto': {text: _('Font') + ': Roboto'},
+                    'Playfair Display': {text: _('Font') + ': Playfair Display'},
+                    'Source Code Pro': {text: _('Font') + ': Source Code Pro'},
+                    'Allura': {text: _('Font') + ': Allura'},
+                    'Mansalva': {text: _('Font') + ': Mansalva'},
+                    'Oswald': {text: _('Font') + ': Oswald'},
+                    'Bangers': {text: _('Font') + ': Bangers'},
+                    'Lemon': {text: _('Font') + ': Lemon'},
                 },
                 value: this.params.font,
                 onChange: (value) => {
@@ -115,6 +115,32 @@ class MetavizNodeLabel extends MetavizNode {
                         prev: {font: this.params.font}
                     });
                     this.params.set('font', value);
+                }
+            }),
+
+        });
+
+        // Popover options
+        this.addPopovers({
+
+            // Style
+            style: new MetavizPopoverTextSelect({
+                options: {
+                    'label': {icon: '<div class="popover-icon popover-icon-label-basic">S</div>', text: _('Style') + ': ' + _('Label')},
+                    'bubble': {icon: '<div class="popover-icon popover-icon-label-bubble">S</div>', text: _('Style') + ': ' + _('Bubble')},
+                    'text': {icon: '<div class="popover-icon popover-icon-label-text">S</div>', text: _('Style') + ': ' + _('Only text')},
+                    'underline': {icon: '<div class="popover-icon popover-icon-label-underline">S</div>', text: _('Style') + ': ' + _('Underline')},
+                },
+                value: this.params.style,
+                onChange: (value) => {
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {style: value},
+                        prev: {style: this.params.style}
+                    });
+                    this.params.set('style', value);
+                    this.setSize({border: this.getBorder()});
                 }
             }),
 

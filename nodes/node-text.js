@@ -257,7 +257,7 @@ class MetavizNodeText extends MetavizNode {
             }),
 
             // Color picker
-            colors: new MetavizPopoverColorPicker({
+            palette: new MetavizPopoverColorPicker({
                 options: ['var(--paper-2)', 'var(--color-sky)', 'rgb(0, 117, 188)', 'rgb(0, 67, 136)', 'var(--color-jade)', 'rgb(254, 192, 11)'],
                 value: this.params.palette,
                 onChange: (value) => {

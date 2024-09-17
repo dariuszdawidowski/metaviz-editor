@@ -109,7 +109,7 @@
 
 .metaviz-node-label.style-bubble.color-0 .metaviz-control-input {
     color: var(--paper-2);
-    caret-color: black;
+    caret-color: var(--paper-2);
 }
 
 /* Color 1 */
@@ -394,4 +394,53 @@
 .menu-select-option[data-value="Source Code Pro"] .text {
     font-family: "Source Code Pro";
     font-size: 13px;
+}
+
+/* Popover */
+
+.popover-icon-label-basic {
+    width: 20px;
+    height: 14px;
+    color: var(--font-color-2);
+    background-color: var(--paper-1);
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.popover-icon-label-bubble {
+    position: relative;
+    width: 20px;
+    height: 14px;
+    color: var(--paper-2);
+    background-color: transparent;
+    border: 1px solid var(--paper-2);
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.popover-icon-label-bubble::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    width: 20px;
+    height: 14px;
+    border-radius: 8px;
+    border: 2px solid var(--paper-2);
+}
+
+.popover-icon-label-text {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    color: var(--paper-2);
+}
+
+.popover-icon-label-underline {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    color: var(--paper-2);
+    text-decoration: underline;
 }
