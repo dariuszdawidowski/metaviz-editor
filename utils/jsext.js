@@ -1,5 +1,5 @@
 /**
- * JavaScript Language Extensions v 1.27.3
+ * JavaScript Language Extensions v 1.27.4
  * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
@@ -102,7 +102,7 @@ else console.error('String.prototype.uriToDict already exist');
 
 if (typeof String.prototype.capitalize != 'function')
 String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+    return this.charAt(0).toLocaleUpperCase() + this.slice(1);
 };
 else console.error('String.prototype.capitalize already exist');
 
