@@ -3,7 +3,7 @@
  * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
  */
 
-const METAVIZ_EDITOR_VERSION = '0.9.23';
+const METAVIZ_EDITOR_VERSION = '0.9.24';
 
 // Global
 const global = {
