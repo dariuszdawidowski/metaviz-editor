@@ -691,13 +691,16 @@ class MetavizNode extends TotalDiagramNode {
      * Gathers all meta from connected ancestor nodes
      */
 
-    pipeline() {
+    pipeline(direction = 'in') {
         // New stream
         const stream = new MetavizStream();
 
         // Traverse all links endpoints and fetch pipeline data
-        for (const link of this.links.get('in')) {
+        if (direction == 'in') for (const link of this.links.get('in')) {
             stream.add(link.start.pipeline());
+        }
+        else if (direction == 'out') for (const link of this.links.get('out')) {
+            stream.add(link.end.pipeline());
         }
 
         // Return pipeline
