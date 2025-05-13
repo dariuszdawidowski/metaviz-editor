@@ -323,35 +323,55 @@ class MetavizExchange {
     /**
      * Download file
      *
-     * @param args.data: download from raw blob buffer
+     * @param args.data: download from raw blob buffer or string
      * @param args.path: or download from url path
      * @param args.name: file name
      */
 
     async downloadFile(args) {
-
         // Blob data
         let blob = null;
 
-        // Download data from url path (allows to set file name)
-        if ('path' in args) {
-            const response = await fetch(args.path);
-            blob = await response.blob();
+        try {
+            // Download data from url path (allows to set file name)
+            if ('path' in args) {
+                const response = await fetch(args.path);
+                blob = await response.blob();
+            }
+            // Or download from buffer
+            else if ('data' in args) {
+                // Make sure data is a valid Blob object
+                if (args.data instanceof Blob) {
+                    blob = args.data;
+                } else {
+                    // Try to convert to Blob if it's not already one
+                    try {
+                        blob = new Blob([args.data]);
+                    } catch (e) {
+                        console.error('Invalid data format for download:', e);
+                        throw new Error('Invalid data format for download');
+                    }
+                }
+            } else {
+                throw new Error('No data or path provided for download');
+            }
+
+            // Check if blob is valid before creating object URL
+            if (!blob) throw new Error('Failed to create blob for download');
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'name' in args ? args.name : 'downloaded.file';
+
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error('Download file error:', error);
+            throw error;
         }
-        // Or download from buffer
-        else if ('data' in args) {
-            blob = args.data;
-        }
-
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'name' in args ? args.name : 'downloaded.file';
-
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        URL.revokeObjectURL(link.href);
     }
 
 }
