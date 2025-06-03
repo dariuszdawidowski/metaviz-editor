@@ -72,8 +72,8 @@ class MetavizControlInput extends MetavizControl {
             }
         });
 
-        // Disable editor events on Focus
-        this.element.addEventListener('focus', (event) => {
+        // Edit
+        this.element.addEventListener('click', (event) => {
             metaviz.events.disable('viewer:keydown');
             metaviz.events.disable('viewer:keyup');
             metaviz.events.disable('editor:paste');
