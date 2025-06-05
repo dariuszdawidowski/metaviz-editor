@@ -660,28 +660,54 @@ class MetavizNode extends TotalDiagramNode {
     }
 
     /**
-     * Collect connected nodes traversing up to tree
+     * Collect connected nodes traversing backward
+     * @param {MetavizNode|null} node - Starting node (default is `this`)
+     * @param {Set} visited - Set of visited node IDs to prevent infinite loops
+     * @returns {Array} - List of connected nodes traversing backward
      */
 
-    getLinkedUpTree(node = null) {
+    getLinkedBackward(node = this, visited = new Set()) {
         const nodes = [];
-        if (node) nodes.push(node);
-        for (const link of this.links.get('in')) {
-            nodes.push(...link.start.getLinkedUpTree(link.start));
+
+        // Ensure the node exists and hasn't been visited
+        if (node && !visited.has(node.id)) {
+            nodes.push(node);
+            visited.add(node.id);
+
+            // Traverse incoming links
+            for (const link of node.links.get('in')) {
+                if (link.start && !visited.has(link.start.id)) {
+                    nodes.push(...this.getLinkedBackward(link.start, visited));
+                }
+            }
         }
+
         return nodes;
     }
 
     /**
-     * Collect connected nodes traversing down to tree
+     * Collect connected nodes traversing forward
+     * @param {MetavizNode|null} node - Starting node (default is `this`)
+     * @param {Set} visited - Set of visited node IDs to prevent infinite loops
+     * @returns {Array} - List of connected nodes traversing forward
      */
 
-    getLinkedDownTree(node = null) {
+    getLinkedForward(node = this, visited = new Set()) {
         const nodes = [];
-        if (node) nodes.push(node);
-        for (const link of this.links.get('out')) {
-            nodes.push(...link.end.getLinkedDownTree(link.end));
+
+        // Ensure the node exists and hasn't been visited
+        if (node && !visited.has(node.id)) {
+            nodes.push(node);
+            visited.add(node.id);
+
+            // Traverse outgoing links
+            for (const link of node.links.get('out')) {
+                if (link.end && !visited.has(link.end.id)) {
+                    nodes.push(...this.getLinkedForward(link.end, visited));
+                }
+            }
         }
+
         return nodes;
     }
 
