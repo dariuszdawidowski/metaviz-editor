@@ -683,14 +683,21 @@ class MetavizContextMenu extends TotalProMenu {
 
             // Node Menu Options {options: [TotalProMenuOption, ...], localOptions: [TotalProMenuOption, ...]}
             const data = metaviz.editor.selection.getFocused().menu();
+
             // Node options
             const options = this.panel.left.find('menu-node-options');
             options.del();
             options.hide();
+
+            // Set Options header name
+            const reg= global.registry.nodes[clicked.constructor.name];
+            options.set(`${reg.menu}/${reg.name}`);
+
             // Node local options
             const localOptions = this.panel.left.find('menu-node-local-options');
             localOptions.del();
             localOptions.hide();
+
             // Has options
             if ('options' in data && Object.keys(data.options).length) {
                 // Options given as array
@@ -704,6 +711,7 @@ class MetavizContextMenu extends TotalProMenu {
                     }
                 }
             }
+
             // No options
             else {
                 options.add(new TotalProMenuOption({
@@ -728,6 +736,7 @@ class MetavizContextMenu extends TotalProMenu {
 
         // Multiple selection
         else if (metaviz.editor.selection.count() > 1) {
+
             // Enable Edit Selection
             this.panel.left.find('menu-edit-selection')?.enable();
 
