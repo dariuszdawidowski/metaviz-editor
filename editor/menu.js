@@ -690,8 +690,9 @@ class MetavizContextMenu extends TotalProMenu {
             options.hide();
 
             // Set Options header name
-            const reg= global.registry.nodes[clicked.constructor.name];
-            options.set(`${reg.menu}/${reg.name}`);
+            const reg = global.registry.nodes[clicked.constructor.name];
+            if (reg) options.set(`${reg.menu ? reg.menu : 'Default'}/${reg.name}`);
+            else options.set('Unknown');
 
             // Node local options
             const localOptions = this.panel.left.find('menu-node-local-options');
