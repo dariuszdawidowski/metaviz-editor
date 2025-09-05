@@ -1091,7 +1091,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
      * Paste
      */
 
-    async paste(event = false, offset = null) {
+    async paste(event = false, offset = null, select = false) {
 
         // Dict of sent items {'size:type': <bool sent>, ...}
         const sent = {};
@@ -1145,7 +1145,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             if (text != '') {
                 // If not sent anything yet
                 if (Object.keys(sent).length == 0) {
-                    metaviz.exchange.uploadText(text, offset);
+                    metaviz.exchange.uploadText(text, offset, select);
                 }
             }
         }
@@ -1180,7 +1180,14 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
     async duplicate() {
         await this.copy();
         const bounds = this.arrange.align.getBounds(this.selection.get());
-        await this.paste(false, {x: bounds.right + 20, y: bounds.bottom + 20});
+        this.selection.clear();
+        await this.paste(
+            false,
+            {
+                x: bounds.right + (bounds.width / 2) + 20,
+                y: bounds.bottom + (bounds.height / 2) + 20
+            },
+            true);
     }
 
     /** DROP SYSTEM ITEM/FILE ******************************************************************************************************/

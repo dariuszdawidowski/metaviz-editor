@@ -13,7 +13,7 @@ class MetavizExchange {
      * Detect text type and create node
      */
 
-    uploadText(text, offset = {x: 0, y: 0}) {
+    uploadText(text, offset = {x: 0, y: 0}, select = false) {
 
         // Determine format
         const data = this.detectFormat(text);
@@ -30,7 +30,7 @@ class MetavizExchange {
 
         // Create whole diagram from json
         else if (data.mime == 'text/metaviz+json') {
-            this.processMetavizJSON(data.json, offset);
+            this.processMetavizJSON(data.json, offset, select);
         }
     }
 
@@ -110,9 +110,10 @@ class MetavizExchange {
      * MetavizJSON -> Append diagram
      * @param json: Object - diagram structure
      * @param offset: {x, y} - offset in world space
+     * @param select: bool - select all created nodes
      */
 
-    processMetavizJSON(json, offset) {
+    processMetavizJSON(json, offset, select = false) {
 
         // Clean source board info (appending to current board)
         if ('id' in json) delete json.id;
@@ -137,7 +138,11 @@ class MetavizExchange {
         metaviz.editor.update();
 
         // Launch start for nodes
-        for (const node of newNodes) node.start();
+        for (const node of newNodes) {
+            node.start();
+            // Optionally select all created nodes
+            if (select) metaviz.editor.selection.add(node);
+        }
 
         // Check empty board/folder
         metaviz.editor.checkEmpty();
