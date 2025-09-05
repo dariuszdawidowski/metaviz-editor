@@ -3,7 +3,7 @@
  *        o  o  o             Metaviz Control Rich Text                                            *
  *       /^\/^\/^\            Replace of textarea.                                                 *
  *       \<-<@>->/            MIT License                                                          *
- *        \_*_*_/             (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
+ *        \_*_*_/             (c) 2009-2025 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -197,6 +197,11 @@ class MetavizControlRichText extends TotalText {
                 // Get text
                 const clipboardData = event.clipboardData || window.clipboardData;
                 const pastedText = clipboardData.getData('text/plain');
+
+                // Don't pass MetavizJSON here
+                if (pastedText.startsWith(`{"format":"MetavizJSON"`)) {
+                    return;
+                }
 
                 // Escape html
                 const escapedText = pastedText.escapeHTML();
