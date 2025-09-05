@@ -3,7 +3,7 @@
  *                      _     Metaviz Data Exchange and File Download                              *
  *      _      _       (o)-   Transfer data between system and browser.                            *
  *   __(o)< __(o)> \___||     MIT License                                                          *
- *   \___)  \___)  \_/__)     (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
+ *   \___)  \___)  \_/__)     (c) 2009-2025 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -14,6 +14,8 @@ class MetavizExchange {
      */
 
     uploadText(text, offset = {x: 0, y: 0}) {
+
+        // Determine format
         const data = this.detectFormat(text);
 
         // Create Node Image from url
@@ -106,13 +108,15 @@ class MetavizExchange {
 
     /**
      * MetavizJSON -> Append diagram
+     * @param json: Object - diagram structure
+     * @param offset: {x, y} - offset in world space
      */
 
     processMetavizJSON(json, offset) {
 
         // Clean source board info (appending to current board)
-        delete json.id;
-        delete json.name;
+        if ('id' in json) delete json.id;
+        if ('name' in json) delete json.name;
 
         // Decode
         const [newNodes, newLinks] = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true});

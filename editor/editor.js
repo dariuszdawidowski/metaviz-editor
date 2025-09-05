@@ -3,7 +3,7 @@
  *         (\___/)            Metaviz Editor Interface                                             *
  *        -(o . o)-           Add, delete, move, copy, paste links and nodes.                      *
  *        (       )/\         MIT License                                                          *
- *        (_______)_/         (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.               *
+ *        (_______)_/         (c) 2009-2025 Dariusz Dawidowski, All Rights Reserved.               *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -980,7 +980,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             if (focused) {
 
                 // If currently editing text and text is selected then copy raw text not node json
-                const control = this.selection.getFocused().getEditingControl();
+                const control = focused.getEditingControl();
                 if (control) {
                     html = control.getSelection('html');
                     data = html.stripHTML('formatted');
@@ -1096,12 +1096,16 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
         // Dict of sent items {'size:type': <bool sent>, ...}
         const sent = {};
 
-        // Compute offset (if present then it comes from Duplicate Node):
+        // Compute screen offset (if present then it comes from Duplicate Node):
         if (!offset) {
             // From system event (CTRL/CMD+V)
-            if (event) offset = {x: this.transform.x, y: this.transform.y};
+            if (event) {
+                offset = metaviz.render.screen2World({ x: this.transform.x, y: this.transform.y });
+            }
             // From internal clipboard (Menu Paste)
-            else offset = this.menu.position();
+            else {
+                offset = metaviz.render.screen2World(this.menu.position());
+            }
         }
 
         // Files (order matters - legacy clipboard should be first)
@@ -1136,6 +1140,7 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
                 }
             }
 
+            // Text (including Metaviz/JSON)
             const text = await navigator.clipboard.readText();
             if (text != '') {
                 // If not sent anything yet
