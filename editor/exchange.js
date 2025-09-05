@@ -102,7 +102,7 @@ class MetavizExchange {
     processText(text, position) {
 
         // Create Sticky Note (generic text)
-        metaviz.editor.nodeAdd('MetavizNodeText', position, {page_1: text});
+        metaviz.editor.nodeAdd('MetavizNodeText', metaviz.render.world2Screen(position), {page_1: text});
 
     }
 
