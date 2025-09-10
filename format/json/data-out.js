@@ -1,6 +1,6 @@
 /**
  * MetavizJSON Encoder
- * (c) 2009-2023 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2025 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizOutJSON {
@@ -15,16 +15,11 @@ class MetavizOutJSON {
         const json = {
             'format': 'MetavizJSON',
             'mimetype': 'text/metaviz+json',
-            'version': 29,
+            'version': 40,
             'id': metaviz.editor.id,
             'name': metaviz.editor.name,
             'nodes': [],
-            'layers': [{
-                'id': crypto.randomUUID(),
-                'name': 'Base Layer',
-                'nodes': [],
-                'links': []
-            }],
+            'links': []
         };
 
         // Nodes
@@ -34,16 +29,12 @@ class MetavizOutJSON {
                 id: n.id,
                 parent: n.parent,
                 type: n.type,
-                settings: n.settings,
-                params: n.params
-            });
-            json.layers[0].nodes.push({
-                id: n.id,
+                params: n.params,
                 x: n.x,
                 y: n.y,
+                z: n.zindex,
                 w: n.w,
-                h: n.h,
-                zindex: n.zindex
+                h: n.h
             });
         });
 
@@ -51,13 +42,13 @@ class MetavizOutJSON {
         nodes.forEach(node => {
             node.links.get('out').forEach(link => {
                 // Link not on list already
-                if (!json.layers[0].links.find(l => l.id == link.id)) {
+                if (!json.links.find(l => l.id == link.id)) {
                     // Start node exists
                     if (json.nodes.find(n => n.id == link.start.id)) {
                         // End node exists
                         if (json.nodes.find(n => n.id == link.end.id)) {
                             // Add link
-                            json.layers[0].links.push(link.serialize());
+                            json.links.push(link.serialize());
                         }
                     }
                 }

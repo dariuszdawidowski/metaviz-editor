@@ -3,22 +3,34 @@
     {
 	    "format": "MetavizJSON",
 	    "mimetype": "text/metaviz+json",
-	    "version": 29,
-	    "id": "...",
-	    "updated": "...",
+	    "version": 40,
+	    "id": "...", // OPTIONAL
         "name": "...",
+		"updated": ..., // OPTIONAL
 	    "nodes": [
 	        {
 	            "id": "...",
-	            "board": "...",
 	            "parent": "...",
 	            "type": "...",
-	            "settings": {...},
 	            "params": {...}
+				"x": ..., // OPTIONAL
+				"y": ..., // OPTIONAL
+				"z": ..., // OPTIONAL
+				"w": ..., // OPTIONAL
+				"h": ...  // OPTIONAL
 	        },
 	        ...
 	    ],
-	    "layers": [
+		"links": [ // OPTIONAL
+			{
+				"id": "...",
+				"type": "...",
+				"start": "...",
+				"end": "..."
+			},
+			...
+		]
+	    "layers": [ // OPTIONAL
 	        {
 	            "id": "...",
 	            "name": "...",
@@ -27,10 +39,9 @@
 	                    "id": "...",
 	                    "x": ...,
 	                    "y": ...,
-	                    "w": ..., [optional]
-	                    "h": ..., [optional]
-	                    "scale": ..., [optional]
-	                    "locked": ...
+                        "z": ..., // OPTIONAL
+	                    "w": ..., // OPTIONAL
+	                    "h": ...  // OPTIONAL
 	                },
 	                ...
 	            ],
@@ -46,7 +57,7 @@
 	        },
 	        ...
 	    ],
-	    "undo": { [optional]
+	    "undo": { // OPTIONAL
 	    	"history": [...],
 	    	"future": [...]
 	    }

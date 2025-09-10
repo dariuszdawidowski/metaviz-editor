@@ -120,32 +120,42 @@ class MetavizExchange {
         if ('name' in json) delete json.name;
 
         // Decode
-        const [newNodes, newLinks] = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true});
+        const data = metaviz.format.deserialize('text/metaviz+json', json, {offset, reindex: true, reparent: true, realign: true});
 
-        // Save to history & databse
-        metaviz.editor.history.clearFuture();
-        metaviz.editor.history.store({
-            action: 'add',
-            nodes: newNodes.map(n => {
-                return n.serialize('transform');
-            }),
-            links: newLinks.map(l => {
-                return l.serialize();
-            })
-        });
+        if (data && data.length == 2) {
 
-        // Redraw
-        metaviz.editor.update();
+            const newNodes = data[0];
+            const newLinks = data[1];
 
-        // Launch start for nodes
-        for (const node of newNodes) {
-            node.start();
-            // Optionally select all created nodes
-            if (select) metaviz.editor.selection.add(node);
+            // Save to history & databse
+            metaviz.editor.history.clearFuture();
+            metaviz.editor.history.store({
+                action: 'add',
+                nodes: newNodes.map(n => {
+                    return n.serialize('transform');
+                }),
+                links: newLinks.map(l => {
+                    return l.serialize();
+                })
+            });
+
+            // Redraw
+            metaviz.editor.update();
+
+            // Launch start for nodes
+            for (const node of newNodes) {
+                node.start();
+                // Optionally select all created nodes
+                if (select) metaviz.editor.selection.add(node);
+            }
+
+            // Check empty board/folder
+            metaviz.editor.checkEmpty();
+
         }
-
-        // Check empty board/folder
-        metaviz.editor.checkEmpty();
+        else {
+            console.error('Error parsing text/metaviz+json');
+        }
     }
 
     /**

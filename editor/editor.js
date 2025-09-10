@@ -1041,18 +1041,15 @@ class MetavizEditorBrowser extends MetavizNavigatorBrowser {
             // Serialize JSON
             const json = metaviz.format.serialize('text/metaviz+json', nodes);
 
-            // Reset base ID and layer ID
+            // Reset unique attrs
             json.id = 0;
-            json.layers[0].id = 0;
-
-            // Reset name
             json.name = '';
 
             // Correct center
-            const bounds = this.arrange.align.getBounds(json.layers[0].nodes);
-            for (let i = 0; i < json.layers[0].nodes.length; i ++) {
-                json.layers[0].nodes[i].x -= bounds.center.x;
-                json.layers[0].nodes[i].y -= bounds.center.y;
+            const bounds = this.arrange.align.getBounds(json.nodes);
+            for (let i = 0; i < json.nodes.length; i ++) {
+                json.nodes[i].x -= bounds.center.x;
+                json.nodes[i].y -= bounds.center.y;
             }
 
             // Clear history
