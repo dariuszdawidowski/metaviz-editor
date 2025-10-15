@@ -48,7 +48,7 @@ class MetavizOutJSON {
                         // End node exists
                         if (json.nodes.find(n => n.id == link.end.id)) {
                             // Add link
-                            json.links.push(link.serialize());
+                            if (link.type != 'MetavizLinkVirtual') json.links.push(link.serialize());
                         }
                     }
                 }
