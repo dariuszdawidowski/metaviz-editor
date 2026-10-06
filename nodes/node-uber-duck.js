@@ -1,6 +1,6 @@
 /**
  * Metaviz Node Über Duck
- * (c) 2009-2024 Dariusz Dawidowski, All Rights Reserved.
+ * (c) 2009-2026 Dariusz Dawidowski, All Rights Reserved.
  */
 
 class MetavizNodeUberDuck extends MetavizNode {
@@ -11,6 +11,11 @@ class MetavizNodeUberDuck extends MetavizNode {
 
     constructor(args) {
         super(args);
+
+        // Meta defaults
+        if (!('url' in this.params)) this.params['url'] = '';
+        if (!('model' in this.params)) this.params['model'] = '';
+        if (!('key' in this.params)) this.params['key'] = '';
 
         // Initial size
         this.setSize({width: 128, height: 128, minWidth: 128, minHeight: 128, resize: 'none'});
@@ -27,7 +32,62 @@ class MetavizNodeUberDuck extends MetavizNode {
             }),
 
             // Chat control
-            chat: new MetavizControlUberDuckChat(),
+            chat: new MetavizControlUberDuckChat({ parent: this }),
+
+        });
+
+        // Menu options
+        this.addOptions({
+
+            // API URL in a menu
+            url: new TotalProMenuInput({
+                placeholder: 'LLM API URL',
+                value: this.params.url,
+                onChange: (value) => {
+                    // Undo/Sync
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {url: value},
+                        prev: {url: this.params.url}
+                    });
+                    // New API URL
+                    this.params.set('url', value);
+                }
+            }),
+
+            model: new TotalProMenuInput({
+                placeholder: 'Model Name',
+                value: this.params.model,
+                onChange: (value) => {
+                    // Undo/Sync
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {model: value},
+                        prev: {model: this.params.model}
+                    });
+                    // New model
+                    this.params.set('model', value);
+                }
+            }),
+
+            key: new TotalProMenuInput({
+                placeholder: 'API Key',
+                value: this.params.key,
+                type: 'password',
+                onChange: (value) => {
+                    // Undo/Sync
+                    metaviz.editor.history.store({
+                        action: 'param',
+                        node: {id: this.id},
+                        params: {key: value},
+                        prev: {key: this.params.key}
+                    });
+                    // New API Key
+                    this.params.set('key', value);
+                }
+            })
 
         });
 
@@ -71,8 +131,11 @@ class MetavizControlUberDuckChat extends MetavizControl {
      * Constructor
      */
 
-    constructor() {
+    constructor( { parent } = {}) {
         super();
+
+        // MetavizNodeUberDuck
+        this.parent = parent;
 
         // Main element
         this.element = document.createElement('div');
@@ -157,8 +220,8 @@ class MetavizControlUberDuckChat extends MetavizControl {
 
         this.element.append(this.typing);
 
-        // AI Model
-        this.model = null;
+        // AI Model API
+        this.llm = null;
 
     }
 
@@ -167,9 +230,10 @@ class MetavizControlUberDuckChat extends MetavizControl {
      */
 
     start() {
+        this.composerShow();
         // Compatibility check and start
-        if ('ai' in window) this.composerShow();
-        else this.notCompatible();
+        // if ('ai' in window) this.composerShow();
+        // else this.notCompatible();
         this.fit();
     }
 
@@ -238,17 +302,16 @@ class MetavizControlUberDuckChat extends MetavizControl {
     async prompt(text) {
         this.typingShow();
         this.fit();
-        if (!this.model) {
-            try {
-                this.model = await window.ai.createTextSession();
-            }
-            catch(err) {
-                this.composerHide();
-                this.notCompatible();
-            }
+        if (!this.llm) {
+            this.llm = new MetavizLLMAdapter({
+                type: 'openai',
+                url: this.parent?.params.url,
+                model: this.parent?.params.model,
+                apiKey: this.parent?.params.key
+            });
         }
-        if (this.model) {
-            const result = await this.model.prompt(text);
+        if (this.llm) {
+            const result = await this.llm.prompt(text);
             this.answer(result);
         }
         this.typingHide();
@@ -266,6 +329,72 @@ class MetavizControlUberDuckChat extends MetavizControl {
         this.element.scrollTop = this.element.scrollHeight;
     }
 
+}
+
+class MetavizLLMAdapter {
+
+    /**
+     * Constructor for MetavizLLMAdapter
+     * @param {Object} params - The parameters for the adapter.
+     * @param {string} params.type - The type of LLM adapter 'browser' | 'openai' (default is 'openai').
+     */
+
+    constructor({ type, url, model, apiKey } = {}) {
+        this.type = type || 'openai';
+        this.llm = null;
+        this.url = url || null;
+        this.model = model || null;
+        this.apiKey = apiKey || null;
+    }
+
+    async createSession() {
+        if (!this.llm) {
+            if (this.type === 'browser') {
+                this.llm = await this._createSessionBrowser();
+            }
+        }
+        return this.llm;
+    }
+
+    async prompt(text) {
+        console.log('Prompting with text:', text, this);
+        if (this.type === 'openai') {
+            return await this._promptOpenAI(text);
+        } else if (this.type === 'browser') {
+            return await this._promptBrowser(text);
+        }
+    }
+
+    async _createSessionBrowser() {
+        return await window.ai.createTextSession();
+    }
+
+    async _promptBrowser(text) {
+        return this.llm ? this.llm.prompt(text) : null;
+    }
+
+    async _promptOpenAI(text) {
+        const response = await fetch(this.url + '/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.apiKey}`,
+            },
+            body: JSON.stringify({
+                model: this.model,
+                messages: [
+                    // { role: 'system', content: SYSTEM_SKILL },
+                    { role: 'user', content: text /* + JSON diagram */ },
+                ],
+                // response_format: {
+                //     type: 'json_schema',
+                //     json_schema: { name: 'diagram', schema: diagramSchema, strict: true },
+                // },
+            }),
+        });
+        const jsonResponse = await response.json();
+        return jsonResponse?.choices?.[0]?.message?.content;
+    }
 }
 
 global.registry.add({proto: MetavizNodeUberDuck, menu: 'Productivity', name: 'Uber Duck', icon: '<span class="mdi mdi-duck"></span>'});
