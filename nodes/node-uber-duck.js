@@ -357,7 +357,6 @@ class MetavizLLMAdapter {
     }
 
     async prompt(text) {
-        console.log('Prompting with text:', text, this);
         if (this.type === 'openai') {
             return await this._promptOpenAI(text);
         } else if (this.type === 'browser') {
@@ -383,7 +382,7 @@ class MetavizLLMAdapter {
             body: JSON.stringify({
                 model: this.model,
                 messages: [
-                    // { role: 'system', content: SYSTEM_SKILL },
+                    // { role: 'system', content: UBER_DUCK_SYSTEM_PROMPT },
                     { role: 'user', content: text /* + JSON diagram */ },
                 ],
                 // response_format: {
