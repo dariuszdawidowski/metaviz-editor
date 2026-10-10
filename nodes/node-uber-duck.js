@@ -373,6 +373,10 @@ class MetavizLLMAdapter {
     }
 
     async _promptOpenAI(text) {
+        // Collect JSON data
+        const diagramData = metaviz.format.serialize('text/agent+json', metaviz.render.nodes.get('*'));
+
+        // Request to OpenAI API for chat completions
         const response = await fetch(this.url + '/chat/completions', {
             method: 'POST',
             headers: {
@@ -382,19 +386,209 @@ class MetavizLLMAdapter {
             body: JSON.stringify({
                 model: this.model,
                 messages: [
-                    // { role: 'system', content: UBER_DUCK_SYSTEM_PROMPT },
-                    { role: 'user', content: text /* + JSON diagram */ },
+                    { role: 'system', content: UBER_DUCK_SYSTEM_PROMPT },
+                    { role: 'user', content: "CURRENT_DIAGRAM:\n" + JSON.stringify(diagramData) +"\n\nREQUEST:\n" + text },
+
                 ],
-                // response_format: {
-                //     type: 'json_schema',
-                //     json_schema: { name: 'diagram', schema: diagramSchema, strict: true },
-                // },
+                response_format: {
+                    type: 'json_schema',
+                    json_schema: { name: 'diagram', schema: DIAGRAM_RESPONSE_SCHEMA, strict: true },
+                },
             }),
         });
         const jsonResponse = await response.json();
-        return jsonResponse?.choices?.[0]?.message?.content;
+        const raw = jsonResponse.choices[0].message.content;
+        const payload = JSON.parse(raw);
+        console.log(payload);
+        return 'OK';
     }
 }
+
+const DIAGRAM_RESPONSE_SCHEMA = {
+    type: "object",
+    additionalProperties: false,
+    required: ["nodes", "links", "msg", "centre"],
+    properties: {
+        nodes: {
+            type: ["array", "null"],
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["id", "parent", "type", "params", "x", "y", "z", "w", "h"],
+                properties: {
+                    id: {
+                        type: "string",
+                        minLength: 1
+                    },
+                    parent: {
+                        type: ["string", "null"]
+                    },
+                    type: {
+                        type: "string",
+                        enum: ["clipart", "image", "label", "point", "text", "url"]
+                    },
+                    params: {
+                        type: "object",
+                        additionalProperties: false,
+                        required: [
+                            "name",
+                            "text",
+                            "url",
+                            "uri",
+                            "color",
+                            "style",
+                            "font",
+                            "look",
+                            "page_1",
+                            "page_2",
+                            "page_3",
+                            "resX",
+                            "resY",
+                            "rotate"
+                        ],
+                        properties: {
+                            name: {
+                                type: ["string", "null"]
+                            },
+                            text: {
+                                type: ["string", "null"]
+                            },
+                            url: {
+                                type: ["string", "null"]
+                            },
+                            uri: {
+                                type: ["string", "null"]
+                            },
+                            color: {
+                                type: ["string", "null"]
+                            },
+                            style: {
+                                type: ["string", "null"],
+                                enum: [
+                                    "minimal",
+                                    "raw",
+                                    "instant",
+                                    "postcard",
+                                    "label",
+                                    "bubble",
+                                    "text",
+                                    "underline",
+                                    null
+                                ]
+                            },
+                            font: {
+                                type: ["string", "null"],
+                                enum: [
+                                    "Roboto",
+                                    "Playfair Display",
+                                    "Source Code Pro",
+                                    "Allura",
+                                    "Mansalva",
+                                    "Oswald",
+                                    "Bangers",
+                                    "Lemon",
+                                    null
+                                ]
+                            },
+                            look: {
+                                type: ["string", "null"],
+                                enum: ["sticky", "a6", "a5", "a4", "comic", null]
+                            },
+                            page_1: {
+                                type: ["string", "null"]
+                            },
+                            page_2: {
+                                type: ["string", "null"]
+                            },
+                            page_3: {
+                                type: ["string", "null"]
+                            },
+                            resX: {
+                                type: ["number", "null"]
+                            },
+                            resY: {
+                                type: ["number", "null"]
+                            },
+                            rotate: {
+                                type: ["number", "null"]
+                            }
+                        }
+                    },
+                    x: {
+                        type: ["number", "null"]
+                    },
+                    y: {
+                        type: ["number", "null"]
+                    },
+                    z: {
+                        type: ["number", "null"]
+                    },
+                    w: {
+                        type: ["number", "null"]
+                    },
+                    h: {
+                        type: ["number", "null"]
+                    }
+                }
+            }
+        },
+        links: {
+            type: ["array", "null"],
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["id", "type", "start", "end"],
+                properties: {
+                    id: {
+                        type: "string",
+                        minLength: 1
+                    },
+                    type: {
+                        type: "string",
+                        enum: ["default"]
+                    },
+                    start: {
+                        type: "string",
+                        minLength: 1
+                    },
+                    end: {
+                        type: "string",
+                        minLength: 1
+                    }
+                }
+            }
+        },
+        msg: {
+            type: ["string", "null"]
+        },
+        centre: {
+            type: ["object", "array", "null"],
+            additionalProperties: false,
+            required: ["x", "y"],
+            properties: {
+                x: {
+                    type: "number"
+                },
+                y: {
+                    type: "number"
+                }
+            },
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["x", "y"],
+                properties: {
+                    x: {
+                        type: "number"
+                    },
+                    y: {
+                        type: "number"
+                    }
+                }
+            }
+        }
+    }
+};
 
 global.registry.add({proto: MetavizNodeUberDuck, menu: 'Productivity', name: 'Uber Duck', icon: '<span class="mdi mdi-duck"></span>'});
 

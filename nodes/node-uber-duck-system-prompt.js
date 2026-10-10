@@ -161,6 +161,7 @@ Rules:
 - For \`text\` nodes, **default body field is \`page_1\`**. Add \`page_2\`, \`page_3\`, … only when the user wants multiple pages.
 - Do not invent alternate keys (\`title\`, \`label\`, \`content\`, \`body\`) when the table above defines the key.
 - Unknown extra params: do not add them.
+- Unused optional fields must be JSON null, not omitted.
 
 ---
 

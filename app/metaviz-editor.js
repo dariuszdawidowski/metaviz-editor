@@ -397,6 +397,10 @@ class Metaviz {
             in: new MetavizInJSON(),
             out: new MetavizOutJSON()
         });
+        this.format.register('text/agent+json', {
+            in: new MetavizInAgent(),
+            out: new MetavizOutAgent()
+        });
         this.format.register('image/svg+xml', {
             in: null,
             out: new MetavizOutSVG()
